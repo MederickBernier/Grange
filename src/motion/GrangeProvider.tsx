@@ -8,15 +8,15 @@ export interface SpringSpec {
   dampingRatio: number;
 }
 
-interface M3EContextValue {
+interface GrangeContextValue {
   scheme: MotionSchemeName;
   /** Per-spring overrides, used by the Storybook motion playground to tune values live. */
   springOverrides?: Partial<Record<SpringName, SpringSpec>>;
 }
 
-const M3EContext = createContext<M3EContextValue>({ scheme: 'expressive' });
+const GrangeContext = createContext<GrangeContextValue>({ scheme: 'expressive' });
 
-export interface M3EProviderProps {
+export interface GrangeProviderProps {
   /** Expressive (bouncier, the M3E default) or standard (calmer, for dense utilitarian screens). */
   scheme?: MotionSchemeName;
   springOverrides?: Partial<Record<SpringName, SpringSpec>>;
@@ -27,17 +27,17 @@ export interface M3EProviderProps {
  * Sets the motion scheme for everything below it. Wrap the app once.
  * Also tells Motion to follow the user's reduced-motion setting.
  */
-export function M3EProvider({ scheme = 'expressive', springOverrides, children }: M3EProviderProps) {
+export function GrangeProvider({ scheme = 'expressive', springOverrides, children }: GrangeProviderProps) {
   const value = useMemo(() => ({ scheme, springOverrides }), [scheme, springOverrides]);
   return (
-    <M3EContext.Provider value={value}>
+    <GrangeContext.Provider value={value}>
       <MotionConfig reducedMotion="user">{children}</MotionConfig>
-    </M3EContext.Provider>
+    </GrangeContext.Provider>
   );
 }
 
 export function useMotionScheme(): MotionSchemeName {
-  return useContext(M3EContext).scheme;
+  return useContext(GrangeContext).scheme;
 }
 
 /** Converts an M3 damping ratio to the absolute damping Motion expects (mass = 1). */
@@ -50,7 +50,7 @@ export function toMotionDamping(stiffness: number, dampingRatio: number): number
  * With reduced motion on, spatial springs fall back to their critically damped effects twin (no bounce).
  */
 export function useSpring(name: SpringName): Transition {
-  const { scheme, springOverrides } = useContext(M3EContext);
+  const { scheme, springOverrides } = useContext(GrangeContext);
   const reduce = useReducedMotion();
   const effective: SpringName = reduce ? (name.replace('Spatial', 'Effects') as SpringName) : name;
   const override = springOverrides?.[effective];

@@ -1,9 +1,9 @@
-// Public Sass API for @jyga/m3e-react.
+// Public Sass API for @jyga/grange-react.
 //
-//   @use '@jyga/m3e-react/scss' as m3e;
+//   @use '@jyga/grange-react/scss' as grange;
 //
 //   .acme-brand {
-//     @include m3e.theme((primary: #005bbb, surface: #fbfbff));
+//     @include grange.theme((primary: #005bbb, surface: #fbfbff));
 //   }
 //
 // Every function returns a `var(--md-sys-*)` reference rather than a literal value, so themes
@@ -63,9 +63,9 @@ $_suggestion-limit: 6;
 @function _unknown($kind, $key, $keys) {
   $near: _near($keys, $key);
   @if list.length($near) > 0 {
-    @return "m3e: unknown #{$kind} `#{$key}`. Did you mean #{_list($near)}?";
+    @return "grange: unknown #{$kind} `#{$key}`. Did you mean #{_list($near)}?";
   }
-  @return "m3e: unknown #{$kind} `#{$key}`. #{list.length($keys)} available: #{_list($keys)}.";
+  @return "grange: unknown #{$kind} `#{$key}`. #{list.length($keys)} available: #{_list($keys)}.";
 }
 
 @function _ref($map, $key, $kind, $prefix) {
@@ -147,10 +147,10 @@ $_suggestion-limit: 6;
 
 /// Overrides tokens on the current selector. Scope it to `:root` for a whole app, or to any
 /// container to theme a subtree. Values are emitted as custom properties, so they cascade to
-/// every m3e component inside, and any role left untouched keeps following data-theme and
+/// every Grange component inside, and any role left untouched keeps following data-theme and
 /// prefers-color-scheme.
 ///
-///   .acme-brand { @include m3e.theme((primary: #005bbb)); }
+///   .acme-brand { @include grange.theme((primary: #005bbb)); }
 ///
 /// Unknown names raise a build error rather than emitting a property nothing reads.
 @mixin theme($colors: (), $corners: (), $typeface: ()) {

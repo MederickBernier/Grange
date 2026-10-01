@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { springs, shapeCorner } from './tokens/generated/tokens';
-import { toMotionDamping } from './motion/M3EProvider';
+import { toMotionDamping } from './motion/GrangeProvider';
 import { paddingDeltaFor, type ButtonGroupContextValue } from './components/ButtonBase/groupContext';
 import { restingRadius, selectedRadius } from './components/Button/specs';
 

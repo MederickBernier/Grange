@@ -1,9 +1,9 @@
-@use '../src/scss/api' as m3e;
+@use '../src/scss/api' as grange;
 
 // A product brand override. Only the roles listed change; everything else keeps following the
 // generated palette and the light/dark switch.
 .brand {
-  @include m3e.theme(
+  @include grange.theme(
     $colors: (
       primary: #005bbb,
       on-primary: #ffffff,
@@ -24,18 +24,18 @@
 
 .panel {
   padding: 24px;
-  border-radius: m3e.corner(large);
-  background: m3e.color(surface-container-low);
-  color: m3e.color(on-surface);
+  border-radius: grange.corner(large);
+  background: grange.color(surface-container-low);
+  color: grange.color(on-surface);
 }
 
 .title {
-  @include m3e.typescale(title-medium);
+  @include grange.typescale(title-medium);
   margin: 0 0 4px;
 }
 
 .note {
-  @include m3e.typescale(body-small);
-  color: m3e.color(on-surface-variant);
+  @include grange.typescale(body-small);
+  color: grange.color(on-surface-variant);
   margin: 0 0 20px;
 }

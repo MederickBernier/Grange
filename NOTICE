@@ -2,10 +2,10 @@ This package includes code ported from, and values taken from, the following Apa
 
 - Material Web (https://github.com/material-components/material-web)
   Copyright Google LLC. Ripple constants and elevation shadow recipe
-  (src/primitives/Ripple.tsx, src/primitives/primitives.css).
+  (src/primitives/Ripple.tsx, src/primitives/primitives.scss).
 
 - Jetpack Compose Material 3 (https://github.com/androidx/androidx)
-  Copyright The Android Open Source Project. Design token values in tokens/m3e-tokens.json,
+  Copyright The Android Open Source Project. Design token values in tokens/m3-expressive.json,
   button sizes, color mappings and button-group width behaviour.
 
 - Material Symbols icon paths used in stories/icons.tsx (Google, Apache 2.0).

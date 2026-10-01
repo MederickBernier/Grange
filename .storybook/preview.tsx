@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/react-vite';
 import { useEffect } from 'react';
-import { M3EProvider } from '../src';
+import { GrangeProvider } from '../src';
 import './preview.scss';
 
 const preview: Preview = {
@@ -22,9 +22,9 @@ const preview: Preview = {
         document.documentElement.dataset.theme = theme;
       }, [theme]);
       return (
-        <M3EProvider scheme={context.globals.motionScheme}>
+        <GrangeProvider scheme={context.globals.motionScheme}>
           <Story />
-        </M3EProvider>
+        </GrangeProvider>
       );
     },
   ],

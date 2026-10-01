@@ -9,7 +9,7 @@ import {
   type AriaButtonProps,
   type PressEvent,
 } from 'react-aria';
-import { useSpring } from '../../motion/M3EProvider';
+import { useSpring } from '../../motion/GrangeProvider';
 import type { SpringName } from '../../tokens/generated/tokens';
 import { Ripple, type RippleHandle } from '../../primitives/Ripple';
 import { ButtonGroupContext, ButtonGroupItemIndex, paddingDeltaFor } from './groupContext';
@@ -118,10 +118,10 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>(functio
       data-disabled={ariaProps.isDisabled || undefined}
       {...dataAttributes}
     >
-      <span className="m3e-elevation" aria-hidden="true" />
-      <span className="m3e-state-layer" aria-hidden="true" />
+      <span className="grange-elevation" aria-hidden="true" />
+      <span className="grange-state-layer" aria-hidden="true" />
       <Ripple ref={ripple} />
-      {touchTarget && <span className="m3e-touch" aria-hidden="true" />}
+      {touchTarget && <span className="grange-touch" aria-hidden="true" />}
       {children}
     </motion.button>
   );

@@ -1,49 +1,49 @@
 /*
  * Shared interaction primitives. Every interactive component renders these children:
- *   <span class="m3e-elevation"/>   shadow, driven by --m3e-elevation-level (0 to 5)
- *   <span class="m3e-state-layer"/> hover / focus overlay in the content color
- *   <span class="m3e-ripple"/>      press ripple (see Ripple.tsx)
- *   <span class="m3e-touch"/>       48px minimum touch target for small components
+ *   <span class="grange-elevation"/>   shadow, driven by --grange-elevation-level (0 to 5)
+ *   <span class="grange-state-layer"/> hover / focus overlay in the content color
+ *   <span class="grange-ripple"/>      press ripple (see Ripple.tsx)
+ *   <span class="grange-touch"/>       48px minimum touch target for small components
  * and sets data-hovered / data-focus-visible / data-pressed / data-disabled on itself.
  *
  * Elevation and ripple styles are ported from Material Web (Apache 2.0, see NOTICE).
  */
 
-@use '../scss/api' as m3e;
+@use '../scss/api' as grange;
 
-@property --m3e-elevation-level {
+@property --grange-elevation-level {
   syntax: '<number>';
   inherits: true;
   initial-value: 0;
 }
 
 /* ---------- State layer ---------- */
-.m3e-state-layer {
+.grange-state-layer {
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background-color: var(--m3e-state-layer-color, currentColor);
+  background-color: var(--grange-state-layer-color, currentColor);
   opacity: 0;
-  transition: opacity m3e.duration(short3) linear;
+  transition: opacity grange.duration(short3) linear;
 }
 
-[data-hovered] > .m3e-state-layer {
-  opacity: m3e.state-opacity(hover);
+[data-hovered] > .grange-state-layer {
+  opacity: grange.state-opacity(hover);
 }
-[data-focus-visible] > .m3e-state-layer {
-  opacity: m3e.state-opacity(focus);
+[data-focus-visible] > .grange-state-layer {
+  opacity: grange.state-opacity(focus);
 }
 /* Keyboard presses get the pressed layer; pointer presses get the ripple instead. */
-[data-pressed='keyboard'] > .m3e-state-layer {
-  opacity: m3e.state-opacity(pressed);
+[data-pressed='keyboard'] > .grange-state-layer {
+  opacity: grange.state-opacity(pressed);
 }
-[data-disabled] > .m3e-state-layer {
+[data-disabled] > .grange-state-layer {
   display: none;
 }
 
 /* ---------- Ripple ---------- */
-.m3e-ripple {
+.grange-ripple {
   position: absolute;
   inset: 0;
   border-radius: inherit;
@@ -51,7 +51,7 @@
   pointer-events: none;
 }
 
-.m3e-ripple-wave {
+.grange-ripple-wave {
   position: absolute;
   top: 0;
   left: 0;
@@ -65,20 +65,20 @@
 }
 
 @media (forced-colors: active) {
-  .m3e-ripple,
-  .m3e-state-layer {
+  .grange-ripple,
+  .grange-state-layer {
     display: none;
   }
 }
 
 /* ---------- Focus ring (keyboard only) ---------- */
 [data-focus-visible] {
-  outline: 3px solid m3e.color(secondary);
+  outline: 3px solid grange.color(secondary);
   outline-offset: 2px;
-  animation: m3e-focus-ring m3e.duration(long4) m3e.easing(emphasized);
+  animation: grange-focus-ring grange.duration(long4) grange.easing(emphasized);
 }
 
-@keyframes m3e-focus-ring {
+@keyframes grange-focus-ring {
   from {
     outline-width: 0;
   }
@@ -94,7 +94,7 @@
 }
 
 /* ---------- Elevation ---------- */
-.m3e-elevation {
+.grange-elevation {
   &,
   &::before,
   &::after {
@@ -105,13 +105,13 @@
   }
 
   z-index: -1;
-  transition: --m3e-elevation-level m3e.duration(short4) m3e.easing(standard);
+  transition: --grange-elevation-level grange.duration(short4) grange.easing(standard);
 
   &::before,
   &::after {
     content: '';
-    --_level: var(--m3e-elevation-level);
-    --_shadow-color: #{m3e.color(shadow)};
+    --_level: var(--grange-elevation-level);
+    --_shadow-color: #{grange.color(shadow)};
   }
 
   // Two stacked shadows, the key light and the ambient light, as Material Web composes them.
@@ -133,7 +133,7 @@
 }
 
 /* ---------- Touch target ---------- */
-.m3e-touch {
+.grange-touch {
   position: absolute;
   top: 50%;
   left: 50%;

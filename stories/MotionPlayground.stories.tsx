@@ -6,7 +6,7 @@ import {
   ButtonGroup,
   ConnectedButtonGroup,
   ConnectedButtonGroupItem,
-  M3EProvider,
+  GrangeProvider,
   ToggleButton,
   tokens,
   useSpring,
@@ -199,7 +199,7 @@ function Playground() {
         ))}
       </section>
 
-      <M3EProvider scheme={scheme} springOverrides={overrides}>
+      <GrangeProvider scheme={scheme} springOverrides={overrides}>
         <section style={{ ...card, display: 'grid', gap: 20 }}>
           <h2 className="md-typescale-title-medium" style={{ margin: 0 }}>
             Try it
@@ -233,7 +233,7 @@ function Playground() {
             <SpatialDemo />
           </div>
         </section>
-      </M3EProvider>
+      </GrangeProvider>
 
       <section style={card}>
         <h2 className="md-typescale-title-medium" style={{ margin: '0 0 8px' }}>

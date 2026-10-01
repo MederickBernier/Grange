@@ -1,8 +1,8 @@
-@use '../src/scss/api' as m3e;
+@use '../src/scss/api' as grange;
 
 body {
-  background: m3e.color(surface);
-  color: m3e.color(on-surface);
+  background: grange.color(surface);
+  color: grange.color(on-surface);
   font-family: var(--md-ref-typeface-plain);
 }
 
@@ -21,8 +21,8 @@ body {
 }
 
 .sb-label {
-  @include m3e.typescale(label-medium);
-  color: m3e.color(on-surface-variant);
+  @include grange.typescale(label-medium);
+  color: grange.color(on-surface-variant);
   min-width: 72px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -37,5 +37,5 @@ body {
 }
 
 input[type='range'] {
-  accent-color: m3e.color(primary);
+  accent-color: grange.color(primary);
 }

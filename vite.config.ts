@@ -8,7 +8,7 @@ export default defineConfig({
   css: {
     modules: {
       // Stable, readable class names so app teams can debug, and themes can target them if they must.
-      generateScopedName: 'm3e-[local]-[hash:base64:4]',
+      generateScopedName: 'grange-[local]-[hash:base64:4]',
     },
   },
   build: {

@@ -48,7 +48,7 @@ export const Ripple = forwardRef<RippleHandle>(function Ripple(_props, ref) {
         parseFloat(getComputedStyle(root).getPropertyValue('--md-sys-state-pressed-state-layer-opacity')) || 0.1;
 
       const el = document.createElement('span');
-      el.className = 'm3e-ripple-wave';
+      el.className = 'grange-ripple-wave';
       el.style.width = el.style.height = `${initial}px`;
       root.appendChild(el);
 
@@ -71,7 +71,7 @@ export const Ripple = forwardRef<RippleHandle>(function Ripple(_props, ref) {
     },
   }));
 
-  return <span ref={host} className="m3e-ripple" aria-hidden="true" />;
+  return <span ref={host} className="grange-ripple" aria-hidden="true" />;
 });
 
 function fade(wave: Wave | null, delay: number) {

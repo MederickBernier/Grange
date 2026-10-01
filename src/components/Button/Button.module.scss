@@ -9,7 +9,7 @@
  */
 
 @use 'sass:list';
-@use '../../scss/api' as m3e;
+@use '../../scss/api' as grange;
 
 // height, typescale style, icon gap, icon size
 $sizes: (
@@ -35,40 +35,40 @@ $outline-widths: (
   --_height: #{list.nth($spec, 1)};
   --_gap: #{list.nth($spec, 3)};
   --_icon: #{list.nth($spec, 4)};
-  --_font: #{m3e.type-prop($style, font)};
-  --_font-size: #{m3e.type-prop($style, size)};
-  --_line-height: #{m3e.type-prop($style, line-height)};
-  --_tracking: #{m3e.type-prop($style, tracking)};
-  --_weight: #{m3e.type-prop($style, weight)};
+  --_font: #{grange.type-prop($style, font)};
+  --_font-size: #{grange.type-prop($style, size)};
+  --_line-height: #{grange.type-prop($style, line-height)};
+  --_tracking: #{grange.type-prop($style, tracking)};
+  --_weight: #{grange.type-prop($style, weight)};
 }
 
 /// Sets the four color slots the base rule reads. Omitted slots keep their inherited value,
 /// which is how `text` and `standard` end up with no container.
 @mixin colors($container: null, $content: null, $outline: null, $level: null) {
   @if $container {
-    --_container: #{m3e.color($container)};
+    --_container: #{grange.color($container)};
   }
   @if $content {
-    --_content: #{m3e.color($content)};
+    --_content: #{grange.color($content)};
   }
   @if $outline {
     @if $outline == transparent {
       --_outline: transparent;
     } @else {
-      --_outline: #{m3e.color($outline)};
+      --_outline: #{grange.color($outline)};
     }
   }
   @if $level != null {
-    --m3e-elevation-level: #{$level};
+    --grange-elevation-level: #{$level};
   }
 }
 
 .button {
   --_container: transparent;
-  --_content: #{m3e.color(primary)};
+  --_content: #{grange.color(primary)};
   --_outline: transparent;
   --_outline-width: 0px;
-  --m3e-elevation-level: 0;
+  --grange-elevation-level: 0;
 
   position: relative;
   isolation: isolate;
@@ -98,9 +98,9 @@ $outline-widths: (
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   transition:
-    background-color m3e.duration(short3) linear,
-    color m3e.duration(short3) linear,
-    box-shadow m3e.duration(short3) linear;
+    background-color grange.duration(short3) linear,
+    color grange.duration(short3) linear,
+    box-shadow grange.duration(short3) linear;
 
   // ---------- Sizes ----------
   @each $name, $spec in $sizes {
@@ -166,25 +166,25 @@ $outline-widths: (
   // ---------- Elevation on hover ----------
   &[data-variant='filled'][data-hovered],
   &[data-variant='tonal'][data-hovered] {
-    --m3e-elevation-level: 1;
+    --grange-elevation-level: 1;
   }
   &[data-variant='elevated'][data-hovered] {
-    --m3e-elevation-level: 2;
+    --grange-elevation-level: 2;
   }
 
   // ---------- Disabled (M3E: container on-surface 10%, content on-surface-variant 38%) ----------
   &[data-disabled] {
-    --_content: #{m3e.translucent(on-surface-variant, 38%)};
-    --m3e-elevation-level: 0 !important;
+    --_content: #{grange.translucent(on-surface-variant, 38%)};
+    --grange-elevation-level: 0 !important;
     cursor: default;
 
     &:is([data-variant='filled'], [data-variant='tonal'], [data-variant='elevated']),
     &[data-variant='outlined'][data-selected='true'] {
-      --_container: #{m3e.translucent(on-surface, 10%)};
+      --_container: #{grange.translucent(on-surface, 10%)};
     }
 
     &[data-variant='outlined'] {
-      --_outline: #{m3e.color(outline-variant)};
+      --_outline: #{grange.color(outline-variant)};
     }
   }
 }
@@ -218,6 +218,6 @@ $outline-widths: (
   }
 
   &[data-hovered] {
-    --m3e-elevation-level: 0 !important;
+    --grange-elevation-level: 0 !important;
   }
 }
