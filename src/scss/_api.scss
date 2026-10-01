@@ -1,0 +1,177 @@
+// Public Sass API for @jyga/m3e-react.
+//
+//   @use '@jyga/m3e-react/scss' as m3e;
+//
+//   .acme-brand {
+//     @include m3e.theme((primary: #005bbb, surface: #fbfbff));
+//   }
+//
+// Every function returns a `var(--md-sys-*)` reference rather than a literal value, so themes
+// stay overridable at runtime and dark mode keeps working. The gain over writing `var()` by hand
+// is that an unknown token name is a build error here, where `var(--typo)` fails silently.
+
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:meta';
+@use 'sass:string';
+@use 'data';
+
+// ---------------------------------------------------------------------------
+// Raw token values, for the rare case a literal is needed (a Sass color calculation,
+// a media query, a value that cannot go through var()).
+// ---------------------------------------------------------------------------
+
+$colors-light: data.$colors-light;
+$colors-dark: data.$colors-dark;
+$corners: data.$shape;
+$durations: data.$durations;
+$easings: data.$easings;
+$state-layer-opacity: data.$state-layer-opacity;
+$elevation: data.$elevation;
+$typescale: data.$typescale;
+
+/// Every color role a theme may override.
+$color-roles: map.keys(data.$colors-light);
+
+$_type-props: (font, size, line-height, tracking, weight);
+$_suggestion-limit: 6;
+
+@function _list($keys) {
+  @if list.length($keys) == 1 {
+    @return string.unquote(meta.inspect(list.nth($keys, 1)));
+  }
+  @return string.unquote(meta.inspect($keys));
+}
+
+/// Names sharing a prefix with the one given, so a typo points at its likely fix instead of
+/// printing all 48 color roles.
+@function _near($keys, $key) {
+  $probe: $key;
+  @if string.length($key) > 3 {
+    $probe: string.slice($key, 1, 3);
+  }
+
+  $hits: ();
+  @each $k in $keys {
+    @if string.index($k, $probe) and list.length($hits) < $_suggestion-limit {
+      $hits: list.append($hits, $k, comma);
+    }
+  }
+  @return $hits;
+}
+
+@function _unknown($kind, $key, $keys) {
+  $near: _near($keys, $key);
+  @if list.length($near) > 0 {
+    @return "m3e: unknown #{$kind} `#{$key}`. Did you mean #{_list($near)}?";
+  }
+  @return "m3e: unknown #{$kind} `#{$key}`. #{list.length($keys)} available: #{_list($keys)}.";
+}
+
+@function _ref($map, $key, $kind, $prefix) {
+  @if not map.has-key($map, $key) {
+    @error _unknown($kind, $key, map.keys($map));
+  }
+  @return var(--#{$prefix}-#{$key});
+}
+
+// ---------------------------------------------------------------------------
+// Token references
+// ---------------------------------------------------------------------------
+
+/// A color role, e.g. color(primary) -> var(--md-sys-color-primary).
+@function color($role) {
+  @return _ref(data.$colors-light, $role, 'color role', 'md-sys-color');
+}
+
+/// A shape corner radius, e.g. corner(large) -> var(--md-sys-shape-corner-large).
+@function corner($name) {
+  @return _ref(data.$shape, $name, 'shape corner', 'md-sys-shape-corner');
+}
+
+/// A motion duration, e.g. duration(short3) -> var(--md-sys-motion-duration-short3).
+@function duration($name) {
+  @return _ref(data.$durations, $name, 'duration', 'md-sys-motion-duration');
+}
+
+/// A motion easing curve, e.g. easing(emphasized).
+@function easing($name) {
+  @return _ref(data.$easings, $name, 'easing', 'md-sys-motion-easing');
+}
+
+/// An elevation level, e.g. elevation(level2).
+@function elevation($level) {
+  @return _ref(data.$elevation, $level, 'elevation level', 'md-sys-elevation');
+}
+
+/// A state layer opacity, e.g. state-opacity(hover). Its custom property interleaves the state
+/// name, so it does not follow the prefix-plus-key shape of the others.
+@function state-opacity($state) {
+  @if not map.has-key(data.$state-layer-opacity, $state) {
+    @error _unknown('state', $state, map.keys(data.$state-layer-opacity));
+  }
+  @return var(--md-sys-state-#{$state}-state-layer-opacity);
+}
+
+/// A color role at partial opacity, the M3 recipe for disabled content and containers.
+/// Named to avoid shadowing the plain-CSS color-mix() it expands to.
+///
+///   translucent(on-surface, 10%) -> color-mix(in srgb, var(--md-sys-color-on-surface) 10%, transparent)
+@function translucent($role, $percent) {
+  @return string.unquote("color-mix(in srgb, #{color($role)} #{$percent}, transparent)");
+}
+
+/// One property of one typescale style, e.g. type-prop(label-large, size).
+@function type-prop($style, $prop) {
+  @if not map.has-key(data.$typescale, $style) {
+    @error _unknown('typescale style', $style, map.keys(data.$typescale));
+  }
+  @if not list.index($_type-props, $prop) {
+    @error _unknown('typescale property', $prop, $_type-props);
+  }
+  @return var(--md-sys-typescale-#{$style}-#{$prop});
+}
+
+// ---------------------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------------------
+
+/// Applies a full typescale style.
+@mixin typescale($style) {
+  font-family: type-prop($style, font);
+  font-size: type-prop($style, size);
+  line-height: type-prop($style, line-height);
+  letter-spacing: type-prop($style, tracking);
+  font-weight: type-prop($style, weight);
+}
+
+/// Overrides tokens on the current selector. Scope it to `:root` for a whole app, or to any
+/// container to theme a subtree. Values are emitted as custom properties, so they cascade to
+/// every m3e component inside, and any role left untouched keeps following data-theme and
+/// prefers-color-scheme.
+///
+///   .acme-brand { @include m3e.theme((primary: #005bbb)); }
+///
+/// Unknown names raise a build error rather than emitting a property nothing reads.
+@mixin theme($colors: (), $corners: (), $typeface: ()) {
+  @each $role, $value in $colors {
+    @if not map.has-key(data.$colors-light, $role) {
+      @error _unknown('color role', $role, map.keys(data.$colors-light));
+    }
+    --md-sys-color-#{$role}: #{$value};
+  }
+
+  @each $name, $value in $corners {
+    @if not map.has-key(data.$shape, $name) {
+      @error _unknown('shape corner', $name, map.keys(data.$shape));
+    }
+    --md-sys-shape-corner-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $typeface {
+    @if $name != brand and $name != plain {
+      @error _unknown('typeface', $name, (brand, plain));
+    }
+    --md-ref-typeface-#{$name}: #{$value};
+  }
+}
