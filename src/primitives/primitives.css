@@ -1,0 +1,129 @@
+/*
+ * Shared interaction primitives. Every interactive component renders these children:
+ *   <span class="m3e-elevation"/>   shadow, driven by --m3e-elevation-level (0 to 5)
+ *   <span class="m3e-state-layer"/> hover / focus overlay in the content color
+ *   <span class="m3e-ripple"/>      press ripple (see Ripple.tsx)
+ *   <span class="m3e-touch"/>       48px minimum touch target for small components
+ * and sets data-hovered / data-focus-visible / data-pressed / data-disabled on itself.
+ *
+ * Elevation and ripple styles are ported from Material Web (Apache 2.0, see NOTICE).
+ */
+
+@property --m3e-elevation-level {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+/* ---------- State layer ---------- */
+.m3e-state-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-color: var(--m3e-state-layer-color, currentColor);
+  opacity: 0;
+  transition: opacity var(--md-sys-motion-duration-short3) linear;
+}
+[data-hovered] > .m3e-state-layer {
+  opacity: var(--md-sys-state-hover-state-layer-opacity);
+}
+[data-focus-visible] > .m3e-state-layer {
+  opacity: var(--md-sys-state-focus-state-layer-opacity);
+}
+/* Keyboard presses get the pressed layer; pointer presses get the ripple instead. */
+[data-pressed='keyboard'] > .m3e-state-layer {
+  opacity: var(--md-sys-state-pressed-state-layer-opacity);
+}
+[data-disabled] > .m3e-state-layer {
+  display: none;
+}
+
+/* ---------- Ripple ---------- */
+.m3e-ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+.m3e-ripple-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(closest-side, currentColor max(calc(100% - 70px), 65%), transparent 100%);
+  transform-origin: center center;
+}
+@media (forced-colors: active) {
+  .m3e-ripple,
+  .m3e-state-layer {
+    display: none;
+  }
+}
+
+/* ---------- Focus ring (keyboard only) ---------- */
+[data-focus-visible] {
+  outline: 3px solid var(--md-sys-color-secondary);
+  outline-offset: 2px;
+  animation: m3e-focus-ring var(--md-sys-motion-duration-long4) var(--md-sys-motion-easing-emphasized);
+}
+@keyframes m3e-focus-ring {
+  from {
+    outline-width: 0;
+  }
+  25% {
+    outline-width: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-focus-visible] {
+    animation: none;
+  }
+}
+
+/* ---------- Elevation ---------- */
+.m3e-elevation,
+.m3e-elevation::before,
+.m3e-elevation::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.m3e-elevation {
+  z-index: -1;
+  transition: --m3e-elevation-level var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+}
+.m3e-elevation::before,
+.m3e-elevation::after {
+  content: '';
+  --_level: var(--m3e-elevation-level);
+  --_shadow-color: var(--md-sys-color-shadow);
+}
+.m3e-elevation::before {
+  box-shadow: 0px
+    calc(1px * (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 3, 1) + 2 * clamp(0, var(--_level) - 4, 1)))
+    calc(1px * (2 * clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 2, 1) + clamp(0, var(--_level) - 4, 1)))
+    0px var(--_shadow-color);
+  opacity: 0.3;
+}
+.m3e-elevation::after {
+  box-shadow: 0px
+    calc(1px * (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 1, 1) + 2 * clamp(0, var(--_level) - 2, 3)))
+    calc(1px * (3 * clamp(0, var(--_level), 2) + 2 * clamp(0, var(--_level) - 2, 3)))
+    calc(1px * (clamp(0, var(--_level), 4) + 2 * clamp(0, var(--_level) - 4, 1))) var(--_shadow-color);
+  opacity: 0.15;
+}
+
+/* ---------- Touch target ---------- */
+.m3e-touch {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  height: 48px;
+  width: max(100%, 48px);
+}

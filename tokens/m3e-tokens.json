@@ -1,0 +1,823 @@
+{
+  "$meta": {
+    "source": "androidx-main compose/material3 token files (Apache 2.0)",
+    "read": "2026-10-01",
+    "units": "dp=px, sp=px"
+  },
+  "motion": {
+    "expressive": {
+      "fast-spatial": {
+        "stiffness": 800.0,
+        "dampingRatio": 0.6,
+        "motionDamping": 33.94,
+        "mass": 1
+      },
+      "fast-effects": {
+        "stiffness": 3800.0,
+        "dampingRatio": 1.0,
+        "motionDamping": 123.29,
+        "mass": 1
+      },
+      "default-spatial": {
+        "stiffness": 380.0,
+        "dampingRatio": 0.8,
+        "motionDamping": 31.19,
+        "mass": 1
+      },
+      "default-effects": {
+        "stiffness": 1600.0,
+        "dampingRatio": 1.0,
+        "motionDamping": 80.0,
+        "mass": 1
+      },
+      "slow-spatial": {
+        "stiffness": 200.0,
+        "dampingRatio": 0.8,
+        "motionDamping": 22.63,
+        "mass": 1
+      },
+      "slow-effects": {
+        "stiffness": 800.0,
+        "dampingRatio": 1.0,
+        "motionDamping": 56.57,
+        "mass": 1
+      }
+    },
+    "standard": {
+      "fast-spatial": {
+        "stiffness": 1400.0,
+        "dampingRatio": 0.9,
+        "motionDamping": 67.35,
+        "mass": 1
+      },
+      "fast-effects": {
+        "stiffness": 3800.0,
+        "dampingRatio": 1.0,
+        "motionDamping": 123.29,
+        "mass": 1
+      },
+      "default-spatial": {
+        "stiffness": 700.0,
+        "dampingRatio": 0.9,
+        "motionDamping": 47.62,
+        "mass": 1
+      },
+      "default-effects": {
+        "stiffness": 1600.0,
+        "dampingRatio": 1.0,
+        "motionDamping": 80.0,
+        "mass": 1
+      },
+      "slow-spatial": {
+        "stiffness": 300.0,
+        "dampingRatio": 0.9,
+        "motionDamping": 31.18,
+        "mass": 1
+      },
+      "slow-effects": {
+        "stiffness": 800.0,
+        "dampingRatio": 1.0,
+        "motionDamping": 56.57,
+        "mass": 1
+      }
+    },
+    "duration": {
+      "extra-long-1": 700.0,
+      "extra-long-2": 800.0,
+      "extra-long-3": 900.0,
+      "extra-long-4": 1000.0,
+      "long-1": 450.0,
+      "long-2": 500.0,
+      "long-3": 550.0,
+      "long-4": 600.0,
+      "medium-1": 250.0,
+      "medium-2": 300.0,
+      "medium-3": 350.0,
+      "medium-4": 400.0,
+      "short-1": 50.0,
+      "short-2": 100.0,
+      "short-3": 150.0,
+      "short-4": 200.0
+    },
+    "easing": {
+      "emphasized": [
+        0.2,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "emphasized-accelerate": [
+        0.3,
+        0.0,
+        0.8,
+        0.15
+      ],
+      "emphasized-decelerate": [
+        0.05,
+        0.7,
+        0.1,
+        1.0
+      ],
+      "legacy": [
+        0.4,
+        0.0,
+        0.2,
+        1.0
+      ],
+      "legacy-accelerate": [
+        0.4,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "legacy-decelerate": [
+        0.0,
+        0.0,
+        0.2,
+        1.0
+      ],
+      "linear": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "standard": [
+        0.2,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "standard-accelerate": [
+        0.3,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "standard-decelerate": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "shape": {
+    "extra-extra-large": 48.0,
+    "extra-large": 28.0,
+    "extra-large-increased": 32.0,
+    "extra-small": 4.0,
+    "large": 16.0,
+    "large-increased": 20.0,
+    "medium": 12.0,
+    "none": 0.0,
+    "small": 8.0,
+    "full": "50%"
+  },
+  "shapeLibrary": [
+    "Circle",
+    "Square",
+    "Slanted",
+    "Arch",
+    "Fan",
+    "Arrow",
+    "SemiCircle",
+    "Oval",
+    "Pill",
+    "Triangle",
+    "Diamond",
+    "ClamShell",
+    "Pentagon",
+    "Gem",
+    "Sunny",
+    "VerySunny",
+    "Cookie4Sided",
+    "Cookie6Sided",
+    "Cookie7Sided",
+    "Cookie9Sided",
+    "Cookie12Sided",
+    "Ghostish",
+    "Clover4Leaf",
+    "Clover8Leaf",
+    "Burst",
+    "SoftBurst",
+    "Boom",
+    "SoftBoom",
+    "Flower",
+    "Puffy",
+    "PuffyDiamond",
+    "PixelCircle",
+    "PixelTriangle",
+    "Bun",
+    "Heart"
+  ],
+  "typescale": {
+    "body-large": {
+      "font": "plain",
+      "size": 16.0,
+      "lineHeight": 24.0,
+      "tracking": 0.5,
+      "weight": 400
+    },
+    "body-large-emphasized": {
+      "font": "plain",
+      "size": 16.0,
+      "lineHeight": 24.0,
+      "tracking": 0.15,
+      "weight": 500
+    },
+    "body-medium": {
+      "font": "plain",
+      "size": 14.0,
+      "lineHeight": 20.0,
+      "tracking": 0.2,
+      "weight": 400
+    },
+    "body-medium-emphasized": {
+      "font": "plain",
+      "size": 14.0,
+      "lineHeight": 20.0,
+      "tracking": 0.25,
+      "weight": 500
+    },
+    "body-small": {
+      "font": "plain",
+      "size": 12.0,
+      "lineHeight": 16.0,
+      "tracking": 0.4,
+      "weight": 400
+    },
+    "body-small-emphasized": {
+      "font": "plain",
+      "size": 12.0,
+      "lineHeight": 16.0,
+      "tracking": 0.4,
+      "weight": 500
+    },
+    "display-large": {
+      "font": "brand",
+      "size": 57.0,
+      "lineHeight": 64.0,
+      "tracking": -0.2,
+      "weight": 400
+    },
+    "display-large-emphasized": {
+      "font": "brand",
+      "size": 57.0,
+      "lineHeight": 64.0,
+      "tracking": 0.0,
+      "weight": 500
+    },
+    "display-medium": {
+      "font": "brand",
+      "size": 45.0,
+      "lineHeight": 52.0,
+      "tracking": 0.0,
+      "weight": 400
+    },
+    "display-medium-emphasized": {
+      "font": "brand",
+      "size": 45.0,
+      "lineHeight": 52.0,
+      "tracking": 0.0,
+      "weight": 500
+    },
+    "display-small": {
+      "font": "brand",
+      "size": 36.0,
+      "lineHeight": 44.0,
+      "tracking": 0.0,
+      "weight": 400
+    },
+    "display-small-emphasized": {
+      "font": "brand",
+      "size": 36.0,
+      "lineHeight": 44.0,
+      "tracking": 0.0,
+      "weight": 500
+    },
+    "headline-large": {
+      "font": "brand",
+      "size": 32.0,
+      "lineHeight": 40.0,
+      "tracking": 0.0,
+      "weight": 400
+    },
+    "headline-large-emphasized": {
+      "font": "brand",
+      "size": 32.0,
+      "lineHeight": 40.0,
+      "tracking": 0.0,
+      "weight": 500
+    },
+    "headline-medium": {
+      "font": "brand",
+      "size": 28.0,
+      "lineHeight": 36.0,
+      "tracking": 0.0,
+      "weight": 400
+    },
+    "headline-medium-emphasized": {
+      "font": "brand",
+      "size": 28.0,
+      "lineHeight": 36.0,
+      "tracking": 0.0,
+      "weight": 500
+    },
+    "headline-small": {
+      "font": "brand",
+      "size": 24.0,
+      "lineHeight": 32.0,
+      "tracking": 0.0,
+      "weight": 400
+    },
+    "headline-small-emphasized": {
+      "font": "brand",
+      "size": 24.0,
+      "lineHeight": 32.0,
+      "tracking": 0.0,
+      "weight": 500
+    },
+    "label-large": {
+      "font": "plain",
+      "size": 14.0,
+      "lineHeight": 20.0,
+      "tracking": 0.1,
+      "weight": 500
+    },
+    "label-large-emphasized": {
+      "font": "plain",
+      "size": 14.0,
+      "lineHeight": 20.0,
+      "tracking": 0.1,
+      "weight": 700
+    },
+    "label-medium": {
+      "font": "plain",
+      "size": 12.0,
+      "lineHeight": 16.0,
+      "tracking": 0.5,
+      "weight": 500
+    },
+    "label-medium-emphasized": {
+      "font": "plain",
+      "size": 12.0,
+      "lineHeight": 16.0,
+      "tracking": 0.5,
+      "weight": 700
+    },
+    "label-small": {
+      "font": "plain",
+      "size": 11.0,
+      "lineHeight": 16.0,
+      "tracking": 0.5,
+      "weight": 500
+    },
+    "label-small-emphasized": {
+      "font": "plain",
+      "size": 11.0,
+      "lineHeight": 16.0,
+      "tracking": 0.5,
+      "weight": 700
+    },
+    "title-large": {
+      "font": "brand",
+      "size": 22.0,
+      "lineHeight": 28.0,
+      "tracking": 0.0,
+      "weight": 400
+    },
+    "title-large-emphasized": {
+      "font": "brand",
+      "size": 22.0,
+      "lineHeight": 28.0,
+      "tracking": 0.0,
+      "weight": 500
+    },
+    "title-medium": {
+      "font": "plain",
+      "size": 16.0,
+      "lineHeight": 24.0,
+      "tracking": 0.2,
+      "weight": 500
+    },
+    "title-medium-emphasized": {
+      "font": "plain",
+      "size": 16.0,
+      "lineHeight": 24.0,
+      "tracking": 0.15,
+      "weight": 700
+    },
+    "title-small": {
+      "font": "plain",
+      "size": 14.0,
+      "lineHeight": 20.0,
+      "tracking": 0.1,
+      "weight": 500
+    },
+    "title-small-emphasized": {
+      "font": "plain",
+      "size": 14.0,
+      "lineHeight": 20.0,
+      "tracking": 0.1,
+      "weight": 700
+    }
+  },
+  "colorRoles": {
+    "background": {
+      "light": "Neutral98",
+      "dark": "Neutral6"
+    },
+    "error": {
+      "light": "Error40",
+      "dark": "Error80"
+    },
+    "error-container": {
+      "light": "Error90",
+      "dark": "Error30"
+    },
+    "inverse-on-surface": {
+      "light": "Neutral95",
+      "dark": "Neutral20"
+    },
+    "inverse-primary": {
+      "light": "Primary80",
+      "dark": "Primary40"
+    },
+    "inverse-surface": {
+      "light": "Neutral20",
+      "dark": "Neutral90"
+    },
+    "on-background": {
+      "light": "Neutral10",
+      "dark": "Neutral90"
+    },
+    "on-error": {
+      "light": "Error100",
+      "dark": "Error20"
+    },
+    "on-error-container": {
+      "light": "Error10",
+      "dark": "Error90"
+    },
+    "on-primary": {
+      "light": "Primary100",
+      "dark": "Primary20"
+    },
+    "on-primary-container": {
+      "light": "Primary10",
+      "dark": "Primary90"
+    },
+    "on-primary-fixed": {
+      "light": "Primary10",
+      "dark": "Primary10"
+    },
+    "on-primary-fixed-variant": {
+      "light": "Primary30",
+      "dark": "Primary30"
+    },
+    "on-secondary": {
+      "light": "Secondary100",
+      "dark": "Secondary20"
+    },
+    "on-secondary-container": {
+      "light": "Secondary10",
+      "dark": "Secondary90"
+    },
+    "on-secondary-fixed": {
+      "light": "Secondary10",
+      "dark": "Secondary10"
+    },
+    "on-secondary-fixed-variant": {
+      "light": "Secondary30",
+      "dark": "Secondary30"
+    },
+    "on-surface": {
+      "light": "Neutral10",
+      "dark": "Neutral90"
+    },
+    "on-surface-variant": {
+      "light": "NeutralVariant30",
+      "dark": "NeutralVariant80"
+    },
+    "on-tertiary": {
+      "light": "Tertiary100",
+      "dark": "Tertiary20"
+    },
+    "on-tertiary-container": {
+      "light": "Tertiary10",
+      "dark": "Tertiary90"
+    },
+    "on-tertiary-fixed": {
+      "light": "Tertiary10",
+      "dark": "Tertiary10"
+    },
+    "on-tertiary-fixed-variant": {
+      "light": "Tertiary30",
+      "dark": "Tertiary30"
+    },
+    "outline": {
+      "light": "NeutralVariant50",
+      "dark": "NeutralVariant60"
+    },
+    "outline-variant": {
+      "light": "NeutralVariant80",
+      "dark": "NeutralVariant30"
+    },
+    "primary": {
+      "light": "Primary40",
+      "dark": "Primary80"
+    },
+    "primary-container": {
+      "light": "Primary90",
+      "dark": "Primary30"
+    },
+    "primary-fixed": {
+      "light": "Primary90",
+      "dark": "Primary90"
+    },
+    "primary-fixed-dim": {
+      "light": "Primary80",
+      "dark": "Primary80"
+    },
+    "scrim": {
+      "light": "Neutral0",
+      "dark": "Neutral0"
+    },
+    "secondary": {
+      "light": "Secondary40",
+      "dark": "Secondary80"
+    },
+    "secondary-container": {
+      "light": "Secondary90",
+      "dark": "Secondary30"
+    },
+    "secondary-fixed": {
+      "light": "Secondary90",
+      "dark": "Secondary90"
+    },
+    "secondary-fixed-dim": {
+      "light": "Secondary80",
+      "dark": "Secondary80"
+    },
+    "surface": {
+      "light": "Neutral98",
+      "dark": "Neutral6"
+    },
+    "surface-bright": {
+      "light": "Neutral98",
+      "dark": "Neutral24"
+    },
+    "surface-container": {
+      "light": "Neutral94",
+      "dark": "Neutral12"
+    },
+    "surface-container-high": {
+      "light": "Neutral92",
+      "dark": "Neutral17"
+    },
+    "surface-container-highest": {
+      "light": "Neutral90",
+      "dark": "Neutral22"
+    },
+    "surface-container-low": {
+      "light": "Neutral96",
+      "dark": "Neutral10"
+    },
+    "surface-container-lowest": {
+      "light": "Neutral100",
+      "dark": "Neutral4"
+    },
+    "surface-dim": {
+      "light": "Neutral87",
+      "dark": "Neutral6"
+    },
+    "surface-variant": {
+      "light": "NeutralVariant90",
+      "dark": "NeutralVariant30"
+    },
+    "tertiary": {
+      "light": "Tertiary40",
+      "dark": "Tertiary80"
+    },
+    "tertiary-container": {
+      "light": "Tertiary90",
+      "dark": "Tertiary30"
+    },
+    "tertiary-fixed": {
+      "light": "Tertiary90",
+      "dark": "Tertiary90"
+    },
+    "tertiary-fixed-dim": {
+      "light": "Tertiary80",
+      "dark": "Tertiary80"
+    }
+  },
+  "stateLayerOpacity": {
+    "dragged": 0.16,
+    "focus": 0.1,
+    "hover": 0.08,
+    "pressed": 0.1
+  },
+  "elevation": {
+    "Level0": 0.0,
+    "Level1": 1.0,
+    "Level2": 3.0,
+    "Level3": 6.0,
+    "Level4": 8.0,
+    "Level5": 12.0
+  },
+  "components": {
+    "ButtonXSmall": {
+      "ContainerHeight": "32.0.dp",
+      "ContainerShapeRound": "CornerFull",
+      "ContainerShapeSquare": "CornerMedium",
+      "IconLabelSpace": "8.0.dp",
+      "IconSize": "20.0.dp",
+      "LeadingSpace": "16.0.dp",
+      "OutlinedOutlineWidth": "1.0.dp",
+      "PressedContainerShape": "CornerSmall",
+      "SelectedContainerShapeRound": "CornerFull",
+      "SelectedContainerShapeSquare": "CornerMedium",
+      "TrailingSpace": "16.0.dp"
+    },
+    "ButtonSmall": {
+      "ContainerHeight": "40.0.dp",
+      "ContainerShapeRound": "CornerFull",
+      "ContainerShapeSquare": "CornerMedium",
+      "IconLabelSpace": "8.0.dp",
+      "IconSize": "20.0.dp",
+      "LeadingSpace": "16.0.dp",
+      "OutlinedOutlineWidth": "1.0.dp",
+      "PressedContainerShape": "CornerSmall",
+      "SelectedContainerShapeRound": "CornerFull",
+      "SelectedContainerShapeSquare": "CornerMedium",
+      "TrailingSpace": "16.0.dp"
+    },
+    "ButtonMedium": {
+      "ContainerHeight": "56.0.dp",
+      "ContainerShapeRound": "CornerFull",
+      "ContainerShapeSquare": "CornerLarge",
+      "IconLabelSpace": "8.0.dp",
+      "IconSize": "24.0.dp",
+      "LeadingSpace": "24.0.dp",
+      "OutlinedOutlineWidth": "1.0.dp",
+      "PressedContainerShape": "CornerMedium",
+      "SelectedContainerShapeRound": "CornerFull",
+      "SelectedContainerShapeSquare": "CornerLarge",
+      "TrailingSpace": "24.0.dp"
+    },
+    "ButtonLarge": {
+      "ContainerHeight": "96.0.dp",
+      "ContainerShapeRound": "CornerFull",
+      "ContainerShapeSquare": "CornerExtraLarge",
+      "IconLabelSpace": "12.0.dp",
+      "IconSize": "32.0.dp",
+      "LeadingSpace": "48.0.dp",
+      "OutlinedOutlineWidth": "2.0.dp",
+      "PressedContainerShape": "CornerLarge",
+      "SelectedContainerShapeRound": "CornerFull",
+      "SelectedContainerShapeSquare": "CornerExtraLarge",
+      "TrailingSpace": "48.0.dp"
+    },
+    "ButtonXLarge": {
+      "ContainerHeight": "136.0.dp",
+      "ContainerShapeRound": "CornerFull",
+      "ContainerShapeSquare": "CornerExtraLarge",
+      "IconLabelSpace": "16.0.dp",
+      "IconSize": "40.0.dp",
+      "LeadingSpace": "64.0.dp",
+      "OutlinedOutlineWidth": "3.0.dp",
+      "PressedContainerShape": "CornerLarge",
+      "SelectedContainerShapeRound": "CornerFull",
+      "SelectedContainerShapeSquare": "CornerExtraLarge",
+      "TrailingSpace": "64.0.dp"
+    },
+    "ButtonGroupSmall": {
+      "BetweenSpace": "12.0.dp",
+      "ContainerHeight": "40.0.dp"
+    },
+    "ConnectedButtonGroupSmall": {
+      "BetweenSpace": "2.0.dp",
+      "ContainerHeight": "40.0.dp",
+      "ContainerShape": "CornerFull",
+      "InnerCornerCornerSize": "CornerValueSmall",
+      "PressedInnerCornerCornerSize": "CornerValueExtraSmall",
+      "SelectedInnerCornerCornerSizePercent": "50.0f"
+    },
+    "SplitButtonSmall": {
+      "BetweenSpace": "2.0.dp",
+      "ContainerHeight": "40.0.dp",
+      "ContainerShape": "CornerFull",
+      "InnerCornerCornerSize": "CornerValueExtraSmall",
+      "InnerHoveredCornerCornerSize": "CornerValueMedium",
+      "InnerPressedCornerCornerSize": "CornerValueMedium",
+      "LeadingButtonLeadingSpace": "16.0.dp",
+      "LeadingButtonTrailingSpace": "12.0.dp",
+      "TrailingIconSize": "22.0.dp",
+      "TrailingInnerSelectedCornerCornerSizePercent": "50.0f",
+      "TrailingButtonLeadingSpace": "13.0.dp",
+      "TrailingButtonTrailingSpace": "13.0.dp"
+    },
+    "FabMenuBaseline": {
+      "CloseButtonBetweenSpace": "8.0.dp",
+      "CloseButtonContainerElevation": "elevation:Level3",
+      "CloseButtonContainerHeight": "56.0.dp",
+      "CloseButtonContainerShape": "CornerFull",
+      "CloseButtonContainerWidth": "56.0.dp",
+      "CloseButtonIconSize": "20.0.dp",
+      "ListItemBetweenSpace": "4.0.dp",
+      "ListItemContainerElevation": "elevation:Level3",
+      "ListItemContainerHeight": "56.0.dp",
+      "ListItemContainerShape": "CornerFull",
+      "ListItemIconLabelSpace": "8.0.dp",
+      "ListItemIconSize": "24.0.dp",
+      "ListItemLeadingSpace": "24.0.dp",
+      "ListItemTrailingSpace": "24.0.dp"
+    },
+    "FabBaseline": {
+      "ContainerHeight": "56.0.dp",
+      "ContainerShape": "CornerLarge",
+      "ContainerWidth": "56.0.dp",
+      "IconSize": "24.0.dp"
+    },
+    "FabMedium": {
+      "ContainerHeight": "80.0.dp",
+      "ContainerShape": "CornerLargeIncreased",
+      "ContainerWidth": "80.0.dp",
+      "IconSize": "28.0.dp"
+    },
+    "FabLarge": {
+      "ContainerHeight": "96.0.dp",
+      "ContainerShape": "CornerExtraLarge",
+      "ContainerWidth": "96.0.dp",
+      "IconSize": "32.0.dp"
+    },
+    "LoadingIndicator": {
+      "ActiveIndicatorColor": "color:Primary",
+      "ActiveSize": "38.0.dp",
+      "ContainedActiveColor": "color:OnPrimaryContainer",
+      "ContainedContainerColor": "color:PrimaryContainer",
+      "ContainerHeight": "48.0.dp",
+      "ContainerShape": "CornerFull",
+      "ContainerWidth": "48.0.dp"
+    },
+    "FloatingToolbar": {
+      "ContainerBetweenSpace": "4.0.dp",
+      "ContainerExternalPadding": "16.0.dp",
+      "ContainerHeight": "64.0.dp",
+      "ContainerLeadingSpace": "8.0.dp",
+      "ContainerShape": "CornerFull",
+      "ContainerTrailingSpace": "8.0.dp",
+      "StandardContainerColor": "color:SurfaceContainer",
+      "VibrantButtonSelectedContainerColor": "color:SurfaceContainer",
+      "VibrantButtonSelectedIconColor": "color:OnSurface",
+      "VibrantButtonSelectedTextColor": "color:OnSurface",
+      "VibrantButtonUnselectedIconColor": "color:OnPrimaryContainer",
+      "VibrantButtonUnselectedTextColor": "color:OnPrimaryContainer",
+      "VibrantContainerColor": "color:PrimaryContainer"
+    },
+    "DockedToolbar": {
+      "ContainerColor": "color:SurfaceContainer",
+      "ContainerHeight": "64.0.dp",
+      "ContainerLeadingSpace": "16.0.dp",
+      "ContainerMaxSpacing": "32.0.dp",
+      "ContainerMinSpacing": "4.0.dp",
+      "ContainerShape": "CornerNone",
+      "ContainerTrailingSpace": "16.0.dp"
+    },
+    "LinearProgressIndicator": {
+      "ActiveThickness": "4.0.dp",
+      "ActiveWaveAmplitude": "3.0.dp",
+      "ActiveWaveWavelength": "40.0.dp",
+      "Height": "4.0.dp",
+      "IndeterminateActiveWaveWavelength": "20.0.dp",
+      "StopSize": "4.0.dp",
+      "StopTrailingSpace": "0.0.dp",
+      "TrackActiveSpace": "4.0.dp",
+      "TrackThickness": "4.0.dp",
+      "WaveHeight": "10.0.dp"
+    },
+    "CircularProgressIndicator": {
+      "ActiveThickness": "4.0.dp",
+      "ActiveWaveAmplitude": "1.6.dp",
+      "ActiveWaveWavelength": "15.0.dp",
+      "Size": "40.0.dp",
+      "TrackActiveSpace": "4.0.dp",
+      "TrackThickness": "4.0.dp",
+      "WaveSize": "48.0.dp"
+    },
+    "AppBarMediumFlexible": {
+      "ContainerHeight": "112.0.dp",
+      "SubtitleFont": "type:LabelLarge",
+      "TitleFont": "type:HeadlineMedium",
+      "LargeContainerHeight": "136.0.dp"
+    },
+    "AppBarLargeFlexible": {
+      "ContainerHeight": "120.0.dp",
+      "SubtitleFont": "type:TitleMedium",
+      "TitleFont": "type:DisplaySmall",
+      "LargeContainerHeight": "152.0.dp"
+    }
+  }
+}

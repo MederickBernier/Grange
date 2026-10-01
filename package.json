@@ -1,0 +1,58 @@
+{
+  "name": "@jyga/m3e-react",
+  "version": "0.1.0",
+  "description": "Material 3 Expressive components for React, built from the M3E token spec",
+  "type": "module",
+  "license": "UNLICENSED",
+  "sideEffects": [
+    "**/*.css",
+    "./src/index.ts",
+    "./dist/index.js"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/index.css"
+  },
+  "files": [
+    "dist",
+    "NOTICE"
+  ],
+  "scripts": {
+    "tokens": "tsx scripts/build-tokens.mts",
+    "typecheck": "pnpm tokens && tsc -p tsconfig.json --noEmit",
+    "build": "pnpm tokens && vite build && tsc -p tsconfig.build.json",
+    "test": "pnpm tokens && vitest run",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "pnpm tokens && storybook build -o storybook-static"
+  },
+  "peerDependencies": {
+    "react": ">=18.2",
+    "react-dom": ">=18.2"
+  },
+  "dependencies": {
+    "motion": "^12.23.0",
+    "react-aria": "^3.43.0"
+  },
+  "devDependencies": {
+    "@material/material-color-utilities": "^0.4.0",
+    "@storybook/react-vite": "^10.6.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "jsdom": "^30.1.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "storybook": "^10.6.1",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.6",
+    "vitest": "^3.2.7"
+  }
+}

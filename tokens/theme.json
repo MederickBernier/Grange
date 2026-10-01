@@ -1,0 +1,13 @@
+{
+  "$comment": "Product theme input. Replace seed with the brand color, or fill overrides with hex values exported from the Figma Variables. Overrides win over generated values.",
+  "seed": "#6750A4",
+  "contrastLevel": 0,
+  "typeface": {
+    "brand": "\"Roboto Flex\", Roboto, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "plain": "\"Roboto Flex\", Roboto, system-ui, -apple-system, \"Segoe UI\", sans-serif"
+  },
+  "overrides": {
+    "light": {},
+    "dark": {}
+  }
+}
