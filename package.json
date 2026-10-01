@@ -31,7 +31,7 @@
     "build": "pnpm tokens && vite build && tsc -p tsconfig.build.json && pnpm copy-scss",
     "copy-scss": "tsx scripts/copy-scss.mts",
     "test": "pnpm tokens && vitest run",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "pnpm tokens && storybook dev -p 6006",
     "build-storybook": "pnpm tokens && storybook build -o storybook-static"
   },
   "peerDependencies": {
