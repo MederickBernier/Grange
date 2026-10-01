@@ -1,0 +1,41 @@
+@use '../src/scss/api' as m3e;
+
+// A product brand override. Only the roles listed change; everything else keeps following the
+// generated palette and the light/dark switch.
+.brand {
+  @include m3e.theme(
+    $colors: (
+      primary: #005bbb,
+      on-primary: #ffffff,
+      primary-container: #d4e3ff,
+      on-primary-container: #001c3a,
+      secondary: #4a5a6a,
+      on-secondary: #ffffff,
+      secondary-container: #d4e3ff,
+      on-secondary-container: #001c3a,
+      surface-container-low: #eef3fb,
+      surface-container: #e3ebf7,
+    ),
+    $corners: (
+      large: 20px,
+    )
+  );
+}
+
+.panel {
+  padding: 24px;
+  border-radius: m3e.corner(large);
+  background: m3e.color(surface-container-low);
+  color: m3e.color(on-surface);
+}
+
+.title {
+  @include m3e.typescale(title-medium);
+  margin: 0 0 4px;
+}
+
+.note {
+  @include m3e.typescale(body-small);
+  color: m3e.color(on-surface-variant);
+  margin: 0 0 20px;
+}
