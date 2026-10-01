@@ -1,0 +1,20 @@
+.group {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+// Connected items sit 2px apart; the inner corner radii are animated in JS (see ButtonGroup.tsx).
+.connected {
+  gap: 2px;
+}
+
+.fullWidth {
+  display: flex;
+  width: 100%;
+
+  > .connectedItem {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}

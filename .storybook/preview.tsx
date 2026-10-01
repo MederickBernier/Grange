@@ -1,7 +1,7 @@
 import type { Preview } from '@storybook/react-vite';
 import { useEffect } from 'react';
 import { M3EProvider } from '../src';
-import './preview.css';
+import './preview.scss';
 
 const preview: Preview = {
   globalTypes: {

@@ -9,6 +9,8 @@
  * Elevation and ripple styles are ported from Material Web (Apache 2.0, see NOTICE).
  */
 
+@use '../scss/api' as m3e;
+
 @property --m3e-elevation-level {
   syntax: '<number>';
   inherits: true;
@@ -23,17 +25,18 @@
   pointer-events: none;
   background-color: var(--m3e-state-layer-color, currentColor);
   opacity: 0;
-  transition: opacity var(--md-sys-motion-duration-short3) linear;
+  transition: opacity m3e.duration(short3) linear;
 }
+
 [data-hovered] > .m3e-state-layer {
-  opacity: var(--md-sys-state-hover-state-layer-opacity);
+  opacity: m3e.state-opacity(hover);
 }
 [data-focus-visible] > .m3e-state-layer {
-  opacity: var(--md-sys-state-focus-state-layer-opacity);
+  opacity: m3e.state-opacity(focus);
 }
 /* Keyboard presses get the pressed layer; pointer presses get the ripple instead. */
 [data-pressed='keyboard'] > .m3e-state-layer {
-  opacity: var(--md-sys-state-pressed-state-layer-opacity);
+  opacity: m3e.state-opacity(pressed);
 }
 [data-disabled] > .m3e-state-layer {
   display: none;
@@ -47,6 +50,7 @@
   overflow: hidden;
   pointer-events: none;
 }
+
 .m3e-ripple-wave {
   position: absolute;
   top: 0;
@@ -54,9 +58,12 @@
   border-radius: 50%;
   opacity: 0;
   pointer-events: none;
-  background: radial-gradient(closest-side, currentColor max(calc(100% - 70px), 65%), transparent 100%);
+  // `calc()` is quoted so Sass emits it verbatim; it would otherwise unwrap it into
+  // max(100% - 70px, 65%), which is equivalent but no longer matches the ported recipe.
+  background: radial-gradient(closest-side, currentColor max(#{"calc(100% - 70px)"}, 65%), transparent 100%);
   transform-origin: center center;
 }
+
 @media (forced-colors: active) {
   .m3e-ripple,
   .m3e-state-layer {
@@ -66,10 +73,11 @@
 
 /* ---------- Focus ring (keyboard only) ---------- */
 [data-focus-visible] {
-  outline: 3px solid var(--md-sys-color-secondary);
+  outline: 3px solid m3e.color(secondary);
   outline-offset: 2px;
-  animation: m3e-focus-ring var(--md-sys-motion-duration-long4) var(--md-sys-motion-easing-emphasized);
+  animation: m3e-focus-ring m3e.duration(long4) m3e.easing(emphasized);
 }
+
 @keyframes m3e-focus-ring {
   from {
     outline-width: 0;
@@ -78,6 +86,7 @@
     outline-width: 8px;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   [data-focus-visible] {
     animation: none;
@@ -85,37 +94,42 @@
 }
 
 /* ---------- Elevation ---------- */
-.m3e-elevation,
-.m3e-elevation::before,
-.m3e-elevation::after {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-}
 .m3e-elevation {
+  &,
+  &::before,
+  &::after {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
   z-index: -1;
-  transition: --m3e-elevation-level var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
-}
-.m3e-elevation::before,
-.m3e-elevation::after {
-  content: '';
-  --_level: var(--m3e-elevation-level);
-  --_shadow-color: var(--md-sys-color-shadow);
-}
-.m3e-elevation::before {
-  box-shadow: 0px
-    calc(1px * (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 3, 1) + 2 * clamp(0, var(--_level) - 4, 1)))
-    calc(1px * (2 * clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 2, 1) + clamp(0, var(--_level) - 4, 1)))
-    0px var(--_shadow-color);
-  opacity: 0.3;
-}
-.m3e-elevation::after {
-  box-shadow: 0px
-    calc(1px * (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 1, 1) + 2 * clamp(0, var(--_level) - 2, 3)))
-    calc(1px * (3 * clamp(0, var(--_level), 2) + 2 * clamp(0, var(--_level) - 2, 3)))
-    calc(1px * (clamp(0, var(--_level), 4) + 2 * clamp(0, var(--_level) - 4, 1))) var(--_shadow-color);
-  opacity: 0.15;
+  transition: --m3e-elevation-level m3e.duration(short4) m3e.easing(standard);
+
+  &::before,
+  &::after {
+    content: '';
+    --_level: var(--m3e-elevation-level);
+    --_shadow-color: #{m3e.color(shadow)};
+  }
+
+  // Two stacked shadows, the key light and the ambient light, as Material Web composes them.
+  &::before {
+    box-shadow: 0px
+      calc(1px * (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 3, 1) + 2 * clamp(0, var(--_level) - 4, 1)))
+      calc(1px * (2 * clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 2, 1) + clamp(0, var(--_level) - 4, 1)))
+      0px var(--_shadow-color);
+    opacity: 0.3;
+  }
+
+  &::after {
+    box-shadow: 0px
+      calc(1px * (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 1, 1) + 2 * clamp(0, var(--_level) - 2, 3)))
+      calc(1px * (3 * clamp(0, var(--_level), 2) + 2 * clamp(0, var(--_level) - 2, 3)))
+      calc(1px * (clamp(0, var(--_level), 4) + 2 * clamp(0, var(--_level) - 4, 1))) var(--_shadow-color);
+    opacity: 0.15;
+  }
 }
 
 /* ---------- Touch target ---------- */

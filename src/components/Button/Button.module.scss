@@ -1,0 +1,223 @@
+/*
+ * Buttons, toggle buttons and icon buttons. Colors from Compose M3E button tokens:
+ * FilledButtonTokens, TonalButtonTokens, OutlinedButtonTokens, ElevatedButtonTokens, TextButton defaults,
+ * and the IconButton equivalents.
+ *
+ * Geometry per size lives in $sizes here and in Button/specs.ts. The stylesheet owns what CSS can
+ * do alone (height, type, spacing); specs.ts owns what the spring animation needs in JS (radii,
+ * padding). Both read the same Compose values.
+ */
+
+@use 'sass:list';
+@use '../../scss/api' as m3e;
+
+// height, typescale style, icon gap, icon size
+$sizes: (
+  'xs': (32px, label-large, 8px, 20px),
+  's': (40px, label-large, 8px, 20px),
+  'm': (56px, title-medium, 8px, 24px),
+  'l': (96px, headline-small, 12px, 32px),
+  'xl': (136px, headline-large, 16px, 40px),
+);
+
+// Compose scales the outline with the button, so it stays visually proportional.
+$outline-widths: (
+  'xs': 1px,
+  's': 1px,
+  'm': 1px,
+  'l': 2px,
+  'xl': 3px,
+);
+
+@mixin size($spec) {
+  $style: list.nth($spec, 2);
+
+  --_height: #{list.nth($spec, 1)};
+  --_gap: #{list.nth($spec, 3)};
+  --_icon: #{list.nth($spec, 4)};
+  --_font: #{m3e.type-prop($style, font)};
+  --_font-size: #{m3e.type-prop($style, size)};
+  --_line-height: #{m3e.type-prop($style, line-height)};
+  --_tracking: #{m3e.type-prop($style, tracking)};
+  --_weight: #{m3e.type-prop($style, weight)};
+}
+
+/// Sets the four color slots the base rule reads. Omitted slots keep their inherited value,
+/// which is how `text` and `standard` end up with no container.
+@mixin colors($container: null, $content: null, $outline: null, $level: null) {
+  @if $container {
+    --_container: #{m3e.color($container)};
+  }
+  @if $content {
+    --_content: #{m3e.color($content)};
+  }
+  @if $outline {
+    @if $outline == transparent {
+      --_outline: transparent;
+    } @else {
+      --_outline: #{m3e.color($outline)};
+    }
+  }
+  @if $level != null {
+    --m3e-elevation-level: #{$level};
+  }
+}
+
+.button {
+  --_container: transparent;
+  --_content: #{m3e.color(primary)};
+  --_outline: transparent;
+  --_outline-width: 0px;
+  --m3e-elevation-level: 0;
+
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: var(--_gap);
+  height: var(--_height);
+  min-width: 48px;
+  margin: 0;
+  border: none;
+  // Outline drawn inside the box (as Compose does) so it never changes the button's size.
+  box-shadow: inset 0 0 0 var(--_outline-width) var(--_outline);
+  background-color: var(--_container);
+  color: var(--_content);
+  font-family: var(--_font);
+  font-size: var(--_font-size);
+  line-height: var(--_line-height);
+  letter-spacing: var(--_tracking);
+  font-weight: var(--_weight);
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color m3e.duration(short3) linear,
+    color m3e.duration(short3) linear,
+    box-shadow m3e.duration(short3) linear;
+
+  // ---------- Sizes ----------
+  @each $name, $spec in $sizes {
+    &[data-size='#{$name}'] {
+      @include size($spec);
+    }
+  }
+
+  // ---------- Color variants ----------
+  &[data-variant='filled'] {
+    @include colors($container: primary, $content: on-primary);
+
+    // An unselected toggle reads as a surface, not as the accent.
+    &[data-selected='false'] {
+      @include colors($container: surface-container, $content: on-surface-variant);
+    }
+  }
+
+  &[data-variant='tonal'] {
+    @include colors($container: secondary-container, $content: on-secondary-container);
+
+    &[data-selected='true'] {
+      @include colors($container: secondary, $content: on-secondary);
+    }
+  }
+
+  &[data-variant='outlined'] {
+    @include colors($content: on-surface-variant, $outline: outline-variant);
+
+    @each $name, $width in $outline-widths {
+      &[data-size='#{$name}'] {
+        --_outline-width: #{$width};
+      }
+    }
+
+    // Selected outlined buttons invert instead of keeping an outline.
+    &[data-selected='true'] {
+      @include colors($container: inverse-surface, $content: inverse-on-surface, $outline: transparent);
+    }
+  }
+
+  &[data-variant='elevated'] {
+    @include colors($container: surface-container-low, $content: primary, $level: 1);
+
+    &[data-selected='true'] {
+      @include colors($container: primary, $content: on-primary);
+    }
+  }
+
+  &[data-variant='text'] {
+    @include colors($content: primary);
+  }
+
+  // Standard icon button: no container.
+  &[data-variant='standard'] {
+    @include colors($content: on-surface-variant);
+
+    &[data-selected='true'] {
+      @include colors($content: primary);
+    }
+  }
+
+  // ---------- Elevation on hover ----------
+  &[data-variant='filled'][data-hovered],
+  &[data-variant='tonal'][data-hovered] {
+    --m3e-elevation-level: 1;
+  }
+  &[data-variant='elevated'][data-hovered] {
+    --m3e-elevation-level: 2;
+  }
+
+  // ---------- Disabled (M3E: container on-surface 10%, content on-surface-variant 38%) ----------
+  &[data-disabled] {
+    --_content: #{m3e.translucent(on-surface-variant, 38%)};
+    --m3e-elevation-level: 0 !important;
+    cursor: default;
+
+    &:is([data-variant='filled'], [data-variant='tonal'], [data-variant='elevated']),
+    &[data-variant='outlined'][data-selected='true'] {
+      --_container: #{m3e.translucent(on-surface, 10%)};
+    }
+
+    &[data-variant='outlined'] {
+      --_outline: #{m3e.color(outline-variant)};
+    }
+  }
+}
+
+.label,
+.icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.icon {
+  width: var(--_icon);
+  height: var(--_icon);
+  flex-shrink: 0;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}
+
+.iconButton {
+  min-width: 0;
+
+  // Icon buttons use a 24px icon at S where text buttons use 20px.
+  &[data-size='s'],
+  &[data-size='m'] {
+    --_icon: 24px;
+  }
+
+  &[data-hovered] {
+    --m3e-elevation-level: 0 !important;
+  }
+}

@@ -1,0 +1,41 @@
+@use '../src/scss/api' as m3e;
+
+body {
+  background: m3e.color(surface);
+  color: m3e.color(on-surface);
+  font-family: var(--md-ref-typeface-plain);
+}
+
+// Layout helpers for the stories.
+.sb-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.sb-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sb-label {
+  @include m3e.typescale(label-medium);
+  color: m3e.color(on-surface-variant);
+  min-width: 72px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.sb-grid {
+  display: grid;
+  grid-template-columns: auto repeat(5, auto);
+  gap: 16px 20px;
+  align-items: center;
+  justify-items: start;
+}
+
+input[type='range'] {
+  accent-color: m3e.color(primary);
+}

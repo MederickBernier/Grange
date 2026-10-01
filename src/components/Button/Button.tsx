@@ -12,7 +12,7 @@ import {
   type ButtonSize,
   type IconButtonWidth,
 } from './specs';
-import styles from './Button.module.css';
+import styles from './Button.module.scss';
 
 export type ButtonVariant = 'filled' | 'tonal' | 'outlined' | 'elevated' | 'text';
 export type ToggleButtonVariant = Exclude<ButtonVariant, 'text'>;

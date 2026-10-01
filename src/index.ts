@@ -1,5 +1,5 @@
 import './tokens/generated/tokens.css';
-import './primitives/primitives.css';
+import './primitives/primitives.scss';
 
 export { M3EProvider, useSpring, useMotionScheme, toMotionDamping } from './motion/M3EProvider';
 export type { M3EProviderProps, SpringSpec } from './motion/M3EProvider';

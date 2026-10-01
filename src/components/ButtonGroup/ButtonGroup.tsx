@@ -22,8 +22,8 @@ import {
 import { buttonSizes, type ButtonSize } from '../Button/specs';
 import type { ToggleButtonVariant } from '../Button/Button';
 import { cx, useControlledState } from '../../utils';
-import buttonStyles from '../Button/Button.module.css';
-import styles from './ButtonGroup.module.css';
+import buttonStyles from '../Button/Button.module.scss';
+import styles from './ButtonGroup.module.scss';
 
 // ---------------------------------------------------------------------------
 // Standard button group: pressed item widens, neighbours make room.
