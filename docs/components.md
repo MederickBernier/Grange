@@ -183,3 +183,7 @@ CI runs both halves: `typecheck`, `test`, `build` and `build-storybook` on a pla
 check that `dist` really exports what `package.json` promises and leaves React, Motion and React
 Aria external; then the visual job inside that image, which uploads the diff images when a
 screenshot moves.
+
+Both jobs install pnpm with `pnpm/action-setup` **before** `setup-node`. That order is not a
+style choice: `cache: pnpm` finds the store by running pnpm, so pnpm has to exist by then, and
+with the steps the other way round the run fails with `Unable to locate executable file: pnpm`.

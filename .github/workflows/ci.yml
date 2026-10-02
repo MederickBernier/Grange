@@ -17,14 +17,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Before setup-node, not after: `cache: pnpm` works out where the store lives by running
+      # pnpm, so pnpm has to be on PATH by then. The version comes from package.json's
+      # packageManager field, so one place pins it.
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          # The version comes from package.json's packageManager field, so one place pins it.
           cache: pnpm
-
-      - name: Install pnpm
-        run: corepack enable
 
       - run: pnpm install --frozen-lockfile
 
@@ -57,10 +58,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install pnpm
-        run: corepack enable
-        env:
-          COREPACK_ENABLE_DOWNLOAD_PROMPT: 0
+      - uses: pnpm/action-setup@v4
 
       - run: pnpm install --frozen-lockfile
 
