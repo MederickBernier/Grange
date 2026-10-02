@@ -47,6 +47,8 @@ export type IconButtonSlot = 'root' | 'icon';
 export type GroupSlot = 'root';
 export type IconSlot = 'root';
 export type ProgressSlot = 'root' | 'track' | 'active';
+export type CheckboxSlot = 'root' | 'box' | 'label';
+export type SwitchSlot = 'root' | 'track' | 'handle' | 'label';
 export type DividerSlot = 'root';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
@@ -69,6 +71,8 @@ export interface ClassNamesConfig {
   SplitButtonTrailing?: SlotOverrides<IconButtonSlot>;
   FloatingToolbar?: SlotOverrides<GroupSlot>;
   DockedToolbar?: SlotOverrides<GroupSlot>;
+  Checkbox?: SlotOverrides<CheckboxSlot>;
+  Switch?: SlotOverrides<SwitchSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
 }
@@ -247,6 +251,8 @@ const COMPONENTS: ComponentName[] = [
   'SplitButton',
   'SplitButtonLeading',
   'SplitButtonTrailing',
+  'Checkbox',
+  'Switch',
   'FloatingToolbar',
   'DockedToolbar',
   'LinearProgress',

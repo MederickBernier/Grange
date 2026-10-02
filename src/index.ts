@@ -47,6 +47,8 @@ export type {
   IconSlot,
   DividerSlot,
   ProgressSlot,
+  CheckboxSlot,
+  SwitchSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
   BehaviorConfig,
@@ -58,6 +60,13 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { Checkbox } from './components/Checkbox/Checkbox';
+export type { CheckboxProps } from './components/Checkbox/Checkbox';
+export { checkbox } from './components/Checkbox/specs';
+export { Switch } from './components/Switch/Switch';
+export type { SwitchProps } from './components/Switch/Switch';
+export { switchSpec, handlePosition, handleSize } from './components/Switch/specs';
 
 export { FloatingToolbar, DockedToolbar } from './components/Toolbar/Toolbar';
 export type {

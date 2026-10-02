@@ -1,0 +1,107 @@
+/*
+ * Checkbox, from Compose CheckboxTokens. An 18px box with a 2px radius, a 2px outline while
+ * unselected that drops to zero and fills while selected, and a 40px round state layer behind it.
+ */
+
+@use '../../scss/api' as grange;
+
+.root {
+  --_outline: #{grange.color(on-surface-variant)};
+  --_container: transparent;
+  --_tick: transparent;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  // The state layer takes its colour from the content, as it does on every other control.
+  color: var(--_outline);
+}
+
+// Hosts the shared state layer primitive at the size the tokens give it.
+.layerHost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px; // StateLayerSize
+  height: 40px;
+  border-radius: 9999px; // StateLayerShape: CornerFull
+}
+
+.box {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px; // ContainerSize
+  height: 18px;
+  border-radius: 2px; // ContainerShape: RoundedCornerShape(2.dp)
+  border: 2px solid var(--_outline); // UnselectedOutlineWidth
+  background: var(--_container);
+  transition:
+    background-color grange.duration(short3) linear,
+    border-color grange.duration(short3) linear;
+}
+
+.tick {
+  width: 18px; // IconSize
+  height: 18px;
+  fill: var(--_tick);
+  transition: fill grange.duration(short3) linear;
+}
+
+.label {
+  @include grange.typescale(body-large);
+  color: grange.color(on-surface);
+}
+
+// ---------------------------------------------------------------------------
+// States. Hover, focus and pressed all darken the outline to on-surface.
+// ---------------------------------------------------------------------------
+
+.root[data-hovered],
+.root[data-focus-visible] {
+  --_outline: #{grange.color(on-surface)};
+}
+
+// Selected and indeterminate both fill, and the fill carries the outline so the box keeps its size.
+.root[data-selected='true'],
+.root[data-selected='mixed'] {
+  --_container: #{grange.color(primary)};
+  --_outline: #{grange.color(primary)};
+  --_tick: #{grange.color(on-primary)};
+}
+
+.root[data-error] {
+  --_outline: #{grange.color(error)};
+
+  &[data-selected='true'],
+  &[data-selected='mixed'] {
+    --_container: #{grange.color(error)};
+    --_outline: #{grange.color(error)};
+    --_tick: #{grange.color(on-error)};
+  }
+}
+
+.root[data-disabled] {
+  cursor: default;
+
+  --_outline: #{grange.translucent(on-surface, 38%)};
+
+  &[data-selected='true'],
+  &[data-selected='mixed'] {
+    --_container: #{grange.translucent(on-surface, 38%)};
+    --_outline: transparent;
+    --_tick: #{grange.color(surface)};
+  }
+
+  .label {
+    color: #{grange.translucent(on-surface, 38%)};
+  }
+}

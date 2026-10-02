@@ -1,0 +1,115 @@
+/*
+ * Switch, from Compose SwitchTokens. A 52 by 32 track with a 2px outline while off, and a handle
+ * that slides and grows. The handle's size and position are animated in JS, since they ride the
+ * selection spring.
+ */
+
+@use '../../scss/api' as grange;
+
+.root {
+  --_track: #{grange.color(surface-container-highest)};
+  --_track-outline: #{grange.color(outline)};
+  --_handle: #{grange.color(outline)};
+  --_icon: #{grange.color(surface-container-highest)};
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--_handle);
+}
+
+.track {
+  position: relative;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 52px; // TrackWidth
+  height: 32px; // TrackHeight
+  border-radius: 9999px; // TrackShape: CornerFull
+  border: 2px solid var(--_track-outline); // TrackOutlineWidth
+  background: var(--_track);
+  transition:
+    background-color grange.duration(short3) linear,
+    border-color grange.duration(short3) linear;
+}
+
+// Positioned from the track's padding box, so the border does not shift it.
+.handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px; // HandleShape: CornerFull
+  background: var(--_handle);
+  transition: background-color grange.duration(short3) linear;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px; // Selected and unselected icon size
+  height: 16px;
+  color: var(--_icon);
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}
+
+.label {
+  @include grange.typescale(body-large);
+  color: grange.color(on-surface);
+}
+
+// ---------------------------------------------------------------------------
+// States
+// ---------------------------------------------------------------------------
+
+.root[data-selected='true'] {
+  --_track: #{grange.color(primary)};
+  // A selected track has no outline, so it matches the fill rather than ringing it.
+  --_track-outline: #{grange.color(primary)};
+  --_handle: #{grange.color(on-primary)};
+  --_icon: #{grange.color(on-primary-container)};
+}
+
+.root[data-hovered]:not([data-disabled]) {
+  --_handle: #{grange.color(on-surface-variant)};
+
+  &[data-selected='true'] {
+    --_handle: #{grange.color(primary-container)};
+  }
+}
+
+.root[data-pressed]:not([data-disabled]) {
+  --_handle: #{grange.color(on-surface-variant)};
+
+  &[data-selected='true'] {
+    --_handle: #{grange.color(primary-container)};
+  }
+}
+
+.root[data-disabled] {
+  cursor: default;
+
+  --_track: #{grange.translucent(surface-container-highest, 12%)};
+  --_track-outline: #{grange.translucent(on-surface, 12%)};
+  --_handle: #{grange.translucent(on-surface, 38%)};
+
+  &[data-selected='true'] {
+    --_track: #{grange.translucent(on-surface, 12%)};
+    --_track-outline: transparent;
+    --_handle: #{grange.color(surface)};
+  }
+
+  .label {
+    color: #{grange.translucent(on-surface, 38%)};
+  }
+}
