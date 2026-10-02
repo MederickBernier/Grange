@@ -18,18 +18,18 @@ Three reference points per component:
 | | Count |
 | --- | --- |
 | In the M3 catalog | 36 |
-| Done | 22 |
-| Remaining | 14 |
+| Done | 24 |
+| Remaining | 12 |
 
 Plus `Icon`, which the catalog does not list as a component of its own although Material Web
 ships it as `md-icon`, so it is not counted above.
 
-Of the 14 remaining, split by how much of the behavior already exists:
+Of the 12 remaining, split by how much of the behavior already exists:
 
 | | Count | Meaning |
 | --- | --- | --- |
-| Dedicated React Aria hook | 5 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
-| Generic React Aria pieces only | 4 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
+| Dedicated React Aria hook | 4 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
+| Generic React Aria pieces only | 3 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
 | No React Aria support | 5 | Behavior written from scratch: badges, carousel, loading indicator, navigation bar, navigation rail |
 
 ### Done
@@ -59,6 +59,8 @@ Of the 14 remaining, split by how much of the behavior already exists:
 | Select † | Filled and outlined, floating label, rich options, real hidden select so it posts in a form |
 | Tabs | Primary and secondary, stacked or inline icons, scrollable strip, one tab stop with arrow navigation |
 | Cards | Elevated, filled and outlined; plain by default, or a button or link when given a handler |
+| Lists | One, two and three line rows, leading and trailing slots, trailing text, rows that become buttons or links, selection by composition |
+| App bars | Five sizes including the two M3E flexible ones, subtitle, leading and trailing controls, the on-scroll treatment |
 | Icon † | Sizes and colours an SVG or a Material Symbols ligature. Reads `--grange-icon-size`, so it matches whatever control it sits in. Filled axis, RTL flip |
 
 † Not a separate entry in the M3 catalog, so it is excluded from the counts.
@@ -76,6 +78,7 @@ Not components, but most of the list below is blocked on them.
 | ~~Icon~~ ✅ | | Done. The sizing contract is `--grange-icon-size`, which the buttons publish and `Icon` reads |
 | ~~Overlay layer~~ ✅ | | Done. `Overlay` portals and contains focus, `useModalOverlay` brings the scroll lock, the Escape and outside-click handling and `ariaHideOutside`. `portalContainer` on `GrangeProvider` scopes where overlays land; it is passed per overlay because React Aria's `PortalProvider` is still an `UNSAFE_` export |
 | ~~Positioning~~ ✅ | | Done for tooltips via `useOverlayPosition`, which flips when there is no room. Menus and select will reuse the same hook |
+| **List selection** | `List` is semantic markup rather than a listbox, since a row is content and `Select` already owns the listbox role. Selection is a `Checkbox` or `Radio` in a slot, which is how the spec draws it | A keyboard-navigable selectable list would want `useListBox` or `useGridList`, and is not built |
 | **Menu semantics** | `FabMenu` still carries its own roving focus rather than the collection, so it has no typeahead | `useMenu` is in now, so FabMenu can move onto it |
 | ~~State layer~~ ✅ | | Done. `react-stately` is a direct dependency and externalised from the bundle, which unblocks every remaining control that needs state: radio, slider, select, menus, tabs |
 | ~~Collections~~ ✅ | | Done through `Menu`. Items are described with `Item` and read by `useTreeState`, which is what pays for typeahead. The identifier is the React `key`, not an `id` prop, which is this API's convention and is documented on `MenuItem`. Select, Lists and Tabs reuse the same shape |
@@ -109,7 +112,6 @@ counts above.
 
 | Component | M3E | Material Web | React Aria | Capabilities needed |
 | --- | --- | --- | --- | --- |
-| App bars | ✅ | | `useLandmark` | Small / medium / large / center-aligned, scroll-driven collapse, leading and trailing actions |
 | Navigation bar | ✅ | | — | Bottom bar, 3 to 5 destinations, active indicator, badges. M3E restyled it |
 | Navigation rail | ✅ | | — | Vertical, collapsed and expanded, optional FAB and menu slots. M3E restyled it |
 | Navigation drawer | | | `useModalOverlay` | Standard and modal, sections with headlines and dividers, badges |
@@ -123,7 +125,6 @@ counts above.
 
 | Component | M3E | Material Web | React Aria | Capabilities needed |
 | --- | --- | --- | --- | --- |
-| Lists | | ✅ | `useListBox`, `useGridList` | One / two / three line, leading and trailing slots, dividers, selection, keyboard navigation |
 | Badges | | | — | Small dot and large numbered, positioned on an icon or a nav item |
 | Carousel | | | custom | Multi-browse / uncontained / hero / full-screen layouts, snapping, keyboard and drag. No React Aria hook |
 | Loading indicator | ✅ | | custom | M3E's shape-morphing indicator for waits under five seconds. Needs the shape library. New in M3E |
@@ -142,7 +143,7 @@ Each phase is useful on its own and unblocks the next.
 1. ~~**Foundations**~~ — done: `Icon`, `Divider`, link rendering and form props on `ButtonBase`, RTL.
 2. ~~**Form controls**~~ — done: Checkbox, Switch, Radio button, Sliders, Text fields. A checkbox group still wants `useCheckboxGroup` for shared validation, and the text field has no password reveal yet.
 3. ~~**Overlay infrastructure plus its components**~~ — done: the portal and positioning layer, Dialogs, Tooltips, Menus, Select and Snackbar. — the portal and positioning layer, then Dialogs, Menus, Select, Tooltips, Snackbar. One hard piece of plumbing, then five components come cheaply.
-4. **Navigation and structure** — ~~Toolbars~~, ~~Tabs~~, ~~Cards~~, then App bars, Navigation bar / rail / drawer, Lists. Lists reuses the collection; the drawer reuses the overlay layer. ← next
+4. **Navigation and structure** — ~~Toolbars~~, ~~Tabs~~, ~~Cards~~, ~~Lists~~, ~~App bars~~, then Navigation bar / rail / drawer, where the drawer reuses the overlay layer. ← next
 5. **M3E signature pieces** — ~~FAB~~, ~~Split button~~, ~~Progress indicators~~, ~~Extended FAB~~, ~~FAB menu~~, then the Loading indicator, which still wants the shape library. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
 6. **Long tail** — Chips, Search, Badges, Bottom and Side sheets, Date and Time pickers, Carousel.
 
