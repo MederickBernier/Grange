@@ -38,6 +38,7 @@ Dark mode follows `prefers-color-scheme`; force it with `data-theme="dark"` (or 
 | Motion | `GrangeProvider` (expressive / standard scheme, reduced-motion aware), `useSpring(name)` for the six M3E springs |
 | Primitives | State layer, ripple, focus ring, elevation, 48px touch target (`src/primitives`), and `ButtonBase`, the shared interactive core |
 | Components | One per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single / multi select) |
+| Roadmap | [`docs/components.md`](docs/components.md) — the full M3 catalog, what is done, and what each remaining component needs |
 | Storybook | Every component and state, light/dark and expressive/standard toolbar switches, and **Foundations / Motion playground** for tuning springs live |
 
 ## Component API
@@ -219,6 +220,16 @@ Springs are tuned in the Motion playground story. The "Changed values" panel the
 2. Build it on `ButtonBase` (or the primitives directly) so it gets press, hover, focus, ripple and state layers for free.
 3. Give it one component per variant, built on `ButtonBase`. Colors only via `grange.color(<role>)`, never hex. Corners via `grange.corner()` or `shapeCorner`, springs via `useSpring`.
 4. Add a story covering every variant, size, state, and dark mode.
+
+## What's missing
+
+Four of the 36 components in the Material 3 catalog are done: buttons, icon buttons, button
+groups and (through `ConnectedButtonGroup`) segmented buttons. Of the 32 remaining, 18 have a
+dedicated React Aria hook, so their behavior and accessibility are already solved; 6 have no
+React Aria support at all.
+
+See [`docs/components.md`](docs/components.md) for the full catalog, what each remaining
+component needs, and the foundations most of them are blocked on.
 
 ## Known gaps
 
