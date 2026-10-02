@@ -52,6 +52,7 @@ export type {
   RadioSlot,
   SliderSlot,
   TextFieldSlot,
+  NumberFieldSlot,
   DialogSlot,
   TooltipSlot,
   RichTooltipSlot,
@@ -197,6 +198,24 @@ export type {
   TextFieldVariant,
 } from './components/TextField/TextField';
 export { textField, counterText } from './components/TextField/specs';
+export { MaskedTextField } from './components/TextField/MaskedTextField';
+export type { MaskedTextFieldProps } from './components/TextField/MaskedTextField';
+export { applyMask, unmask, maskCapacity, MASK_RULES } from './components/TextField/mask';
+export type { MaskApplication } from './components/TextField/mask';
+export { FieldShell } from './components/TextField/FieldShell';
+export type {
+  FieldShellProps,
+  FieldShellClasses,
+  FieldShellState,
+} from './components/TextField/FieldShell';
+
+export {
+  NumberField,
+  FilledNumberField,
+  OutlinedNumberField,
+} from './components/NumberField/NumberField';
+export type { NumberFieldProps, VariantNumberFieldProps } from './components/NumberField/NumberField';
+export { numberField } from './components/NumberField/specs';
 
 export { RadioGroup, Radio } from './components/Radio/Radio';
 export type { RadioGroupProps, RadioProps } from './components/Radio/Radio';
