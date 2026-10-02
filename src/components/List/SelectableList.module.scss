@@ -1,0 +1,56 @@
+/*
+ * A selectable list is a List whose rows are options, so it borrows List's row geometry from
+ * ListTokens and only adds what being a control needs: a focus ring, a pointer, and the
+ * horizontal strip.
+ */
+
+@use '../../scss/api' as grange;
+
+.list {
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.item {
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+
+  // The row is the focus target, so the ring goes on the row rather than on something inside it.
+  &[data-focus-visible] {
+    outline: 2px solid grange.color(primary);
+    outline-offset: -2px;
+  }
+
+  &[data-disabled] {
+    cursor: default;
+  }
+}
+
+/*
+ * Turned on its side: a scrolling strip whose items snap, which is the selectable counterpart to
+ * the carousel. The rows keep their own height and stop filling the width.
+ */
+.list[data-orientation='horizontal'] {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+
+  .item {
+    flex: 0 0 auto;
+    min-width: 160px;
+    scroll-snap-align: start;
+    border-radius: 16px; // as a contained list does: ContainerShape CornerLarge
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .list[data-orientation='horizontal'] {
+    scroll-behavior: auto;
+  }
+}

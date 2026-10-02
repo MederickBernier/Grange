@@ -69,6 +69,7 @@ export type SelectSlot = 'root' | 'trigger' | 'label' | 'item';
 export type TabsSlot = 'root' | 'list' | 'tab' | 'panel';
 export type CardSlot = 'root';
 export type ListSlot = 'root' | 'item' | 'label';
+export type SelectableListSlot = 'root' | 'item' | 'label';
 export type AppBarSlot = 'root' | 'title' | 'subtitle' | 'leading' | 'actions';
 export type NavigationSlot = 'root';
 export type DrawerSlot = 'root' | 'scrim';
@@ -118,6 +119,7 @@ export interface ClassNamesConfig {
   Card?: SlotOverrides<CardSlot>;
   List?: SlotOverrides<ListSlot>;
   ListItem?: SlotOverrides<ListSlot>;
+  SelectableList?: SlotOverrides<SelectableListSlot>;
   AppBar?: SlotOverrides<AppBarSlot>;
   NavigationBar?: SlotOverrides<NavigationSlot>;
   NavigationRail?: SlotOverrides<NavigationSlot>;
@@ -212,6 +214,7 @@ export interface DefaultPropsConfig {
   RichTooltip?: { placement?: 'top' | 'bottom' | 'start' | 'end'; persistent?: boolean };
   Tabs?: { variant?: 'primary' | 'secondary'; scrollable?: boolean };
   Card?: { variant?: 'elevated' | 'filled' | 'outlined' };
+  SelectableList?: { orientation?: 'vertical' | 'horizontal'; selectionMode?: 'single' | 'multiple' };
   AppBar?: {
     size?: 'small' | 'medium' | 'large' | 'mediumFlexible' | 'largeFlexible';
     centered?: boolean;
@@ -365,6 +368,7 @@ const COMPONENTS: ComponentName[] = [
   'Card',
   'List',
   'ListItem',
+  'SelectableList',
   'AppBar',
   'NavigationBar',
   'NavigationRail',

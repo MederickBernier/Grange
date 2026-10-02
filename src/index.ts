@@ -60,6 +60,7 @@ export type {
   TabsSlot,
   CardSlot,
   ListSlot,
+  SelectableListSlot,
   AppBarSlot,
   NavigationSlot,
   DrawerSlot,
@@ -148,6 +149,8 @@ export { navigationBar, navigationRail, navigationItem } from './components/Navi
 export type { NavigationArrangement } from './components/Navigation/specs';
 
 export { List, ListItem } from './components/List/List';
+export { SelectableList, SelectableListItem } from './components/List/SelectableList';
+export type { SelectableListProps, SelectableListItemProps } from './components/List/SelectableList';
 export type { ListProps, ListItemProps } from './components/List/List';
 export { list, rowHeight } from './components/List/specs';
 export { AppBar } from './components/AppBar/AppBar';
