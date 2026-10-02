@@ -33,7 +33,8 @@
     "capture-tokens": "tsx scripts/capture-tokens.mts",
     "test": "pnpm tokens && vitest run",
     "storybook": "pnpm tokens && storybook dev -p 6006",
-    "build-storybook": "pnpm tokens && storybook build -o storybook-static"
+    "build-storybook": "pnpm tokens && storybook build -o storybook-static",
+    "capture-shapes": "tsx scripts/capture-shapes.mts"
   },
   "peerDependencies": {
     "react": ">=18.2",
