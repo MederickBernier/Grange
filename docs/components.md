@@ -129,8 +129,11 @@ The catalog is finished, and so is the gap list that followed it, with two thing
 written down above: `useGridList`, for a row that carries its own controls, and the horizontal
 listbox arrows upstream does not wire up, which `SelectableList` works around.
 
-The next step is the one the README has claimed from the start: Playwright screenshots of the
-stories, so a change to a token or a stylesheet cannot silently redraw a component.
+That step is done too: `pnpm visual` shoots all 146 stories in both colour schemes and compares
+them against `visual/__screenshots__`, which is the only check here that notices a token or a
+stylesheet quietly redrawing something. What stands in its way now is not coverage but
+portability — the baselines belong to the machine that took them, because nothing loads a
+webfont, so the next real step is a pinned container image to take them in.
 
 ## Before building any of them
 
@@ -138,3 +141,31 @@ The recipe in the README still applies: read the component's spec section, pull 
 file for sizes, colors and shapes, build on `ButtonBase` or the primitives, reference tokens only
 through `grange.color()` and friends, and add a story covering every variant, size, state and
 dark mode. The capability lists above are a scope sketch, not a substitute for the token files.
+
+## Visual regression
+
+`pnpm visual` builds Storybook, serves the static build, and takes a picture of every story in
+both colour schemes, comparing each against `visual/__screenshots__`. `pnpm visual:update`
+rewrites the baselines.
+
+The reason it exists is that no other check here would notice: change a token, a stylesheet or a
+shape and every unit test still passes while the component is drawn differently. A deliberate
+probe confirmed it works — adding `letter-spacing: 0.08em` to the button label moved 2 to 3% of
+the pixels in the button stories and failed them, and reverting it went green again.
+
+Determinism comes from three settings rather than from luck:
+
+| | Why |
+| --- | --- |
+| `reducedMotion: 'reduce'` | Components that animate on mount settle immediately, and the loading indicator holds one shape instead of morphing, because it reads the same media query |
+| `animations: 'disabled'` | Freezes CSS animations and transitions at their end state, which covers the indeterminate progress indicators |
+| A pinned viewport and device scale factor | A screenshot is only comparable with another taken the same size |
+
+With those, nothing needed excluding: the indeterminate progress indicators, the morphing loading
+indicator and the motion playground were each checked over three runs and left in. The skip list
+in `visual/stories.spec.ts` is empty and kept for the first story that does need it.
+
+The one thing not pinned is the font. The typeface tokens fall back to the system sans and nothing
+loads a webfont, so the baselines belong to the machine that took them. Playwright suffixes them
+with the platform, which is not enough on its own: two Linux machines with different fonts
+installed will still disagree. A container image is the fix and is not set up here.
