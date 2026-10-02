@@ -59,7 +59,7 @@ What is left is not components but depth: the gaps recorded below, and the ones 
 | Select † | Filled and outlined, floating label, rich options, real hidden select so it posts in a form |
 | Tabs | Primary and secondary, stacked or inline icons, scrollable strip, one tab stop with arrow navigation |
 | Cards | Elevated, filled and outlined; plain by default, or a button or link when given a handler |
-| Lists | One, two and three line rows, leading and trailing slots, trailing text, rows that become buttons or links, selection by composition |
+| Lists | Two kinds. `List` is markup: one, two and three line rows, leading and trailing slots, trailing text, rows that become buttons or links, selection by composition. `SelectableList` is a listbox: single or multiple selection, `onAction`, typeahead, disabled rows by key, vertical or a horizontal snapping strip |
 | App bars | Five sizes including the two M3E flexible ones, subtitle, leading and trailing controls, the on-scroll treatment |
 | Navigation bar | Stacked or inline items, the taller bar, badges, selected icons, links or buttons, aria-current |
 | Navigation rail | Collapsed at 96 or 80px, expanded inline within the tokens' 220 to 360px range, header slot |
@@ -102,7 +102,8 @@ Not components, but most of the list below is blocked on them.
 | ~~Clock dial~~ ✅ | Done. `TimePicker` is the dial mode, on the captured TimePickerTokens: a 256px face, a 48px handle, the hour and minute boxes and the AM/PM selector, with `TimeField` as the other mode behind the same value | It is a circular slider and says so, `role="slider"` with an `aria-valuetext`. The obvious markup — a ring of twelve buttons — would give a keyboard user twelve tab stops and no way to set a minute that is not a multiple of five. The face's arithmetic is in `dial.ts` and tested on its own |
 | ~~Carousel tokens~~ ✅ | Resolved as far as it can be. There is no CarouselTokens object either: the Compose carousel keeps its dimensions in its own implementation rather than in a generated token file | The sizes are the spec page's, each one labelled in `specs.ts` with the part of the spec it comes from. The one tokenised value is the corner, CornerExtraLarge at 28px |
 | ~~Scoped hook classes~~ ✅ | Fixed, and it had been wrong since the drawer landed. Every class in a `*.module.scss` is scoped, including one named after another component's hook class, so `.grange-navigation-item` compiled to `grange-grange-navigation-item-xxxx` and matched nothing: the drawer's item resizing never applied, and the vibrant toolbar's button colours never applied | They are `:global()` now, and `src/styles.test.ts` fails the build on an unwrapped one. Nothing else would catch it — the stylesheet compiles, the rule is simply dead |
-| **Carousel semantics** | The carousel is a scroll region: `role="group"` with `aria-roledescription="carousel"`, a tab stop, and arrow keys that move a whole item. It is deliberately not a listbox, so it has no selection, no typeahead and no active item | Most of its behavior is the platform's on purpose — CSS scroll snapping already brings touch dragging, the wheel, momentum and the scrollbar. A collection-backed version would want `useListBox`, and would be the same decision the List faces |
+| ~~Carousel semantics~~ ✅ | Resolved by composition rather than by rewriting it. The carousel stays a scroll region — `role="group"` with `aria-roledescription="carousel"`, a tab stop, arrow keys that move a whole item — because browsing is not choosing, and an ARIA listbox means a set of options | A strip of items to choose from is `SelectableList` with `orientation="horizontal"`: the same CSS scroll snapping, but each item is an option with a selected state. Making `Carousel` itself a collection would have changed its children into keyed descriptors to buy semantics that are wrong for browsing |
+| **Horizontal listbox arrows** | React Aria's `useListBox` does not pass the text direction into the keyboard delegate it builds, so a horizontal listbox resolves both left-of and right-of to "next": it walks forwards on either arrow and cannot be walked back | `SelectableList` builds its own `ListKeyboardDelegate` with the direction from `useLocale`, which fixes it and carries the collator for typeahead at the same time. Worth revisiting whenever react-aria is upgraded |
 | ~~Shape library~~ ✅ | Done, all 35 of them. `shapeLibrary` in the token file is 35 **names** and no geometry, so `pnpm capture-shapes` reads the real definitions out of MaterialShapes.kt instead, and `src/shapes` is a port of the rounded-polygon geometry in `androidx.graphics.shapes`: a vertex list with a radius and a smoothing per corner becomes a closed list of cubics | `Morph` is deliberately not ported. Matching the features of two shapes to decide which corner becomes which is the other half of that library; the loading indicator flattens and resamples each outline to the same number of points and interpolates those, which is why a twelve-cornered shape can become a triangle without a side collapsing |
 
 ## Remaining components
@@ -120,11 +121,16 @@ Each phase is useful on its own and unblocks the next.
 1. ~~**Foundations**~~ — done: `Icon`, `Divider`, link rendering and form props on `ButtonBase`, RTL.
 2. ~~**Form controls**~~ — done: Checkbox, `CheckboxGroup`, Switch, Radio button, Sliders, Text fields including the password reveal.
 3. ~~**Overlay infrastructure plus its components**~~ — done: the portal and positioning layer, Dialogs, Tooltips (plain and rich), Menus (all three styles), Select and Snackbar. — the portal and positioning layer, then Dialogs, Menus, Select, Tooltips, Snackbar. One hard piece of plumbing, then five components come cheaply.
-4. ~~**Navigation and structure**~~ — done: Toolbars, Tabs, Cards, Lists, App bars, Navigation bar, Navigation rail, Navigation drawer.
+4. ~~**Navigation and structure**~~ — done: Toolbars, Tabs, Cards, Lists (both kinds), App bars, Navigation bar, Navigation rail, Navigation drawer.
 5. ~~**M3E signature pieces**~~ — done: FAB, Split button, Progress indicators, Extended FAB, FAB menu, Loading indicator, and the shape library the last of those wanted. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
 6. ~~**Long tail**~~ — done: Bottom sheets, Chips, Badges, Search, Loading indicator, Date pickers, Time pickers, the Carousel and Side sheets. The last two had neither a React Aria hook nor a token file, so both their behavior and their numbers are ours and labelled as such.
 
-The catalog is finished. What is left is the depth recorded in the gaps above: a selectable keyboard-navigable list, and a carousel that is a collection rather than a scroll region. Both are the same decision in different places — whether a component is a React Aria collection or markup — and the FabMenu row above records what that trade actually costs.
+The catalog is finished, and so is the gap list that followed it, with two things left open and
+written down above: `useGridList`, for a row that carries its own controls, and the horizontal
+listbox arrows upstream does not wire up, which `SelectableList` works around.
+
+The next step is the one the README has claimed from the start: Playwright screenshots of the
+stories, so a change to a token or a stylesheet cannot silently redraw a component.
 
 ## Before building any of them
 

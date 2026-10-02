@@ -39,7 +39,7 @@ Dark mode follows `prefers-color-scheme`; force it with `data-theme="dark"` (or 
 | Motion | `GrangeProvider` (expressive / standard scheme, reduced-motion aware), `useSpring(name)` for the six M3E springs |
 | Shapes | `src/shapes` — a port of the rounded-polygon geometry in androidx.graphics.shapes, and all 35 M3E shapes by name: `shapePath(shape('Heart'), { size: 48 })`. `Morph` is not ported; the loading indicator interpolates resampled outlines instead |
 | Primitives | State layer, ripple, focus ring, elevation, 48px touch target (`src/primitives`), and `ButtonBase`, the shared interactive core. `Icon` sizes itself from `--grange-icon-size`; `Divider` is horizontal or vertical, full-width or inset |
-| Components | `Fab` (4 sizes × 4 colours), `ExtendedFab` (3 sizes, collapsible), `FabMenu`, `SplitButton` (5 sizes, expandable trailing half), `FloatingToolbar` and `DockedToolbar`, `Checkbox` (with indeterminate) and `CheckboxGroup`, `Switch`, `RadioGroup`, `Slider` (single or range), `FilledTextField` and `OutlinedTextField` (with the password reveal), `Dialog`, `Tooltip` and `RichTooltip`, `Menu` (sections, selection, typeahead, and the M3E standard and vibrant restyles), `Select`, `Snackbar`, `Tabs` (primary and secondary), `Card`, `List`, `AppBar` (five sizes), `NavigationBar`, `NavigationRail`, `NavigationDrawer`, `BottomSheet`, `Chip` (four kinds), `Badge`, `Search` and `LoadingIndicator` (morphing through the real shape library), `Calendar` and `RangeCalendar` (the date picker, docked or in a `Dialog`), `TimeField` and `TimePicker` (the clock dial), `SideSheet` (modal or standard, resizable), `Carousel` (four layouts), `LinearProgress` and `CircularProgress` (determinate or indeterminate, flat or M3E wavy), and one button per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single / multi select) |
+| Components | `Fab` (4 sizes × 4 colours), `ExtendedFab` (3 sizes, collapsible), `FabMenu`, `SplitButton` (5 sizes, expandable trailing half), `FloatingToolbar` and `DockedToolbar`, `Checkbox` (with indeterminate) and `CheckboxGroup`, `Switch`, `RadioGroup`, `Slider` (single or range), `FilledTextField` and `OutlinedTextField` (with the password reveal), `Dialog`, `Tooltip` and `RichTooltip`, `Menu` (sections, selection, typeahead, and the M3E standard and vibrant restyles), `Select`, `Snackbar`, `Tabs` (primary and secondary), `Card`, `List` and `SelectableList` (a listbox, vertical or a horizontal snapping strip), `AppBar` (five sizes), `NavigationBar`, `NavigationRail`, `NavigationDrawer`, `BottomSheet`, `Chip` (four kinds), `Badge`, `Search` and `LoadingIndicator` (morphing through the real shape library), `Calendar` and `RangeCalendar` (the date picker, docked or in a `Dialog`), `TimeField` and `TimePicker` (the clock dial), `SideSheet` (modal or standard, resizable), `Carousel` (four layouts), `LinearProgress` and `CircularProgress` (determinate or indeterminate, flat or M3E wavy), and one button per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single / multi select) |
 | Roadmap | [`docs/components.md`](docs/components.md) — the full M3 catalog, all 36 of it built, and the recorded gaps behind it |
 | Storybook | Every component and state, light/dark and expressive/standard toolbar switches, and **Foundations / Motion playground** for tuning springs live |
 
@@ -243,13 +243,14 @@ All 36 components in the Material 3 catalog are done, and the form controls, the
 overlay layer and the navigation set are all complete: buttons, icon buttons, button groups, (through `ConnectedButtonGroup`)
 segmented buttons, `Divider`, `Fab`, `ExtendedFab`, `FabMenu`, `SplitButton`, the toolbars, the
 progress indicators, `Checkbox`, `Switch`, `RadioGroup`, `Slider`, the text fields, `Dialog` and
-`Tooltip` and `RichTooltip`, `Menu`, `Select`, `Snackbar`, `Tabs`, `Card`, `List`, `AppBar`, `NavigationBar` and
+`Tooltip` and `RichTooltip`, `Menu`, `Select`, `Snackbar`, `Tabs`, `Card`, `List` and `SelectableList`, `AppBar`, `NavigationBar` and
 `NavigationRail`, `NavigationDrawer`, `BottomSheet`, `Chip`, `Badge`, `Search` and
 `LoadingIndicator`, `Calendar`, `RangeCalendar`, `TimeField` and `TimePicker` (the clock dial), `SideSheet` and `Carousel`, plus
 `Icon`, which the catalog does not list separately.
 
-What is left is depth rather than breadth, and it is all written down: a selectable
-keyboard-navigable list, and a collection-backed carousel.
+Two things are left open and written down in the roadmap: `useGridList`, for a selectable row
+that carries its own controls, and the horizontal-listbox arrow keys React Aria does not wire up,
+which `SelectableList` works around by building its own keyboard delegate.
 
 See [`docs/components.md`](docs/components.md) for the full catalog and the gap list behind it.
 
@@ -260,6 +261,7 @@ See [`docs/components.md`](docs/components.md) for the full catalog and the gap 
 - The side sheet and the carousel are the only two components whose geometry is not captured from androidx, because Compose publishes no token file for either: `SheetSideTokens` and `CarouselTokens` do not exist. Their numbers come from the spec pages and every one is labelled in `specs.ts`. The side sheet borrows `NavigationDrawerTokens`, and a test asserts the two stay equal.
 - The carousel is a scroll region rather than a listbox on purpose, so it has no selection, typeahead or active item. CSS scroll snapping gives it touch dragging, the wheel, momentum and a scrollbar for free; a collection-backed version would want `useListBox`.
 - A class in a `*.module.scss` named after another component's stable hook class has to be wrapped in `:global()`, or it is scoped and the rule silently never applies. `src/styles.test.ts` fails the build on an unwrapped one.
+- `SelectableList` is a listbox, so a row cannot contain its own controls: ARIA does not allow a control inside an option. That row belongs in `List` with a `Checkbox` in its slot. A `useGridList` version, which is the pattern that does allow it, is not built.
 - No visual regression tests yet. Playwright screenshots of the stories are the planned next step.
 
 See `NOTICE` for Apache 2.0 attributions (Material Web, Jetpack Compose).
