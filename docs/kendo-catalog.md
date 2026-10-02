@@ -1,0 +1,270 @@
+# The KendoReact catalog, mapped
+
+## Context
+
+`ComponentsList.txt` is KendoReact's full component catalog: 42 categories, 145 lines, 144
+distinct components (`SmartPasteButton` is listed twice, once misspelled). It is a scope list for
+Grange, not an API to copy — Kendo is a different design system and a different kind of product,
+weighted towards data-heavy enterprise widgets where Grange is a Material 3 Expressive library.
+
+So the list is read as a **checklist**: what does an app need that Grange does not have yet. The
+names stay Material's, with the mapping table below to read the list against.
+
+This is the second catalog the project tracks. [`components.md`](components.md) is the Material 3
+catalog, which is complete at 36 of 36; this one continues from there.
+
+### The four decisions behind this plan
+
+| | |
+| --- | --- |
+| **The ten products are out** | Data Grid, TreeList, PivotGrid, Spreadsheet, Scheduler, Gantt, TaskBoard, PDF Viewer, Map and Editor are each weeks of work and each is a product rather than a component. The rest of the catalog comes first |
+| **Gauges and the sparkline only** | The four gauges and the sparkline are plain SVG with no new dependencies. The other 23 chart types are a charting library's job |
+| **Only the cheap utilities** | Data Query and Date Math as small typed utilities, because the pickers and the collections want them anyway. Excel export, PDF generation, the file saver and the drawing library stay out |
+| **Material names, with a mapping** | `Select`, not `DropDownList`. The table below is how the Kendo list is read |
+
+### What this costs in design, not just code
+
+Material 3 has a spec for almost none of this. There is no `StepperTokens`, no `SplitterTokens`,
+no `ColorPickerTokens`. `pnpm capture-tokens` will have nothing to read for most of these
+components, so their geometry has to be **chosen from the M3 primitives** — the colour roles,
+shape scale, type scale, elevation levels and motion springs that are already captured — rather
+than read out of androidx.
+
+That is the same position the carousel and the side sheet were in, and the precedent they set
+applies: every chosen value is labelled in `specs.ts` with where it came from, and where a
+tokenised neighbour exists it wins over the spec page. A few examples of neighbours worth
+borrowing: `Avatar` takes `ListTokens`' 40px avatar, `ExpansionPanel` takes the card and list
+tokens, `Pager` takes the icon button's geometry, the gauges take the progress indicators'
+track and stop-indicator values.
+
+## Status
+
+| | Count |
+| --- | --- |
+| Distinct components in the list | 144 |
+| Already covered by Grange | 45 |
+| In scope, to build | 56 (across 7 phases) |
+| Out of scope, recorded with a reason | 43 |
+
+At the project's established pace — two components a round, each round ending in a fresh-clone
+verification — the 56 are roughly 28 rounds. The three buckets are exhaustive and do not overlap:
+45 + 56 + 43 = 144.
+
+## Already covered
+
+Grange has these under a Material name. Nothing to build; this table is the mapping.
+
+| Kendo | Grange |
+| --- | --- |
+| Animation | `GrangeProvider` plus `useSpring`, over the M3E motion schemes |
+| Button | `Button`, and one component per variant as Material Web ships them |
+| Button Group | `ButtonGroup`, with the pressed item widening 15% |
+| Chip / ChipList | `Chip` (four kinds) / `ChipGroup` |
+| Floating Action Button | `Fab`, `ExtendedFab`, `FabMenu` |
+| SegmentedControl | `ConnectedButtonGroup`, single select as a radiogroup |
+| SplitButton | `SplitButton`, five sizes |
+| Toolbar | `FloatingToolbar`, `DockedToolbar` |
+| Calendar | `Calendar`, `RangeCalendar` |
+| TimePicker | `TimePicker` (the dial) and `TimeField` (the input) |
+| Dialog | `Dialog` |
+| DropDownList | `Select` |
+| Badge | `Badge` |
+| Loader | `LoadingIndicator`, `CircularProgress` |
+| Checkbox | `Checkbox`, `CheckboxGroup` |
+| Input / TextBox / TextArea | `TextField`, `FilledTextField`, `OutlinedTextField`, `multiline` |
+| RadioButton / RadioButtonGroup | `Radio` / `RadioGroup` |
+| Slider / RangeSlider | `Slider`, single or range |
+| Switch | `Switch` |
+| Error / Hint / Label / Floating Label | `TextField`'s `errorText`, `supportingText` and `label` slots |
+| ActionSheet | `BottomSheet` |
+| AppBar | `AppBar`, five sizes including the two M3E flexible ones |
+| BottomNavigation | `NavigationBar` |
+| Card | `Card` |
+| Drawer | `NavigationDrawer`, and `SideSheet` for content |
+| Menu | `Menu`, `MenuTrigger`, `MenuSection`, three styles |
+| TabStrip | `Tabs` |
+| ListView | `List`, `ListItem`. Paging arrives with `Pager` |
+| Notification | `SnackbarRegion` |
+| Icon & SvgIcon | `Icon` |
+| Keyboard Navigation | React Aria, in every component |
+| Typography | The type tokens and the `typescale()` Sass mixin |
+| ProgressBar | `LinearProgress`, flat or M3E wavy |
+| Ripple | `Ripple` |
+| ScrollView (Carousel) | `Carousel`, four layouts |
+| Tooltip | `Tooltip`, and `RichTooltip` for the rich variant |
+
+## In scope
+
+Every hook named below was checked against the installed `react-aria@3.52.1` and
+`react-stately@3.42.1` — they all exist. A component with a hook is mostly tokens, CSS and
+motion; a component without one carries its own behaviour and is marked.
+
+### Phase 1 — Finish the fields
+
+Forms are the biggest hole: the catalog has seventeen inputs and Grange has nine of them.
+
+| Component | Behaviour | Notes |
+| --- | --- | --- |
+| `NumberField` (NumericTextBox) | `useNumberField` | Locale-aware parsing, step buttons, min/max, currency and percent formats |
+| `MaskedTextField` (MaskedTextBox) | ours | No hook. Pattern mask, caret management, paste handling. The one genuinely fiddly input |
+| `Rating` | ours | No hook. A radiogroup of stars underneath, half values, hover preview, read-only |
+| `Signature` | ours | Canvas, pointer and stylus pressure, undo, export to data URL. Keyboard cannot draw, so it needs a stated alternative |
+| `Form`, `FormElement`, `FormField` (FieldWrapper), `FieldArray` | ours | Deliberately small: wiring, validation on submit or change, and error association. Not a form-state library — an app wanting one brings it |
+
+While this phase is open it is also the moment to export standalone `Label`, `Hint` and
+`ErrorText` on `useLabel` and `useField`. They are not catalog items — `TextField` already
+renders all three — but a custom field has nothing to reuse without them.
+
+### Phase 2 — Dropdowns and the popover surface
+
+| Component | Behaviour | Notes |
+| --- | --- | --- |
+| `Popover` (Popup) | `usePopover` | Already exists internally behind `Menu` and `Select`; this makes it public, with placement, offset and the non-modal option |
+| `ComboBox` | `useComboBox` | Editable text plus a filtered listbox. The base the next two build on |
+| `Autocomplete` | `useAutocomplete` | A text field that suggests, without the listbox owning the value |
+| `MultiSelect` | `useListBox` + `useTagGroup` | Selected values as removable chips, which is what `useTagGroup` is for |
+| `MultiColumnComboBox` | `useComboBox` | Same behaviour, a tabular popover |
+| `MenuButton` (DropDownButton) | `useMenuTrigger` | A button whose press opens a menu. Small, and it already exists inside `SplitButton` |
+| `ContextMenu` | `useContextMenu` | Right-click and the keyboard's context key, plus submenus through `useSubmenuTrigger` |
+
+### Phase 3 — Finish the date and time set
+
+| Component | Behaviour | Notes |
+| --- | --- | --- |
+| `DateField` (DateInput) | `useDateField` | The segmented date entry, which is `TimeField`'s sibling |
+| `DatePicker` | `useDatePicker` | `DateField` plus the calendar in a popover. The docked picker the M3 spec draws |
+| `DateRangePicker` | `useDateRangePicker` | Two fields and `RangeCalendar` |
+| `DateTimePicker` | `useDatePicker` | One control for both, which is a granularity on the same hook |
+| `MultiViewCalendar` | `useCalendar` | Two or three months side by side, via `visibleDuration` |
+| Date Math | utility | `@internationalized/date` is already a dependency and does most of it; this is the thin layer over it the pickers want |
+
+### Phase 4 — Layout and navigation
+
+| Component | Behaviour | Notes |
+| --- | --- | --- |
+| `Avatar` | — | Image, initials or icon, three sizes. Trivial, and `ListTokens` has the 40px |
+| `Skeleton` | — | Shimmer over the shape tokens, held still under reduced motion |
+| `Breadcrumbs` | `useBreadcrumbs` | Collapsing to a menu when the trail is too long for the row |
+| `ExpansionPanel` | `useDisclosure` | One panel |
+| `Accordion` (PanelBar) | `useDisclosureGroupState` | A set of them, single or multiple open |
+| `Timeline` | — | Presentational, horizontal or vertical, alternating sides |
+| `Grid` / `Stack` | — | CSS-only layout primitives. They need a spacing scale, and there is not one: the token file has colour, shape, type, elevation, motion and state-layer opacity, and no spacing at all. So this is also where a scale gets chosen — M3 lays out on a 4dp grid, which is the obvious basis — and it has to be a named, overridable set rather than numbers inlined per component |
+| `Stepper` | ours | No hook. Linear and non-linear, horizontal and vertical, per-step validity |
+| `Splitter` | ours | `role="separator"` with `aria-valuenow`, drag and arrow keys — the same pattern `SideSheet`'s resize handle already uses |
+| `Window` | `useDialog` | A non-modal dialog that can be dragged, resized, minimised and maximised |
+| `TileLayout` | `useDrag`/`useDrop` | A reorderable, resizable grid of cards. The largest thing in this phase |
+
+### Phase 5 — Collections and data tools
+
+| Component | Behaviour | Notes |
+| --- | --- | --- |
+| `TreeView` | `useTree`, `useTreeState` | Expand and collapse, selection, typeahead. `useTreeData` handles the mutable case |
+| `DropDownTree` / `MultiSelectTree` | `useComboBox` + `useTree` | A tree in a popover, single or multiple |
+| `Sortable` | `useDraggableCollection`, `useDroppableCollection` | Reordering with a keyboard path, which drag-and-drop usually lacks |
+| `TransferList` (ListBox) | `useListBox` | Kendo's ListBox is two lists and the buttons that move items between them. `SelectableList` already covers a plain one, so this is the transfer part |
+| `Pager` | `useButton`, `Select` | Page size, jump to page, and the "1–10 of 240" summary |
+| `FilterBuilder` (Filter) | ours | Nested and/or groups over field, operator and value. Pairs with the Data Query utility |
+| Data Query | utility | Typed sort, filter, group and aggregate over arrays, plus the operator set `FilterBuilder` edits |
+| Drag & drop utilities | re-export | `useDrag`, `useDrop`, the collection hooks and the drop-item helpers, documented rather than reinvented |
+
+### Phase 6 — Colour
+
+One engine, four faces, all on React Aria's colour hooks and `parseColor`.
+
+| Component | Behaviour |
+| --- | --- |
+| `ColorArea` (ColorGradient) | `useColorArea`, `useColorAreaState` |
+| `ColorSlider`, `ColorWheel`, `ColorField` | `useColorSlider`, `useColorWheel`, `useColorField` |
+| `ColorSwatchPicker` (ColorPalette) | `useColorSwatch` |
+| `ColorPicker` / `FlatColorPicker` | `useColorPickerState`, in a popover or inline |
+
+### Phase 7 — Visual and I/O
+
+| Component | Behaviour | Notes |
+| --- | --- | --- |
+| `ArcGauge`, `CircularGauge`, `LinearGauge`, `RadialGauge` | `useMeter` | One SVG engine, four presentations. `useMeter` gives them the right role and value text |
+| `Sparkline` | — | A line or bar in a line of text, no axes |
+| `ChunkProgress` (ChunkProgressBar) | `useProgressBar` | The progress bar in discrete segments |
+| `Barcode`, `QRCode` | ours | Encoders, not geometry: Code 128 and QR with its Reed–Solomon error correction. Self-contained, no dependency |
+| `Upload`, `DropZone` | `useDrop` | File selection, the drop target, per-file progress and retry. The network side stays the app's |
+
+## Out of scope
+
+Recorded rather than dropped, each with what it would take.
+
+### The ten products, plus the chart wizard
+
+| | Why it is out |
+| --- | --- |
+| Data Grid | The one most worth revisiting. React Aria covers a lot of it — `useTable`, `useTableColumnResize`, `useTableState`, `useAsyncList` for paging — but editing, grouping, frozen columns and virtualisation are weeks on top, and virtualisation would mean a new dependency since the `Virtualizer` lives in `react-aria-components` |
+| TreeList, PivotGrid | Both are the Data Grid plus a dimension. Neither is worth starting before it exists |
+| Spreadsheet | A formula engine, a cell grid and a toolbar. A product |
+| Scheduler, Gantt Chart, TaskBoard | Each is a calendar or timeline engine with its own drag model, recurrence or dependency graph |
+| Editor | Needs a rich-text engine. Wrapping one is the only sane route and it is a dependency decision, not a component |
+| PDF Viewer | A PDF renderer |
+| Map | Tile loading, projections and a vector layer |
+| Chart Wizard | A chart builder, which presupposes the charts |
+
+### Charting
+
+Twenty-three types — area, bar, box plot, bubble, bullet, donut, drilldown, funnel, heatmap,
+line, org chart, pie, polar, pyramid, radar, range area, range bar, sankey, scatter, stock,
+waterfall and the generic `Charts` and `Drilldown` entries. Scales, axes, legends, stacking,
+panning and crosshairs are a library in their own right; the gauges and the sparkline are in
+because they need none of that. An app that needs charts should bring a charting library and
+theme it with Grange's tokens, which are plain CSS custom properties.
+
+### Not user interface
+
+| | Why it is out |
+| --- | --- |
+| Excel Export | A spreadsheet writer. Needs a dependency and has nothing to do with rendering |
+| PDF Generator, File Saver | Document generation and a download shim |
+| Drawing Library | A canvas and SVG abstraction, which the shape library and the gauges already cover for our own needs |
+
+### AI Interface
+
+AI Prompt, Inline AI Prompt, PromptBox, Chat, SmartPasteButton and the Speech-To-Text Button.
+The presentational halves — a transcript, a prompt box, a microphone button — are ordinary
+components, but each one's value is the model call, the streaming protocol and the Web Speech
+API behind it, none of which belongs in a component library. Out until there is a reason to
+revisit, and then as presentation only.
+
+## How a round works
+
+Unchanged from the Material catalog, and the reason each of those 36 landed with tests and a
+baseline:
+
+1. Read the component's M3 spec section if it has one. Where it does not, choose from the
+   captured primitives and label every number in `specs.ts` with where it came from.
+2. `pnpm capture-tokens <Name>` when androidx has a token object for it. Most of these will not,
+   which is the point of step 1.
+3. Build on `ButtonBase` or the primitives where it is interactive, so it inherits press, hover,
+   focus, ripple and the state layer. Remember that `ButtonBase` filters its props through
+   `useButton`: anything unusual goes through `domProps`.
+4. Colours only through `grange.color()`, corners through `grange.corner()`, springs through
+   `useSpring`. Never a hex value.
+5. Register the component in `src/config/config.ts` — slots, defaults and the `COMPONENTS` list.
+   A guard test fails if a `classNames` key is missing from that list.
+6. Tests that assert the token values and the behaviour, not the implementation.
+7. A story covering every variant, size, state and both colour schemes.
+8. Update this file and the README's counts.
+9. Two or three commits on a branch, merged `--ff-only`.
+10. `pnpm visual:docker --update-snapshots` for the new stories, then the four scripts from a
+    fresh clone.
+
+## Verification
+
+Per round, the same bar the Material catalog was held to:
+
+```bash
+pnpm typecheck
+pnpm test                  # the new component's tests, plus no regressions
+pnpm build                 # dist/index.js, index.d.ts, index.css
+pnpm build-storybook
+pnpm visual:docker         # 292 baselines and rising, in the image CI uses
+```
+
+Then from a fresh clone of the merged branch, all four scripts plus the container visual run,
+which is what has caught every problem that only shows up outside the working tree: the
+Playwright spec vitest was collecting, the test racing its own clock, the CI step order.
