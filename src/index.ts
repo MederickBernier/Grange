@@ -49,6 +49,8 @@ export type {
   ProgressSlot,
   CheckboxSlot,
   SwitchSlot,
+  RadioSlot,
+  SliderSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
   BehaviorConfig,
@@ -60,6 +62,14 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { RadioGroup, Radio } from './components/Radio/Radio';
+export type { RadioGroupProps, RadioProps } from './components/Radio/Radio';
+export { radio } from './components/Radio/specs';
+export { Slider } from './components/Slider/Slider';
+export type { SliderProps } from './components/Slider/Slider';
+export { slider, trackPieces, pieceInsets, stopPositions } from './components/Slider/specs';
+export type { TrackPiece } from './components/Slider/specs';
 
 export { Checkbox } from './components/Checkbox/Checkbox';
 export type { CheckboxProps } from './components/Checkbox/Checkbox';

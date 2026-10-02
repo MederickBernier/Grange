@@ -49,6 +49,8 @@ export type IconSlot = 'root';
 export type ProgressSlot = 'root' | 'track' | 'active';
 export type CheckboxSlot = 'root' | 'box' | 'label';
 export type SwitchSlot = 'root' | 'track' | 'handle' | 'label';
+export type RadioSlot = 'root' | 'ring' | 'label';
+export type SliderSlot = 'root' | 'track' | 'handle' | 'label';
 export type DividerSlot = 'root';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
@@ -73,6 +75,9 @@ export interface ClassNamesConfig {
   DockedToolbar?: SlotOverrides<GroupSlot>;
   Checkbox?: SlotOverrides<CheckboxSlot>;
   Switch?: SlotOverrides<SwitchSlot>;
+  RadioGroup?: SlotOverrides<'root' | 'label'>;
+  Radio?: SlotOverrides<RadioSlot>;
+  Slider?: SlotOverrides<SliderSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
 }
@@ -136,6 +141,7 @@ export interface DefaultPropsConfig {
     variant?: 'standard' | 'vibrant';
     orientation?: 'horizontal' | 'vertical';
   };
+  RadioGroup?: { orientation?: 'horizontal' | 'vertical' };
   LinearProgress?: { wavy?: boolean };
   CircularProgress?: { wavy?: boolean };
 }
@@ -253,6 +259,9 @@ const COMPONENTS: ComponentName[] = [
   'SplitButtonTrailing',
   'Checkbox',
   'Switch',
+  'RadioGroup',
+  'Radio',
+  'Slider',
   'FloatingToolbar',
   'DockedToolbar',
   'LinearProgress',

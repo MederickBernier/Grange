@@ -1,0 +1,126 @@
+/*
+ * Radio button, from Compose RadioButtonTokens. A 20px ring with a 2px edge and a 10px dot when
+ * selected, behind the shared 40px state layer. The ring width and dot size are not tokenised;
+ * they are the standard M3 proportions for a 20px control.
+ */
+
+@use '../../scss/api' as grange;
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.groupLabel {
+  @include grange.typescale(label-large);
+  color: grange.color(on-surface-variant);
+}
+
+.options {
+  display: flex;
+  gap: 8px;
+}
+
+.group[data-orientation='vertical'] .options {
+  flex-direction: column;
+}
+
+.root {
+  --_ring: #{grange.color(on-surface-variant)};
+  --_dot: transparent;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--_ring);
+}
+
+.layerHost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px; // StateLayerSize
+  height: 40px;
+  border-radius: 9999px;
+}
+
+.ring {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px; // IconSize
+  height: 20px;
+  border: 2px solid var(--_ring);
+  border-radius: 9999px;
+  transition: border-color grange.duration(short3) linear;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--_dot);
+  // Grows out of nothing when chosen, rather than appearing.
+  scale: 0;
+  transition:
+    scale grange.duration(short4) grange.easing(emphasized-decelerate),
+    background-color grange.duration(short3) linear;
+}
+
+.label {
+  @include grange.typescale(body-large);
+  color: grange.color(on-surface);
+}
+
+// ---------------------------------------------------------------------------
+// States
+// ---------------------------------------------------------------------------
+
+.root[data-hovered],
+.root[data-focus-visible] {
+  --_ring: #{grange.color(on-surface)};
+}
+
+.root[data-selected='true'] {
+  --_ring: #{grange.color(primary)};
+  --_dot: #{grange.color(primary)};
+
+  .dot {
+    scale: 1;
+  }
+}
+
+.group[data-error] .root {
+  --_ring: #{grange.color(error)};
+
+  &[data-selected='true'] {
+    --_dot: #{grange.color(error)};
+  }
+}
+
+.root[data-disabled] {
+  cursor: default;
+
+  --_ring: #{grange.translucent(on-surface, 38%)};
+
+  &[data-selected='true'] {
+    --_dot: #{grange.translucent(on-surface, 38%)};
+  }
+
+  .label {
+    color: #{grange.translucent(on-surface, 38%)};
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    transition: background-color grange.duration(short3) linear;
+  }
+}

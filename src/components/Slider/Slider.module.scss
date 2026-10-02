@@ -1,0 +1,130 @@
+/*
+ * Slider, from Compose SliderTokens as M3 Expressive restyled it: a 16px track in two colours,
+ * and a 4 by 44 bar for a handle that sits in a 6px gap carved out of the track rather than on
+ * top of it. The handle narrows to 2px while held, which is the opposite of what the other
+ * controls do when pressed.
+ */
+
+@use '../../scss/api' as grange;
+
+.root {
+  --_handle-width: 4px; // HandleWidth
+  --_handle: #{grange.color(primary)};
+  --_active: #{grange.color(primary)};
+  --_inactive: #{grange.color(secondary-container)};
+  --_stop: #{grange.color(secondary-container)};
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  touch-action: none;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.label {
+  @include grange.typescale(label-large);
+  color: grange.color(on-surface-variant);
+}
+
+.output {
+  @include grange.typescale(label-large);
+  color: grange.color(on-surface);
+}
+
+.track {
+  position: relative;
+  // Tall enough for the 44px handle, which stands proud of the 16px track.
+  height: 44px; // HandleHeight
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.root[data-disabled] .track {
+  cursor: default;
+}
+
+// Each stretch of track between handles, inset so it clears them.
+.active,
+.inactive {
+  position: absolute;
+  height: 16px; // Active and inactive track height
+  border-radius: 9999px; // CornerFull
+  transition: background-color grange.duration(short3) linear;
+}
+
+.active {
+  background: var(--_active);
+}
+
+.inactive {
+  background: var(--_inactive);
+}
+
+// Stop indicators sit on the filled track, where the token's colour actually contrasts.
+.stop {
+  position: absolute;
+  top: 50%;
+  width: 4px; // StopIndicatorSize
+  height: 4px;
+  margin-left: -2px;
+  translate: 0 -50%;
+  border-radius: 9999px; // StopIndicatorShape
+  background: var(--_stop);
+}
+
+.handle {
+  position: absolute;
+  top: 50%;
+  width: var(--_handle-width);
+  height: 44px;
+  margin-left: calc(var(--_handle-width) / -2);
+  translate: 0 -50%;
+  border-radius: 9999px; // HandleShape
+  background: var(--_handle);
+  cursor: grab;
+  transition:
+    width grange.duration(short3) grange.easing(standard),
+    background-color grange.duration(short3) linear;
+}
+
+// Narrows as it is grabbed, so the value under it stays visible.
+.handle[data-dragging],
+.handle[data-focus-visible] {
+  --_handle-width: 2px; // Pressed and focus handle width
+  cursor: grabbing;
+}
+
+.valueIndicator {
+  position: absolute;
+  bottom: calc(100% + 12px); // ValueIndicatorActiveBottomSpace
+  left: 50%;
+  translate: -50% 0;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: grange.color(inverse-surface);
+  color: grange.color(inverse-on-surface);
+  white-space: nowrap;
+  pointer-events: none;
+  @include grange.typescale(label-large);
+}
+
+.root[data-disabled] {
+  --_handle: #{grange.translucent(on-surface, 38%)};
+  --_active: #{grange.translucent(on-surface, 38%)};
+  --_inactive: #{grange.translucent(on-surface, 12%)};
+  --_stop: #{grange.translucent(on-surface, 38%)};
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .handle,
+  .active,
+  .inactive {
+    transition: none;
+  }
+}
