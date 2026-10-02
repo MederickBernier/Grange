@@ -46,6 +46,7 @@ export type {
   GroupSlot,
   IconSlot,
   DividerSlot,
+  ProgressSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
   BehaviorConfig,
@@ -66,6 +67,13 @@ export type {
 } from './components/SplitButton/SplitButton';
 export { splitButtonSizes } from './components/SplitButton/specs';
 export type { SplitButtonSizeSpec } from './components/SplitButton/specs';
+
+export { LinearProgress } from './components/Progress/LinearProgress';
+export type { LinearProgressProps } from './components/Progress/LinearProgress';
+export { CircularProgress } from './components/Progress/CircularProgress';
+export type { CircularProgressProps } from './components/Progress/CircularProgress';
+export { linearProgress, circularProgress } from './components/Progress/specs';
+export { linearWavePath, circularWavePath } from './components/Progress/wave';
 
 export { Icon } from './components/Icon/Icon';
 export type { IconProps } from './components/Icon/Icon';

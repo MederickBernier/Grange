@@ -46,6 +46,7 @@ export type ButtonSlot = 'root' | 'label' | 'icon';
 export type IconButtonSlot = 'root' | 'icon';
 export type GroupSlot = 'root';
 export type IconSlot = 'root';
+export type ProgressSlot = 'root' | 'track' | 'active';
 export type DividerSlot = 'root';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
@@ -63,6 +64,8 @@ export interface ClassNamesConfig {
   SplitButton?: SlotOverrides<GroupSlot>;
   SplitButtonLeading?: SlotOverrides<ButtonSlot>;
   SplitButtonTrailing?: SlotOverrides<IconButtonSlot>;
+  LinearProgress?: SlotOverrides<ProgressSlot>;
+  CircularProgress?: SlotOverrides<ProgressSlot>;
 }
 
 export type ComponentName = keyof ClassNamesConfig;
@@ -118,6 +121,8 @@ export interface DefaultPropsConfig {
   Divider?: { inset?: boolean | 'start' | 'end' };
   Fab?: { size?: FabSize; variant?: FabVariant };
   SplitButton?: { size?: ButtonSize; variant?: ToggleButtonVariant };
+  LinearProgress?: { wavy?: boolean };
+  CircularProgress?: { wavy?: boolean };
 }
 
 // ---------------------------------------------------------------------------
@@ -228,6 +233,8 @@ const COMPONENTS: ComponentName[] = [
   'SplitButton',
   'SplitButtonLeading',
   'SplitButtonTrailing',
+  'LinearProgress',
+  'CircularProgress',
 ];
 
 /**

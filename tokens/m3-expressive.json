@@ -3,7 +3,7 @@
     "source": "androidx-main compose/material3 token files (Apache 2.0)",
     "read": "2026-10-01",
     "units": "dp=px, sp=px",
-    "componentTokensVersion": "18_0_18, v0_14_0",
+    "componentTokensVersion": "v0_4_0",
     "componentTokensSource": "androidx-main compose/material3 tokens"
   },
   "motion": {
@@ -905,6 +905,14 @@
       "InnerHoveredCornerCornerSize": "CornerValueLargeIncreased",
       "InnerPressedCornerCornerSize": "CornerValueLargeIncreased",
       "TrailingInnerSelectedCornerCornerSizePercent": "50.0f"
+    },
+    "ProgressIndicator": {
+      "ActiveIndicatorColor": "color:Primary",
+      "ActiveShape": "CornerFull",
+      "StopColor": "color:Primary",
+      "StopShape": "CornerFull",
+      "TrackColor": "color:SecondaryContainer",
+      "TrackShape": "CornerFull"
     }
   }
 }
