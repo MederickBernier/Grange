@@ -44,6 +44,8 @@ export type ClassOverride = string | { replace: string | undefined };
 export type ButtonSlot = 'root' | 'label' | 'icon';
 export type IconButtonSlot = 'root' | 'icon';
 export type GroupSlot = 'root';
+export type IconSlot = 'root';
+export type DividerSlot = 'root';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
 
@@ -54,6 +56,8 @@ export interface ClassNamesConfig {
   ButtonGroup?: SlotOverrides<GroupSlot>;
   ConnectedButtonGroup?: SlotOverrides<GroupSlot>;
   ConnectedButtonGroupItem?: SlotOverrides<ButtonSlot>;
+  Icon?: SlotOverrides<IconSlot>;
+  Divider?: SlotOverrides<DividerSlot>;
 }
 
 export type ComponentName = keyof ClassNamesConfig;
@@ -105,6 +109,8 @@ export interface DefaultPropsConfig {
     disallowEmptySelection?: boolean;
     fullWidth?: boolean;
   };
+  Icon?: { size?: number };
+  Divider?: { inset?: boolean | 'start' | 'end' };
 }
 
 // ---------------------------------------------------------------------------
@@ -209,6 +215,8 @@ const COMPONENTS: ComponentName[] = [
   'ButtonGroup',
   'ConnectedButtonGroup',
   'ConnectedButtonGroupItem',
+  'Icon',
+  'Divider',
 ];
 
 /**

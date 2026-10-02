@@ -1,0 +1,47 @@
+@use '../../scss/api' as grange;
+
+// M3 insets a divider by 16px so it starts where the content beside it starts.
+$inset: 16px;
+
+.divider {
+  flex-shrink: 0;
+  border: none;
+  background: grange.color(outline-variant);
+
+  &[data-orientation='horizontal'] {
+    width: 100%;
+    height: 1px;
+
+    &[data-inset='both'] {
+      width: auto;
+      margin-inline: $inset;
+    }
+    &[data-inset='start'] {
+      width: auto;
+      margin-inline-start: $inset;
+    }
+    &[data-inset='end'] {
+      width: auto;
+      margin-inline-end: $inset;
+    }
+  }
+
+  &[data-orientation='vertical'] {
+    width: 1px;
+    height: 100%;
+    align-self: stretch;
+
+    &[data-inset='both'] {
+      height: auto;
+      margin-block: $inset;
+    }
+    &[data-inset='start'] {
+      height: auto;
+      margin-block-start: $inset;
+    }
+    &[data-inset='end'] {
+      height: auto;
+      margin-block-end: $inset;
+    }
+  }
+}
