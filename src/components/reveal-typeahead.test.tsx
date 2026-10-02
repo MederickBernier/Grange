@@ -1,8 +1,24 @@
 import { useState } from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FabMenu, FabMenuItem, FilledTextField, GrangeProvider, OutlinedTextField, fabMenu } from '../index';
+
+afterEach(() => {
+  vi.useRealTimers();
+});
+
+/**
+ * Lets the typeahead buffer go stale without waiting for it.
+ *
+ * The component measures the gap with `Date.now()`, so only the clock is faked: a real
+ * `setTimeout` is still what userEvent and React are driven by, and sleeping for real twice over
+ * put this test within a few hundred milliseconds of the default timeout.
+ */
+function letTheTypeaheadBufferLapse() {
+  vi.useFakeTimers({ toFake: ['Date'] });
+  vi.setSystemTime(Date.now() + fabMenu.typeaheadResetMs + 20);
+}
 
 const field = () => screen.getByLabelText('Password') as HTMLInputElement;
 const reveal = () => screen.getByRole('button', { name: /password/i });
@@ -174,7 +190,7 @@ describe('FabMenu keyboard', () => {
     expect(focusedLabel()).toBe('Bookmark');
 
     // A fresh search, since the buffer only lives for a moment.
-    await new Promise((resolve) => setTimeout(resolve, fabMenu.typeaheadResetMs + 20));
+    letTheTypeaheadBufferLapse();
     await user.keyboard('a');
     expect(focusedLabel()).toBe('Album');
     // Adding a letter narrows what is already found rather than skipping past it.
@@ -191,11 +207,11 @@ describe('FabMenu keyboard', () => {
     await user.keyboard('a');
     expect(focusedLabel()).toBe('Album');
     // A fresh buffer each time, since the same letter again means the next match, not "aa".
-    await new Promise((resolve) => setTimeout(resolve, fabMenu.typeaheadResetMs + 20));
+    letTheTypeaheadBufferLapse();
     await user.keyboard('a');
     // Round again, past the disabled Archive, which is never a target.
     expect(focusedLabel()).toBe('Alarm');
-    await new Promise((resolve) => setTimeout(resolve, fabMenu.typeaheadResetMs + 20));
+    letTheTypeaheadBufferLapse();
     await user.keyboard('a');
     expect(focusedLabel()).toBe('Album');
   });

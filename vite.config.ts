@@ -37,5 +37,11 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test-setup.ts'],
+    /*
+     * Only the unit tests. Vitest's default glob would also pick up visual/stories.spec.ts, which
+     * is a Playwright spec: it reads Storybook's built index at module load, so under vitest it
+     * either fails outright or quietly registers tests that never run.
+     */
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
   },
 });
