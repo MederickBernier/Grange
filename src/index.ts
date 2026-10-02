@@ -61,6 +61,8 @@ export type {
   ListSlot,
   AppBarSlot,
   NavigationSlot,
+  DrawerSlot,
+  BottomSheetSlot,
   SnackbarSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
@@ -73,6 +75,15 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { NavigationDrawer, DrawerHeadline } from './components/Drawer/Drawer';
+export type { NavigationDrawerProps, DrawerHeadlineProps } from './components/Drawer/Drawer';
+export { drawer } from './components/Drawer/specs';
+export { BottomSheet } from './components/BottomSheet/BottomSheet';
+export type { BottomSheetProps } from './components/BottomSheet/BottomSheet';
+export { bottomSheet } from './components/BottomSheet/specs';
+export { ModalPanel } from './overlays/ModalPanel';
+export type { ModalPanelProps } from './overlays/ModalPanel';
 
 export { NavigationBar, NavigationRail } from './components/Navigation/NavigationBar';
 export type { NavigationBarProps, NavigationRailProps } from './components/Navigation/NavigationBar';

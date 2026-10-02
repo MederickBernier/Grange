@@ -1,0 +1,93 @@
+/*
+ * Navigation drawer, from Compose NavigationDrawerTokens. 360px wide, full height, rounded on
+ * the inner edge only. Modal takes surface-container-low at level 1; standard takes surface at
+ * level 0, which is to say none.
+ *
+ * Its items are the shared NavigationItem, resized here through the stable hook class: the
+ * tokens give the drawer a 336 by 56 pill where the bar and rail get 56 by 32.
+ */
+
+@use '../../scss/api' as grange;
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  background: #{grange.translucent(scrim, 32%)};
+}
+
+.drawer {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 360px; // ContainerWidth
+  max-width: 100%;
+  height: 100%; // ContainerHeightPercent
+  padding: 12px;
+  overflow-y: auto;
+  background: grange.color(surface); // StandardContainerColor
+  color: grange.color(on-surface);
+  // StandardContainerElevation is level 0, so a standard drawer draws no shadow.
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+// Rounded on the inner edge only: CornerLargeEnd for a start drawer, mirrored for an end one.
+.drawer[data-placement='start'],
+.inner[data-placement='start'] {
+  border-start-end-radius: 16px;
+  border-end-end-radius: 16px;
+}
+
+.drawer[data-placement='end'],
+.inner[data-placement='end'] {
+  margin-inline-start: auto;
+  border-start-start-radius: 16px;
+  border-end-start-radius: 16px;
+}
+
+// A modal drawer is a different colour and does lift, which the tokens say explicitly.
+.scrim .drawer {
+  background: grange.color(surface-container-low); // ModalContainerColor
+  box-shadow:
+    0 1px 2px 0 #{grange.translucent(shadow, 30%)},
+    0 1px 3px 1px #{grange.translucent(shadow, 15%)};
+}
+
+.inner {
+  display: contents;
+}
+
+.headline {
+  margin: 0;
+  padding: 16px 16px 8px;
+  color: grange.color(on-surface-variant); // HeadlineColor
+  @include grange.typescale(title-small); // HeadlineFont
+}
+
+// The drawer's items are wider and taller than the bar's, and the indicator spans the row.
+.drawer .grange-navigation-item {
+  flex-direction: row;
+  gap: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.drawer .grange-navigation-item > span:first-child {
+  width: 100%;
+  max-width: 336px; // ActiveIndicatorWidth
+  height: 56px; // ActiveIndicatorHeight
+  justify-content: flex-start;
+  gap: 12px;
+  padding-inline: 16px;
+  border-radius: 9999px; // ActiveIndicatorShape: CornerFull
+}
+
+.drawer .grange-navigation-item[data-selected] > span:first-child {
+  // ActiveLabelTextColor is on-secondary-container here, where the bar uses secondary.
+  color: grange.color(on-secondary-container);
+}

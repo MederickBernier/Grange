@@ -3,7 +3,7 @@
     "source": "androidx-main compose/material3 token files (Apache 2.0)",
     "read": "2026-10-01",
     "units": "dp=px, sp=px",
-    "componentTokensVersion": "v0_11_0",
+    "componentTokensVersion": "v0_210",
     "componentTokensSource": "androidx-main compose/material3 tokens"
   },
   "motion": {
@@ -1781,6 +1781,54 @@
       "IconLabelSpace": "8.0.dp",
       "LeadingSpace": "16.0.dp",
       "LabelTextFont": "type:LabelLarge"
+    },
+    "NavigationDrawer": {
+      "ActiveFocusIconColor": "color:OnSecondaryContainer",
+      "ActiveFocusLabelTextColor": "color:OnSecondaryContainer",
+      "ActiveHoverIconColor": "color:OnSecondaryContainer",
+      "ActiveHoverLabelTextColor": "color:OnSecondaryContainer",
+      "ActiveIconColor": "color:OnSecondaryContainer",
+      "ActiveIndicatorColor": "color:SecondaryContainer",
+      "ActiveIndicatorHeight": "56.0.dp",
+      "ActiveIndicatorShape": "CornerFull",
+      "ActiveIndicatorWidth": "336.0.dp",
+      "ActiveLabelTextColor": "color:OnSecondaryContainer",
+      "ActivePressedIconColor": "color:OnSecondaryContainer",
+      "ActivePressedLabelTextColor": "color:OnSecondaryContainer",
+      "BottomContainerShape": "CornerLargeTop",
+      "ContainerShape": "CornerLargeEnd",
+      "ContainerWidth": "360.0.dp",
+      "FocusIndicatorColor": "color:Secondary",
+      "HeadlineColor": "color:OnSurfaceVariant",
+      "HeadlineFont": "type:TitleSmall",
+      "IconSize": "24.0.dp",
+      "InactiveFocusIconColor": "color:OnSurface",
+      "InactiveFocusLabelTextColor": "color:OnSurface",
+      "InactiveHoverIconColor": "color:OnSurface",
+      "InactiveHoverLabelTextColor": "color:OnSurface",
+      "InactiveIconColor": "color:OnSurfaceVariant",
+      "InactiveLabelTextColor": "color:OnSurfaceVariant",
+      "InactivePressedIconColor": "color:OnSurface",
+      "InactivePressedLabelTextColor": "color:OnSurface",
+      "LabelTextFont": "type:LabelLarge",
+      "LargeBadgeLabelColor": "color:OnSurfaceVariant",
+      "LargeBadgeLabelFont": "type:LabelLarge",
+      "ModalContainerColor": "color:SurfaceContainerLow",
+      "ModalContainerElevation": "elevation:Level1",
+      "StandardContainerColor": "color:Surface",
+      "StandardContainerElevation": "elevation:Level0",
+      "ContainerHeightPercent": "100.0f"
+    },
+    "SheetBottom": {
+      "DockedContainerColor": "color:SurfaceContainerLow",
+      "DockedContainerShape": "CornerExtraLargeTop",
+      "DockedDragHandleColor": "color:OnSurfaceVariant",
+      "DockedDragHandleHeight": "4.0.dp",
+      "DockedDragHandleWidth": "32.0.dp",
+      "DockedMinimizedContainerShape": "CornerNone",
+      "DockedModalContainerElevation": "elevation:Level1",
+      "DockedStandardContainerElevation": "elevation:Level1",
+      "FocusIndicatorColor": "color:Secondary"
     }
   }
 }

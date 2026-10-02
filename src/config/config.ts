@@ -69,6 +69,8 @@ export type CardSlot = 'root';
 export type ListSlot = 'root' | 'item' | 'label';
 export type AppBarSlot = 'root' | 'title' | 'subtitle' | 'leading' | 'actions';
 export type NavigationSlot = 'root';
+export type DrawerSlot = 'root' | 'scrim';
+export type BottomSheetSlot = 'root' | 'scrim' | 'handle';
 export type SnackbarSlot = 'root' | 'region' | 'action';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
@@ -108,6 +110,8 @@ export interface ClassNamesConfig {
   AppBar?: SlotOverrides<AppBarSlot>;
   NavigationBar?: SlotOverrides<NavigationSlot>;
   NavigationRail?: SlotOverrides<NavigationSlot>;
+  NavigationDrawer?: SlotOverrides<DrawerSlot>;
+  BottomSheet?: SlotOverrides<BottomSheetSlot>;
   Snackbar?: SlotOverrides<SnackbarSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
@@ -183,6 +187,8 @@ export interface DefaultPropsConfig {
   };
   NavigationBar?: { arrangement?: 'vertical' | 'horizontal'; tall?: boolean };
   NavigationRail?: { expanded?: boolean; narrow?: boolean };
+  NavigationDrawer?: { modal?: boolean; placement?: 'start' | 'end' };
+  BottomSheet?: { modal?: boolean };
   LinearProgress?: { wavy?: boolean };
   CircularProgress?: { wavy?: boolean };
 }
@@ -327,6 +333,8 @@ const COMPONENTS: ComponentName[] = [
   'AppBar',
   'NavigationBar',
   'NavigationRail',
+  'NavigationDrawer',
+  'BottomSheet',
 ];
 
 /**

@@ -1,0 +1,71 @@
+/*
+ * Bottom sheet, from Compose SheetBottomTokens: surface-container-low at level 1, rounded on the
+ * top corners only, with a 32 by 4 drag handle.
+ */
+
+@use '../../scss/api' as grange;
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: #{grange.translucent(scrim, 32%)};
+}
+
+.sheet {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 640px;
+  max-height: 80%;
+  border-start-start-radius: 28px; // DockedContainerShape: CornerExtraLargeTop
+  border-start-end-radius: 28px;
+  background: grange.color(surface-container-low); // DockedContainerColor
+  color: grange.color(on-surface);
+  // Both the modal and standard elevations are level 1.
+  box-shadow:
+    0 1px 2px 0 #{grange.translucent(shadow, 30%)},
+    0 1px 3px 1px #{grange.translucent(shadow, 15%)};
+  transition: translate grange.duration(short4) grange.easing(standard);
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // Tall enough to be a real target rather than a 4px hairline.
+  min-height: 28px;
+  flex-shrink: 0;
+  cursor: grab;
+  touch-action: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.grip {
+  width: 32px; // DockedDragHandleWidth
+  height: 4px; // DockedDragHandleHeight
+  border-radius: 9999px;
+  background: grange.color(on-surface-variant); // DockedDragHandleColor
+}
+
+.content {
+  padding: 0 16px 16px;
+  overflow-y: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    transition: none;
+  }
+}
