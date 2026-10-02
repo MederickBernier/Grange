@@ -54,6 +54,19 @@ export type {
   SpringRoles,
 } from './config/config';
 
+export { Fab } from './components/Fab/Fab';
+export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
+export { fabSizes } from './components/Fab/specs';
+
+export { SplitButton, SplitButtonLeading, SplitButtonTrailing } from './components/SplitButton/SplitButton';
+export type {
+  SplitButtonProps,
+  SplitButtonLeadingProps,
+  SplitButtonTrailingProps,
+} from './components/SplitButton/SplitButton';
+export { splitButtonSizes } from './components/SplitButton/specs';
+export type { SplitButtonSizeSpec } from './components/SplitButton/specs';
+
 export { Icon } from './components/Icon/Icon';
 export type { IconProps } from './components/Icon/Icon';
 export { Divider } from './components/Divider/Divider';

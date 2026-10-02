@@ -18,6 +18,7 @@ import type {
   ToggleButtonVariant,
 } from '../components/Button/specs';
 import { defaultSizes, resolveSizes } from '../components/Button/specs';
+import type { FabSize, FabVariant } from '../components/Fab/specs';
 
 /** A spring as M3 defines it: stiffness plus damping ratio (1 = no overshoot). */
 export interface SpringSpec {
@@ -58,6 +59,10 @@ export interface ClassNamesConfig {
   ConnectedButtonGroupItem?: SlotOverrides<ButtonSlot>;
   Icon?: SlotOverrides<IconSlot>;
   Divider?: SlotOverrides<DividerSlot>;
+  Fab?: SlotOverrides<IconButtonSlot>;
+  SplitButton?: SlotOverrides<GroupSlot>;
+  SplitButtonLeading?: SlotOverrides<ButtonSlot>;
+  SplitButtonTrailing?: SlotOverrides<IconButtonSlot>;
 }
 
 export type ComponentName = keyof ClassNamesConfig;
@@ -111,6 +116,8 @@ export interface DefaultPropsConfig {
   };
   Icon?: { size?: number };
   Divider?: { inset?: boolean | 'start' | 'end' };
+  Fab?: { size?: FabSize; variant?: FabVariant };
+  SplitButton?: { size?: ButtonSize; variant?: ToggleButtonVariant };
 }
 
 // ---------------------------------------------------------------------------
@@ -217,6 +224,10 @@ const COMPONENTS: ComponentName[] = [
   'ConnectedButtonGroupItem',
   'Icon',
   'Divider',
+  'Fab',
+  'SplitButton',
+  'SplitButtonLeading',
+  'SplitButtonTrailing',
 ];
 
 /**

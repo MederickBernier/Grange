@@ -1,0 +1,74 @@
+/*
+ * Floating action button. Sizes and shapes from Compose FabSmall / FabBaseline / FabMedium /
+ * FabLarge; colours and elevation from FabPrimaryContainerTokens and FabSecondaryContainerTokens.
+ * The tertiary and surface options are not tokenised upstream and follow the same pattern.
+ */
+
+@use '../../scss/api' as grange;
+
+.fab {
+  --_container: #{grange.color(primary-container)};
+  --_content: #{grange.color(on-primary-container)};
+  // The elevation primitive takes a level on its 0 to 5 scale, not the dp value the
+  // --md-sys-elevation-* tokens hold, so these are the level numbers from the FAB tokens.
+  --grange-elevation-level: 3;
+
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--_size);
+  height: var(--_size);
+  margin: 0;
+  border: none;
+  background-color: var(--_container);
+  color: var(--_content);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color grange.duration(short3) linear,
+    color grange.duration(short3) linear;
+
+  &[data-variant='secondary'] {
+    --_container: #{grange.color(secondary-container)};
+    --_content: #{grange.color(on-secondary-container)};
+  }
+  &[data-variant='tertiary'] {
+    --_container: #{grange.color(tertiary-container)};
+    --_content: #{grange.color(on-tertiary-container)};
+  }
+  &[data-variant='surface'] {
+    --_container: #{grange.color(surface-container-high)};
+    --_content: #{grange.color(primary)};
+  }
+
+  // Level 3 at rest, focused and pressed; level 4 on hover. Straight from the tokens.
+  &[data-hovered] {
+    --grange-elevation-level: 4;
+  }
+
+  &[data-disabled] {
+    --_container: #{grange.translucent(on-surface, 10%)};
+    --_content: #{grange.translucent(on-surface, 38%)};
+    --grange-elevation-level: 0 !important;
+    cursor: default;
+  }
+}
+
+.icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: var(--grange-icon-size);
+  height: var(--grange-icon-size);
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}

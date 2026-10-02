@@ -1,0 +1,45 @@
+/*
+ * Split button. Geometry from Compose SplitButtonXSmall through SplitButtonXLarge; the colours
+ * are the ordinary button variants, so the two halves reuse Button.module.scss.
+ */
+
+@use '../../scss/api' as grange;
+
+.group {
+  display: inline-flex;
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+
+// The halves carry Button's colours but not its width rules. Padding goes through ButtonBase,
+// which animates it inline and would override anything set here.
+.half {
+  height: var(--_height);
+  min-width: 0;
+}
+
+.chevron {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: var(--grange-icon-size);
+  height: var(--grange-icon-size);
+  transition: rotate grange.duration(medium2) grange.easing(emphasized);
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}
+
+// "Spins and changes shape when activated", as the spec puts it.
+[data-expanded='true'] > .chevron {
+  rotate: 180deg;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}
