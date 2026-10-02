@@ -51,7 +51,7 @@ What is left is not components but depth: the gaps recorded below, and the ones 
 | Switch | Handle grows 16 to 24 to 28 on the selection spring, optional icons, real input with the switch role |
 | Radio button | `RadioGroup` owns the value and the arrow keys; vertical or horizontal, error state, per-option disable |
 | Sliders | The Expressive restyle: 16px track, 4 by 44 handle in a gap, narrowing while held. Single or range, opt-in stop indicators, value bubble |
-| Text fields | Filled and outlined, floating label, supporting and error text, icons, prefix and suffix, counter, multiline, aria or native validation |
+| Text fields | Filled and outlined, floating label, supporting and error text, icons, prefix and suffix, counter, multiline, aria or native validation, and the password reveal, which is on by default for `type="password"` |
 | Dialogs | Modal, scroll locked, rest of the page hidden from assistive tech, Escape and outside-click, optional icon and full screen |
 | Tooltips | `Tooltip` is the plain variant: warmup delay, immediate on focus, never on touch, flips when there is no room. `RichTooltip` is the rich one, which is a different kind of thing — a non-modal `role="dialog"` popover, hover or persistent, with a grace period so the pointer can reach the action inside it |
 | Menus | Anchored, sections, selection, disabled items, typeahead and full keyboard from the collection. All three styles: the default plus the M3E `standard` and `vibrant` restyles, which are colour only |
@@ -91,7 +91,7 @@ Not components, but most of the list below is blocked on them.
 | ~~Overlay layer~~ ✅ | | Done. `Overlay` portals and contains focus, `useModalOverlay` brings the scroll lock, the Escape and outside-click handling and `ariaHideOutside`. `portalContainer` on `GrangeProvider` scopes where overlays land; it is passed per overlay because React Aria's `PortalProvider` is still an `UNSAFE_` export |
 | ~~Positioning~~ ✅ | | Done for tooltips via `useOverlayPosition`, which flips when there is no room. Menus and select will reuse the same hook |
 | **List selection** | `List` is semantic markup rather than a listbox, since a row is content and `Select` already owns the listbox role. Selection is a `Checkbox` or `Radio` in a slot, which is how the spec draws it | A keyboard-navigable selectable list would want `useListBox` or `useGridList`, and is not built |
-| **Menu semantics** | `FabMenu` still carries its own roving focus rather than the collection, so it has no typeahead | `useMenu` is in now, so FabMenu can move onto it |
+| ~~Menu semantics~~ ✅ | Closed, but not by moving `FabMenu` onto `useMenu`. It now has typeahead, and the arrows open it from the toggle onto the end they point at, alongside the roving focus it already had | The collection was the wrong trade here. An item is a `ButtonBase`, which is what gives it the FAB's shape, ripple, state layer, press spring and link rendering; `ButtonBase` routes its props through `useButton`, which filters them to real DOM attributes, so `useMenuItem`'s handlers would be dropped on the way through, and layering its `usePress` over `useButton`'s would put two press systems on one node. The collection would have cost the item API and the FAB rendering to buy thirty lines of typeahead |
 | ~~State layer~~ ✅ | | Done. `react-stately` is a direct dependency and externalised from the bundle, which unblocks every remaining control that needs state: radio, slider, select, menus, tabs |
 | ~~Collections~~ ✅ | | Done through `Menu`. Items are described with `Item` and read by `useTreeState`, which is what pays for typeahead. The identifier is the React `key`, not an `id` prop, which is this API's convention and is documented on `MenuItem`. Select, Lists and Tabs reuse the same shape |
 | ~~Link rendering~~ ✅ | | Done. An `href` renders `motion.a` with `elementType: 'a'`, keeping the button role so the announced role matches the keyboard behavior. A disabled button drops the href |
@@ -118,13 +118,13 @@ excluded from the counts rather than counted twice.
 Each phase is useful on its own and unblocks the next.
 
 1. ~~**Foundations**~~ — done: `Icon`, `Divider`, link rendering and form props on `ButtonBase`, RTL.
-2. ~~**Form controls**~~ — done: Checkbox, `CheckboxGroup`, Switch, Radio button, Sliders, Text fields. The text field has no password reveal yet.
+2. ~~**Form controls**~~ — done: Checkbox, `CheckboxGroup`, Switch, Radio button, Sliders, Text fields including the password reveal.
 3. ~~**Overlay infrastructure plus its components**~~ — done: the portal and positioning layer, Dialogs, Tooltips (plain and rich), Menus (all three styles), Select and Snackbar. — the portal and positioning layer, then Dialogs, Menus, Select, Tooltips, Snackbar. One hard piece of plumbing, then five components come cheaply.
 4. ~~**Navigation and structure**~~ — done: Toolbars, Tabs, Cards, Lists, App bars, Navigation bar, Navigation rail, Navigation drawer.
-5. **M3E signature pieces** — ~~FAB~~, ~~Split button~~, ~~Progress indicators~~, ~~Extended FAB~~, ~~FAB menu~~, then the Loading indicator, which still wants the shape library. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
+5. **M3E signature pieces** — ~~FAB~~, ~~Split button~~, ~~Progress indicators~~, ~~Extended FAB~~, ~~FAB menu~~, ~~Loading indicator~~, which still wants the shape library for its irregular shapes. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
 6. ~~**Long tail**~~ — done: Bottom sheets, Chips, Badges, Search, Loading indicator, Date pickers, Time pickers, the Carousel and Side sheets. The last two had neither a React Aria hook nor a token file, so both their behavior and their numbers are ours and labelled as such.
 
-The catalog is finished. What is left is the depth recorded in the gaps above: the text field's password reveal, moving `FabMenu` onto `useMenu`, the irregular shape library, a selectable keyboard-navigable list, and a carousel that is a collection rather than a scroll region.
+The catalog is finished. What is left is the depth recorded in the gaps above: the irregular shape library, a selectable keyboard-navigable list, and a carousel that is a collection rather than a scroll region. Two of those three are the same decision in different places — whether a component is a React Aria collection or markup — and the FabMenu row above records what that trade actually costs.
 
 ## Before building any of them
 
