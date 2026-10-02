@@ -39,7 +39,7 @@ What is left is not components but depth: the gaps recorded below, and the ones 
 | Buttons | 5 variants × 5 sizes × round/square, one component per variant |
 | Icon buttons | 4 variants, 3 widths, plain and toggle |
 | Button groups | Standard (pressed item widens 15%) and connected (single / multi select) |
-| Segmented buttons | Covered by `ConnectedButtonGroup`, which M3E replaces segmented buttons with |
+| Segmented buttons | Covered by `ConnectedButtonGroup`, which M3E replaces segmented buttons with. Single select is a `radiogroup` with one tab stop and arrows that move and select; multiple select is a `group` of `aria-pressed` toggles, one tab stop each |
 | Divider | Horizontal and vertical, full-width and inset (both ends, start, end), on `useSeparator` |
 | FAB | 4 sizes from FabSmall/Baseline/Medium/Large, 4 colour options, level 3 to 4 elevation, renders as a link |
 | Split button | All 5 sizes from the SplitButton token files, 4 colour variants, inner corners that grow on hover and press and round fully when expanded, RTL mirrored |
@@ -165,7 +165,21 @@ With those, nothing needed excluding: the indeterminate progress indicators, the
 indicator and the motion playground were each checked over three runs and left in. The skip list
 in `visual/stories.spec.ts` is empty and kept for the first story that does need it.
 
-The one thing not pinned is the font. The typeface tokens fall back to the system sans and nothing
-loads a webfont, so the baselines belong to the machine that took them. Playwright suffixes them
-with the platform, which is not enough on its own: two Linux machines with different fonts
-installed will still disagree. A container image is the fix and is not set up here.
+The font is pinned too, which is what makes the baselines portable. The library deliberately
+ships no font — the typeface tokens are a stack ending in the system sans, so an app brings its
+own — and that left Storybook rendering in whatever the machine happened to have. Roboto's latin
+subset is now vendored at `.storybook/fonts/`, for Storybook only and not in the published
+bundle, declared `font-display: block` so a screenshot cannot catch the swap. With that, this
+machine and the Playwright container agree on all 292 shots.
+
+Two ways to run it:
+
+| | |
+| --- | --- |
+| `pnpm visual` | The host's own browser. Needs `npx playwright install chromium` once. Fast, and what to use while working on a component |
+| `pnpm visual:docker` | The `mcr.microsoft.com/playwright` image the baselines were taken in, and the same one CI uses. The one to trust when a diff is in doubt. It does not install inside the container, so run `pnpm install` on the host first |
+
+CI runs both halves: `typecheck`, `test`, `build` and `build-storybook` on a plain runner, plus a
+check that `dist` really exports what `package.json` promises and leaves React, Motion and React
+Aria external; then the visual job inside that image, which uploads the diff images when a
+screenshot moves.
