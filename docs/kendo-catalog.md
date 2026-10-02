@@ -42,16 +42,16 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 53 |
-| In scope, to build | 48 (across 7 phases) |
+| Already covered by Grange | 55 |
+| In scope, to build | 46 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
 verification — they are roughly 28 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phase 1 is done.** `NumberField`, `MaskedTextField`, `Rating`, `Signature` and the `Form` set
-are in. Phase 2 — the dropdowns and a public `Popover` — is next.
+**Phase 1 is done**, and **phase 2 is under way**: the public `Popover` and `ComboBox` are in,
+2 of its 7.
 
 ## Already covered
 
@@ -142,10 +142,26 @@ Three things this phase changed outside itself, each of which was a real defect:
 
 ### Phase 2 — Dropdowns and the popover surface
 
+`OptionList` came out of `Select` in the first round of this phase, for the same reason
+`FieldShell` came out of `TextField`: a select, a combo box and a multi-select draw the same rows
+and would otherwise each grow a copy. Three things the round turned up, each of which looked
+finished and was not:
+
+- **An empty list has to be allowed.** `useComboBoxState` closes the list the moment the filter
+  matches nothing, so an empty state has nowhere to be rendered until `allowsEmptyCollection` is
+  set — the branch is simply never reached.
+- **A popover has to take focus.** `usePopover` listens for Escape on the overlay element, so a
+  panel whose content holds nothing focusable leaves focus on the trigger and cannot be dismissed
+  from the keyboard. The surface is `tabIndex={-1}` inside a `FocusScope` so there is always
+  somewhere for focus to land.
+- **The combo box's chevron must not be given a label.** `useComboBox` labels it by the field
+  through `aria-labelledby`, which wins over `aria-label` — so an `aria-label` would sit in the
+  markup doing nothing.
+
 | Component | Behaviour | Notes |
 | --- | --- | --- |
-| `Popover` (Popup) | `usePopover` | Already exists internally behind `Menu` and `Select`; this makes it public, with placement, offset and the non-modal option |
-| `ComboBox` | `useComboBox` | Editable text plus a filtered listbox. The base the next two build on |
+| ~~`Popover`~~ ✅ (Popup) | `usePopover` | Done. The low-level `Popover` was already there behind `Menu` and `Select`; `PopoverTrigger` is the component: a button and the surface it opens, for content that is not a list. A dialog rather than a tooltip, because the moment there is something to interact with inside, a tooltip is the wrong markup — assistive tech cannot reach into one and it closes on pointer-leave |
+| ~~`ComboBox`~~ ✅ | `useComboBox` | Done, and it shares both halves with what was already here: `FieldShell` for the chrome and `OptionList` for the list, which `Select` was moved onto in the same round. Filtering goes through `useFilter`, so it follows the locale — typing "ist" finds Istanbul in English and correctly does not in Turkish, where the dotted and dotless i are different letters |
 | `Autocomplete` | `useAutocomplete` | A text field that suggests, without the listbox owning the value |
 | `MultiSelect` | `useListBox` + `useTagGroup` | Selected values as removable chips, which is what `useTagGroup` is for |
 | `MultiColumnComboBox` | `useComboBox` | Same behaviour, a tabular popover |
