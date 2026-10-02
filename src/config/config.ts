@@ -78,6 +78,15 @@ export type TooltipSlot = 'root';
 export type RichTooltipSlot = 'root' | 'subhead' | 'content' | 'actions';
 export type MenuSlot = 'root' | 'item';
 export type SelectSlot = 'root' | 'trigger' | 'label' | 'item';
+export type ComboBoxSlot =
+  | 'root'
+  | 'container'
+  | 'label'
+  | 'input'
+  | 'supporting'
+  | 'leadingIcon'
+  | 'item';
+export type PopoverSlot = 'root';
 export type TabsSlot = 'root' | 'list' | 'tab' | 'panel';
 export type CardSlot = 'root';
 export type ListSlot = 'root' | 'item' | 'label';
@@ -132,6 +141,8 @@ export interface ClassNamesConfig {
   RichTooltip?: SlotOverrides<RichTooltipSlot>;
   Menu?: SlotOverrides<MenuSlot>;
   Select?: SlotOverrides<SelectSlot>;
+  ComboBox?: SlotOverrides<ComboBoxSlot>;
+  Popover?: SlotOverrides<PopoverSlot>;
   Tabs?: SlotOverrides<TabsSlot>;
   Card?: SlotOverrides<CardSlot>;
   List?: SlotOverrides<ListSlot>;
@@ -231,6 +242,12 @@ export interface DefaultPropsConfig {
   TextField?: { variant?: 'filled' | 'outlined' };
   NumberField?: { variant?: 'filled' | 'outlined'; hideStepper?: boolean };
   Select?: { variant?: 'filled' | 'outlined' };
+  ComboBox?: {
+    variant?: 'filled' | 'outlined';
+    allowsCustomValue?: boolean;
+    menuTrigger?: 'input' | 'focus' | 'manual';
+  };
+  Popover?: { placement?: 'top' | 'bottom' | 'start' | 'end'; nonModal?: boolean };
   Menu?: { variant?: 'default' | 'standard' | 'vibrant' };
   RichTooltip?: { placement?: 'top' | 'bottom' | 'start' | 'end'; persistent?: boolean };
   Tabs?: { variant?: 'primary' | 'secondary'; scrollable?: boolean };
@@ -389,6 +406,8 @@ const COMPONENTS: ComponentName[] = [
   'RichTooltip',
   'Menu',
   'Select',
+  'ComboBox',
+  'Popover',
   'Snackbar',
   'Tabs',
   'Card',

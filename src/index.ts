@@ -61,6 +61,8 @@ export type {
   RichTooltipSlot,
   MenuSlot,
   SelectSlot,
+  ComboBoxSlot,
+  PopoverSlot,
   TabsSlot,
   CardSlot,
   ListSlot,
@@ -182,8 +184,17 @@ export type {
   MenuTriggerProps,
 } from './components/Menu/Menu';
 export { menu } from './components/Menu/specs';
-export { Popover } from './overlays/Popover';
-export type { PopoverProps } from './overlays/Popover';
+export { Popover, PopoverTrigger } from './overlays/Popover';
+export type { PopoverProps, PopoverTriggerProps } from './overlays/Popover';
+
+export { ComboBox, ComboBoxItem, FilledComboBox, OutlinedComboBox } from './components/ComboBox/ComboBox';
+export type {
+  ComboBoxProps,
+  ComboBoxItemProps,
+  VariantComboBoxProps,
+} from './components/ComboBox/ComboBox';
+export { OptionList } from './components/Select/OptionList';
+export type { OptionListProps, OptionListItemProps } from './components/Select/OptionList';
 
 export { Dialog } from './components/Dialog/Dialog';
 export type { DialogProps } from './components/Dialog/Dialog';

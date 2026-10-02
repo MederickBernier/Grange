@@ -1,0 +1,30 @@
+/*
+ * The generic anchored surface. No PopoverTokens upstream — M3 has no popover component — so it
+ * borrows the menu's: the same container colour, the same level 2 elevation, and CornerMedium
+ * rather than the menu's extra-small, because a panel of content is not a list of rows.
+ */
+
+@use '../scss/api' as grange;
+
+.popover {
+  z-index: 1050;
+}
+
+.content {
+  box-sizing: border-box;
+  min-width: 112px;
+  max-width: min(90vw, 360px);
+  padding: 16px;
+  border-radius: 12px; // CornerMedium
+  background: grange.color(surface-container); // as MenuTokens.ContainerColor
+  color: grange.color(on-surface);
+  // Level 2, written out because the elevation primitive works through a child element only
+  // ButtonBase renders.
+  box-shadow:
+    0 1px 2px 0 #{grange.translucent(shadow, 30%)},
+    0 2px 6px 2px #{grange.translucent(shadow, 15%)};
+
+  &:focus-visible {
+    outline: none;
+  }
+}
