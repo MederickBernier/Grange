@@ -52,6 +52,7 @@ export type SwitchSlot = 'root' | 'track' | 'handle' | 'label';
 export type RadioSlot = 'root' | 'ring' | 'label';
 export type RatingSlot = 'root' | 'label' | 'item';
 export type SignatureSlot = 'root' | 'label' | 'surface' | 'actions';
+export type FormSlot = 'root' | 'actions';
 export type SliderSlot = 'root' | 'track' | 'handle' | 'label';
 export type TextFieldSlot =
   | 'root'
@@ -121,6 +122,8 @@ export interface ClassNamesConfig {
   Radio?: SlotOverrides<RadioSlot>;
   Rating?: SlotOverrides<RatingSlot>;
   Signature?: SlotOverrides<SignatureSlot>;
+  Form?: SlotOverrides<FormSlot>;
+  FormField?: SlotOverrides<'root' | 'label' | 'supporting'>;
   Slider?: SlotOverrides<SliderSlot>;
   TextField?: SlotOverrides<TextFieldSlot>;
   NumberField?: SlotOverrides<NumberFieldSlot>;
@@ -219,6 +222,7 @@ export interface DefaultPropsConfig {
   CheckboxGroup?: { orientation?: 'horizontal' | 'vertical' };
   Rating?: { max?: number; precision?: 1 | 0.5; allowClear?: boolean };
   Signature?: { width?: number; height?: number; strokeWidth?: number };
+  Form?: { validationBehavior?: 'aria' | 'native' };
   TimePicker?: {
     hourCycle?: 12 | 24;
     periodOrientation?: 'vertical' | 'horizontal';
@@ -371,6 +375,8 @@ const COMPONENTS: ComponentName[] = [
   'Radio',
   'Rating',
   'Signature',
+  'Form',
+  'FormField',
   'Slider',
   'TextField',
   'NumberField',

@@ -1,0 +1,58 @@
+/*
+ * A form is layout, so there are no tokens for it. The two gaps are chosen on M3's 4dp grid and
+ * specs.ts says so; they move onto a named spacing scale when phase 4 introduces one.
+ */
+
+@use '../../scss/api' as grange;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; // actionGap
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; // gap
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* A labelled wrapper for a control that brings none of its own. */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.label {
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(body-large);
+}
+
+.supporting {
+  padding-inline: 4px;
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(body-small);
+}
+
+.field[data-error] {
+  .label,
+  .supporting {
+    color: grange.color(error);
+  }
+}
+
+.field[data-disabled] {
+  .label,
+  .supporting {
+    color: #{grange.translucent(on-surface, 38%)};
+  }
+}

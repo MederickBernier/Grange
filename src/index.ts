@@ -52,6 +52,7 @@ export type {
   RadioSlot,
   RatingSlot,
   SignatureSlot,
+  FormSlot,
   SliderSlot,
   TextFieldSlot,
   NumberFieldSlot,
@@ -226,6 +227,19 @@ export { rating } from './components/Rating/specs';
 export { Signature } from './components/Signature/Signature';
 export type { SignatureProps } from './components/Signature/Signature';
 export { signature } from './components/Signature/specs';
+
+export { Form, FormField, FieldArray, readValues } from './components/Form/Form';
+export type {
+  FormProps,
+  FormFieldProps,
+  FormFieldRenderProps,
+  FieldArrayProps,
+  FieldArrayRow,
+  FormValues,
+  FormValue,
+  FormErrors,
+} from './components/Form/Form';
+export { form } from './components/Form/specs';
 export { strokePath, strokesToSvg, strokeBounds, thin } from './components/Signature/strokes';
 export type { Stroke, SvgOptions } from './components/Signature/strokes';
 
