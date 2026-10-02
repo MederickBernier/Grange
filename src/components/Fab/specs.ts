@@ -28,3 +28,59 @@ export const fabSizes: Record<FabSize, FabSizeSpec> = {
   medium: { size: 80, corner: shapeCorner.largeIncreased, icon: 28 },
   large: { size: 96, corner: shapeCorner.extraLarge, icon: 32 },
 };
+
+// ---------------------------------------------------------------------------
+// Extended FAB
+// ---------------------------------------------------------------------------
+
+/**
+ * From Compose ExtendedFabSmall/Medium/Large tokens. The names are Google's and the heights are
+ * worth stating because they do not line up with the plain FAB's: an extended `small` is 56px,
+ * the same height as a plain `baseline`.
+ */
+export type ExtendedFabSize = 'small' | 'medium' | 'large';
+
+export interface ExtendedFabSizeSpec {
+  height: number;
+  corner: number;
+  icon: number;
+  /** Space between icon and label, px. */
+  gap: number;
+  /** Leading and trailing space, px. Equal at every size. */
+  padding: number;
+}
+
+export const extendedFabSizes: Record<ExtendedFabSize, ExtendedFabSizeSpec> = {
+  small: { height: 56, corner: shapeCorner.large, icon: 24, gap: 8, padding: 16 },
+  // ExtendedFabMedium publishes no ContainerShape. Every other size shares its corner with the
+  // plain FAB of the same height, and 80px is FabMedium, so this follows that.
+  medium: { height: 80, corner: shapeCorner.largeIncreased, icon: 28, gap: 16, padding: 26 },
+  large: { height: 96, corner: shapeCorner.extraLarge, icon: 32, gap: 20, padding: 28 },
+};
+
+/**
+ * Collapsing an extended FAB gives exactly the plain FAB of the same height, since the two token
+ * sets agree on height and corner at 56, 80 and 96. This is the padding that squares it off.
+ */
+export function collapsedPadding(spec: ExtendedFabSizeSpec): number {
+  return (spec.height - spec.icon) / 2;
+}
+
+// ---------------------------------------------------------------------------
+// FAB menu
+// ---------------------------------------------------------------------------
+
+/** From Compose FabMenuBaselineTokens. */
+export const fabMenu = {
+  /** The toggle, once it has become a close button, px. */
+  closeSize: 56,
+  closeIcon: 20,
+  /** Gap between the list and the close button, px. */
+  closeGap: 8,
+  itemHeight: 56,
+  itemIcon: 24,
+  itemGap: 8,
+  itemPadding: 24,
+  /** Gap between one list item and the next, px. */
+  itemBetween: 4,
+} as const;

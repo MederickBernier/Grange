@@ -59,6 +59,13 @@ export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
 
+export { ExtendedFab } from './components/Fab/ExtendedFab';
+export type { ExtendedFabProps, ExtendedFabSize } from './components/Fab/ExtendedFab';
+export { FabMenu, FabMenuItem } from './components/Fab/FabMenu';
+export type { FabMenuProps, FabMenuItemProps } from './components/Fab/FabMenu';
+export { extendedFabSizes, fabMenu, collapsedPadding } from './components/Fab/specs';
+export type { ExtendedFabSizeSpec } from './components/Fab/specs';
+
 export { SplitButton, SplitButtonLeading, SplitButtonTrailing } from './components/SplitButton/SplitButton';
 export type {
   SplitButtonProps,

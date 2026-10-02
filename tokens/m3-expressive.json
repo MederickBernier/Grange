@@ -3,7 +3,7 @@
     "source": "androidx-main compose/material3 token files (Apache 2.0)",
     "read": "2026-10-01",
     "units": "dp=px, sp=px",
-    "componentTokensVersion": "v0_4_0",
+    "componentTokensVersion": "v0_103, v0_14_0",
     "componentTokensSource": "androidx-main compose/material3 tokens"
   },
   "motion": {
@@ -913,6 +913,52 @@
       "StopShape": "CornerFull",
       "TrackColor": "color:SecondaryContainer",
       "TrackShape": "CornerFull"
+    },
+    "ExtendedFabSmall": {
+      "ContainerHeight": "56.0.dp",
+      "ContainerShape": "CornerLarge",
+      "IconLabelSpace": "8.0.dp",
+      "IconSize": "24.0.dp",
+      "LeadingSpace": "16.0.dp",
+      "TrailingSpace": "16.0.dp"
+    },
+    "ExtendedFabMedium": {
+      "ContainerHeight": "80.0.dp",
+      "IconLabelSpace": "16.0.dp",
+      "IconSize": "28.0.dp",
+      "LeadingSpace": "26.0.dp",
+      "TrailingSpace": "26.0.dp"
+    },
+    "ExtendedFabLarge": {
+      "ContainerHeight": "96.0.dp",
+      "ContainerShape": "CornerExtraLarge",
+      "IconLabelSpace": "20.0.dp",
+      "IconSize": "32.0.dp",
+      "LeadingSpace": "28.0.dp",
+      "TrailingSpace": "28.0.dp"
+    },
+    "ExtendedFabPrimary": {
+      "ContainerColor": "color:PrimaryContainer",
+      "ContainerElevation": "elevation:Level3",
+      "ContainerHeight": "56.0.dp",
+      "ContainerShape": "CornerLarge",
+      "FocusContainerElevation": "elevation:Level3",
+      "FocusIconColor": "color:OnPrimaryContainer",
+      "FocusLabelTextColor": "color:OnPrimaryContainer",
+      "HoverContainerElevation": "elevation:Level4",
+      "HoverIconColor": "color:OnPrimaryContainer",
+      "HoverLabelTextColor": "color:OnPrimaryContainer",
+      "IconColor": "color:OnPrimaryContainer",
+      "IconSize": "24.0.dp",
+      "LabelTextColor": "color:OnPrimaryContainer",
+      "LabelTextFont": "type:LabelLarge",
+      "LoweredContainerElevation": "elevation:Level1",
+      "LoweredFocusContainerElevation": "elevation:Level1",
+      "LoweredHoverContainerElevation": "elevation:Level2",
+      "LoweredPressedContainerElevation": "elevation:Level1",
+      "PressedContainerElevation": "elevation:Level3",
+      "PressedIconColor": "color:OnPrimaryContainer",
+      "PressedLabelTextColor": "color:OnPrimaryContainer"
     }
   }
 }

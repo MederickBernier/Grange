@@ -72,3 +72,40 @@
     fill: currentColor;
   }
 }
+
+// ---------------------------------------------------------------------------
+// Extended FAB. Shares the colours and elevation above; adds a label, its own height, and the
+// lowered elevations from ExtendedFabPrimaryTokens.
+// ---------------------------------------------------------------------------
+
+.extended {
+  width: auto;
+  height: var(--_height);
+  gap: var(--_gap);
+  white-space: nowrap;
+
+  &[data-size='small'] {
+    @include grange.typescale(label-large);
+  }
+  &[data-size='medium'] {
+    @include grange.typescale(title-medium);
+  }
+  &[data-size='large'] {
+    @include grange.typescale(headline-small);
+  }
+
+  // Lowered sits a FAB on an already raised surface: level 1 at rest, level 2 on hover.
+  &[data-lowered] {
+    --grange-elevation-level: 1;
+
+    &[data-hovered] {
+      --grange-elevation-level: 2;
+    }
+  }
+}
+
+.label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
