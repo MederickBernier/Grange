@@ -37,7 +37,7 @@ Dark mode follows `prefers-color-scheme`; force it with `data-theme="dark"` (or 
 | Overrides | `GrangeProvider` takes `defaultProps`, `classNames` (per slot, add or replace), `behavior` (ripple, spring roles, touch target, inner corners) and `sizes` (geometry). Providers nest and merge |
 | Motion | `GrangeProvider` (expressive / standard scheme, reduced-motion aware), `useSpring(name)` for the six M3E springs |
 | Primitives | State layer, ripple, focus ring, elevation, 48px touch target (`src/primitives`), and `ButtonBase`, the shared interactive core. `Icon` sizes itself from `--grange-icon-size`; `Divider` is horizontal or vertical, full-width or inset |
-| Components | `Fab` (4 sizes × 4 colours), `SplitButton` (5 sizes, expandable trailing half), and one button per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single / multi select) |
+| Components | `Fab` (4 sizes × 4 colours), `SplitButton` (5 sizes, expandable trailing half), `LinearProgress` and `CircularProgress` (determinate or indeterminate, flat or M3E wavy), and one button per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single / multi select) |
 | Roadmap | [`docs/components.md`](docs/components.md) — the full M3 catalog, what is done, and what each remaining component needs |
 | Storybook | Every component and state, light/dark and expressive/standard toolbar switches, and **Foundations / Motion playground** for tuning springs live |
 
@@ -237,10 +237,11 @@ Springs are tuned in the Motion playground story. The "Changed values" panel the
 
 ## What's missing
 
-Seven of the 36 components in the Material 3 catalog are done: buttons, icon buttons, button
-groups, (through `ConnectedButtonGroup`) segmented buttons, `Divider`, `Fab` and `SplitButton`,
-plus `Icon`, which the catalog does not list separately. Of the 29 remaining, 17 have a dedicated
-React Aria hook, so their behavior and accessibility are already solved.
+Eight of the 36 components in the Material 3 catalog are done: buttons, icon buttons, button
+groups, (through `ConnectedButtonGroup`) segmented buttons, `Divider`, `Fab`, `SplitButton` and
+the progress indicators, plus `Icon`, which the catalog does not list separately. Of the 28
+remaining, 16 have a dedicated React Aria hook, so their behavior and accessibility are already
+solved.
 
 See [`docs/components.md`](docs/components.md) for the full catalog, what each remaining
 component needs, and the foundations most of them are blocked on.
