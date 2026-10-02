@@ -4,6 +4,7 @@
   "description": "Material 3 Expressive components for React, built from the M3E token spec",
   "type": "module",
   "license": "UNLICENSED",
+  "packageManager": "pnpm@10.27.0",
   "sideEffects": [
     "**/*.css",
     "./src/index.ts",
@@ -35,9 +36,10 @@
     "storybook": "pnpm tokens && storybook dev -p 6006",
     "build-storybook": "pnpm tokens && storybook build -o storybook-static",
     "capture-shapes": "tsx scripts/capture-shapes.mts",
-    "serve-storybook": "vite preview --outDir storybook-static --port 6007 --strictPort",
+    "serve-storybook": "vite preview --outDir storybook-static --port 6007 --strictPort --host 127.0.0.1",
     "visual": "pnpm build-storybook && playwright test",
-    "visual:update": "pnpm build-storybook && playwright test --update-snapshots"
+    "visual:update": "pnpm build-storybook && playwright test --update-snapshots",
+    "visual:docker": "bash scripts/visual-docker.sh"
   },
   "peerDependencies": {
     "react": ">=18.2",

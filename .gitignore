@@ -19,3 +19,6 @@ src/shapes/generated/
 test-results/
 playwright-report/
 blob-report/
+
+# pnpm store, left behind when a container run uses the repo as HOME
+.pnpm-store/

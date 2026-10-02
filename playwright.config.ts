@@ -51,7 +51,11 @@ export default defineConfig({
   },
 
   webServer: {
-    command: 'pnpm serve-storybook',
+    // `npx`, not `pnpm`: this also runs inside the Playwright container, where the pnpm shim is
+    // not necessarily on PATH. The pnpm script stays for people.
+    // `--host 127.0.0.1`, because vite's default `localhost` resolves to IPv6 only inside the
+    // Playwright container, where nothing then answers on 127.0.0.1.
+    command: 'npx vite preview --outDir storybook-static --port 6007 --strictPort --host 127.0.0.1',
     url: 'http://127.0.0.1:6007/iframe.html',
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
