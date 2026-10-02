@@ -9,7 +9,7 @@ import {
   RangeCalendar,
   TextButton,
   TimeField,
-  timePickerDial,
+  timePicker,
 } from '../src';
 
 /**
@@ -20,9 +20,8 @@ import {
  * calendars that are not Gregorian. Switch the locale stories below and watch the grid change
  * without the component knowing anything about it.
  *
- * The clock dial is the other mode the spec draws for a time picker and it is not built; its
- * tokens are captured ({timePickerDial.size}px dial, {timePickerDial.handleSize}px handle) and
- * the roadmap records what it needs.
+ * The clock dial, the other mode the spec draws for a time picker, is `TimePicker`: a
+ * {timePicker.dialSize}px face with a {timePicker.handleSize}px handle. It has its own stories.
  */
 const meta: Meta = {
   title: 'Components/Calendar and Time',

@@ -36,8 +36,8 @@ export interface TimeFieldProps {
  * Each segment takes the arrow keys and typing, and the whole thing follows the locale for the
  * hour cycle and the segment order, which is why there is no format string to get wrong.
  *
- * The clock dial is the other mode the spec draws, and it is not built; its tokens are captured
- * and the roadmap records what it needs.
+ * The clock dial is the other mode the spec draws, and it is `TimePicker`, which can show this
+ * field as its input mode behind the same value.
  */
 export function TimeField(props: TimeFieldProps) {
   const { slots } = useComponentConfig('TimeField');

@@ -1,0 +1,221 @@
+/*
+ * Time picker, dial mode, from Compose TimePickerTokens: 96 by 80 hour and minute boxes at
+ * CornerSmall in display-large, a 1px outlined AM/PM selector, and a 256px dial on
+ * surface-container-highest with a 48px primary handle on a 2px hand.
+ */
+
+@use '../../scss/api' as grange;
+
+.picker {
+  --_dial: 256px; // ClockDialContainerSize
+  --_handle: 48px; // ClockDialSelectorHandleContainerSize
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  color: grange.color(on-surface);
+}
+
+.headline {
+  margin: 0;
+  align-self: flex-start;
+  color: grange.color(on-surface-variant); // HeadlineColor
+  @include grange.typescale(label-medium); // HeadlineFont
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  &[data-period='horizontal'] {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.boxes {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/*
+ * The hour and minute boxes. Selected takes the primary container, unselected the highest
+ * surface, which is what distinguishes the one the dial is editing.
+ */
+.selector {
+  box-sizing: border-box;
+  width: 96px; // TimeSelectorContainerWidth
+  height: 80px; // TimeSelectorContainerHeight
+  border: none;
+  border-radius: 8px; // TimeSelectorContainerShape: CornerSmall
+  background: grange.color(surface-container-highest); // TimeSelectorUnselectedContainerColor
+  color: grange.color(on-surface); // TimeSelectorUnselectedLabelTextColor
+  cursor: pointer;
+  @include grange.typescale(display-large); // TimeSelectorLabelTextFont
+
+  &[data-selected='true'] {
+    background: grange.color(primary-container); // TimeSelectorSelectedContainerColor
+    color: grange.color(on-primary-container); // TimeSelectorSelectedLabelTextColor
+  }
+
+  &:focus-visible {
+    outline: 2px solid grange.color(primary);
+    outline-offset: 2px;
+  }
+}
+
+/* A 24-hour picker has no AM/PM beside it, so the boxes take the wider token. */
+.boxes[data-cycle='24'] .selector {
+  width: 114px; // TimeSelector24HVerticalContainerWidth
+}
+
+.separator {
+  width: 24px;
+  text-align: center;
+  color: grange.color(on-surface); // TimeSelectorSeparatorColor
+  @include grange.typescale(display-large); // TimeSelectorSeparatorFont
+}
+
+.period {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid grange.color(outline); // PeriodSelectorOutlineWidth / Color
+  border-radius: 8px; // PeriodSelectorContainerShape: CornerSmall
+
+  &[data-orientation='vertical'] {
+    flex-direction: column;
+    width: 52px; // PeriodSelectorVerticalContainerWidth
+    height: 80px; // PeriodSelectorVerticalContainerHeight
+  }
+
+  &[data-orientation='horizontal'] {
+    width: 216px; // PeriodSelectorHorizontalContainerWidth
+    height: 38px; // PeriodSelectorHorizontalContainerHeight
+  }
+}
+
+.periodOption {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: grange.color(on-surface-variant); // PeriodSelectorUnselectedLabelTextColor
+  cursor: pointer;
+  @include grange.typescale(title-medium); // PeriodSelectorLabelTextFont
+
+  &[data-selected='true'] {
+    background: grange.color(tertiary-container); // PeriodSelectorSelectedContainerColor
+    color: grange.color(on-tertiary-container); // PeriodSelectorSelectedLabelTextColor
+  }
+
+  &:focus-visible {
+    outline: 2px solid grange.color(primary);
+    outline-offset: -2px;
+  }
+}
+
+/*
+ * The dial. Everything on it is placed from its top left corner in the dial's own coordinates,
+ * which is what the geometry in dial.ts computes, so the stylesheet does no trigonometry.
+ */
+.dial {
+  position: relative;
+  box-sizing: border-box;
+  width: var(--_dial);
+  height: var(--_dial);
+  border-radius: 9999px; // ClockDialShape: CornerFull
+  background: grange.color(surface-container-highest); // ClockDialColor
+  touch-action: none;
+  cursor: pointer;
+  user-select: none;
+
+  &:focus-visible {
+    outline: 2px solid grange.color(primary);
+    outline-offset: 2px;
+  }
+}
+
+.centre {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  width: 8px; // ClockDialSelectorCenterContainerSize
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 9999px; // CornerFull
+  background: grange.color(primary); // ClockDialSelectorCenterContainerColor
+}
+
+/* The hand, turned about the middle of the dial rather than its own middle. */
+.track {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  width: 2px; // ClockDialSelectorTrackContainerWidth
+  margin-inline-start: -1px;
+  // Drawn downwards from the middle of the dial and turned about that end, which is why the
+  // component adds half a turn: a value's angle is measured from the top.
+  transform-origin: top center;
+  background: grange.color(primary); // ClockDialSelectorTrackContainerColor
+  transition: rotate grange.duration(short4) grange.easing(standard);
+}
+
+.handle {
+  position: absolute;
+  width: var(--_handle);
+  height: var(--_handle);
+  margin: calc(var(--_handle) / -2) 0 0 calc(var(--_handle) / -2);
+  border-radius: 9999px; // CornerFull
+  background: grange.color(primary); // ClockDialSelectorHandleContainerColor
+  transition:
+    left grange.duration(short4) grange.easing(standard),
+    top grange.duration(short4) grange.easing(standard);
+}
+
+.label {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_handle);
+  height: var(--_handle);
+  margin: calc(var(--_handle) / -2) 0 0 calc(var(--_handle) / -2);
+  // The handle sits under the numbers, so a selected one reads on top of it.
+  z-index: 1;
+  color: grange.color(on-surface); // ClockDialUnselectedLabelTextColor
+  @include grange.typescale(body-large); // ClockDialLabelTextFont
+
+  &[data-selected] {
+    color: grange.color(on-primary); // ClockDialSelectedLabelTextColor
+  }
+}
+
+/* The inner ring of a 24-hour face is the quieter one, as the spec draws it. */
+.label[data-ring='inner'] {
+  @include grange.typescale(body-medium);
+}
+
+.modeToggle {
+  align-self: flex-start;
+  border: none;
+  background: transparent;
+  color: grange.color(primary);
+  cursor: pointer;
+  padding: 8px 0;
+  @include grange.typescale(label-large);
+
+  &:focus-visible {
+    outline: 2px solid grange.color(primary);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .handle {
+    transition: none;
+  }
+}

@@ -1,0 +1,43 @@
+/*
+ * Checkbox group. There is no CheckboxGroupTokens upstream — a group is a layout around the
+ * boxes, not a control with a surface of its own — so the type styles here are the same ones the
+ * radio group and the text field use for a group label and its supporting text.
+ */
+
+@use '../../scss/api' as grange;
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.groupLabel {
+  color: grange.color(on-surface);
+  @include grange.typescale(body-large);
+}
+
+.options {
+  display: flex;
+  gap: 4px;
+
+  &[data-orientation='vertical'] {
+    flex-direction: column;
+  }
+
+  &[data-orientation='horizontal'] {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+
+.supportingText {
+  padding-inline: 4px;
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(body-small);
+}
+
+.group[data-error] .supportingText {
+  color: grange.color(error);
+}

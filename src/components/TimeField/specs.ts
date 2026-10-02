@@ -1,9 +1,9 @@
 /**
- * From Compose TimeInputTokens and TimePickerTokens.
+ * From Compose TimeInputTokens.
  *
- * `TimeField` is the input mode: the two-segment entry the spec pairs with the dial. The dial
- * itself is not built, and its tokens are captured and recorded in the roadmap: it needs the
- * polar drag handling of a clock face, which is a component of its own.
+ * `TimeField` is the input mode: the two-segment entry the spec pairs with the dial. The dial is
+ * `TimePicker`, which reads TimePickerTokens instead — the two modes share nothing but the
+ * value, which is why they are separate token objects upstream as well.
  */
 export const timeField = {
   /** A segment box, px. */
@@ -13,12 +13,4 @@ export const timeField = {
   corner: 8,
   /** The separator between the segments, px. */
   separatorWidth: 24,
-} as const;
-
-/** From TimePickerTokens, for the dial that is not built yet. */
-export const timePickerDial = {
-  size: 256,
-  handleSize: 48,
-  centreSize: 8,
-  trackWidth: 2,
 } as const;

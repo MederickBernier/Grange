@@ -78,6 +78,7 @@ export type ChipSlot = 'root' | 'label' | 'remove';
 export type SearchSlot = 'root' | 'bar' | 'input' | 'view';
 export type CalendarSlot = 'root' | 'header' | 'cell';
 export type TimeFieldSlot = 'root' | 'input' | 'label';
+export type TimePickerSlot = 'root' | 'headline' | 'hour' | 'minute' | 'period' | 'dial';
 export type SnackbarSlot = 'root' | 'region' | 'action';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
@@ -129,6 +130,8 @@ export interface ClassNamesConfig {
   LoadingIndicator?: SlotOverrides<'root'>;
   Calendar?: SlotOverrides<CalendarSlot>;
   TimeField?: SlotOverrides<TimeFieldSlot>;
+  TimePicker?: SlotOverrides<TimePickerSlot>;
+  CheckboxGroup?: SlotOverrides<'root' | 'label' | 'supportingText'>;
   Snackbar?: SlotOverrides<SnackbarSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
@@ -194,6 +197,12 @@ export interface DefaultPropsConfig {
     orientation?: 'horizontal' | 'vertical';
   };
   RadioGroup?: { orientation?: 'horizontal' | 'vertical' };
+  CheckboxGroup?: { orientation?: 'horizontal' | 'vertical' };
+  TimePicker?: {
+    hourCycle?: 12 | 24;
+    periodOrientation?: 'vertical' | 'horizontal';
+    mode?: 'dial' | 'input';
+  };
   TextField?: { variant?: 'filled' | 'outlined' };
   Select?: { variant?: 'filled' | 'outlined' };
   Tabs?: { variant?: 'primary' | 'secondary'; scrollable?: boolean };
@@ -365,6 +374,8 @@ const COMPONENTS: ComponentName[] = [
   'LoadingIndicator',
   'Calendar',
   'TimeField',
+  'TimePicker',
+  'CheckboxGroup',
 ];
 
 /**

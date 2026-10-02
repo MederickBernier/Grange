@@ -70,6 +70,7 @@ export type {
   SearchSlot,
   CalendarSlot,
   TimeFieldSlot,
+  TimePickerSlot,
   SnackbarSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
@@ -88,7 +89,21 @@ export type { CalendarProps, RangeCalendarProps } from './components/Calendar/Ca
 export { calendar } from './components/Calendar/specs';
 export { TimeField } from './components/TimeField/TimeField';
 export type { TimeFieldProps } from './components/TimeField/TimeField';
-export { timeField, timePickerDial } from './components/TimeField/specs';
+export { timeField } from './components/TimeField/specs';
+export { TimePicker } from './components/TimePicker/TimePicker';
+export type { TimePickerProps } from './components/TimePicker/TimePicker';
+export { timePicker } from './components/TimePicker/specs';
+export {
+  angleFor,
+  labelsFor,
+  pointFor,
+  radiusFor,
+  ringFor,
+  valueAt,
+  fromHour24,
+  toHour24,
+} from './components/TimePicker/dial';
+export type { DialLabel, DialMode } from './components/TimePicker/dial';
 
 export { Search, useSearchFilter } from './components/Search/Search';
 export type { SearchProps } from './components/Search/Search';
@@ -186,6 +201,8 @@ export type { TrackPiece } from './components/Slider/specs';
 export { Checkbox } from './components/Checkbox/Checkbox';
 export type { CheckboxProps } from './components/Checkbox/Checkbox';
 export { checkbox } from './components/Checkbox/specs';
+export { CheckboxGroup } from './components/Checkbox/CheckboxGroup';
+export type { CheckboxGroupProps } from './components/Checkbox/CheckboxGroup';
 export { Switch } from './components/Switch/Switch';
 export type { SwitchProps } from './components/Switch/Switch';
 export { switchSpec, handlePosition, handleSize } from './components/Switch/specs';

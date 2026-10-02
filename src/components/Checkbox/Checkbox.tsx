@@ -1,6 +1,15 @@
-import { forwardRef, useRef, type CSSProperties, type ReactNode } from 'react';
-import { VisuallyHidden, useCheckbox, useFocusRing, useHover, useObjectRef } from 'react-aria';
+import { forwardRef, useContext, type CSSProperties, type ReactNode } from 'react';
+import {
+  VisuallyHidden,
+  useCheckbox,
+  useCheckboxGroupItem,
+  useFocusRing,
+  useHover,
+  useObjectRef,
+} from 'react-aria';
+import type { CheckboxGroupState } from 'react-stately';
 import { useToggleState } from 'react-stately';
+import { CheckboxGroupContext } from './CheckboxGroup';
 import {
   resolveSlotClass,
   useComponentConfig,
@@ -22,12 +31,16 @@ export interface CheckboxProps {
    * its children are checked. Clicking an indeterminate checkbox checks it.
    */
   indeterminate?: boolean;
+  /**
+   * Required inside a `CheckboxGroup`, which is what identifies this box in the group's value.
+   * The group then owns whether it is checked, so `checked` and `onChange` are ignored there.
+   */
+  value?: string;
   disabled?: boolean;
   /** Turns the box and its outline the error colour. */
   error?: boolean;
   /** Submitted with the form under this name when checked. */
   name?: string;
-  value?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
   'aria-describedby'?: string;
@@ -43,23 +56,25 @@ export interface CheckboxProps {
  *
  * The 40px round hover and focus layer is the shared state layer primitive, which is why it
  * picks up the same timings as every other control.
+ *
+ * Inside a `CheckboxGroup` the state comes from the group instead, through
+ * `useCheckboxGroupItem`, so that the group's validity and its message reach every box. The two
+ * hooks cannot both be called, so which one applies is decided by rendering one of two inner
+ * components; the context does not change for the life of a mount, so that is safe.
  */
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(props, forwardedRef) {
-  const { slots } = useComponentConfig('Checkbox');
-  const {
-    children,
-    checked,
-    defaultChecked,
-    onChange,
-    indeterminate = false,
-    disabled,
-    error,
-    className,
-    classNames,
-    style,
-    ...rest
-  } = props;
+  const group = useContext(CheckboxGroupContext);
+  return group ? (
+    <GroupedCheckbox {...props} group={group} forwardedRef={forwardedRef} />
+  ) : (
+    <StandaloneCheckbox {...props} forwardedRef={forwardedRef} />
+  );
+});
 
+type InnerProps = CheckboxProps & { forwardedRef: React.ForwardedRef<HTMLInputElement> };
+
+function StandaloneCheckbox({ forwardedRef, ...props }: InnerProps) {
+  const { children, checked, defaultChecked, onChange, indeterminate = false, disabled, error, ...rest } = props;
   const ref = useObjectRef(forwardedRef);
   const ariaProps = {
     ...rest,
@@ -71,13 +86,62 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
     isInvalid: error,
     children,
   };
-
   const state = useToggleState(ariaProps);
   const { inputProps } = useCheckbox(ariaProps, state, ref);
+  return <CheckboxView {...props} inputRef={ref} inputProps={inputProps} selected={state.isSelected} />;
+}
+
+function GroupedCheckbox({ forwardedRef, group, ...props }: InnerProps & { group: CheckboxGroupState }) {
+  const { children, indeterminate = false, disabled, error, value, ...rest } = props;
+  if (value === undefined) throw new Error('A Checkbox inside a CheckboxGroup needs a value');
+
+  const ref = useObjectRef(forwardedRef);
+  const ariaProps = {
+    ...rest,
+    value,
+    isIndeterminate: indeterminate,
+    isDisabled: disabled,
+    isInvalid: error,
+    children,
+  };
+  const { inputProps } = useCheckboxGroupItem(ariaProps, group, ref);
+  return (
+    <CheckboxView
+      {...props}
+      // The group decides invalidity for every box in it, which is the reason to have one.
+      error={error || group.isInvalid}
+      disabled={disabled || group.isDisabled}
+      inputRef={ref}
+      inputProps={inputProps}
+      selected={group.isSelected(value)}
+    />
+  );
+}
+
+type ViewProps = CheckboxProps & {
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  inputProps: React.InputHTMLAttributes<HTMLInputElement>;
+  selected: boolean;
+};
+
+/** The markup, shared by both so a grouped box and a lone one look and style identically. */
+function CheckboxView(props: ViewProps) {
+  const { slots } = useComponentConfig('Checkbox');
+  const {
+    children,
+    indeterminate = false,
+    disabled,
+    error,
+    className,
+    classNames,
+    style,
+    inputRef: ref,
+    inputProps,
+    selected: isSelected,
+  } = props;
+
   const { hoverProps, isHovered } = useHover({ isDisabled: disabled });
   const { focusProps, isFocusVisible } = useFocusRing();
-
-  const isSelected = state.isSelected;
   const slot = (name: CheckboxSlot, hook: string, builtIn?: string) =>
     resolveSlotClass(
       hook,
@@ -120,4 +184,4 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
       )}
     </label>
   );
-});
+}
