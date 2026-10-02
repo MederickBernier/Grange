@@ -1,17 +1,10 @@
 /**
  * Press ripple, ported from Material Web's ripple (Apache 2.0, see NOTICE).
- * Same constants: 450ms grow on the standard easing, 225ms minimum press, soft-edged radial wave.
+ * Same constants by default: 450ms grow on the standard easing, 225ms minimum press, soft-edged
+ * radial wave. All of them are configurable through GrangeProvider's `behavior.ripple`.
  */
 import { forwardRef, useImperativeHandle, useRef } from 'react';
-
-const PRESS_GROW_MS = 450;
-const MINIMUM_PRESS_MS = 225;
-const FADE_OUT_MS = 375;
-const INITIAL_ORIGIN_SCALE = 0.2;
-const PADDING = 10;
-const SOFT_EDGE_MINIMUM_SIZE = 75;
-const SOFT_EDGE_CONTAINER_RATIO = 0.35;
-const STANDARD_EASING = 'cubic-bezier(0.2, 0, 0, 1)';
+import { useGrangeConfig, type RippleBehavior } from '../config/config';
 
 export interface RippleHandle {
   /** Start a ripple. x and y are relative to the host; omit them to start from the center (keyboard). */
@@ -28,18 +21,23 @@ interface Wave {
 export const Ripple = forwardRef<RippleHandle>(function Ripple(_props, ref) {
   const host = useRef<HTMLSpanElement>(null);
   const wave = useRef<Wave | null>(null);
+  const { ripple } = useGrangeConfig().behavior;
+  // Read through a ref so a handle captured by a parent always sees the current config.
+  const settings = useRef<RippleBehavior>(ripple);
+  settings.current = ripple;
 
   useImperativeHandle(ref, () => ({
     start(x, y) {
       const root = host.current;
-      if (!root || typeof root.animate !== 'function') return;
-      fade(wave.current, 0);
+      const cfg = settings.current;
+      if (!root || !cfg.enabled || typeof root.animate !== 'function') return;
+      fade(wave.current, 0, cfg.fadeOutMs);
 
       const { width, height } = root.getBoundingClientRect();
       const maxDim = Math.max(width, height);
-      const softEdge = Math.max(SOFT_EDGE_CONTAINER_RATIO * maxDim, SOFT_EDGE_MINIMUM_SIZE);
-      const initial = Math.max(1, Math.floor(maxDim * INITIAL_ORIGIN_SCALE));
-      const maxRadius = Math.hypot(width, height) + PADDING;
+      const softEdge = Math.max(cfg.softEdgeContainerRatio * maxDim, cfg.softEdgeMinimumSize);
+      const initial = Math.max(1, Math.floor(maxDim * cfg.initialOriginScale));
+      const maxRadius = Math.hypot(width, height) + cfg.padding;
       const scale = (maxRadius + softEdge) / initial;
 
       const cx = x ?? width / 2;
@@ -57,28 +55,29 @@ export const Ripple = forwardRef<RippleHandle>(function Ripple(_props, ref) {
           { transform: `translate(${cx - initial / 2}px, ${cy - initial / 2}px) scale(1)` },
           { transform: `translate(${(width - initial) / 2}px, ${(height - initial) / 2}px) scale(${scale})` },
         ],
-        { duration: PRESS_GROW_MS, easing: STANDARD_EASING, fill: 'forwards' },
+        { duration: cfg.growMs, easing: cfg.easing, fill: 'forwards' },
       );
       el.animate([{ opacity: 0 }, { opacity }], { duration: 105, easing: 'linear', fill: 'forwards' });
       wave.current = { el, startedAt: performance.now(), opacity };
     },
     end() {
       const current = wave.current;
+      const cfg = settings.current;
       wave.current = null;
       if (!current) return;
       const elapsed = performance.now() - current.startedAt;
-      fade(current, Math.max(0, MINIMUM_PRESS_MS - elapsed));
+      fade(current, Math.max(0, cfg.minimumPressMs - elapsed), cfg.fadeOutMs);
     },
   }));
 
   return <span ref={host} className="grange-ripple" aria-hidden="true" />;
 });
 
-function fade(wave: Wave | null, delay: number) {
+function fade(wave: Wave | null, delay: number, fadeOutMs: number) {
   if (!wave) return;
   const { el, opacity } = wave;
   window.setTimeout(() => {
-    const anim = el.animate([{ opacity }, { opacity: 0 }], { duration: FADE_OUT_MS, easing: 'linear', fill: 'forwards' });
+    const anim = el.animate([{ opacity }, { opacity: 0 }], { duration: fadeOutMs, easing: 'linear', fill: 'forwards' });
     anim.finished.then(() => el.remove()).catch(() => el.remove());
   }, delay);
 }

@@ -10,6 +10,7 @@ import {
   type PressEvent,
 } from 'react-aria';
 import { useSpring } from '../../motion/GrangeProvider';
+import { useGrangeConfig } from '../../config/config';
 import type { SpringName } from '../../tokens/generated/tokens';
 import { Ripple, type RippleHandle } from '../../primitives/Ripple';
 import { ButtonGroupContext, ButtonGroupItemIndex, paddingDeltaFor } from './groupContext';
@@ -83,8 +84,9 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>(functio
   const { hoverProps, isHovered } = useHover({ isDisabled: ariaProps.isDisabled });
   const { focusProps, isFocusVisible } = useFocusRing();
 
+  const { behavior } = useGrangeConfig();
   const cornerTransition = useSpring(cornerSpring);
-  const groupTransition = useSpring('fastSpatial');
+  const groupTransition = useSpring(behavior.springs.groupWidth);
 
   const r = corners({ isPressed });
   const pad = Math.max(0, padding + paddingDeltaFor(index, group));
@@ -115,12 +117,13 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>(functio
       data-hovered={isHovered || undefined}
       data-focus-visible={isFocusVisible || undefined}
       data-pressed={pressedKind}
+      data-ripple={behavior.ripple.enabled ? undefined : 'off'}
       data-disabled={ariaProps.isDisabled || undefined}
       {...dataAttributes}
     >
       <span className="grange-elevation" aria-hidden="true" />
       <span className="grange-state-layer" aria-hidden="true" />
-      <Ripple ref={ripple} />
+      {behavior.ripple.enabled && <Ripple ref={ripple} />}
       {touchTarget && <span className="grange-touch" aria-hidden="true" />}
       {children}
     </motion.button>

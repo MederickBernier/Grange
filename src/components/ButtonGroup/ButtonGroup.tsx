@@ -19,9 +19,15 @@ import {
   type ButtonGroupContextValue,
   type ButtonGroupState,
 } from '../ButtonBase/groupContext';
-import { buttonSizes, type ButtonSize } from '../Button/specs';
-import type { ToggleButtonVariant } from '../Button/Button';
-import { cx, useControlledState } from '../../utils';
+import { sizeCustomProperties, type ButtonSize, type ToggleButtonVariant } from '../Button/specs';
+import { useControlledState } from '../../utils';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type ButtonSlot,
+  type GroupSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import buttonStyles from '../Button/Button.module.scss';
 import styles from './ButtonGroup.module.scss';
 
@@ -38,13 +44,24 @@ export interface ButtonGroupProps {
   className?: string;
   style?: CSSProperties;
   'aria-label'?: string;
+  classNames?: SlotOverrides<GroupSlot>;
 }
 
 /**
  * Wraps Buttons, ToggleButtons or IconButtons. When one is pressed it grows by `expandedRatio`
- * and its direct neighbours shrink by the same amount, on the fast spatial spring.
+ * and its direct neighbours shrink by the same amount, on the group width spring.
  */
-export function ButtonGroup({ children, gap = 12, expandedRatio = 0.15, className, style, ...aria }: ButtonGroupProps) {
+export function ButtonGroup(props: ButtonGroupProps) {
+  const { defaults, slots } = useComponentConfig('ButtonGroup');
+  const {
+    children,
+    gap = defaults?.gap ?? 12,
+    expandedRatio = defaults?.expandedRatio ?? 0.15,
+    className,
+    classNames,
+    style,
+    ...aria
+  } = props;
   const items = Children.toArray(children).filter(isValidElement);
   const count = items.length;
   const countRef = useRef(count);
@@ -73,7 +90,18 @@ export function ButtonGroup({ children, gap = 12, expandedRatio = 0.15, classNam
   );
 
   return (
-    <div role="group" {...aria} className={cx(styles.group, className)} style={{ ...style, gap }}>
+    <div
+      role="group"
+      {...aria}
+      className={resolveSlotClass(
+        'grange-button-group',
+        styles.group,
+        ...(slots?.root ?? []),
+        classNames?.root,
+        className,
+      )}
+      style={{ ...style, gap }}
+    >
       <ButtonGroupContext.Provider value={ctx}>
         {items.map((child, i) => (
           <ButtonGroupItemIndex.Provider key={child.key ?? i} value={i}>
@@ -114,6 +142,7 @@ export interface ConnectedButtonGroupProps {
   className?: string;
   style?: CSSProperties;
   'aria-label'?: string;
+  classNames?: SlotOverrides<GroupSlot>;
 }
 
 /**
@@ -121,17 +150,19 @@ export interface ConnectedButtonGroupProps {
  * (4px pressed); a selected item becomes fully round. Replaces segmented buttons.
  */
 export function ConnectedButtonGroup(props: ConnectedButtonGroupProps) {
+  const { defaults, slots } = useComponentConfig('ConnectedButtonGroup');
   const {
     children,
-    selectionMode = 'single',
+    selectionMode = defaults?.selectionMode ?? 'single',
     selectedKeys,
     defaultSelectedKeys,
     onSelectionChange,
-    disallowEmptySelection = true,
-    size = 's',
-    variant = 'filled',
-    fullWidth,
+    disallowEmptySelection = defaults?.disallowEmptySelection ?? true,
+    size = defaults?.size ?? 's',
+    variant = defaults?.variant ?? 'filled',
+    fullWidth = defaults?.fullWidth,
     className,
+    classNames,
     style,
     ...aria
   } = props;
@@ -168,7 +199,13 @@ export function ConnectedButtonGroup(props: ConnectedButtonGroupProps) {
     <div
       role="group"
       {...aria}
-      className={cx(styles.group, styles.connected, fullWidth && styles.fullWidth, className)}
+      className={resolveSlotClass(
+        'grange-connected-group',
+        [styles.group, styles.connected, fullWidth ? styles.fullWidth : undefined].filter(Boolean).join(' '),
+        ...(slots?.root ?? []),
+        classNames?.root,
+        className,
+      )}
       style={style}
     >
       <ConnectedContext.Provider value={ctx}>
@@ -191,25 +228,40 @@ export interface ConnectedButtonGroupItemProps {
   isDisabled?: boolean;
   onPress?: (e: PressEvent) => void;
   'aria-label'?: string;
+  className?: string;
+  style?: CSSProperties;
+  classNames?: SlotOverrides<ButtonSlot>;
 }
 
-const INNER_CORNER = 8;
-const INNER_CORNER_PRESSED = 4;
-
 export const ConnectedButtonGroupItem = forwardRef<HTMLButtonElement, ConnectedButtonGroupItemProps>(
-  function ConnectedButtonGroupItem({ id, icon, selectedIcon, children, onPress, ...rest }, ref) {
+  function ConnectedButtonGroupItem(props, ref) {
+    const { slots, behavior, sizes } = useComponentConfig('ConnectedButtonGroupItem');
+    const { id, icon, selectedIcon, children, onPress, className, classNames, style, ...rest } = props;
     const group = useContext(ConnectedContext);
     const index = useContext(ButtonGroupItemIndex);
     if (!group) throw new Error('ConnectedButtonGroupItem must be inside a ConnectedButtonGroup');
     const { size, variant, count } = group;
-    const spec = buttonSizes[size];
+    const spec = sizes.button[size];
     const selected = group.isSelected(id);
     const full = spec.height / 2;
     const isFirst = index === 0;
     const isLast = index === count - 1;
 
+    const slot = (name: ButtonSlot, hook: string, builtIn?: string) =>
+      resolveSlotClass(
+        hook,
+        builtIn,
+        ...(slots?.[name] ?? []),
+        classNames?.[name],
+        name === 'root' ? className : undefined,
+      );
+
     const corners = ({ isPressed }: { isPressed: boolean }): CornerRadii => {
-      const inner = selected ? full : isPressed ? INNER_CORNER_PRESSED : INNER_CORNER;
+      const inner = selected
+        ? full
+        : isPressed
+          ? behavior.connectedInnerCornerPressed
+          : behavior.connectedInnerCorner;
       const start = isFirst ? full : inner;
       const end = isLast ? full : inner;
       return { topLeft: start, bottomLeft: start, topRight: end, bottomRight: end };
@@ -224,10 +276,11 @@ export const ConnectedButtonGroupItem = forwardRef<HTMLButtonElement, ConnectedB
           group.toggle(id);
           onPress?.(e);
         }}
-        className={cx(buttonStyles.button, styles.connectedItem)}
+        className={slot('root', 'grange-connected-item', `${buttonStyles.button} ${styles.connectedItem}`)}
+        style={{ ...sizeCustomProperties(spec), ...style }}
         padding={spec.padding}
-        touchTarget={spec.height < 48}
-        cornerSpring="fastSpatial"
+        touchTarget={spec.height < behavior.touchTargetBelow}
+        cornerSpring={behavior.springs.selection}
         corners={corners}
         dataAttributes={{
           'data-variant': variant,
@@ -236,9 +289,13 @@ export const ConnectedButtonGroupItem = forwardRef<HTMLButtonElement, ConnectedB
         }}
       >
         {(selected && selectedIcon ? selectedIcon : icon) && (
-          <span className={buttonStyles.icon}>{selected && selectedIcon ? selectedIcon : icon}</span>
+          <span className={slot('icon', 'grange-button-icon', buttonStyles.icon)}>
+            {selected && selectedIcon ? selectedIcon : icon}
+          </span>
         )}
-        {children != null && <span className={buttonStyles.label}>{children}</span>}
+        {children != null && (
+          <span className={slot('label', 'grange-button-label', buttonStyles.label)}>{children}</span>
+        )}
       </ButtonBase>
     );
   },

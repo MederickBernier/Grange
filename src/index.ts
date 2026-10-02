@@ -13,7 +13,32 @@ export type {
   ToggleButtonVariant,
   IconButtonVariant,
 } from './components/Button/Button';
-export type { ButtonSize, ButtonShape, IconButtonWidth } from './components/Button/specs';
+export type {
+  ButtonSize,
+  ButtonShape,
+  IconButtonWidth,
+  ButtonSizeSpec,
+  SizeOverrides,
+  ResolvedSizes,
+} from './components/Button/specs';
+export { buttonSizes, iconButtonPadding, iconButtonIconSize, resolveSizes } from './components/Button/specs';
+
+export { useGrangeConfig, defaultBehavior } from './config/config';
+export type {
+  GrangeConfigInput,
+  ResolvedConfig,
+  ClassOverride,
+  SlotOverrides,
+  ButtonSlot,
+  IconButtonSlot,
+  GroupSlot,
+  ClassNamesConfig,
+  DefaultPropsConfig,
+  BehaviorConfig,
+  BehaviorInput,
+  RippleBehavior,
+  SpringRoles,
+} from './config/config';
 
 export { ButtonGroup, ConnectedButtonGroup, ConnectedButtonGroupItem } from './components/ButtonGroup/ButtonGroup';
 export type {
@@ -24,7 +49,7 @@ export type {
 
 export { Ripple } from './primitives/Ripple';
 export type { RippleHandle } from './primitives/Ripple';
-export { ButtonBase } from './components/ButtonBase/ButtonBase';
+export { ButtonBase, uniform } from './components/ButtonBase/ButtonBase';
 export type { ButtonBaseProps, CornerRadii } from './components/ButtonBase/ButtonBase';
 
 export * as tokens from './tokens/generated/tokens';

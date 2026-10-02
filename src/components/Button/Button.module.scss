@@ -3,21 +3,21 @@
  * FilledButtonTokens, TonalButtonTokens, OutlinedButtonTokens, ElevatedButtonTokens, TextButton defaults,
  * and the IconButton equivalents.
  *
- * Geometry per size lives in $sizes here and in Button/specs.ts. The stylesheet owns what CSS can
- * do alone (height, type, spacing); specs.ts owns what the spring animation needs in JS (radii,
- * padding). Both read the same Compose values.
+ * Geometry (height, icon box, gap, padding, radii) lives in Button/specs.ts and reaches here as
+ * the --_height / --_gap / --_icon custom properties each component sets, because the spring
+ * animated radii and padding need the same numbers in JS. This stylesheet owns the typescale,
+ * which CSS can resolve on its own.
  */
 
-@use 'sass:list';
 @use '../../scss/api' as grange;
 
-// height, typescale style, icon gap, icon size
-$sizes: (
-  'xs': (32px, label-large, 8px, 20px),
-  's': (40px, label-large, 8px, 20px),
-  'm': (56px, title-medium, 8px, 24px),
-  'l': (96px, headline-small, 12px, 32px),
-  'xl': (136px, headline-large, 16px, 40px),
+// Typescale per size, from the same Compose tokens as the geometry.
+$typescales: (
+  'xs': label-large,
+  's': label-large,
+  'm': title-medium,
+  'l': headline-small,
+  'xl': headline-large,
 );
 
 // Compose scales the outline with the button, so it stays visually proportional.
@@ -29,12 +29,7 @@ $outline-widths: (
   'xl': 3px,
 );
 
-@mixin size($spec) {
-  $style: list.nth($spec, 2);
-
-  --_height: #{list.nth($spec, 1)};
-  --_gap: #{list.nth($spec, 3)};
-  --_icon: #{list.nth($spec, 4)};
+@mixin size-type($style) {
   --_font: #{grange.type-prop($style, font)};
   --_font-size: #{grange.type-prop($style, size)};
   --_line-height: #{grange.type-prop($style, line-height)};
@@ -103,9 +98,9 @@ $outline-widths: (
     box-shadow grange.duration(short3) linear;
 
   // ---------- Sizes ----------
-  @each $name, $spec in $sizes {
+  @each $name, $style in $typescales {
     &[data-size='#{$name}'] {
-      @include size($spec);
+      @include size-type($style);
     }
   }
 
@@ -210,12 +205,6 @@ $outline-widths: (
 
 .iconButton {
   min-width: 0;
-
-  // Icon buttons use a 24px icon at S where text buttons use 20px.
-  &[data-size='s'],
-  &[data-size='m'] {
-    --_icon: 24px;
-  }
 
   &[data-hovered] {
     --grange-elevation-level: 0 !important;

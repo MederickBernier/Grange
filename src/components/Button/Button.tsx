@@ -1,28 +1,35 @@
 import { forwardRef, type CSSProperties, type ReactNode } from 'react';
 import type { AriaButtonProps, PressEvent } from 'react-aria';
 import { ButtonBase, uniform } from '../ButtonBase/ButtonBase';
-import { cx, useControlledState } from '../../utils';
+import { useControlledState } from '../../utils';
 import {
-  buttonSizes,
-  iconButtonIconSize,
-  iconButtonPadding,
+  resolveSlotClass,
+  useComponentConfig,
+  type ButtonSlot,
+  type IconButtonSlot,
+  type SlotOverrides,
+} from '../../config/config';
+import {
   restingRadius,
   selectedRadius,
+  sizeCustomProperties,
   type ButtonShape,
   type ButtonSize,
+  type ButtonVariant,
+  type IconButtonVariant,
   type IconButtonWidth,
+  type ToggleButtonVariant,
 } from './specs';
 import styles from './Button.module.scss';
 
-export type ButtonVariant = 'filled' | 'tonal' | 'outlined' | 'elevated' | 'text';
-export type ToggleButtonVariant = Exclude<ButtonVariant, 'text'>;
-export type IconButtonVariant = 'standard' | 'filled' | 'tonal' | 'outlined';
+export type { ButtonVariant, ToggleButtonVariant, IconButtonVariant };
 
 interface CommonProps extends Omit<AriaButtonProps<'button'>, 'children' | 'elementType'> {
   /** XS 32px, S 40px (default), M 56px, L 96px, XL 136px tall. */
   size?: ButtonSize;
   /** Round (pill) is the default; square uses the size's square corner. */
   shape?: ButtonShape;
+  /** Added to the root slot. Shorthand for `classNames={{ root: ... }}`. */
   className?: string;
   style?: CSSProperties;
 }
@@ -43,6 +50,8 @@ export interface ButtonProps extends CommonProps {
   icon?: ReactNode;
   trailingIcon?: ReactNode;
   children?: ReactNode;
+  /** Per-slot class overrides. A string is added; `{ replace }` drops the built-in classes. */
+  classNames?: SlotOverrides<ButtonSlot>;
 }
 
 /**
@@ -50,23 +59,40 @@ export interface ButtonProps extends CommonProps {
  * (on the default effects spring, so no bounce, as in Compose).
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(props, ref) {
-  const { variant = 'filled', size = 's', shape = 'round', icon, trailingIcon, children, className, ...rest } = props;
-  const spec = buttonSizes[size];
-  const resting = restingRadius(size, shape);
+  const { defaults, slots, behavior, sizes } = useComponentConfig('Button');
+  const {
+    variant = defaults?.variant ?? 'filled',
+    size = defaults?.size ?? 's',
+    shape = defaults?.shape ?? 'round',
+    icon,
+    trailingIcon,
+    children,
+    className,
+    classNames,
+    style,
+    ...rest
+  } = props;
+
+  const spec = sizes.button[size];
+  const resting = restingRadius(size, shape, sizes);
+  const slot = (name: ButtonSlot, hook: string, builtIn?: string) =>
+    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+
   return (
     <ButtonBase
       ref={ref}
       {...rest}
-      className={cx(styles.button, className)}
+      className={slot('root', 'grange-button', styles.button)}
+      style={{ ...sizeCustomProperties(spec), ...style }}
       padding={spec.padding}
-      touchTarget={spec.height < 48}
-      cornerSpring="defaultEffects"
+      touchTarget={spec.height < behavior.touchTargetBelow}
+      cornerSpring={behavior.springs.press}
       corners={({ isPressed }) => uniform(isPressed ? spec.pressed : resting)}
       dataAttributes={{ 'data-variant': variant, 'data-size': size, 'data-shape': shape }}
     >
-      {icon && <span className={styles.icon}>{icon}</span>}
-      {children != null && <span className={styles.label}>{children}</span>}
-      {trailingIcon && <span className={styles.icon}>{trailingIcon}</span>}
+      {icon && <span className={slot('icon', 'grange-button-icon', styles.icon)}>{icon}</span>}
+      {children != null && <span className={slot('label', 'grange-button-label', styles.label)}>{children}</span>}
+      {trailingIcon && <span className={slot('icon', 'grange-button-icon', styles.icon)}>{trailingIcon}</span>}
     </ButtonBase>
   );
 });
@@ -86,25 +112,32 @@ export interface ToggleButtonProps extends Omit<ButtonProps, 'variant'>, Selecti
  * spring, so it overshoots slightly in the expressive scheme.
  */
 export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(function ToggleButton(props, ref) {
+  const { defaults, slots, behavior, sizes } = useComponentConfig('ToggleButton');
   const {
-    variant = 'filled',
-    size = 's',
-    shape = 'round',
+    variant = defaults?.variant ?? 'filled',
+    size = defaults?.size ?? 's',
+    shape = defaults?.shape ?? 'round',
     icon,
     selectedIcon,
     trailingIcon,
     children,
     className,
+    classNames,
+    style,
     isSelected,
     defaultSelected = false,
     onChange,
     onPress,
     ...rest
   } = props;
+
   const [selected, setSelected] = useControlledState(isSelected, defaultSelected, onChange);
-  const spec = buttonSizes[size];
-  const radius = selected ? selectedRadius(size, shape) : restingRadius(size, shape);
+  const spec = sizes.button[size];
+  const radius = selected ? selectedRadius(size, shape, sizes) : restingRadius(size, shape, sizes);
   const shownIcon = selected && selectedIcon ? selectedIcon : icon;
+  const slot = (name: ButtonSlot, hook: string, builtIn?: string) =>
+    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+
   return (
     <ButtonBase
       ref={ref}
@@ -114,10 +147,11 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(fun
         setSelected(!selected);
         onPress?.(e);
       }}
-      className={cx(styles.button, className)}
+      className={slot('root', 'grange-button', styles.button)}
+      style={{ ...sizeCustomProperties(spec), ...style }}
       padding={spec.padding}
-      touchTarget={spec.height < 48}
-      cornerSpring="fastSpatial"
+      touchTarget={spec.height < behavior.touchTargetBelow}
+      cornerSpring={behavior.springs.selection}
       corners={({ isPressed }) => uniform(isPressed ? spec.pressed : radius)}
       dataAttributes={{
         'data-variant': variant,
@@ -126,9 +160,9 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(fun
         'data-selected': String(selected),
       }}
     >
-      {shownIcon && <span className={styles.icon}>{shownIcon}</span>}
-      {children != null && <span className={styles.label}>{children}</span>}
-      {trailingIcon && <span className={styles.icon}>{trailingIcon}</span>}
+      {shownIcon && <span className={slot('icon', 'grange-button-icon', styles.icon)}>{shownIcon}</span>}
+      {children != null && <span className={slot('label', 'grange-button-label', styles.label)}>{children}</span>}
+      {trailingIcon && <span className={slot('icon', 'grange-button-icon', styles.icon)}>{trailingIcon}</span>}
     </ButtonBase>
   );
 });
@@ -147,21 +181,24 @@ export interface IconButtonProps extends CommonProps, SelectionProps {
   toggle?: boolean;
   selectedIcon?: ReactNode;
   'aria-label': string;
+  classNames?: SlotOverrides<IconButtonSlot>;
 }
 
 /**
  * M3E icon button, plain or toggle. Five sizes, three widths, round or square.
  */
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(props, ref) {
+  const { defaults, slots, behavior, sizes } = useComponentConfig('IconButton');
   const {
-    variant = 'standard',
-    size = 's',
-    shape = 'round',
-    width = 'default',
+    variant = defaults?.variant ?? 'standard',
+    size = defaults?.size ?? 's',
+    shape = defaults?.shape ?? 'round',
+    width = defaults?.width ?? 'default',
     toggle = false,
     children,
     selectedIcon,
     className,
+    classNames,
     style,
     isSelected,
     defaultSelected = false,
@@ -169,10 +206,14 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
     onPress,
     ...rest
   } = props;
+
   const [selected, setSelected] = useControlledState(isSelected, defaultSelected, onChange);
-  const spec = buttonSizes[size];
+  const spec = sizes.button[size];
   const isOn = toggle && selected;
-  const radius = isOn ? selectedRadius(size, shape) : restingRadius(size, shape);
+  const radius = isOn ? selectedRadius(size, shape, sizes) : restingRadius(size, shape, sizes);
+  const slot = (name: IconButtonSlot, hook: string, builtIn?: string) =>
+    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+
   return (
     <ButtonBase
       ref={ref}
@@ -182,11 +223,11 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
         if (toggle) setSelected(!selected);
         onPress?.(e);
       }}
-      className={cx(styles.button, styles.iconButton, className)}
-      style={{ ...style, ['--_icon' as string]: `${iconButtonIconSize[size]}px` }}
-      padding={iconButtonPadding[size][width]}
-      touchTarget={spec.height < 48}
-      cornerSpring={toggle ? 'fastSpatial' : 'defaultEffects'}
+      className={slot('root', 'grange-icon-button', `${styles.button} ${styles.iconButton}`)}
+      style={{ ...sizeCustomProperties(spec, sizes.iconButtonIcon[size]), ...style }}
+      padding={sizes.iconButtonPadding[size][width]}
+      touchTarget={spec.height < behavior.touchTargetBelow}
+      cornerSpring={toggle ? behavior.springs.selection : behavior.springs.press}
       corners={({ isPressed }) => uniform(isPressed ? spec.pressed : radius)}
       dataAttributes={{
         'data-variant': variant,
@@ -196,7 +237,9 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
         'data-selected': toggle ? String(selected) : undefined,
       }}
     >
-      <span className={styles.icon}>{isOn && selectedIcon ? selectedIcon : children}</span>
+      <span className={slot('icon', 'grange-button-icon', styles.icon)}>
+        {isOn && selectedIcon ? selectedIcon : children}
+      </span>
     </ButtonBase>
   );
 });

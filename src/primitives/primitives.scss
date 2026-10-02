@@ -34,8 +34,10 @@
 [data-focus-visible] > .grange-state-layer {
   opacity: grange.state-opacity(focus);
 }
-/* Keyboard presses get the pressed layer; pointer presses get the ripple instead. */
-[data-pressed='keyboard'] > .grange-state-layer {
+/* Keyboard presses get the pressed layer; pointer presses get the ripple instead. With the
+   ripple turned off (behavior.ripple.enabled), pointer presses fall back to the layer too. */
+[data-pressed='keyboard'] > .grange-state-layer,
+[data-ripple='off'][data-pressed] > .grange-state-layer {
   opacity: grange.state-opacity(pressed);
 }
 [data-disabled] > .grange-state-layer {

@@ -1,43 +1,53 @@
-import { createContext, useContext, useMemo, type ReactNode } from 'react';
+import { useContext, useMemo, type ReactNode } from 'react';
 import { MotionConfig, useReducedMotion, type Transition } from 'motion/react';
-import { springs, type MotionSchemeName, type SpringName } from '../tokens/generated/tokens';
+import { springs, type SpringName } from '../tokens/generated/tokens';
+import {
+  GrangeConfigContext,
+  defaultConfig,
+  mergeConfig,
+  type GrangeConfigInput,
+  type SpringSpec,
+} from '../config/config';
 
-/** A spring as M3 defines it: stiffness plus damping ratio (1 = no overshoot). */
-export interface SpringSpec {
-  stiffness: number;
-  dampingRatio: number;
-}
+export type { SpringSpec };
 
-interface GrangeContextValue {
-  scheme: MotionSchemeName;
-  /** Per-spring overrides, used by the Storybook motion playground to tune values live. */
-  springOverrides?: Partial<Record<SpringName, SpringSpec>>;
-}
-
-const GrangeContext = createContext<GrangeContextValue>({ scheme: 'expressive' });
-
-export interface GrangeProviderProps {
-  /** Expressive (bouncier, the M3E default) or standard (calmer, for dense utilitarian screens). */
-  scheme?: MotionSchemeName;
-  springOverrides?: Partial<Record<SpringName, SpringSpec>>;
+export interface GrangeProviderProps extends GrangeConfigInput {
   children: ReactNode;
 }
 
 /**
- * Sets the motion scheme for everything below it. Wrap the app once.
- * Also tells Motion to follow the user's reduced-motion setting.
+ * Sets the motion scheme and everything else a product can configure: component defaults, slot
+ * class names, interaction behavior and size geometry. Wrap the app once.
+ *
+ * Providers nest and merge, so a subtree can change part of the config without restating the
+ * rest. Also tells Motion to follow the user's reduced-motion setting.
  */
-export function GrangeProvider({ scheme = 'expressive', springOverrides, children }: GrangeProviderProps) {
-  const value = useMemo(() => ({ scheme, springOverrides }), [scheme, springOverrides]);
+export function GrangeProvider({ children, ...input }: GrangeProviderProps) {
+  const parent = useContext(GrangeConfigContext);
+  // Compared field by field, since `input` is a fresh object every render. Hoist the config
+  // objects you pass (or memoize them) so this does not rebuild on every parent render.
+  const config = useMemo(
+    () => mergeConfig(parent, input),
+    [
+      parent,
+      input.scheme,
+      input.springOverrides,
+      input.defaultProps,
+      input.classNames,
+      input.behavior,
+      input.sizes,
+    ],
+  );
+
   return (
-    <GrangeContext.Provider value={value}>
+    <GrangeConfigContext.Provider value={config}>
       <MotionConfig reducedMotion="user">{children}</MotionConfig>
-    </GrangeContext.Provider>
+    </GrangeConfigContext.Provider>
   );
 }
 
-export function useMotionScheme(): MotionSchemeName {
-  return useContext(GrangeContext).scheme;
+export function useMotionScheme() {
+  return useContext(GrangeConfigContext).scheme;
 }
 
 /** Converts an M3 damping ratio to the absolute damping Motion expects (mass = 1). */
@@ -50,7 +60,7 @@ export function toMotionDamping(stiffness: number, dampingRatio: number): number
  * With reduced motion on, spatial springs fall back to their critically damped effects twin (no bounce).
  */
 export function useSpring(name: SpringName): Transition {
-  const { scheme, springOverrides } = useContext(GrangeContext);
+  const { scheme, springOverrides } = useContext(GrangeConfigContext);
   const reduce = useReducedMotion();
   const effective: SpringName = reduce ? (name.replace('Spatial', 'Effects') as SpringName) : name;
   const override = springOverrides?.[effective];
@@ -59,3 +69,5 @@ export function useSpring(name: SpringName): Transition {
   const damping = override ? toMotionDamping(override.stiffness, override.dampingRatio) : token.damping;
   return { type: 'spring', stiffness, damping, mass: 1 };
 }
+
+export { defaultConfig };
