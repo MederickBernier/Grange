@@ -105,11 +105,16 @@ export function selectedRadius(size: ButtonSize, shape: ButtonShape, sizes: Reso
   return restingRadius(size, shape === 'round' ? 'square' : 'round', sizes);
 }
 
-/** The geometry a component hands to CSS. Kept in one place so every button-like agrees. */
+/**
+ * The geometry a component hands to CSS. Kept in one place so every button-like agrees.
+ *
+ * `--grange-icon-size` is deliberately public, not `--_`-prefixed: `Icon` reads it to size itself
+ * to whatever control it sits in. The height and gap stay private to Button.module.scss.
+ */
 export function sizeCustomProperties(spec: ButtonSizeSpec, iconSize = spec.icon): Record<string, string> {
   return {
     '--_height': `${spec.height}px`,
     '--_gap': `${spec.gap}px`,
-    '--_icon': `${iconSize}px`,
+    '--grange-icon-size': `${iconSize}px`,
   };
 }

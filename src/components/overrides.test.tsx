@@ -120,7 +120,7 @@ describe('size geometry', () => {
     const style = button().style;
     expect(style.getPropertyValue('--_height')).toBe(spec.height);
     expect(style.getPropertyValue('--_gap')).toBe(spec.gap);
-    expect(style.getPropertyValue('--_icon')).toBe(spec.icon);
+    expect(style.getPropertyValue('--grange-icon-size')).toBe(spec.icon);
   });
 
   it('follows an override, so CSS and the JS radii cannot drift', () => {
@@ -139,7 +139,7 @@ describe('size geometry', () => {
         <svg />
       </IconButton>,
     );
-    expect(button().style.getPropertyValue('--_icon')).toBe('24px');
+    expect(button().style.getPropertyValue('--grange-icon-size')).toBe('24px');
   });
 
   it('lets an inline style prop still win', () => {

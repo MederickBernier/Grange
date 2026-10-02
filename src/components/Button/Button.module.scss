@@ -4,7 +4,7 @@
  * and the IconButton equivalents.
  *
  * Geometry (height, icon box, gap, padding, radii) lives in Button/specs.ts and reaches here as
- * the --_height / --_gap / --_icon custom properties each component sets, because the spring
+ * the --_height / --_gap custom properties each component sets, plus the public --grange-icon-size,
  * animated radii and padding need the same numbers in JS. This stylesheet owns the typescale,
  * which CSS can resolve on its own.
  */
@@ -192,8 +192,8 @@ $outline-widths: (
 }
 
 .icon {
-  width: var(--_icon);
-  height: var(--_icon);
+  width: var(--grange-icon-size);
+  height: var(--grange-icon-size);
   flex-shrink: 0;
 
   > svg {
