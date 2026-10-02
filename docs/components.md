@@ -18,18 +18,18 @@ Three reference points per component:
 | | Count |
 | --- | --- |
 | In the M3 catalog | 36 |
-| Done | 26 |
-| Remaining | 10 |
+| Done | 28 |
+| Remaining | 8 |
 
 Plus `Icon`, which the catalog does not list as a component of its own although Material Web
 ships it as `md-icon`, so it is not counted above.
 
-Of the 10 remaining, split by how much of the behavior already exists:
+Of the 8 remaining, split by how much of the behavior already exists:
 
 | | Count | Meaning |
 | --- | --- | --- |
-| Dedicated React Aria hook | 4 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
-| Generic React Aria pieces only | 3 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
+| Dedicated React Aria hook | 3 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
+| Generic React Aria pieces only | 2 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
 | No React Aria support | 3 | Behavior written from scratch: badges, carousel, loading indicator |
 
 ### Done
@@ -63,6 +63,8 @@ Of the 10 remaining, split by how much of the behavior already exists:
 | App bars | Five sizes including the two M3E flexible ones, subtitle, leading and trailing controls, the on-scroll treatment |
 | Navigation bar | Stacked or inline items, the taller bar, badges, selected icons, links or buttons, aria-current |
 | Navigation rail | Collapsed at 96 or 80px, expanded inline within the tokens' 220 to 360px range, header slot |
+| Navigation drawer | Modal or standard, either edge, headlines, reusing the shared navigation item resized to the drawer's own pill |
+| Bottom sheets | Modal or standard, drag handle that works from the pointer and the keyboard, drag or Escape to dismiss |
 | Icon † | Sizes and colours an SVG or a Material Symbols ligature. Reads `--grange-icon-size`, so it matches whatever control it sits in. Filled axis, RTL flip |
 
 † Not a separate entry in the M3 catalog, so it is excluded from the counts.
@@ -88,6 +90,7 @@ Not components, but most of the list below is blocked on them.
 | ~~Form integration~~ ✅ | | Done, and it turned out `useButton` already emitted `type`, `form`, `name` and `value`; it only needed tests, including a real form submission |
 | ~~RTL~~ ✅ | | Done. `Icon` takes `flipInRtl`, the connected group mirrors its outer corners through `useLocale`, and the dividers use logical margins |
 | ~~Token capture~~ ✅ | | Done. `pnpm capture-tokens <Name>` reads the generated Compose token objects straight out of androidx, so a component's geometry is never hand-typed. It reproduces every previously captured object byte for byte |
+| **Side sheet tokens** | The catalog lists side sheets, but Compose publishes no token file for them: only SheetBottomTokens exists | Building one means choosing values rather than reading them, so it is the one component here that cannot be token-backed |
 | **Shape library** | M3E's shape morphing (the loading indicator, FAB menu) needs the 35 shapes in `tokens/m3-expressive.json` | `shapeLibrary` is captured in the token file and read by nothing |
 
 ## Remaining components
@@ -103,7 +106,6 @@ Not components, but most of the list below is blocked on them.
 
 | Component | M3E | Material Web | React Aria | Capabilities needed |
 | --- | --- | --- | --- | --- |
-| Bottom sheets | | | `useModalOverlay` + custom | Modal and non-modal, drag handle, snap positions, swipe to dismiss. Drag behavior is ours to write |
 | Side sheets | | | `useModalOverlay` | Modal and non-modal, left or right, resizable |
 
 † Not a separate entry in the M3 catalog, which folds it into menus and text fields. Material
@@ -114,7 +116,6 @@ counts above.
 
 | Component | M3E | Material Web | React Aria | Capabilities needed |
 | --- | --- | --- | --- | --- |
-| Navigation drawer | | | `useModalOverlay` | Standard and modal, sections with headlines and dividers, badges |
 
 ### Actions
 
@@ -143,9 +144,9 @@ Each phase is useful on its own and unblocks the next.
 1. ~~**Foundations**~~ — done: `Icon`, `Divider`, link rendering and form props on `ButtonBase`, RTL.
 2. ~~**Form controls**~~ — done: Checkbox, Switch, Radio button, Sliders, Text fields. A checkbox group still wants `useCheckboxGroup` for shared validation, and the text field has no password reveal yet.
 3. ~~**Overlay infrastructure plus its components**~~ — done: the portal and positioning layer, Dialogs, Tooltips, Menus, Select and Snackbar. — the portal and positioning layer, then Dialogs, Menus, Select, Tooltips, Snackbar. One hard piece of plumbing, then five components come cheaply.
-4. **Navigation and structure** — ~~Toolbars~~, ~~Tabs~~, ~~Cards~~, ~~Lists~~, ~~App bars~~, ~~Navigation bar~~, ~~Navigation rail~~, then the Navigation drawer, which reuses the overlay layer. ← next
+4. ~~**Navigation and structure**~~ — done: Toolbars, Tabs, Cards, Lists, App bars, Navigation bar, Navigation rail, Navigation drawer.
 5. **M3E signature pieces** — ~~FAB~~, ~~Split button~~, ~~Progress indicators~~, ~~Extended FAB~~, ~~FAB menu~~, then the Loading indicator, which still wants the shape library. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
-6. **Long tail** — Chips, Search, Badges, Bottom and Side sheets, Date and Time pickers, Carousel.
+6. **Long tail** — ~~Bottom sheets~~, then Chips, Search, Badges, Date and Time pickers, Carousel, and Side sheets, which have no Compose token file at all. ← next
 
 ## Before building any of them
 
