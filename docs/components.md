@@ -18,19 +18,20 @@ Three reference points per component:
 | | Count |
 | --- | --- |
 | In the M3 catalog | 36 |
-| Done | 32 |
-| Remaining | 4 |
+| Done | 34 |
+| Remaining | 2 |
 
 Plus `Icon`, which the catalog does not list as a component of its own although Material Web
 ships it as `md-icon`, so it is not counted above.
 
-Of the 4 remaining, split by how much of the behavior already exists:
+Both remaining components are the hard end of the list: neither has a dedicated React Aria hook,
+and neither has a Compose token file, so their geometry has to be chosen rather than read.
 
 | | Count | Meaning |
 | --- | --- | --- |
-| Dedicated React Aria hook | 2 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
-| Generic React Aria pieces only | 2 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
-| No React Aria support | 2 | Behavior written from scratch: the carousel, and side sheets, which have no tokens either |
+| Dedicated React Aria hook | 0 | |
+| Generic React Aria pieces only | 1 | Side sheets: `useModalOverlay` brings the modal behavior, but the structure and motion are ours |
+| No React Aria support | 1 | The carousel: layout, snapping, keyboard and drag written from scratch |
 
 ### Done
 
@@ -69,6 +70,8 @@ Of the 4 remaining, split by how much of the behavior already exists:
 | Badges | Dot and counted, hidden from assistive tech unless labelled |
 | Search | Searchbox semantics, Escape to clear, docked or full screen view, locale-aware filtering re-exported |
 | Loading indicator | The M3E morph, over the regular shapes. Reduced motion holds a shape still |
+| Date pickers | `Calendar` and `RangeCalendar`, on `useCalendar` and `useRangeCalendar`: month navigation, min and max, unavailable dates, full keyboard. Docked as-is, or modal by putting it in a `Dialog`. React Aria brings the first day of the week, the weekday and month names and the non-Gregorian arithmetic |
+| Time pickers | `TimeField`, the input mode, on `useTimeField`: a segment per part, arrow keys and typing, 12 or 24 hour from the locale, optional seconds. The dial mode is captured but not built |
 | Icon † | Sizes and colours an SVG or a Material Symbols ligature. Reads `--grange-icon-size`, so it matches whatever control it sits in. Filled axis, RTL flip |
 
 † Not a separate entry in the M3 catalog, so it is excluded from the counts.
@@ -95,6 +98,8 @@ Not components, but most of the list below is blocked on them.
 | ~~RTL~~ ✅ | | Done. `Icon` takes `flipInRtl`, the connected group mirrors its outer corners through `useLocale`, and the dividers use logical margins |
 | ~~Token capture~~ ✅ | | Done. `pnpm capture-tokens <Name>` reads the generated Compose token objects straight out of androidx, so a component's geometry is never hand-typed. It reproduces every previously captured object byte for byte |
 | **Side sheet tokens** | The catalog lists side sheets, but Compose publishes no token file for them: only SheetBottomTokens exists | Building one means choosing values rather than reading them, so it is the one component here that cannot be token-backed |
+| **Clock dial** | The spec draws a time picker two ways, and only the input mode is built. `TimePickerTokens` is captured, so the numbers are known: a 256px dial with a 48px handle | The dial needs pointer and keyboard dragging around a circle, hour and minute passes, and the inner 24-hour ring. It is its own piece of geometry rather than a variant of the field |
+| **Carousel tokens** | Like side sheets, Compose publishes no token file for the carousel: there is no CarouselTokens object to capture | Both remaining components therefore have to have their geometry chosen from the spec pages rather than read |
 | **Shape library** | Partly resolved, and not the way it looked. `shapeLibrary` in the token file is 35 **names** and no geometry, so nothing can be drawn from it. The real shapes are `RoundedPolygon`s in `androidx.graphics.shapes`, defined by vertex lists with per-corner rounding and smoothing | The loading indicator implements the morph for the regular polygons, which can be derived exactly. The irregular ones, the slanted and fan and clam shell, need that library porting, which is a library rather than a component |
 
 ## Remaining components
@@ -128,14 +133,7 @@ counts above.
 
 | Component | M3E | Material Web | React Aria | Capabilities needed |
 | --- | --- | --- | --- | --- |
-| Carousel | | | custom | Multi-browse / uncontained / hero / full-screen layouts, snapping, keyboard and drag. No React Aria hook |
-
-### Pickers
-
-| Component | M3E | Material Web | React Aria | Capabilities needed |
-| --- | --- | --- | --- | --- |
-| Date pickers | | | `useCalendar`, `useRangeCalendar`, `useDatePicker`, `useDateRangePicker`, `useDateField` | Docked / modal / modal input, single date and range, month and year navigation. React Aria covers the calendar logic and internationalisation, which is the hard part |
-| Time pickers | | | `useTimeField` | Dial and input modes, 12 and 24 hour |
+| Carousel | | | custom | Multi-browse / uncontained / hero / full-screen layouts, snapping, keyboard and drag. No React Aria hook, and no Compose token file either |
 
 ## Suggested order
 
@@ -146,7 +144,7 @@ Each phase is useful on its own and unblocks the next.
 3. ~~**Overlay infrastructure plus its components**~~ — done: the portal and positioning layer, Dialogs, Tooltips, Menus, Select and Snackbar. — the portal and positioning layer, then Dialogs, Menus, Select, Tooltips, Snackbar. One hard piece of plumbing, then five components come cheaply.
 4. ~~**Navigation and structure**~~ — done: Toolbars, Tabs, Cards, Lists, App bars, Navigation bar, Navigation rail, Navigation drawer.
 5. **M3E signature pieces** — ~~FAB~~, ~~Split button~~, ~~Progress indicators~~, ~~Extended FAB~~, ~~FAB menu~~, then the Loading indicator, which still wants the shape library. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
-6. **Long tail** — ~~Bottom sheets~~, ~~Chips~~, ~~Badges~~, ~~Search~~, ~~Loading indicator~~, then Date and Time pickers, the Carousel, and Side sheets. ← next
+6. **Long tail** — ~~Bottom sheets~~, ~~Chips~~, ~~Badges~~, ~~Search~~, ~~Loading indicator~~, ~~Date pickers~~, ~~Time pickers~~ (input mode; the dial is not built), then the Carousel and Side sheets, which are the two with neither a React Aria hook nor a token file. ← next
 
 ## Before building any of them
 

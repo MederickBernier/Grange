@@ -38,7 +38,7 @@ Dark mode follows `prefers-color-scheme`; force it with `data-theme="dark"` (or 
 | Overrides | `GrangeProvider` takes `defaultProps`, `classNames` (per slot, add or replace), `behavior` (ripple, spring roles, touch target, inner corners) and `sizes` (geometry). Providers nest and merge |
 | Motion | `GrangeProvider` (expressive / standard scheme, reduced-motion aware), `useSpring(name)` for the six M3E springs |
 | Primitives | State layer, ripple, focus ring, elevation, 48px touch target (`src/primitives`), and `ButtonBase`, the shared interactive core. `Icon` sizes itself from `--grange-icon-size`; `Divider` is horizontal or vertical, full-width or inset |
-| Components | `Fab` (4 sizes × 4 colours), `ExtendedFab` (3 sizes, collapsible), `FabMenu`, `SplitButton` (5 sizes, expandable trailing half), `FloatingToolbar` and `DockedToolbar`, `Checkbox` (with indeterminate), `Switch`, `RadioGroup`, `Slider` (single or range), `FilledTextField` and `OutlinedTextField`, `Dialog`, `Tooltip`, `Menu` (sections, selection, typeahead), `Select`, `Snackbar`, `Tabs` (primary and secondary), `Card`, `List`, `AppBar` (five sizes), `NavigationBar`, `NavigationRail`, `NavigationDrawer`, `BottomSheet`, `Chip` (four kinds), `Badge`, `Search` and `LoadingIndicator`, `LinearProgress` and `CircularProgress` (determinate or indeterminate, flat or M3E wavy), and one button per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single / multi select) |
+| Components | `Fab` (4 sizes × 4 colours), `ExtendedFab` (3 sizes, collapsible), `FabMenu`, `SplitButton` (5 sizes, expandable trailing half), `FloatingToolbar` and `DockedToolbar`, `Checkbox` (with indeterminate), `Switch`, `RadioGroup`, `Slider` (single or range), `FilledTextField` and `OutlinedTextField`, `Dialog`, `Tooltip`, `Menu` (sections, selection, typeahead), `Select`, `Snackbar`, `Tabs` (primary and secondary), `Card`, `List`, `AppBar` (five sizes), `NavigationBar`, `NavigationRail`, `NavigationDrawer`, `BottomSheet`, `Chip` (four kinds), `Badge`, `Search` and `LoadingIndicator`, `Calendar` and `RangeCalendar` (the date picker, docked or in a `Dialog`), `TimeField`, `LinearProgress` and `CircularProgress` (determinate or indeterminate, flat or M3E wavy), and one button per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single / multi select) |
 | Roadmap | [`docs/components.md`](docs/components.md) — the full M3 catalog, what is done, and what each remaining component needs |
 | Storybook | Every component and state, light/dark and expressive/standard toolbar switches, and **Foundations / Motion playground** for tuning springs live |
 
@@ -238,14 +238,15 @@ Springs are tuned in the Motion playground story. The "Changed values" panel the
 
 ## What's missing
 
-Thirty-two of the 36 components in the Material 3 catalog are done, and the form controls, the
+Thirty-four of the 36 components in the Material 3 catalog are done, and the form controls, the
 overlay layer and the navigation set are all complete: buttons, icon buttons, button groups, (through `ConnectedButtonGroup`)
 segmented buttons, `Divider`, `Fab`, `ExtendedFab`, `FabMenu`, `SplitButton`, the toolbars, the
 progress indicators, `Checkbox`, `Switch`, `RadioGroup`, `Slider`, the text fields, `Dialog` and
 `Tooltip`, `Menu`, `Select`, `Snackbar`, `Tabs`, `Card`, `List`, `AppBar`, `NavigationBar` and
 `NavigationRail`, `NavigationDrawer`, `BottomSheet`, `Chip`, `Badge`, `Search` and
-`LoadingIndicator`, plus `Icon`, which the catalog does not list separately. Four remain: the date
-and time pickers, the carousel, and side sheets.
+`LoadingIndicator`, `Calendar`, `RangeCalendar` and `TimeField`, plus `Icon`, which the catalog
+does not list separately. Two remain: the carousel and side sheets, which are also the only two
+with neither a React Aria hook nor a Compose token file.
 
 See [`docs/components.md`](docs/components.md) for the full catalog, what each remaining
 component needs, and the foundations most of them are blocked on.
@@ -254,6 +255,7 @@ component needs, and the foundations most of them are blocked on.
 
 - Group widening uses padding, so a squeezed neighbour's label can clip if it has almost no padding left. Same limit as Compose.
 - Connected group inner corners default to the Small token (8px, 4px pressed) at every size, because Compose only publishes the Small values. Override them with `behavior.connectedInnerCorner`.
+- The time picker has only its input mode. The clock dial's tokens are captured as `timePickerDial` (a 256px dial, a 48px handle) but the dial itself is not built.
 - No visual regression tests yet. Playwright screenshots of the stories are the planned next step.
 
 See `NOTICE` for Apache 2.0 attributions (Material Web, Jetpack Compose).
