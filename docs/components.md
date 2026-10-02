@@ -18,18 +18,18 @@ Three reference points per component:
 | | Count |
 | --- | --- |
 | In the M3 catalog | 36 |
-| Done | 5 |
-| Remaining | 31 |
+| Done | 7 |
+| Remaining | 29 |
 
 Plus `Icon`, which the catalog does not list as a component of its own although Material Web
 ships it as `md-icon`, so it is not counted above.
 
-Of the 31 remaining, split by how much of the behavior already exists:
+Of the 29 remaining, split by how much of the behavior already exists:
 
 | | Count | Meaning |
 | --- | --- | --- |
 | Dedicated React Aria hook | 17 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
-| Generic React Aria pieces only | 8 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
+| Generic React Aria pieces only | 6 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
 | No React Aria support | 6 | Behavior written from scratch: badges, carousel, FAB menu, loading indicator, navigation bar, navigation rail |
 
 ### Done
@@ -41,6 +41,8 @@ Of the 31 remaining, split by how much of the behavior already exists:
 | Button groups | Standard (pressed item widens 15%) and connected (single / multi select) |
 | Segmented buttons | Covered by `ConnectedButtonGroup`, which M3E replaces segmented buttons with |
 | Divider | Horizontal and vertical, full-width and inset (both ends, start, end), on `useSeparator` |
+| FAB | 4 sizes from FabSmall/Baseline/Medium/Large, 4 colour options, level 3 to 4 elevation, renders as a link |
+| Split button | All 5 sizes from the SplitButton token files, 4 colour variants, inner corners that grow on hover and press and round fully when expanded, RTL mirrored |
 | Icon † | Sizes and colours an SVG or a Material Symbols ligature. Reads `--grange-icon-size`, so it matches whatever control it sits in. Filled axis, RTL flip |
 
 † Not a separate entry in the M3 catalog, so it is excluded from the counts.
@@ -62,6 +64,7 @@ Not components, but most of the list below is blocked on them.
 | ~~Link rendering~~ ✅ | | Done. An `href` renders `motion.a` with `elementType: 'a'`, keeping the button role so the announced role matches the keyboard behavior. A disabled button drops the href |
 | ~~Form integration~~ ✅ | | Done, and it turned out `useButton` already emitted `type`, `form`, `name` and `value`; it only needed tests, including a real form submission |
 | ~~RTL~~ ✅ | | Done. `Icon` takes `flipInRtl`, the connected group mirrors its outer corners through `useLocale`, and the dividers use logical margins |
+| ~~Token capture~~ ✅ | | Done. `pnpm capture-tokens <Name>` reads the generated Compose token objects straight out of androidx, so a component's geometry is never hand-typed. It reproduces every previously captured object byte for byte |
 | **Shape library** | M3E's shape morphing (the loading indicator, FAB menu) needs the 35 shapes in `tokens/m3-expressive.json` | `shapeLibrary` is captured in the token file and read by nothing |
 
 ## Remaining components
@@ -109,10 +112,8 @@ counts above.
 
 | Component | M3E | Material Web | React Aria | Capabilities needed |
 | --- | --- | --- | --- | --- |
-| FAB | ✅ | ✅ | `useButton` | Small / medium / large, surface / primary / secondary / tertiary colors, lowered variant |
 | Extended FAB | ✅ | ✅ | `useButton` | Icon plus label, collapse and expand on scroll |
 | FAB menu | ✅ | | custom | A FAB that opens a list of labelled actions, with a staggered reveal. Replaces the speed dial. New in M3E |
-| Split button | ✅ | | `useButton` + `useMenu` | A leading action plus a trailing menu button whose shape morphs when open; the same five sizes and four color styles as buttons. New in M3E |
 
 ### Content
 
@@ -140,7 +141,7 @@ Each phase is useful on its own and unblocks the next.
 2. **Form controls** — Checkbox, Radio button, Switch, Sliders, Text fields. All have React Aria hooks, no overlay needed, and they are what an app needs first.
 3. **Overlay infrastructure plus its components** — the portal and positioning layer, then Dialogs, Menus, Select, Tooltips, Snackbar. One hard piece of plumbing, then five components come cheaply.
 4. **Navigation and structure** — Tabs, App bars, Toolbars, Navigation bar / rail / drawer, Cards, Lists.
-5. **M3E signature pieces** — FAB, Extended FAB, Split button, FAB menu, Loading indicator, Progress indicators. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port.
+5. **M3E signature pieces** — ~~FAB~~, ~~Split button~~, then Extended FAB, FAB menu, Loading indicator, Progress indicators. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
 6. **Long tail** — Chips, Search, Badges, Bottom and Side sheets, Date and Time pickers, Carousel.
 
 ## Before building any of them
