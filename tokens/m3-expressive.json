@@ -3,7 +3,7 @@
     "source": "androidx-main compose/material3 token files (Apache 2.0)",
     "read": "2026-10-01",
     "units": "dp=px, sp=px",
-    "componentTokensVersion": "v0_103, v0_210",
+    "componentTokensVersion": "v0_117, v0_210",
     "componentTokensSource": "androidx-main compose/material3 tokens"
   },
   "motion": {
@@ -1269,6 +1269,46 @@
       "DisabledOutlineOpacity": "0.12f",
       "DisabledSupportingOpacity": "0.38f",
       "DisabledTrailingIconOpacity": "0.38f"
+    },
+    "Dialog": {
+      "ActionFocusLabelTextColor": "color:Primary",
+      "ActionHoverLabelTextColor": "color:Primary",
+      "ActionLabelTextColor": "color:Primary",
+      "ActionLabelTextFont": "type:LabelLarge",
+      "ActionPressedLabelTextColor": "color:Primary",
+      "ContainerColor": "color:SurfaceContainerHigh",
+      "ContainerElevation": "elevation:Level3",
+      "ContainerShape": "CornerExtraLarge",
+      "HeadlineColor": "color:OnSurface",
+      "HeadlineFont": "type:HeadlineSmall",
+      "SupportingTextColor": "color:OnSurfaceVariant",
+      "SupportingTextFont": "type:BodyMedium",
+      "IconColor": "color:Secondary",
+      "IconSize": "24.0.dp"
+    },
+    "PlainTooltip": {
+      "ContainerColor": "color:InverseSurface",
+      "ContainerShape": "CornerExtraSmall",
+      "SupportingTextColor": "color:InverseOnSurface",
+      "SupportingTextFont": "type:BodySmall"
+    },
+    "RichTooltip": {
+      "ActionFocusLabelTextColor": "color:Primary",
+      "ActionHoverLabelTextColor": "color:Primary",
+      "ActionLabelTextColor": "color:Primary",
+      "ActionLabelTextFont": "type:LabelLarge",
+      "ActionPressedLabelTextColor": "color:Primary",
+      "ContainerColor": "color:SurfaceContainer",
+      "ContainerElevation": "elevation:Level2",
+      "ContainerShape": "CornerMedium",
+      "SubheadColor": "color:OnSurfaceVariant",
+      "SubheadFont": "type:TitleSmall",
+      "SupportingTextColor": "color:OnSurfaceVariant",
+      "SupportingTextFont": "type:BodyMedium"
+    },
+    "Scrim": {
+      "ContainerColor": "color:Scrim",
+      "ContainerOpacity": "0.32f"
     }
   }
 }

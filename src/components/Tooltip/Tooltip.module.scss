@@ -1,0 +1,18 @@
+/*
+ * Plain tooltip, from Compose PlainTooltipTokens: inverse surface so it reads against whatever
+ * it covers, a 4px corner, and body-small text.
+ */
+
+@use '../../scss/api' as grange;
+
+.tooltip {
+  position: absolute;
+  z-index: 1100;
+  max-width: 200px;
+  padding: 4px 8px;
+  border-radius: 4px; // ContainerShape: CornerExtraSmall
+  background: grange.color(inverse-surface);
+  color: grange.color(inverse-on-surface);
+  pointer-events: none;
+  @include grange.typescale(body-small);
+}

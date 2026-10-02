@@ -52,6 +52,8 @@ export type {
   RadioSlot,
   SliderSlot,
   TextFieldSlot,
+  DialogSlot,
+  TooltipSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
   BehaviorConfig,
@@ -63,6 +65,13 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { Dialog } from './components/Dialog/Dialog';
+export type { DialogProps } from './components/Dialog/Dialog';
+export { dialog } from './components/Dialog/specs';
+export { Tooltip } from './components/Tooltip/Tooltip';
+export type { TooltipProps } from './components/Tooltip/Tooltip';
+export { tooltip } from './components/Tooltip/specs';
 
 export { TextField, FilledTextField, OutlinedTextField } from './components/TextField/TextField';
 export type {
