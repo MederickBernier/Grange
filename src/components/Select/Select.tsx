@@ -1,15 +1,8 @@
 import { useRef, type CSSProperties, type ReactElement, type ReactNode } from 'react';
-import {
-  HiddenSelect,
-  useButton,
-  useFocusRing,
-  useHover,
-  useListBox,
-  useOption,
-  useSelect,
-} from 'react-aria';
+import { HiddenSelect, useButton, useFocusRing, useHover, useSelect } from 'react-aria';
 import { Item, useSelectState, type SelectProps as AriaSelectProps, type SelectState } from 'react-stately';
 import { Popover } from '../../overlays/Popover';
+import { OptionList } from './OptionList';
 import { resolveSlotClass, useComponentConfig, type SelectSlot, type SlotOverrides } from '../../config/config';
 import { describedBy, type TextFieldVariant } from '../TextField/specs';
 import textFieldStyles from '../TextField/TextField.module.scss';
@@ -18,7 +11,6 @@ import styles from './Select.module.scss';
 
 type Key = NonNullable<AriaSelectProps<unknown>['disabledKeys']> extends Iterable<infer K> ? K : never;
 type CollectionChildren = AriaSelectProps<unknown>['children'];
-type CollectionNode = SelectState<unknown>['collection'] extends Iterable<infer N> ? N : never;
 
 export interface SelectItemProps {
   /**
@@ -211,61 +203,16 @@ export function Select(props: SelectProps) {
           matchTriggerWidth
           className={menuStyles.popover}
         >
-          <ListBox {...menuProps} state={state} itemClass={slot('item', 'grange-select-item', menuStyles.item)} />
+          <OptionList
+            state={state}
+            listProps={menuProps as Record<string, unknown>}
+            itemClass={slot('item', 'grange-select-item', menuStyles.item)}
+            // A select always has something chosen once something has been: pressing the chosen
+            // option again closes the list rather than emptying it.
+            disallowEmptySelection
+          />
         </Popover>
       )}
     </div>
-  );
-}
-
-function ListBox({
-  state,
-  itemClass,
-  ...props
-}: {
-  state: SelectState<unknown>;
-  itemClass: string;
-} & Record<string, unknown>) {
-  const ref = useRef<HTMLUListElement>(null);
-  const { listBoxProps } = useListBox({ ...props, disallowEmptySelection: true }, state, ref);
-
-  return (
-    <ul {...listBoxProps} ref={ref} className={menuStyles.menu}>
-      {[...state.collection].map((item) => (
-        <Option key={item.key} item={item} state={state} className={itemClass} />
-      ))}
-    </ul>
-  );
-}
-
-function Option({
-  item,
-  state,
-  className,
-}: {
-  item: CollectionNode;
-  state: SelectState<unknown>;
-  className: string;
-}) {
-  const ref = useRef<HTMLLIElement>(null);
-  const { optionProps, isSelected, isDisabled, isFocused } = useOption({ key: item.key }, state, ref);
-  const props = item.props as SelectItemProps;
-
-  return (
-    <li
-      {...optionProps}
-      ref={ref}
-      className={className}
-      data-selected={isSelected || undefined}
-      data-disabled={isDisabled || undefined}
-      data-focused={isFocused || undefined}
-      data-two-line={props.supportingText ? 'true' : undefined}
-    >
-      {props.icon && <span className={menuStyles.icon}>{props.icon}</span>}
-      <span className={menuStyles.text}>
-        <span className={menuStyles.label}>{item.rendered}</span>
-        {props.supportingText && <span className={menuStyles.supporting}>{props.supportingText}</span>}
-      </span>
-    </li>
   );
 }
