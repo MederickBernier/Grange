@@ -18,19 +18,19 @@ Three reference points per component:
 | | Count |
 | --- | --- |
 | In the M3 catalog | 36 |
-| Done | 8 |
-| Remaining | 28 |
+| Done | 10 |
+| Remaining | 26 |
 
 Plus `Icon`, which the catalog does not list as a component of its own although Material Web
 ships it as `md-icon`, so it is not counted above.
 
-Of the 28 remaining, split by how much of the behavior already exists:
+Of the 26 remaining, split by how much of the behavior already exists:
 
 | | Count | Meaning |
 | --- | --- | --- |
 | Dedicated React Aria hook | 16 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
-| Generic React Aria pieces only | 6 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
-| No React Aria support | 6 | Behavior written from scratch: badges, carousel, FAB menu, loading indicator, navigation bar, navigation rail |
+| Generic React Aria pieces only | 5 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
+| No React Aria support | 5 | Behavior written from scratch: badges, carousel, loading indicator, navigation bar, navigation rail |
 
 ### Done
 
@@ -44,6 +44,8 @@ Of the 28 remaining, split by how much of the behavior already exists:
 | FAB | 4 sizes from FabSmall/Baseline/Medium/Large, 4 colour options, level 3 to 4 elevation, renders as a link |
 | Split button | All 5 sizes from the SplitButton token files, 4 colour variants, inner corners that grow on hover and press and round fully when expanded, RTL mirrored |
 | Progress indicators | Linear and circular, determinate and indeterminate, each flat or with the M3E wavy track, on `useProgressBar` |
+| Extended FAB | 3 sizes, 4 colours, lowered elevation, collapses to the plain FAB of the same height |
+| FAB menu | Labelled actions revealed nearest-first, with focus containment, arrow keys, Escape and outside-click |
 | Icon † | Sizes and colours an SVG or a Material Symbols ligature. Reads `--grange-icon-size`, so it matches whatever control it sits in. Filled axis, RTL flip |
 
 † Not a separate entry in the M3 catalog, so it is excluded from the counts.
@@ -61,6 +63,7 @@ Not components, but most of the list below is blocked on them.
 | ~~Icon~~ ✅ | | Done. The sizing contract is `--grange-icon-size`, which the buttons publish and `Icon` reads |
 | **Overlay layer** | Dialogs, menus, select, tooltips, sheets, snackbars, date and time pickers all need portalling, focus trapping and dismiss handling | React Aria has all of it: `Overlay`, `PortalProvider`, `FocusScope`, `useOverlay`, `useModalOverlay`, `usePreventScroll`, `useInteractOutside`. Needs a portal container on `GrangeProvider` |
 | **Positioning** | Menus, tooltips, select and popovers must anchor to a trigger and flip in a viewport | `useOverlayPosition`, `usePopover`, `useOverlayTrigger` |
+| **Menu semantics** | `FabMenu` carries its own roving focus, Escape and outside-click rather than React Aria's menu collection, so it has no typeahead | When `useMenu` lands with the overlay layer, FabMenu should move onto it |
 | **Collections** | Lists, menus, select, tabs and chips all need item collections with typeahead and keyboard navigation | React Aria's `Collection` / `CollectionBuilder` and the `ListKeyboardDelegate` |
 | ~~Link rendering~~ ✅ | | Done. An `href` renders `motion.a` with `elementType: 'a'`, keeping the button role so the announced role matches the keyboard behavior. A disabled button drops the href |
 | ~~Form integration~~ ✅ | | Done, and it turned out `useButton` already emitted `type`, `form`, `name` and `value`; it only needed tests, including a real form submission |
@@ -113,8 +116,6 @@ counts above.
 
 | Component | M3E | Material Web | React Aria | Capabilities needed |
 | --- | --- | --- | --- | --- |
-| Extended FAB | ✅ | ✅ | `useButton` | Icon plus label, collapse and expand on scroll |
-| FAB menu | ✅ | | custom | A FAB that opens a list of labelled actions, with a staggered reveal. Replaces the speed dial. New in M3E |
 
 ### Content
 
@@ -141,7 +142,7 @@ Each phase is useful on its own and unblocks the next.
 2. **Form controls** — Checkbox, Radio button, Switch, Sliders, Text fields. All have React Aria hooks, no overlay needed, and they are what an app needs first.
 3. **Overlay infrastructure plus its components** — the portal and positioning layer, then Dialogs, Menus, Select, Tooltips, Snackbar. One hard piece of plumbing, then five components come cheaply.
 4. **Navigation and structure** — Tabs, App bars, Toolbars, Navigation bar / rail / drawer, Cards, Lists.
-5. **M3E signature pieces** — ~~FAB~~, ~~Split button~~, ~~Progress indicators~~, then Extended FAB, FAB menu, Loading indicator. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
+5. **M3E signature pieces** — ~~FAB~~, ~~Split button~~, ~~Progress indicators~~, ~~Extended FAB~~, ~~FAB menu~~, then the Loading indicator, which still wants the shape library. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
 6. **Long tail** — Chips, Search, Badges, Bottom and Side sheets, Date and Time pickers, Carousel.
 
 ## Before building any of them
