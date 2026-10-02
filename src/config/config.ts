@@ -67,6 +67,8 @@ export interface ClassNamesConfig {
   SplitButton?: SlotOverrides<GroupSlot>;
   SplitButtonLeading?: SlotOverrides<ButtonSlot>;
   SplitButtonTrailing?: SlotOverrides<IconButtonSlot>;
+  FloatingToolbar?: SlotOverrides<GroupSlot>;
+  DockedToolbar?: SlotOverrides<GroupSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
 }
@@ -126,6 +128,10 @@ export interface DefaultPropsConfig {
   ExtendedFab?: { size?: ExtendedFabSize; variant?: FabVariant; lowered?: boolean };
   FabMenu?: { variant?: FabVariant };
   SplitButton?: { size?: ButtonSize; variant?: ToggleButtonVariant };
+  FloatingToolbar?: {
+    variant?: 'standard' | 'vibrant';
+    orientation?: 'horizontal' | 'vertical';
+  };
   LinearProgress?: { wavy?: boolean };
   CircularProgress?: { wavy?: boolean };
 }
@@ -241,6 +247,8 @@ const COMPONENTS: ComponentName[] = [
   'SplitButton',
   'SplitButtonLeading',
   'SplitButtonTrailing',
+  'FloatingToolbar',
+  'DockedToolbar',
   'LinearProgress',
   'CircularProgress',
 ];

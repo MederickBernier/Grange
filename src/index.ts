@@ -59,6 +59,15 @@ export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
 
+export { FloatingToolbar, DockedToolbar } from './components/Toolbar/Toolbar';
+export type {
+  FloatingToolbarProps,
+  DockedToolbarProps,
+  FloatingToolbarVariant,
+  ToolbarOrientation,
+} from './components/Toolbar/Toolbar';
+export { floatingToolbar, dockedToolbar } from './components/Toolbar/specs';
+
 export { ExtendedFab } from './components/Fab/ExtendedFab';
 export type { ExtendedFabProps, ExtendedFabSize } from './components/Fab/ExtendedFab';
 export { FabMenu, FabMenuItem } from './components/Fab/FabMenu';

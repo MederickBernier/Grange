@@ -1,0 +1,84 @@
+/*
+ * Toolbars, from Compose FloatingToolbarTokens and DockedToolbarTokens.
+ *
+ * The vibrant floating toolbar restyles the buttons inside it, which is what the stable
+ * grange-* hook classes are for: targeting them from an ancestor without reaching into another
+ * stylesheet's hashed class names.
+ */
+
+@use '../../scss/api' as grange;
+
+.floating,
+.docked {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+// ---------------------------------------------------------------------------
+// Floating
+// ---------------------------------------------------------------------------
+
+.floating {
+  // The gap the spec leaves to the screen edge. Published, not applied: where it floats is the
+  // app's layout decision.
+  --grange-floating-toolbar-inset: 16px;
+
+  gap: 4px; // ContainerBetweenSpace
+  min-height: 64px; // ContainerHeight
+  padding: 8px; // Container leading and trailing space
+  border-radius: 9999px; // CornerFull
+  background: grange.color(surface-container);
+  color: grange.color(on-surface);
+  // Not tokenised, but a floating bar needs separation from what it floats over. These are the
+  // level 3 values the elevation primitive computes; they are written out because that primitive
+  // works through a child element only ButtonBase renders.
+  box-shadow:
+    0 1px 3px 0 color-mix(in srgb, #{grange.color(shadow)} 30%, transparent),
+    0 4px 8px 3px color-mix(in srgb, #{grange.color(shadow)} 15%, transparent);
+
+  &[data-orientation='vertical'] {
+    flex-direction: column;
+    min-height: 0;
+    min-width: 64px;
+  }
+
+  // Vibrant fills with the primary container; its buttons invert to match, and a selected one
+  // takes the surface colour so it reads as lifted out of the fill.
+  &[data-variant='vibrant'] {
+    background: grange.color(primary-container);
+    color: grange.color(on-primary-container);
+
+    :is(.grange-button, .grange-icon-button)[data-variant] {
+      --_content: #{grange.color(on-primary-container)};
+      --_container: transparent;
+    }
+
+    :is(.grange-button, .grange-icon-button)[data-variant][data-selected='true'] {
+      --_container: #{grange.color(surface-container)};
+      --_content: #{grange.color(on-surface)};
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Docked
+// ---------------------------------------------------------------------------
+
+.docked {
+  width: 100%;
+  min-height: 64px; // ContainerHeight
+  padding-inline: 16px; // Container leading and trailing space
+  border-radius: 0; // CornerNone
+  background: grange.color(surface-container);
+  color: grange.color(on-surface);
+}
+
+// Absorbs the free space between two items, within the bounds the tokens set. `space-between`
+// would have no upper bound and drift the items apart on a wide screen.
+.spacer {
+  flex: 1 1 auto;
+  min-width: 4px; // ContainerMinSpacing
+  max-width: 32px; // ContainerMaxSpacing
+  align-self: stretch;
+}
