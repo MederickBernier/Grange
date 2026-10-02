@@ -72,6 +72,11 @@ export function collapsedPadding(spec: ExtendedFabSizeSpec): number {
 
 /** From Compose FabMenuBaselineTokens. */
 export const fabMenu = {
+  /**
+   * Not tokenised: how long a typeahead buffer lives. Long enough to type a word, short enough
+   * that coming back to the menu later starts a fresh search.
+   */
+  typeaheadResetMs: 1000,
   /** The toggle, once it has become a close button, px. */
   closeSize: 56,
   closeIcon: 20,

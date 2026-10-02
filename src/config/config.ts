@@ -58,7 +58,8 @@ export type TextFieldSlot =
   | 'input'
   | 'supporting'
   | 'leadingIcon'
-  | 'trailingIcon';
+  | 'trailingIcon'
+  | 'reveal';
 export type DividerSlot = 'root';
 export type DialogSlot = 'root' | 'scrim' | 'headline' | 'content' | 'actions' | 'icon';
 export type TooltipSlot = 'root';

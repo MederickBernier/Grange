@@ -1,5 +1,5 @@
-import { forwardRef, useId, type CSSProperties, type ReactNode } from 'react';
-import { useFocusRing, useHover, useObjectRef, useTextField } from 'react-aria';
+import { forwardRef, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useButton, useFocusRing, useHover, useObjectRef, useTextField } from 'react-aria';
 import {
   resolveSlotClass,
   useComponentConfig,
@@ -45,6 +45,15 @@ export interface TextFieldProps {
    */
   validationBehavior?: 'aria' | 'native';
   type?: 'text' | 'email' | 'password' | 'search' | 'tel' | 'url' | 'number';
+  /**
+   * The eye at the end of a password field that shows what has been typed. On by default for
+   * `type="password"`, which is what the spec draws, and `false` turns it off for a field where
+   * the value should never be shown.
+   */
+  revealable?: boolean;
+  /** The reveal button's label, by state. */
+  revealLabel?: string;
+  hideLabel?: string;
   name?: string;
   autoComplete?: string;
   'aria-label'?: string;
@@ -83,6 +92,9 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
       required,
       validationBehavior = 'aria',
       placeholder,
+      revealable,
+      revealLabel = 'Show password',
+      hideLabel = 'Hide password',
       className,
       classNames,
       style,
@@ -93,8 +105,17 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
     const ref = useObjectRef(forwardedRef as React.ForwardedRef<HTMLInputElement>);
     const description = error && errorText ? undefined : supportingText;
 
+    const [revealed, setRevealed] = useState(false);
+    const isPassword = rest.type === 'password';
+    const showReveal = (revealable ?? isPassword) && isPassword && !multiline;
+    // While revealed the input really is a text input, which is the only way a browser shows the
+    // characters. Hiding it again puts the type back, so autofill and password managers still
+    // recognise the field.
+    const effectiveType = showReveal && revealed ? 'text' : rest.type;
+
     const ariaProps = {
       ...rest,
+      type: effectiveType,
       label,
       placeholder,
       description,
@@ -204,6 +225,16 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
             </span>
           )}
 
+          {showReveal && (
+            <RevealButton
+              className={slot('reveal', 'grange-text-field-reveal', styles.reveal)}
+              revealed={revealed}
+              label={revealed ? hideLabel : revealLabel}
+              disabled={disabled}
+              onToggle={() => setRevealed((was) => !was)}
+            />
+          )}
+
           {variant === 'filled' && <span className={styles.indicator} aria-hidden="true" />}
         </div>
 
@@ -244,3 +275,48 @@ export const OutlinedTextField = forwardRef<
 >(function OutlinedTextField(props, ref) {
   return <TextField {...props} ref={ref} variant="outlined" />;
 });
+
+/**
+ * The reveal toggle.
+ *
+ * A plain `<button>` routed through `useButton`, not an `IconButton`: it has to sit inside the
+ * field's container at the icon's size, and an IconButton would bring its own 40px box, state
+ * layer and ripple into a 56px row. `useButton` is still what gives it the press behavior and
+ * keeps `type="button"` on it, so it cannot submit the form the field is in.
+ *
+ * It is `aria-pressed`, which is what says whether the password is showing. Focus stays on the
+ * button after a toggle, so it can be pressed again without hunting for it.
+ */
+function RevealButton({
+  className,
+  revealed,
+  label,
+  disabled,
+  onToggle,
+}: {
+  className: string;
+  revealed: boolean;
+  label: string;
+  disabled?: boolean;
+  onToggle: () => void;
+}) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const { buttonProps } = useButton(
+    { onPress: onToggle, isDisabled: disabled, 'aria-label': label, 'aria-pressed': revealed },
+    ref,
+  );
+
+  return (
+    <button {...buttonProps} ref={ref} className={className}>
+      <svg viewBox="0 -960 960 960" focusable="false" aria-hidden="true">
+        {revealed ? (
+          // Material Symbols visibility_off
+          <path d="m644-428-58-58q9-47-27-88t-93-32l-58-58q17-8 34.5-12t37.5-4q75 0 127.5 52.5T660-500q0 20-4 37.5T644-428Zm128 126-58-56q38-29 67.5-63.5T832-500q-50-101-143.5-160.5T480-720q-29 0-57 4t-55 12l-62-62q41-17 84-25.5t90-8.5q142 0 261.5 78T912-500q-22 57-58.5 104T772-302Zm20 246L624-222q-35 11-70.5 16.5T480-200q-146 0-266.5-81.5T28-500q21-53 53-98.5t73-81.5L56-856l56-56 736 736-56 56ZM222-624q-29 26-53 57t-41 67q50 101 143.5 160.5T480-280q20 0 39-2.5t39-5.5l-36-38q-11 3-21 4.5t-21 1.5q-75 0-127.5-52.5T300-500q0-11 1.5-21t4.5-21l-84-82Z" />
+        ) : (
+          // Material Symbols visibility
+          <path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T28-500q66-137 186-218.5T480-800q146 0 266 81.5T932-500q-66 137-186 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z" />
+        )}
+      </svg>
+    </button>
+  );
+}

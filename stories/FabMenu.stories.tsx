@@ -89,8 +89,10 @@ export const Collapsing: StoryObj = {
 /**
  * A FAB that opens onto labelled actions, replacing the speed dial. Items reveal nearest-first.
  *
- * Keyboard: Tab to the FAB and press Enter, then Up, Down, Home and End move between items and
- * Escape closes. A click outside closes it too.
+ * Keyboard: Tab to the FAB, then the down arrow opens it on the first item and the up arrow on
+ * the last, as a menu button does; Enter opens it too. Once open, Up, Down, Home and End move
+ * between items, typing jumps to a matching label — try "s", then "p" — and Escape closes. A
+ * click outside closes it too. A disabled item is never a stop.
  */
 export const Menu: StoryObj = {
   render: function Render() {
@@ -116,6 +118,9 @@ export const Menu: StoryObj = {
           </FabMenuItem>
           <FabMenuItem icon={<Icon><HeartIcon /></Icon>} onPress={() => setPicked('Presentation')}>
             Presentation
+          </FabMenuItem>
+          <FabMenuItem icon={<Icon><HeartIcon /></Icon>} disabled>
+            Shared album
           </FabMenuItem>
         </FabMenu>
       </div>

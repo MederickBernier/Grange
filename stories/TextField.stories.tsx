@@ -118,12 +118,26 @@ export const Multiline: StoryObj = {
   ),
 };
 
-/** Types pass straight through, so the right keyboard shows on a phone. */
+/**
+ * Types pass straight through, so the right keyboard shows on a phone.
+ *
+ * A password field gets the reveal eye by default, as the spec draws it. While revealed the
+ * input really is `type="text"`, because that is the only way a browser shows the characters,
+ * and hiding it again puts the type back so autofill and password managers still recognise the
+ * field. The button is `aria-pressed`, which is what says whether the password is showing.
+ */
 export const Types: StoryObj = {
   render: () => (
     <div style={column}>
       <OutlinedTextField label="Email" type="email" placeholder="you@example.com" />
       <OutlinedTextField label="Password" type="password" defaultValue="secret" />
+      <FilledTextField
+        label="Password, no reveal"
+        type="password"
+        defaultValue="secret"
+        revealable={false}
+        supportingText="revealable={false} for a value that should never be shown"
+      />
       <OutlinedTextField label="Phone" type="tel" />
       <OutlinedTextField label="Quantity" type="number" defaultValue="1" />
       <TextField label="Required, aria only" required supportingText="No browser bubble" />

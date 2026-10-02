@@ -2,6 +2,7 @@ import {
   createContext,
   forwardRef,
   useContext,
+  useEffect,
   useId,
   useRef,
   type CSSProperties,
@@ -51,10 +52,17 @@ export interface FabMenuProps {
  * A FAB that opens onto a short list of labelled actions. New in M3 Expressive, and the
  * replacement for the speed dial and for stacks of small FABs.
  *
- * Keyboard and focus are handled here rather than through React Aria's menu collection, which
- * arrives with the overlay layer: the list traps focus and restores it, Escape and a click
- * outside close it, and Up, Down, Home and End move between items. When useMenu lands this
- * should move onto it and inherit typeahead for free.
+ * Keyboard and focus are handled here rather than through React Aria's menu collection: the list
+ * traps focus and restores it, Escape and a click outside close it, Up, Down, Home and End move
+ * between items, the arrows open it from the toggle, and typing jumps to a matching label.
+ *
+ * It does not sit on `useMenu`, and the roadmap records why. An item here is a `ButtonBase`,
+ * which is what gives it the FAB's shape, ripple, state layer and press spring, and a link when
+ * it has an href. `ButtonBase` routes its props through `useButton`, which filters them down to
+ * real DOM attributes, so `useMenuItem`'s handlers would be dropped on the way through; and
+ * layering `useMenuItem`'s `usePress` over `useButton`'s own would put two press systems on one
+ * node. The collection would cost the item API and the FAB rendering to buy the typeahead that
+ * is thirty lines below.
  */
 export function FabMenu(props: FabMenuProps) {
   const { defaults, slots, behavior } = useComponentConfig('FabMenu');
@@ -75,6 +83,20 @@ export function FabMenu(props: FabMenuProps) {
   const listId = useId();
   const container = useRef<HTMLDivElement>(null);
   const toggle = useRef<GrangeButtonElement>(null);
+  const list = useRef<HTMLDivElement>(null);
+  /** Set when the arrows open the menu, so focus lands on the right end of it. */
+  const pendingFocus = useRef<'first' | 'last' | null>(null);
+
+  // FocusScope's autoFocus takes the first item; opening with the up arrow wants the last.
+  useEffect(() => {
+    if (!open || pendingFocus.current !== 'last') {
+      pendingFocus.current = null;
+      return;
+    }
+    pendingFocus.current = null;
+    const items = itemsIn(list.current);
+    items[items.length - 1]?.focus();
+  }, [open]);
 
   useInteractOutside({
     ref: container,
@@ -82,45 +104,79 @@ export function FabMenu(props: FabMenuProps) {
     onInteractOutside: () => onOpenChange(false),
   });
 
-  // Escape closes from anywhere inside, including the toggle.
+  /**
+   * Escape closes from anywhere inside, including the toggle, and the arrows open a closed menu
+   * onto the end they point at, the way a menu button does.
+   *
+   * Both are handled on the container rather than on the toggle, because ButtonBase routes its
+   * props through useButton, which filters them down to real DOM attributes and would drop an
+   * onKeyDown on the way. While the menu is closed the toggle is the only thing inside that can
+   * hold focus, so there is nothing to disambiguate.
+   */
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && open) {
       event.stopPropagation();
       onOpenChange(false);
+      return;
+    }
+    if (!open && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+      event.preventDefault();
+      pendingFocus.current = event.key === 'ArrowDown' ? 'first' : 'last';
+      onOpenChange(true);
     }
   };
 
   /**
-   * Roving focus over the items. FocusScope contains and restores focus but does not move it,
-   * and a menu is expected to answer the arrow keys rather than only Tab.
+   * Roving focus over the items, plus typeahead. FocusScope contains and restores focus but does
+   * not move it, and a menu is expected to answer the arrow keys rather than only Tab.
    */
-  const onListKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    const keys = ['ArrowDown', 'ArrowUp', 'Home', 'End'];
-    if (!keys.includes(event.key)) return;
+  const typed = useRef({ buffer: '', at: 0 });
 
-    const items = [
-      ...(event.currentTarget.querySelectorAll<HTMLElement>('[role="menuitem"]:not([disabled])') ?? []),
-    ];
+  const onListKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const items = itemsIn(event.currentTarget);
     if (items.length === 0) return;
 
-    event.preventDefault();
     const current = items.indexOf(document.activeElement as HTMLElement);
     const last = items.length - 1;
 
-    const next =
-      event.key === 'Home'
-        ? 0
-        : event.key === 'End'
-          ? last
-          : event.key === 'ArrowDown'
-            ? current >= last
-              ? 0
-              : current + 1
-            : current <= 0
-              ? last
-              : current - 1;
+    const move = (to: number) => {
+      event.preventDefault();
+      items[to]?.focus();
+    };
 
-    items[next]?.focus();
+    switch (event.key) {
+      case 'ArrowDown':
+        return move(current >= last ? 0 : current + 1);
+      case 'ArrowUp':
+        return move(current <= 0 ? last : current - 1);
+      case 'Home':
+        return move(0);
+      case 'End':
+        return move(last);
+    }
+
+    // Typing jumps to the next item whose label starts with what has been typed, which is the
+    // one thing the hand-rolled keyboard was missing against a real menu.
+    if (event.key.length !== 1 || event.altKey || event.ctrlKey || event.metaKey) return;
+
+    const now = Date.now();
+    typed.current.buffer = now - typed.current.at > spec.typeaheadResetMs ? event.key : typed.current.buffer + event.key;
+    typed.current.at = now;
+    const query = typed.current.buffer.toLowerCase();
+
+    /*
+     * A fresh search starts at the item after the current one, so pressing the same letter again
+     * cycles through the items beginning with it. A search that is still being typed starts at
+     * the current one, so adding a letter narrows what is already found rather than skipping
+     * past it.
+     */
+    const from = query.length === 1 ? current + 1 : Math.max(current, 0);
+    const order = items.slice(from).concat(items.slice(0, from));
+    const match = order.find((item) => (item.textContent ?? '').trim().toLowerCase().startsWith(query));
+    if (match) {
+      event.preventDefault();
+      match.focus();
+    }
   };
 
   return (
@@ -140,6 +196,7 @@ export function FabMenu(props: FabMenuProps) {
       {open && (
         <FocusScope restoreFocus autoFocus contain>
           <div
+            ref={list}
             id={listId}
             role="menu"
             aria-label={ariaLabel}
@@ -174,6 +231,12 @@ export function FabMenu(props: FabMenuProps) {
       </ButtonBase>
     </div>
   );
+}
+
+/** The focusable items in a list, in DOM order. A disabled one is not a stop. */
+function itemsIn(root: HTMLElement | null): HTMLElement[] {
+  if (!root) return [];
+  return [...root.querySelectorAll<HTMLElement>('[role="menuitem"]:not([disabled])')];
 }
 
 // ---------------------------------------------------------------------------
