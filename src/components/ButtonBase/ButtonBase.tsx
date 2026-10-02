@@ -1,4 +1,4 @@
-import { forwardRef, useContext, useRef, type CSSProperties, type ReactNode } from 'react';
+import { forwardRef, useContext, useRef, type CSSProperties, type Ref, type ReactNode } from 'react';
 import { motion, type HTMLMotionProps } from 'motion/react';
 import {
   mergeProps,
@@ -24,7 +24,10 @@ export interface CornerRadii {
 
 export const uniform = (r: number): CornerRadii => ({ topLeft: r, topRight: r, bottomRight: r, bottomLeft: r });
 
-export interface ButtonBaseProps extends AriaButtonProps<'button'> {
+/** A button-like renders a `<button>`, or an `<a>` once it is given an `href`. */
+export type GrangeButtonElement = HTMLButtonElement | HTMLAnchorElement;
+
+export interface ButtonBaseProps extends AriaButtonProps<'button' | 'a'> {
   className?: string;
   style?: CSSProperties;
   children?: ReactNode;
@@ -43,7 +46,7 @@ export interface ButtonBaseProps extends AriaButtonProps<'button'> {
  * Shared core for every button-like component: React Aria press/hover/focus handling,
  * state layer, ripple, elevation, touch target, spring-animated corners and group width changes.
  */
-export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>(function ButtonBase(props, forwardedRef) {
+export const ButtonBase = forwardRef<GrangeButtonElement, ButtonBaseProps>(function ButtonBase(props, forwardedRef) {
   const {
     className,
     style,
@@ -64,9 +67,16 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>(functio
   const group = useContext(ButtonGroupContext);
   const index = useContext(ButtonGroupItemIndex);
 
+  // An href turns this into an anchor, as Material Web's buttons do. useButton keeps the button
+  // role and the Space-to-activate behavior, so what assistive tech announces matches how the
+  // control actually behaves; the href adds the navigation target and the browser's own
+  // affordances, like open-in-new-tab.
+  const isLink = ariaProps.href != null;
+
   const { buttonProps, isPressed } = useButton(
     {
       ...ariaProps,
+      elementType: isLink ? 'a' : 'button',
       onPressStart: (e: PressEvent) => {
         pointerType.current = e.pointerType;
         if (e.pointerType !== 'keyboard' && e.pointerType !== 'virtual') ripple.current?.start(e.x, e.y);
@@ -100,10 +110,14 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>(functio
   // click while onPress also covers touch and keyboard activation.
   const domProps = mergeProps(buttonProps, hoverProps, focusProps) as HTMLMotionProps<'button'>;
 
+  // Same props either way; motion.a and motion.button differ only in the element they render,
+  // so they are narrowed to one type here and the ref is cast back at the call site.
+  const Element = (isLink ? motion.a : motion.button) as typeof motion.button;
+
   return (
-    <motion.button
+    <Element
       {...domProps}
-      ref={ref}
+      ref={ref as Ref<HTMLButtonElement>}
       className={className}
       style={style}
       initial={false}
@@ -128,6 +142,6 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>(functio
       {behavior.ripple.enabled && <Ripple ref={ripple} />}
       {touchTarget && <span className="grange-touch" aria-hidden="true" />}
       {children}
-    </motion.button>
+    </Element>
   );
 });

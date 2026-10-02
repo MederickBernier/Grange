@@ -44,6 +44,8 @@ export type {
   ButtonSlot,
   IconButtonSlot,
   GroupSlot,
+  IconSlot,
+  DividerSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
   BehaviorConfig,
@@ -51,6 +53,11 @@ export type {
   RippleBehavior,
   SpringRoles,
 } from './config/config';
+
+export { Icon } from './components/Icon/Icon';
+export type { IconProps } from './components/Icon/Icon';
+export { Divider } from './components/Divider/Divider';
+export type { DividerProps } from './components/Divider/Divider';
 
 export { ButtonGroup, ConnectedButtonGroup, ConnectedButtonGroupItem } from './components/ButtonGroup/ButtonGroup';
 export type {
@@ -62,6 +69,6 @@ export type {
 export { Ripple } from './primitives/Ripple';
 export type { RippleHandle } from './primitives/Ripple';
 export { ButtonBase, uniform } from './components/ButtonBase/ButtonBase';
-export type { ButtonBaseProps, CornerRadii } from './components/ButtonBase/ButtonBase';
+export type { ButtonBaseProps, CornerRadii, GrangeButtonElement } from './components/ButtonBase/ButtonBase';
 
 export * as tokens from './tokens/generated/tokens';

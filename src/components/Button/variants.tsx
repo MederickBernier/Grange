@@ -11,53 +11,54 @@
  */
 import { forwardRef } from 'react';
 import { Button, IconButton, type ButtonProps, type IconButtonProps } from './Button';
+import type { GrangeButtonElement } from '../ButtonBase/ButtonBase';
 
 export type VariantButtonProps = Omit<ButtonProps, 'variant'>;
 export type VariantIconButtonProps = Omit<IconButtonProps, 'variant'>;
 
 /** The high-emphasis button, for the single most important action on a screen. `md-filled-button`. */
-export const FilledButton = forwardRef<HTMLButtonElement, VariantButtonProps>(function FilledButton(props, ref) {
+export const FilledButton = forwardRef<GrangeButtonElement, VariantButtonProps>(function FilledButton(props, ref) {
   return <Button {...props} ref={ref} variant="filled" />;
 });
 
 /** A quieter filled button, for an action that matters but is not the primary one. `md-filled-tonal-button`. */
-export const FilledTonalButton = forwardRef<HTMLButtonElement, VariantButtonProps>(
+export const FilledTonalButton = forwardRef<GrangeButtonElement, VariantButtonProps>(
   function FilledTonalButton(props, ref) {
     return <Button {...props} ref={ref} variant="tonal" />;
   },
 );
 
 /** Outlined, for a secondary action that still needs a clear boundary. `md-outlined-button`. */
-export const OutlinedButton = forwardRef<HTMLButtonElement, VariantButtonProps>(function OutlinedButton(props, ref) {
+export const OutlinedButton = forwardRef<GrangeButtonElement, VariantButtonProps>(function OutlinedButton(props, ref) {
   return <Button {...props} ref={ref} variant="outlined" />;
 });
 
 /** Carries a shadow, for a button that must separate from a busy surface. `md-elevated-button`. */
-export const ElevatedButton = forwardRef<HTMLButtonElement, VariantButtonProps>(function ElevatedButton(props, ref) {
+export const ElevatedButton = forwardRef<GrangeButtonElement, VariantButtonProps>(function ElevatedButton(props, ref) {
   return <Button {...props} ref={ref} variant="elevated" />;
 });
 
 /** The lowest emphasis, for actions in dialogs and cards. `md-text-button`. */
-export const TextButton = forwardRef<HTMLButtonElement, VariantButtonProps>(function TextButton(props, ref) {
+export const TextButton = forwardRef<GrangeButtonElement, VariantButtonProps>(function TextButton(props, ref) {
   return <Button {...props} ref={ref} variant="text" />;
 });
 
 /** `md-filled-icon-button`. */
-export const FilledIconButton = forwardRef<HTMLButtonElement, VariantIconButtonProps>(
+export const FilledIconButton = forwardRef<GrangeButtonElement, VariantIconButtonProps>(
   function FilledIconButton(props, ref) {
     return <IconButton {...props} ref={ref} variant="filled" />;
   },
 );
 
 /** `md-filled-tonal-icon-button`. */
-export const FilledTonalIconButton = forwardRef<HTMLButtonElement, VariantIconButtonProps>(
+export const FilledTonalIconButton = forwardRef<GrangeButtonElement, VariantIconButtonProps>(
   function FilledTonalIconButton(props, ref) {
     return <IconButton {...props} ref={ref} variant="tonal" />;
   },
 );
 
 /** `md-outlined-icon-button`. */
-export const OutlinedIconButton = forwardRef<HTMLButtonElement, VariantIconButtonProps>(
+export const OutlinedIconButton = forwardRef<GrangeButtonElement, VariantIconButtonProps>(
   function OutlinedIconButton(props, ref) {
     return <IconButton {...props} ref={ref} variant="outlined" />;
   },

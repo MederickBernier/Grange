@@ -11,8 +11,8 @@ import {
   type CSSProperties,
   type ReactNode,
 } from 'react';
-import type { PressEvent } from 'react-aria';
-import { ButtonBase, type CornerRadii } from '../ButtonBase/ButtonBase';
+import { useLocale, type PressEvent } from 'react-aria';
+import { ButtonBase, type CornerRadii, type GrangeButtonElement } from '../ButtonBase/ButtonBase';
 import {
   ButtonGroupContext,
   ButtonGroupItemIndex,
@@ -233,7 +233,7 @@ export interface ConnectedButtonGroupItemProps {
   classNames?: SlotOverrides<ButtonSlot>;
 }
 
-export const ConnectedButtonGroupItem = forwardRef<HTMLButtonElement, ConnectedButtonGroupItemProps>(
+export const ConnectedButtonGroupItem = forwardRef<GrangeButtonElement, ConnectedButtonGroupItemProps>(
   function ConnectedButtonGroupItem(props, ref) {
     const { slots, behavior, sizes } = useComponentConfig('ConnectedButtonGroupItem');
     const { id, icon, selectedIcon, children, onPress, className, classNames, style, disabled, ...rest } = props;
@@ -241,6 +241,7 @@ export const ConnectedButtonGroupItem = forwardRef<HTMLButtonElement, ConnectedB
     const index = useContext(ButtonGroupItemIndex);
     if (!group) throw new Error('ConnectedButtonGroupItem must be inside a ConnectedButtonGroup');
     const { size, variant, count } = group;
+    const { direction } = useLocale();
     const spec = sizes.button[size];
     const selected = group.isSelected(id);
     const full = spec.height / 2;
@@ -264,7 +265,11 @@ export const ConnectedButtonGroupItem = forwardRef<HTMLButtonElement, ConnectedB
           : behavior.connectedInnerCorner;
       const start = isFirst ? full : inner;
       const end = isLast ? full : inner;
-      return { topLeft: start, bottomLeft: start, topRight: end, bottomRight: end };
+      // Motion animates the physical corner radii, so start and end are mapped by hand: in an
+      // RTL locale the first item sits on the right and its full corners belong there.
+      return direction === 'rtl'
+        ? { topRight: start, bottomRight: start, topLeft: end, bottomLeft: end }
+        : { topLeft: start, bottomLeft: start, topRight: end, bottomRight: end };
     };
 
     return (

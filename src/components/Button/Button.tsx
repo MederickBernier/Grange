@@ -1,6 +1,6 @@
 import { forwardRef, type CSSProperties, type ReactNode } from 'react';
 import type { AriaButtonProps, PressEvent } from 'react-aria';
-import { ButtonBase, uniform } from '../ButtonBase/ButtonBase';
+import { ButtonBase, uniform, type GrangeButtonElement } from '../ButtonBase/ButtonBase';
 import { useControlledState } from '../../utils';
 import {
   resolveSlotClass,
@@ -30,12 +30,17 @@ export type { ButtonVariant, ToggleButtonVariant, IconButtonVariant };
  * `onClick` and `onPress` both work: onClick fires on a real click, onPress also covers touch
  * and keyboard activation.
  */
-interface CommonProps extends Omit<AriaButtonProps<'button'>, 'children' | 'elementType' | 'isDisabled'> {
+interface CommonProps extends Omit<AriaButtonProps<'button' | 'a'>, 'children' | 'elementType' | 'isDisabled'> {
   /** XS 32px, S 40px (default), M 56px, L 96px, XL 136px tall. */
   size?: ButtonSize;
   /** Round (pill) is the default; square uses the size's square corner. */
   shape?: ButtonShape;
   disabled?: boolean;
+  /**
+   * Renders an `<a>` instead of a `<button>`, as Material Web's buttons do. It keeps the button
+   * role and Space-to-activate, so what is announced matches how it behaves.
+   */
+  href?: string;
   /** Added to the root slot. Shorthand for `classNames={{ root: ... }}`. */
   className?: string;
   style?: CSSProperties;
@@ -67,7 +72,7 @@ export interface ButtonProps extends CommonProps {
  * M3E common button. Corners morph to the size's pressed radius on press
  * (on the default effects spring, so no bounce, as in Compose).
  */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(props, ref) {
+export const Button = forwardRef<GrangeButtonElement, ButtonProps>(function Button(props, ref) {
   const { defaults, slots, behavior, sizes } = useComponentConfig('Button');
   const {
     variant = defaults?.variant ?? 'filled',
@@ -123,7 +128,7 @@ export interface ToggleButtonProps extends Omit<ButtonProps, 'variant'>, Selecti
  * M3E toggle button. Selecting it swaps the shape (round to square, square to round) on the fast spatial
  * spring, so it overshoots slightly in the expressive scheme.
  */
-export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(function ToggleButton(props, ref) {
+export const ToggleButton = forwardRef<GrangeButtonElement, ToggleButtonProps>(function ToggleButton(props, ref) {
   const { defaults, slots, behavior, sizes } = useComponentConfig('ToggleButton');
   const {
     variant = defaults?.variant ?? 'filled',
@@ -206,7 +211,7 @@ export interface IconButtonProps extends CommonProps, SelectionProps {
 /**
  * M3E icon button, plain or toggle. Five sizes, three widths, round or square.
  */
-export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(props, ref) {
+export const IconButton = forwardRef<GrangeButtonElement, IconButtonProps>(function IconButton(props, ref) {
   const { defaults, slots, behavior, sizes } = useComponentConfig('IconButton');
   const {
     variant = defaults?.variant ?? 'standard',
