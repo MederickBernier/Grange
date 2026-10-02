@@ -1,0 +1,108 @@
+/*
+ * A rating. No RatingTokens upstream and no M3 spec for it, so the geometry is chosen and
+ * specs.ts says what from: the shared 24px icon size, a 4px gap, and a press target narrower
+ * than the usual 48px because stars sit shoulder to shoulder.
+ *
+ * The stars are drawn once and the radio options are laid over them, each as wide a share of the
+ * row as its value is of the maximum. That is what lets a half option cover half a star without
+ * the star being two elements, and it is why the options are absolutely positioned.
+ */
+
+@use '../../scss/api' as grange;
+
+.rating {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(label-large);
+}
+
+.stars {
+  position: relative;
+  display: inline-flex;
+  gap: 4px; // gap
+  width: max-content;
+  min-height: 32px; // targetSize, so the row is a real target even though a star is 24
+  align-items: center;
+}
+
+.star {
+  position: relative;
+  display: inline-block;
+  width: 24px; // starSize
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.empty,
+.fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  display: block;
+  overflow: hidden;
+
+  > svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+}
+
+.empty {
+  width: 100%;
+  color: grange.color(outline-variant);
+}
+
+/* Clipped to the covered fraction, so a half star is one glyph cut in two. */
+.fill {
+  color: grange.color(primary);
+}
+
+.rating[data-disabled] {
+  .empty {
+    color: #{grange.translucent(on-surface, 38%)};
+  }
+
+  .fill {
+    color: #{grange.translucent(on-surface, 38%)};
+  }
+}
+
+/*
+ * The options. Each is as wide as its value is of the row, and they stack in source order, so
+ * the smallest sits on top of the largest where they overlap — which is what makes the left half
+ * of a star the half-star option and the right half the whole one.
+ */
+.options {
+  position: absolute;
+  inset: 0;
+}
+
+.option {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  display: block;
+  cursor: pointer;
+
+  &[data-focus-visible] {
+    outline: 2px solid grange.color(primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+.rating[data-disabled] .option {
+  cursor: default;
+}
+
+/* Read-only is a statement rather than a control, so there is nothing to press. */
+.rating[data-readonly] .stars {
+  min-height: 24px;
+}

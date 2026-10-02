@@ -50,6 +50,8 @@ export type ProgressSlot = 'root' | 'track' | 'active';
 export type CheckboxSlot = 'root' | 'box' | 'label';
 export type SwitchSlot = 'root' | 'track' | 'handle' | 'label';
 export type RadioSlot = 'root' | 'ring' | 'label';
+export type RatingSlot = 'root' | 'label' | 'item';
+export type SignatureSlot = 'root' | 'label' | 'surface' | 'actions';
 export type SliderSlot = 'root' | 'track' | 'handle' | 'label';
 export type TextFieldSlot =
   | 'root'
@@ -117,6 +119,8 @@ export interface ClassNamesConfig {
   Switch?: SlotOverrides<SwitchSlot>;
   RadioGroup?: SlotOverrides<'root' | 'label'>;
   Radio?: SlotOverrides<RadioSlot>;
+  Rating?: SlotOverrides<RatingSlot>;
+  Signature?: SlotOverrides<SignatureSlot>;
   Slider?: SlotOverrides<SliderSlot>;
   TextField?: SlotOverrides<TextFieldSlot>;
   NumberField?: SlotOverrides<NumberFieldSlot>;
@@ -213,6 +217,8 @@ export interface DefaultPropsConfig {
   };
   RadioGroup?: { orientation?: 'horizontal' | 'vertical' };
   CheckboxGroup?: { orientation?: 'horizontal' | 'vertical' };
+  Rating?: { max?: number; precision?: 1 | 0.5; allowClear?: boolean };
+  Signature?: { width?: number; height?: number; strokeWidth?: number };
   TimePicker?: {
     hourCycle?: 12 | 24;
     periodOrientation?: 'vertical' | 'horizontal';
@@ -363,6 +369,8 @@ const COMPONENTS: ComponentName[] = [
   'Switch',
   'RadioGroup',
   'Radio',
+  'Rating',
+  'Signature',
   'Slider',
   'TextField',
   'NumberField',
