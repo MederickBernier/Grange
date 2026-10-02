@@ -55,6 +55,8 @@ export type {
   DialogSlot,
   TooltipSlot,
   MenuSlot,
+  SelectSlot,
+  SnackbarSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
   BehaviorConfig,
@@ -66,6 +68,12 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { Select, SelectItem } from './components/Select/Select';
+export type { SelectProps, SelectItemProps } from './components/Select/Select';
+export { SnackbarRegion, createSnackbarQueue } from './components/Snackbar/Snackbar';
+export type { SnackbarRegionProps, SnackbarContent } from './components/Snackbar/Snackbar';
+export { snackbar } from './components/Snackbar/specs';
 
 export { Menu, MenuItem, MenuSection, MenuTrigger } from './components/Menu/Menu';
 export type {

@@ -3,7 +3,7 @@
     "source": "androidx-main compose/material3 token files (Apache 2.0)",
     "read": "2026-10-01",
     "units": "dp=px, sp=px",
-    "componentTokensVersion": "24, 29, v0_210",
+    "componentTokensVersion": "v0_103",
     "componentTokensSource": "androidx-main compose/material3 tokens"
   },
   "motion": {
@@ -1559,6 +1559,25 @@
       "ItemSelectedDisabledSupportingTextOpacity": "0.38f",
       "ItemSelectedDisabledTrailingIconOpacity": "0.38f",
       "ItemSelectedDisabledTrailingSupportingTextOpacity": "0.38f"
+    },
+    "Snackbar": {
+      "ActionFocusLabelTextColor": "color:InversePrimary",
+      "ActionHoverLabelTextColor": "color:InversePrimary",
+      "ActionLabelTextColor": "color:InversePrimary",
+      "ActionLabelTextFont": "type:LabelLarge",
+      "ActionPressedLabelTextColor": "color:InversePrimary",
+      "ContainerColor": "color:InverseSurface",
+      "ContainerElevation": "elevation:Level3",
+      "ContainerShape": "CornerExtraSmall",
+      "IconColor": "color:InverseOnSurface",
+      "FocusIconColor": "color:InverseOnSurface",
+      "HoverIconColor": "color:InverseOnSurface",
+      "PressedIconColor": "color:InverseOnSurface",
+      "IconSize": "24.0.dp",
+      "SupportingTextColor": "color:InverseOnSurface",
+      "SupportingTextFont": "type:BodyMedium",
+      "SingleLineContainerHeight": "48.0.dp",
+      "TwoLinesContainerHeight": "68.0.dp"
     }
   }
 }

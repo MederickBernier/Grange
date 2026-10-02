@@ -63,6 +63,8 @@ export type DividerSlot = 'root';
 export type DialogSlot = 'root' | 'scrim' | 'headline' | 'content' | 'actions' | 'icon';
 export type TooltipSlot = 'root';
 export type MenuSlot = 'root' | 'item';
+export type SelectSlot = 'root' | 'trigger' | 'label' | 'item';
+export type SnackbarSlot = 'root' | 'region' | 'action';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
 
@@ -93,6 +95,8 @@ export interface ClassNamesConfig {
   Dialog?: SlotOverrides<DialogSlot>;
   Tooltip?: SlotOverrides<TooltipSlot>;
   Menu?: SlotOverrides<MenuSlot>;
+  Select?: SlotOverrides<SelectSlot>;
+  Snackbar?: SlotOverrides<SnackbarSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
 }
@@ -158,6 +162,7 @@ export interface DefaultPropsConfig {
   };
   RadioGroup?: { orientation?: 'horizontal' | 'vertical' };
   TextField?: { variant?: 'filled' | 'outlined' };
+  Select?: { variant?: 'filled' | 'outlined' };
   LinearProgress?: { wavy?: boolean };
   CircularProgress?: { wavy?: boolean };
 }
@@ -293,6 +298,8 @@ const COMPONENTS: ComponentName[] = [
   'Dialog',
   'Tooltip',
   'Menu',
+  'Select',
+  'Snackbar',
 ];
 
 /**

@@ -1,0 +1,66 @@
+/*
+ * Select. The trigger reuses TextField.module.scss so the two fields match, and the list reuses
+ * Menu.module.scss so the rows match the menus. Only what is genuinely different lives here.
+ */
+
+@use '../../scss/api' as grange;
+
+.root {
+  // The field is a button, so it does not get the text cursor a real input wants.
+  cursor: pointer;
+}
+
+.root[data-disabled] {
+  cursor: default;
+}
+
+.trigger {
+  width: 100%;
+  border: none;
+  background: none;
+  font: inherit;
+  text-align: start;
+  cursor: inherit;
+  appearance: none;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.value {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: grange.color(on-surface);
+  @include grange.typescale(body-large);
+}
+
+// Matches the text field, whose input is hidden until the label has floated out of the way.
+.root:not([data-populated]) .value {
+  opacity: 0;
+}
+
+.root[data-populated] .value {
+  // Pushed down to clear the floated label, as the filled text field's input is.
+  padding-top: 12px;
+}
+
+.root[data-variant='outlined'][data-populated] .value {
+  padding-top: 0;
+}
+
+.arrow {
+  transition: rotate grange.duration(short4) grange.easing(standard);
+}
+
+.root[data-focused] .arrow {
+  rotate: 180deg;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow {
+    transition: none;
+  }
+}
