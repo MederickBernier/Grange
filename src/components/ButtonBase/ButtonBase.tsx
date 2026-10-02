@@ -96,6 +96,8 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>(functio
       : 'pointer'
     : undefined;
 
+  // onClick arrives through ariaProps: useButton routes it into usePress, so it fires on a real
+  // click while onPress also covers touch and keyboard activation.
   const domProps = mergeProps(buttonProps, hoverProps, focusProps) as HTMLMotionProps<'button'>;
 
   return (

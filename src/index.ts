@@ -5,6 +5,18 @@ export { GrangeProvider, useSpring, useMotionScheme, toMotionDamping } from './m
 export type { GrangeProviderProps, SpringSpec } from './motion/GrangeProvider';
 
 export { Button, ToggleButton, IconButton } from './components/Button/Button';
+export {
+  FilledButton,
+  FilledTonalButton,
+  OutlinedButton,
+  ElevatedButton,
+  TextButton,
+  FilledIconButton,
+  FilledTonalIconButton,
+  OutlinedIconButton,
+} from './components/Button/variants';
+export type { VariantButtonProps, VariantIconButtonProps } from './components/Button/variants';
+
 export type {
   ButtonProps,
   ToggleButtonProps,

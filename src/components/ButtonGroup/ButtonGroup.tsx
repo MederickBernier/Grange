@@ -225,7 +225,7 @@ export interface ConnectedButtonGroupItemProps {
   icon?: ReactNode;
   selectedIcon?: ReactNode;
   children?: ReactNode;
-  isDisabled?: boolean;
+  disabled?: boolean;
   onPress?: (e: PressEvent) => void;
   'aria-label'?: string;
   className?: string;
@@ -236,7 +236,7 @@ export interface ConnectedButtonGroupItemProps {
 export const ConnectedButtonGroupItem = forwardRef<HTMLButtonElement, ConnectedButtonGroupItemProps>(
   function ConnectedButtonGroupItem(props, ref) {
     const { slots, behavior, sizes } = useComponentConfig('ConnectedButtonGroupItem');
-    const { id, icon, selectedIcon, children, onPress, className, classNames, style, ...rest } = props;
+    const { id, icon, selectedIcon, children, onPress, className, classNames, style, disabled, ...rest } = props;
     const group = useContext(ConnectedContext);
     const index = useContext(ButtonGroupItemIndex);
     if (!group) throw new Error('ConnectedButtonGroupItem must be inside a ConnectedButtonGroup');
@@ -272,6 +272,7 @@ export const ConnectedButtonGroupItem = forwardRef<HTMLButtonElement, ConnectedB
         ref={ref}
         {...rest}
         aria-pressed={selected}
+        isDisabled={disabled}
         onPress={(e) => {
           group.toggle(id);
           onPress?.(e);

@@ -24,20 +24,28 @@ import styles from './Button.module.scss';
 
 export type { ButtonVariant, ToggleButtonVariant, IconButtonVariant };
 
-interface CommonProps extends Omit<AriaButtonProps<'button'>, 'children' | 'elementType'> {
+/**
+ * Props every button-like shares. Named after Material Web (`disabled`, `selected`, `toggle`)
+ * rather than React Aria (`isDisabled`, `isSelected`), and mapped onto React Aria internally.
+ * `onClick` and `onPress` both work: onClick fires on a real click, onPress also covers touch
+ * and keyboard activation.
+ */
+interface CommonProps extends Omit<AriaButtonProps<'button'>, 'children' | 'elementType' | 'isDisabled'> {
   /** XS 32px, S 40px (default), M 56px, L 96px, XL 136px tall. */
   size?: ButtonSize;
   /** Round (pill) is the default; square uses the size's square corner. */
   shape?: ButtonShape;
+  disabled?: boolean;
   /** Added to the root slot. Shorthand for `classNames={{ root: ... }}`. */
   className?: string;
   style?: CSSProperties;
 }
 
 interface SelectionProps {
-  isSelected?: boolean;
+  /** Controlled selected state. Pair with `onChange`; use `defaultSelected` to stay uncontrolled. */
+  selected?: boolean;
   defaultSelected?: boolean;
-  onChange?: (isSelected: boolean) => void;
+  onChange?: (selected: boolean) => void;
 }
 
 // ---------------------------------------------------------------------------
@@ -46,9 +54,10 @@ interface SelectionProps {
 
 export interface ButtonProps extends CommonProps {
   variant?: ButtonVariant;
-  /** Leading icon (an SVG). */
+  /** The icon (an SVG). One icon, placed before the label unless `trailingIcon` is set. */
   icon?: ReactNode;
-  trailingIcon?: ReactNode;
+  /** Moves `icon` after the label, like Material Web's `trailing-icon`. */
+  trailingIcon?: boolean;
   children?: ReactNode;
   /** Per-slot class overrides. A string is added; `{ replace }` drops the built-in classes. */
   classNames?: SlotOverrides<ButtonSlot>;
@@ -70,6 +79,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     className,
     classNames,
     style,
+    disabled,
     ...rest
   } = props;
 
@@ -77,11 +87,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   const resting = restingRadius(size, shape, sizes);
   const slot = (name: ButtonSlot, hook: string, builtIn?: string) =>
     resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+  const iconNode = icon ? <span className={slot('icon', 'grange-button-icon', styles.icon)}>{icon}</span> : null;
 
   return (
     <ButtonBase
       ref={ref}
       {...rest}
+      isDisabled={disabled}
       className={slot('root', 'grange-button', styles.button)}
       style={{ ...sizeCustomProperties(spec), ...style }}
       padding={spec.padding}
@@ -90,9 +102,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       corners={({ isPressed }) => uniform(isPressed ? spec.pressed : resting)}
       dataAttributes={{ 'data-variant': variant, 'data-size': size, 'data-shape': shape }}
     >
-      {icon && <span className={slot('icon', 'grange-button-icon', styles.icon)}>{icon}</span>}
+      {!trailingIcon && iconNode}
       {children != null && <span className={slot('label', 'grange-button-label', styles.label)}>{children}</span>}
-      {trailingIcon && <span className={slot('icon', 'grange-button-icon', styles.icon)}>{trailingIcon}</span>}
+      {trailingIcon && iconNode}
     </ButtonBase>
   );
 });
@@ -124,25 +136,30 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(fun
     className,
     classNames,
     style,
-    isSelected,
+    disabled,
+    selected: selectedProp,
     defaultSelected = false,
     onChange,
     onPress,
     ...rest
   } = props;
 
-  const [selected, setSelected] = useControlledState(isSelected, defaultSelected, onChange);
+  const [selected, setSelected] = useControlledState(selectedProp, defaultSelected, onChange);
   const spec = sizes.button[size];
   const radius = selected ? selectedRadius(size, shape, sizes) : restingRadius(size, shape, sizes);
   const shownIcon = selected && selectedIcon ? selectedIcon : icon;
   const slot = (name: ButtonSlot, hook: string, builtIn?: string) =>
     resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+  const iconNode = shownIcon ? (
+    <span className={slot('icon', 'grange-button-icon', styles.icon)}>{shownIcon}</span>
+  ) : null;
 
   return (
     <ButtonBase
       ref={ref}
       {...rest}
       aria-pressed={selected}
+      isDisabled={disabled}
       onPress={(e: PressEvent) => {
         setSelected(!selected);
         onPress?.(e);
@@ -160,9 +177,9 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(fun
         'data-selected': String(selected),
       }}
     >
-      {shownIcon && <span className={slot('icon', 'grange-button-icon', styles.icon)}>{shownIcon}</span>}
+      {!trailingIcon && iconNode}
       {children != null && <span className={slot('label', 'grange-button-label', styles.label)}>{children}</span>}
-      {trailingIcon && <span className={slot('icon', 'grange-button-icon', styles.icon)}>{trailingIcon}</span>}
+      {trailingIcon && iconNode}
     </ButtonBase>
   );
 });
@@ -181,6 +198,8 @@ export interface IconButtonProps extends CommonProps, SelectionProps {
   toggle?: boolean;
   selectedIcon?: ReactNode;
   'aria-label': string;
+  /** Announced in place of `aria-label` while selected, like Material Web's `aria-label-selected`. */
+  ariaLabelSelected?: string;
   classNames?: SlotOverrides<IconButtonSlot>;
 }
 
@@ -200,14 +219,17 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
     className,
     classNames,
     style,
-    isSelected,
+    disabled,
+    selected: selectedProp,
     defaultSelected = false,
     onChange,
     onPress,
+    ariaLabelSelected,
+    'aria-label': ariaLabel,
     ...rest
   } = props;
 
-  const [selected, setSelected] = useControlledState(isSelected, defaultSelected, onChange);
+  const [selected, setSelected] = useControlledState(selectedProp, defaultSelected, onChange);
   const spec = sizes.button[size];
   const isOn = toggle && selected;
   const radius = isOn ? selectedRadius(size, shape, sizes) : restingRadius(size, shape, sizes);
@@ -219,6 +241,8 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
       ref={ref}
       {...rest}
       aria-pressed={toggle ? selected : undefined}
+      aria-label={isOn && ariaLabelSelected ? ariaLabelSelected : ariaLabel}
+      isDisabled={disabled}
       onPress={(e: PressEvent) => {
         if (toggle) setSelected(!selected);
         onPress?.(e);
