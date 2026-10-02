@@ -18,6 +18,11 @@ This package includes code ported from, and values taken from, the following Apa
   normalisation — ported in src/shapes/{geometry,polygon}.ts. Morph and its feature matching are
   not ported.
 
+- Roboto (https://github.com/googlefonts/roboto)
+  Copyright Google LLC. The latin subset of the variable font, vendored at
+  .storybook/fonts/roboto-latin-variable.woff2 for Storybook and the visual regression
+  baselines. Not part of the published bundle.
+
 - Material Symbols icon paths used in stories/icons.tsx, src/components/Chip/Chip.tsx,
   src/components/SideSheet/SideSheet.tsx and src/components/TextField/TextField.tsx
   (Google, Apache 2.0).

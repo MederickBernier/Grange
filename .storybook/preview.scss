@@ -1,5 +1,24 @@
 @use '../src/scss/api' as grange;
 
+/*
+ * Roboto, vendored, for Storybook only.
+ *
+ * The library deliberately ships no font: the typeface tokens are a stack ending in the system
+ * sans, so an app brings its own. That left Storybook — and the screenshots taken from it —
+ * rendering in whatever the machine happened to have, which is the one thing a visual regression
+ * baseline cannot tolerate. One variable file, Apache 2.0, latin subset, 42KB, and it is not part
+ * of the published bundle. See NOTICE.
+ */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 100%;
+  // Not `swap`: a screenshot taken during the swap is a screenshot of the fallback font.
+  font-display: block;
+  src: url('./fonts/roboto-latin-variable.woff2') format('woff2');
+}
+
 body {
   background: grange.color(surface);
   color: grange.color(on-surface);
