@@ -34,7 +34,10 @@
     "test": "pnpm tokens && vitest run",
     "storybook": "pnpm tokens && storybook dev -p 6006",
     "build-storybook": "pnpm tokens && storybook build -o storybook-static",
-    "capture-shapes": "tsx scripts/capture-shapes.mts"
+    "capture-shapes": "tsx scripts/capture-shapes.mts",
+    "serve-storybook": "vite preview --outDir storybook-static --port 6007 --strictPort",
+    "visual": "pnpm build-storybook && playwright test",
+    "visual:update": "pnpm build-storybook && playwright test --update-snapshots"
   },
   "peerDependencies": {
     "react": ">=18.2",
@@ -48,6 +51,7 @@
   },
   "devDependencies": {
     "@material/material-color-utilities": "^0.4.0",
+    "@playwright/test": "^1.63.0",
     "@storybook/react-vite": "^10.6.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
