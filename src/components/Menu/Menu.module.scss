@@ -3,8 +3,9 @@
  * panel at level 2 with a 4px corner, 56px rows that grow to 72px with a second line, 16px
  * leading and trailing space and 12px between an item's parts.
  *
- * Selection takes the secondary container, which is MenuTokens. The Expressive StandardMenu and
- * VibrantMenu variants move it to the tertiary container; those are captured but not built.
+ * Selection takes the secondary container, which is MenuTokens. The two Expressive restyles are
+ * at the bottom of this file, from StandardMenuTokens and VibrantMenuTokens: colour only, since
+ * neither publishes any geometry of its own.
  */
 
 @use '../../scss/api' as grange;
@@ -148,5 +149,80 @@
 @media (prefers-reduced-motion: reduce) {
   .item {
     transition: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// The M3 Expressive restyles, from StandardMenuTokens and VibrantMenuTokens
+// ---------------------------------------------------------------------------
+
+/*
+ * Standard: the low surface instead of the plain container, and selection on the tertiary
+ * container rather than the secondary one. Everything else is the same menu.
+ */
+.menu[data-variant='standard'] {
+  background: grange.color(surface-container-low); // StandardMenu ContainerColor
+
+  .item {
+    --_label: #{grange.color(on-surface)}; // ItemLabelTextColor
+    --_icon: #{grange.color(on-surface-variant)}; // ItemLeadingIconColor
+  }
+
+  .item[data-selected] {
+    --_container: #{grange.color(tertiary-container)}; // ItemSelectedContainerColor
+    --_label: #{grange.color(on-tertiary-container)}; // ItemSelectedLabelTextColor
+    --_icon: #{grange.color(on-tertiary-container)}; // ItemSelectedLeadingIconColor
+  }
+
+  .item[data-disabled] {
+    // ItemDisabled*Opacity is 0.38 over on-surface, which is the same as the default menu's.
+    --_label: #{grange.translucent(on-surface, 38%)};
+    --_icon: #{grange.translucent(on-surface, 38%)};
+  }
+}
+
+/*
+ * Vibrant: the whole surface becomes the tertiary container, so every colour on it moves with
+ * it. The icons lift to the plain tertiary colour while a row is pointed at, focused or pressed,
+ * which is the one state change the tokens give that the default menu does not have.
+ */
+.menu[data-variant='vibrant'] {
+  background: grange.color(tertiary-container); // VibrantMenu ContainerColor
+  color: grange.color(on-tertiary-container);
+
+  .item {
+    --_label: #{grange.color(on-tertiary-container)}; // ItemLabelTextColor
+    --_icon: #{grange.color(on-tertiary-container)}; // ItemLeadingIconColor
+  }
+
+  .item[data-focused] {
+    // ItemFocusedLeadingIconColor / ItemHoveredLeadingIconColor
+    --_icon: #{grange.color(tertiary)};
+    --_container: #{grange.translucent(on-tertiary-container, 8%)};
+  }
+
+  .item[data-selected] {
+    --_container: #{grange.color(tertiary)}; // ItemSelectedContainerColor
+    --_label: #{grange.color(on-tertiary)}; // ItemSelectedLabelTextColor
+    --_icon: #{grange.color(on-tertiary)}; // ItemSelectedLeadingIconColor
+  }
+
+  .item[data-disabled] {
+    // ItemDisabled*Opacity is 0.38, here over the container's own on-colour.
+    --_label: #{grange.translucent(on-tertiary-container, 38%)};
+    --_icon: #{grange.translucent(on-tertiary-container, 38%)};
+  }
+
+  .supporting,
+  .trailingText {
+    color: #{grange.color(on-tertiary-container)}; // ItemSupportingTextColor
+  }
+
+  .sectionHeading {
+    color: grange.color(on-tertiary-container);
+  }
+
+  .section + .section {
+    border-top-color: #{grange.translucent(on-tertiary-container, 20%)};
   }
 }

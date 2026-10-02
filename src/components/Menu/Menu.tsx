@@ -80,6 +80,12 @@ export interface MenuProps {
   defaultSelectedKeys?: Iterable<Key>;
   onSelectionChange?: (keys: Selection) => void;
   disabledKeys?: Iterable<Key>;
+  /**
+   * The M3 Expressive restyles. `standard` sits on the low surface and moves selection onto the
+   * tertiary container; `vibrant` makes the whole surface the tertiary container. Both are
+   * colour only — the geometry is the same menu.
+   */
+  variant?: 'default' | 'standard' | 'vibrant';
   'aria-label'?: string;
   className?: string;
   style?: CSSProperties;
@@ -95,8 +101,8 @@ export interface MenuProps {
  * actions and a set of choices.
  */
 export function Menu(props: MenuProps) {
-  const { slots } = useComponentConfig('Menu');
-  const { children, className, classNames, style, ...rest } = props;
+  const { defaults, slots } = useComponentConfig('Menu');
+  const { children, className, classNames, style, variant = defaults?.variant ?? 'default', ...rest } = props;
 
   const state = useTreeState({ ...rest, children, selectionMode: rest.selectionMode ?? 'none' });
   const ref = useRef<HTMLUListElement>(null);
@@ -112,7 +118,13 @@ export function Menu(props: MenuProps) {
     );
 
   return (
-    <ul {...menuProps} ref={ref} className={slot('root', 'grange-menu', styles.menu)} style={style}>
+    <ul
+      {...menuProps}
+      ref={ref}
+      className={slot('root', 'grange-menu', styles.menu)}
+      style={style}
+      data-variant={variant}
+    >
       {[...state.collection].map((item) =>
         item.type === 'section' ? (
           <MenuSectionRows key={item.key} section={item} state={state} itemClass={slot('item', 'grange-menu-item', styles.item)} />

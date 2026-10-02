@@ -54,6 +54,7 @@ export type {
   TextFieldSlot,
   DialogSlot,
   TooltipSlot,
+  RichTooltipSlot,
   MenuSlot,
   SelectSlot,
   TabsSlot,
@@ -180,7 +181,9 @@ export type { DialogProps } from './components/Dialog/Dialog';
 export { dialog } from './components/Dialog/specs';
 export { Tooltip } from './components/Tooltip/Tooltip';
 export type { TooltipProps } from './components/Tooltip/Tooltip';
-export { tooltip } from './components/Tooltip/specs';
+export { tooltip, richTooltip } from './components/Tooltip/specs';
+export { RichTooltip } from './components/Tooltip/RichTooltip';
+export type { RichTooltipProps } from './components/Tooltip/RichTooltip';
 
 export { TextField, FilledTextField, OutlinedTextField } from './components/TextField/TextField';
 export type {

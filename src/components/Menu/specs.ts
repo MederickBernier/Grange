@@ -1,7 +1,7 @@
 /**
  * From Compose MenuTokens for the surface, and ListTokens for the items, which is what a menu's
- * rows are. The M3 Expressive StandardMenu and VibrantMenu variants are captured but not built;
- * they restyle selection onto the tertiary container rather than the secondary one.
+ * rows are. The M3 Expressive StandardMenu and VibrantMenu variants are the `standard` and
+ * `vibrant` props: colour only, so there is nothing to add here.
  */
 export const menu = {
   /** Corner radius of the surface, px. CornerExtraSmall. */

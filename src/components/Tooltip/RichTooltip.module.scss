@@ -1,0 +1,51 @@
+/*
+ * Rich tooltip, from Compose RichTooltipTokens: a surface-container panel at level 2 with a 12px
+ * corner, a title-small subhead and body-medium text, both on-surface-variant, and actions in
+ * the primary colour.
+ */
+
+@use '../../scss/api' as grange;
+
+.popover {
+  z-index: 1050;
+}
+
+.tooltip {
+  box-sizing: border-box;
+  max-width: 320px;
+  padding: 16px;
+  border-radius: 12px; // ContainerShape: CornerMedium
+  background: grange.color(surface-container); // ContainerColor
+  // ContainerElevation is level 2, written out because the elevation primitive works through a
+  // child element only ButtonBase renders.
+  box-shadow:
+    0 1px 2px 0 #{grange.translucent(shadow, 30%)},
+    0 2px 6px 2px #{grange.translucent(shadow, 15%)};
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.subhead {
+  margin: 0 0 4px;
+  color: grange.color(on-surface-variant); // SubheadColor
+  @include grange.typescale(title-small); // SubheadFont
+}
+
+.content {
+  color: grange.color(on-surface-variant); // SupportingTextColor
+  @include grange.typescale(body-medium); // SupportingTextFont
+}
+
+/* The actions are text buttons, which already carry the primary label colour the tokens give. */
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  margin-inline-start: -12px; // pulls a text button's own padding back to the panel's edge
+
+  :global(.grange-button) {
+    color: grange.color(primary); // ActionLabelTextColor
+  }
+}

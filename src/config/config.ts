@@ -62,6 +62,7 @@ export type TextFieldSlot =
 export type DividerSlot = 'root';
 export type DialogSlot = 'root' | 'scrim' | 'headline' | 'content' | 'actions' | 'icon';
 export type TooltipSlot = 'root';
+export type RichTooltipSlot = 'root' | 'subhead' | 'content' | 'actions';
 export type MenuSlot = 'root' | 'item';
 export type SelectSlot = 'root' | 'trigger' | 'label' | 'item';
 export type TabsSlot = 'root' | 'list' | 'tab' | 'panel';
@@ -109,6 +110,7 @@ export interface ClassNamesConfig {
   TextField?: SlotOverrides<TextFieldSlot>;
   Dialog?: SlotOverrides<DialogSlot>;
   Tooltip?: SlotOverrides<TooltipSlot>;
+  RichTooltip?: SlotOverrides<RichTooltipSlot>;
   Menu?: SlotOverrides<MenuSlot>;
   Select?: SlotOverrides<SelectSlot>;
   Tabs?: SlotOverrides<TabsSlot>;
@@ -205,6 +207,8 @@ export interface DefaultPropsConfig {
   };
   TextField?: { variant?: 'filled' | 'outlined' };
   Select?: { variant?: 'filled' | 'outlined' };
+  Menu?: { variant?: 'default' | 'standard' | 'vibrant' };
+  RichTooltip?: { placement?: 'top' | 'bottom' | 'start' | 'end'; persistent?: boolean };
   Tabs?: { variant?: 'primary' | 'secondary'; scrollable?: boolean };
   Card?: { variant?: 'elevated' | 'filled' | 'outlined' };
   AppBar?: {
@@ -352,6 +356,7 @@ const COMPONENTS: ComponentName[] = [
   'CircularProgress',
   'Dialog',
   'Tooltip',
+  'RichTooltip',
   'Menu',
   'Select',
   'Snackbar',
