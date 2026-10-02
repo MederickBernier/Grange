@@ -1,0 +1,284 @@
+/*
+ * Text fields, from Compose FilledTextFieldTokens and OutlinedTextFieldTokens.
+ *
+ * Filled fills a container and underlines it; outlined draws a border the floating label breaks
+ * through. Both are 56px for a single line, use BodyLarge for the input and label and BodySmall
+ * for the supporting text, and take 24px icons.
+ */
+
+@use '../../scss/api' as grange;
+
+.root {
+  --_label: #{grange.color(on-surface-variant)};
+  --_input: #{grange.color(on-surface)};
+  --_supporting: #{grange.color(on-surface-variant)};
+  --_icon: #{grange.color(on-surface-variant)};
+  --_line: #{grange.color(on-surface-variant)};
+  --_line-width: 1px; // ActiveIndicatorHeight / OutlineWidth
+  --_container: transparent;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.container {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 56px; // ContainerHeight
+  padding-inline: 16px; // Not tokenised; the spec's horizontal space
+  background: var(--_container);
+  cursor: text;
+}
+
+.root[data-disabled] .container {
+  cursor: default;
+}
+
+.root[data-multiline] .container {
+  align-items: flex-start;
+  padding-block: 8px;
+}
+
+// ---------------------------------------------------------------------------
+// Filled: a tinted container, square at the bottom, with a line under it.
+// ---------------------------------------------------------------------------
+
+.root[data-variant='filled'] {
+  --_container: #{grange.color(surface-container-highest)};
+
+  .container {
+    border-radius: 4px 4px 0 0; // ContainerShape: CornerExtraSmallTop
+  }
+}
+
+.indicator {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: var(--_line-width);
+  background: var(--_line);
+  transition:
+    height grange.duration(short3) grange.easing(standard),
+    background-color grange.duration(short3) linear;
+}
+
+// ---------------------------------------------------------------------------
+// Outlined: a border, broken by the label. The fieldset and legend do the breaking: the legend
+// reserves exactly its own width in the top border, and collapses when the label drops back in.
+// ---------------------------------------------------------------------------
+
+.root[data-variant='outlined'] {
+  .container {
+    border-radius: 4px; // ContainerShape: CornerExtraSmall
+  }
+}
+
+.outline {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding-inline: 8px;
+  pointer-events: none;
+  border: var(--_line-width) solid var(--_line);
+  border-radius: 4px;
+  transition:
+    border-color grange.duration(short3) linear,
+    border-width grange.duration(short3) grange.easing(standard);
+}
+
+.notch {
+  // Collapsed until the label floats: a hair of width rather than zero, so the browser keeps
+  // the legend in the border rather than dropping it out.
+  max-width: 0.01px;
+  padding: 0;
+  visibility: hidden;
+  white-space: nowrap;
+  transition: max-width grange.duration(short4) grange.easing(standard);
+  @include grange.typescale(body-small);
+
+  > span {
+    padding-inline: 4px;
+    display: inline-block;
+  }
+}
+
+.root[data-variant='outlined'][data-populated] .notch {
+  max-width: 100%;
+}
+
+// ---------------------------------------------------------------------------
+// Label and input
+// ---------------------------------------------------------------------------
+
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: stretch;
+}
+
+.label {
+  position: absolute;
+  left: 0;
+  color: var(--_label);
+  pointer-events: none;
+  transform-origin: left top;
+  transition:
+    translate grange.duration(short4) grange.easing(standard),
+    scale grange.duration(short4) grange.easing(standard),
+    color grange.duration(short3) linear;
+  @include grange.typescale(body-large);
+}
+
+// Floats to the top of the container, shrinking to the supporting text's size.
+.root[data-populated] .label {
+  translate: 0 -100%;
+  scale: 0.75;
+}
+
+// Outlined floats its label onto the border itself, which is why the notch exists.
+.root[data-variant='outlined'][data-populated] .label {
+  translate: 0 -170%;
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+// The input only appears once the label is out of the way, so the two never overlap.
+.root[data-variant='filled'] .inputRow {
+  padding-top: 12px;
+}
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: none;
+  color: var(--_input);
+  caret-color: #{grange.color(primary)};
+  font: inherit;
+  resize: vertical;
+  @include grange.typescale(body-large);
+
+  &::placeholder {
+    color: #{grange.color(on-surface-variant)};
+    opacity: 1;
+  }
+}
+
+.root[data-variant='outlined'] .input,
+.root[data-variant='filled'] .input {
+  // Hidden until the label has floated, so a resting label is not overlapped by text.
+  opacity: 0;
+  transition: opacity grange.duration(short2) linear;
+}
+
+.root[data-populated] .input,
+.root:not(:has(.label)) .input {
+  opacity: 1;
+}
+
+.affix {
+  color: #{grange.color(on-surface-variant)};
+  @include grange.typescale(body-large);
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 24px; // Leading and trailing icon size
+  height: 24px;
+  color: var(--_icon);
+  --grange-icon-size: 24px;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}
+
+.supporting {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-inline: 16px;
+  color: var(--_supporting);
+  @include grange.typescale(body-small);
+}
+
+.counter {
+  flex-shrink: 0;
+}
+
+// ---------------------------------------------------------------------------
+// States
+// ---------------------------------------------------------------------------
+
+.root[data-hovered]:not([data-disabled]):not([data-error]) {
+  --_line: #{grange.color(on-surface)};
+  --_label: #{grange.color(on-surface)};
+}
+
+.root[data-focused]:not([data-disabled]) {
+  --_line: #{grange.color(primary)};
+  --_label: #{grange.color(primary)};
+  --_line-width: 2px; // Focus indicator and outline width
+}
+
+.root[data-error] {
+  --_line: #{grange.color(error)};
+  --_label: #{grange.color(error)};
+  --_supporting: #{grange.color(error)};
+
+  &[data-hovered]:not([data-focused]) {
+    --_line: #{grange.color(on-error-container)};
+    --_label: #{grange.color(on-error-container)};
+  }
+
+  .input {
+    caret-color: #{grange.color(error)};
+  }
+
+  .icon:last-of-type {
+    --_icon: #{grange.color(error)};
+  }
+}
+
+.root[data-disabled] {
+  --_label: #{grange.translucent(on-surface, 38%)};
+  --_input: #{grange.translucent(on-surface, 38%)};
+  --_supporting: #{grange.translucent(on-surface, 38%)};
+  --_icon: #{grange.translucent(on-surface, 38%)};
+  --_line: #{grange.translucent(on-surface, 38%)};
+
+  &[data-variant='filled'] {
+    // DisabledContainerOpacity is 0.04, the faintest tint in the whole system.
+    --_container: #{grange.translucent(on-surface, 4%)};
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .label,
+  .notch,
+  .indicator,
+  .outline,
+  .input {
+    transition: none;
+  }
+}

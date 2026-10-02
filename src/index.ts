@@ -51,6 +51,7 @@ export type {
   SwitchSlot,
   RadioSlot,
   SliderSlot,
+  TextFieldSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
   BehaviorConfig,
@@ -62,6 +63,14 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { TextField, FilledTextField, OutlinedTextField } from './components/TextField/TextField';
+export type {
+  TextFieldProps,
+  VariantTextFieldProps,
+  TextFieldVariant,
+} from './components/TextField/TextField';
+export { textField, counterText } from './components/TextField/specs';
 
 export { RadioGroup, Radio } from './components/Radio/Radio';
 export type { RadioGroupProps, RadioProps } from './components/Radio/Radio';

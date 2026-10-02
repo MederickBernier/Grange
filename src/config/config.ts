@@ -51,6 +51,14 @@ export type CheckboxSlot = 'root' | 'box' | 'label';
 export type SwitchSlot = 'root' | 'track' | 'handle' | 'label';
 export type RadioSlot = 'root' | 'ring' | 'label';
 export type SliderSlot = 'root' | 'track' | 'handle' | 'label';
+export type TextFieldSlot =
+  | 'root'
+  | 'container'
+  | 'label'
+  | 'input'
+  | 'supporting'
+  | 'leadingIcon'
+  | 'trailingIcon';
 export type DividerSlot = 'root';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
@@ -78,6 +86,7 @@ export interface ClassNamesConfig {
   RadioGroup?: SlotOverrides<'root' | 'label'>;
   Radio?: SlotOverrides<RadioSlot>;
   Slider?: SlotOverrides<SliderSlot>;
+  TextField?: SlotOverrides<TextFieldSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
 }
@@ -142,6 +151,7 @@ export interface DefaultPropsConfig {
     orientation?: 'horizontal' | 'vertical';
   };
   RadioGroup?: { orientation?: 'horizontal' | 'vertical' };
+  TextField?: { variant?: 'filled' | 'outlined' };
   LinearProgress?: { wavy?: boolean };
   CircularProgress?: { wavy?: boolean };
 }
@@ -262,6 +272,7 @@ const COMPONENTS: ComponentName[] = [
   'RadioGroup',
   'Radio',
   'Slider',
+  'TextField',
   'FloatingToolbar',
   'DockedToolbar',
   'LinearProgress',
