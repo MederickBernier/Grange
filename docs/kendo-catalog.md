@@ -42,16 +42,16 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 49 |
-| In scope, to build | 52 (across 7 phases) |
+| Already covered by Grange | 53 |
+| In scope, to build | 48 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
 verification — they are roughly 28 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phase 1 is under way**: `NumberField`, `MaskedTextField`, `Rating` and `Signature` are in,
-which is 4 of its 8. The `Form` set is what is left of it.
+**Phase 1 is done.** `NumberField`, `MaskedTextField`, `Rating`, `Signature` and the `Form` set
+are in. Phase 2 — the dropdowns and a public `Popover` — is next.
 
 ## Already covered
 
@@ -119,11 +119,26 @@ unchanged by the extraction, which is how it was checked.
 | ~~`MaskedTextField`~~ ✅ | ours | Done. The pattern logic is `mask.ts`, pure and tested on its own, because masking is a string problem rather than an accessibility one. The field itself is an ordinary `TextField` |
 | ~~`Rating`~~ ✅ | ours | Done, on `useRadioGroup`, because that is the pattern a rating is: a set of options where one is chosen. One tab stop, arrows that move and select, real inputs that post in a form, and each option named so a screen reader does not read five unlabelled graphics. `precision={0.5}` doubles the options rather than being a second mechanism; read-only becomes a single labelled image rather than a group nobody can choose from |
 | ~~`Signature`~~ ✅ | ours | Done, and as SVG rather than canvas. A canvas signature is a bitmap: it blurs when resized, undo means replaying every stroke into a fresh context, and none of it is testable without a canvas implementation. The strokes as paths stay crisp, export as readable text and undo by dropping an array; the geometry is in `strokes.ts` and tested there. There is no keyboard way to draw, so the pad is `role="img"` saying whether it has been signed rather than pretending to be an input, and the docs say to offer a typed name beside it |
-| `Form`, `FormElement`, `FormField` (FieldWrapper), `FieldArray` | ours | Deliberately small: wiring, validation on submit or change, and error association. Not a form-state library — an app wanting one brings it |
+| ~~`Form`, `FormField` (FieldWrapper), `FieldArray`~~ ✅ | ours | Done, and deliberately small: it holds no values, has no notion of touched or dirty, and re-renders nothing as you type. It reads the values out of `FormData` on submit and distributes an error map to the fields by name through React Aria's `FormValidationContext`, which every field here already reads — so errors go in at the top and come out under the right field with no wrapper and no cloning. `FormElement` is folded into `Form`: there is nothing for a second component to do |
 
-While this phase is open it is also the moment to export standalone `Label`, `Hint` and
-`ErrorText` on `useLabel` and `useField`. They are not catalog items — `TextField` already
-renders all three — but a custom field has nothing to reuse without them.
+The standalone `Label`, `Hint` and `ErrorText` that were pencilled in here turned out to be one
+component rather than three: `FormField` labels and describes a control that brings none of its
+own, which is what they were wanted for.
+
+Three things this phase changed outside itself, each of which was a real defect:
+
+- **A field has to read its hook's verdict, not only its own `error` prop.** `TextField`,
+  `NumberField` and `Select` all ignored `isInvalid` and `validationErrors`, so an error pushed
+  in through `FormValidationContext` set `aria-invalid` and no message was ever drawn — the
+  plumbing looked broken when it was not.
+- **`aria-describedby` has to point at the message that is on screen.** M3 replaces the
+  supporting text with the error rather than showing both, so linking both leaves a reference to
+  an element that was never rendered. `describedBy` in `TextField/specs.ts` assembles it from
+  what is actually there.
+- **`Select` never passed `name` to its state**, only to the hidden select, so a form could not
+  address it at all. And **`NumberField` never posted its value**: React Aria strips `name` off
+  the visible input on purpose, because it holds formatted text like "€1,234.56", and expects a
+  hidden input to carry the number.
 
 ### Phase 2 — Dropdowns and the popover surface
 
