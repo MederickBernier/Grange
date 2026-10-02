@@ -56,6 +56,8 @@ export type {
   TooltipSlot,
   MenuSlot,
   SelectSlot,
+  TabsSlot,
+  CardSlot,
   SnackbarSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
@@ -68,6 +70,13 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { Tabs, Tab } from './components/Tabs/Tabs';
+export type { TabsProps, TabProps, TabsVariant } from './components/Tabs/Tabs';
+export { tabs } from './components/Tabs/specs';
+export { Card } from './components/Card/Card';
+export type { CardProps, CardVariant } from './components/Card/Card';
+export { card, cardVariants } from './components/Card/specs';
 
 export { Select, SelectItem } from './components/Select/Select';
 export type { SelectProps, SelectItemProps } from './components/Select/Select';

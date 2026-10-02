@@ -64,6 +64,8 @@ export type DialogSlot = 'root' | 'scrim' | 'headline' | 'content' | 'actions' |
 export type TooltipSlot = 'root';
 export type MenuSlot = 'root' | 'item';
 export type SelectSlot = 'root' | 'trigger' | 'label' | 'item';
+export type TabsSlot = 'root' | 'list' | 'tab' | 'panel';
+export type CardSlot = 'root';
 export type SnackbarSlot = 'root' | 'region' | 'action';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
@@ -96,6 +98,8 @@ export interface ClassNamesConfig {
   Tooltip?: SlotOverrides<TooltipSlot>;
   Menu?: SlotOverrides<MenuSlot>;
   Select?: SlotOverrides<SelectSlot>;
+  Tabs?: SlotOverrides<TabsSlot>;
+  Card?: SlotOverrides<CardSlot>;
   Snackbar?: SlotOverrides<SnackbarSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
@@ -163,6 +167,8 @@ export interface DefaultPropsConfig {
   RadioGroup?: { orientation?: 'horizontal' | 'vertical' };
   TextField?: { variant?: 'filled' | 'outlined' };
   Select?: { variant?: 'filled' | 'outlined' };
+  Tabs?: { variant?: 'primary' | 'secondary'; scrollable?: boolean };
+  Card?: { variant?: 'elevated' | 'filled' | 'outlined' };
   LinearProgress?: { wavy?: boolean };
   CircularProgress?: { wavy?: boolean };
 }
@@ -300,6 +306,8 @@ const COMPONENTS: ComponentName[] = [
   'Menu',
   'Select',
   'Snackbar',
+  'Tabs',
+  'Card',
 ];
 
 /**

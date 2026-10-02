@@ -1,0 +1,80 @@
+/*
+ * Cards, from Compose ElevatedCardTokens, FilledCardTokens and OutlinedCardTokens. All three
+ * take the 12px CornerMedium; what differs is how they lift off the surface.
+ */
+
+@use '../../scss/api' as grange;
+
+.card {
+  --_container: #{grange.color(surface-container-low)};
+  --_outline: transparent;
+  --_outline-width: 0;
+  --grange-elevation-level: 1;
+
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 12px; // ContainerShape: CornerMedium
+  background: var(--_container);
+  color: grange.color(on-surface);
+  text-align: start;
+  // Drawn inside, so an outlined card is the same size as the other two.
+  box-shadow: inset 0 0 0 var(--_outline-width) var(--_outline);
+  transition:
+    background-color grange.duration(short3) linear,
+    box-shadow grange.duration(short3) linear;
+}
+
+// An interactive card goes through ButtonBase, which supplies the elevation and state layers,
+// so it needs the button reset that Button.module.scss gives the real buttons.
+.card[data-interactive] {
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card[data-variant='filled'] {
+  --_container: #{grange.color(surface-container-highest)};
+  --grange-elevation-level: 0;
+}
+
+.card[data-variant='outlined'] {
+  --_container: #{grange.color(surface)};
+  --_outline: #{grange.color(outline-variant)};
+  --_outline-width: 1px; // OutlineWidth
+  --grange-elevation-level: 0;
+}
+
+// Hover lifts each variant by one level, which is what all three token sets say.
+.card[data-interactive][data-hovered] {
+  --grange-elevation-level: 2;
+}
+
+.card[data-variant='filled'][data-interactive][data-hovered],
+.card[data-variant='outlined'][data-interactive][data-hovered] {
+  --grange-elevation-level: 1;
+}
+
+.card[data-variant='outlined'][data-interactive][data-focus-visible] {
+  --_outline: #{grange.color(on-surface)}; // FocusOutlineColor
+}
+
+.card[data-disabled] {
+  --grange-elevation-level: 0 !important;
+  cursor: default;
+
+  // DisabledContainerOpacity is 0.38 against the variant's own disabled colour.
+  &[data-variant='elevated'] {
+    --_container: #{grange.translucent(surface, 38%)};
+  }
+  &[data-variant='filled'] {
+    --_container: #{grange.translucent(surface-variant, 38%)};
+  }
+  &[data-variant='outlined'] {
+    --_outline: #{grange.translucent(outline, 12%)};
+  }
+}

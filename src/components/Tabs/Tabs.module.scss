@@ -1,0 +1,165 @@
+/*
+ * Tabs, from Compose PrimaryNavigationTabTokens and SecondaryNavigationTabTokens.
+ *
+ * Primary stacks an icon above the label, colours the active tab with the primary role and its
+ * indicator hugs the label. Secondary keeps the icon inline, colours the active tab on-surface
+ * and spans the indicator across the whole tab, above a divider under the strip.
+ */
+
+@use '../../scss/api' as grange;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.list {
+  display: flex;
+  background: grange.color(surface); // ContainerColor
+  // ContainerElevation is level 0, so there is nothing to draw.
+
+  &[data-scrollable] {
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+// Secondary tabs sit above a rule, which primary tabs do not have.
+.root[data-variant='secondary'] .list {
+  border-bottom: 1px solid grange.color(surface-variant); // Divider colour and height
+}
+
+.tab {
+  --_content: #{grange.color(on-surface-variant)};
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px; // ContainerHeight
+  padding-inline: 16px;
+  border-radius: 0; // ContainerShape: CornerNone
+  color: var(--_content);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  outline: none;
+  transition: color grange.duration(short3) linear;
+}
+
+// A strip with any icon in it takes the taller height, so the tabs line up.
+.root[data-with-icon][data-variant='primary'] .tab {
+  min-height: 64px; // IconAndLabelTextContainerHeight
+}
+
+.list[data-scrollable] .tab {
+  flex: 0 0 auto;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+// Primary stacks the icon over the label; secondary keeps them side by side.
+.root[data-variant='primary'] .content {
+  flex-direction: column;
+  gap: 2px;
+}
+
+.icon {
+  display: inline-flex;
+  width: 24px; // IconSize
+  height: 24px;
+  --grange-icon-size: 24px;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}
+
+.label {
+  @include grange.typescale(title-small);
+}
+
+.indicator {
+  position: absolute;
+  bottom: 0;
+  height: 3px; // ActiveIndicatorHeight
+  border-radius: 3px 3px 0 0; // ActiveIndicatorShape: RoundedCornerShape(3.dp)
+  background: transparent;
+  transition: background-color grange.duration(short3) linear;
+}
+
+// Primary hugs the label; secondary spans the tab.
+.root[data-variant='primary'] .indicator {
+  left: 50%;
+  translate: -50% 0;
+  width: calc(100% - 32px);
+}
+
+.root[data-variant='secondary'] .indicator {
+  inset-inline: 0;
+}
+
+// ---------------------------------------------------------------------------
+// States
+// ---------------------------------------------------------------------------
+
+.tab[data-hovered]:not([data-disabled]),
+.tab[data-focus-visible] {
+  --_content: #{grange.color(on-surface)};
+}
+
+.root[data-variant='primary'] .tab[data-selected] {
+  --_content: #{grange.color(primary)}; // Active icon and label
+
+  .indicator {
+    background: grange.color(primary); // ActiveIndicatorColor
+  }
+}
+
+// Secondary's active colour is on-surface, not primary, and it has no indicator token of its
+// own, so it reuses primary's height and takes its own active colour.
+.root[data-variant='secondary'] .tab[data-selected] {
+  --_content: #{grange.color(on-surface)};
+
+  .indicator {
+    background: grange.color(on-surface);
+  }
+}
+
+.tab[data-disabled] {
+  cursor: default;
+
+  --_content: #{grange.translucent(on-surface, 38%)};
+}
+
+.panel {
+  padding-block: 16px;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab,
+  .indicator {
+    transition: none;
+  }
+}
