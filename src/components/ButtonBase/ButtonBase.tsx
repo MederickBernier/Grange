@@ -3,6 +3,7 @@ import { motion, type HTMLMotionProps } from 'motion/react';
 import {
   mergeProps,
   useButton,
+  useLocale,
   useFocusRing,
   useHover,
   useObjectRef,
@@ -34,8 +35,12 @@ export interface ButtonBaseProps extends AriaButtonProps<'button' | 'a'> {
   /** Corner radii in px for the current press state. Animated on `cornerSpring`. */
   corners: (state: { isPressed: boolean }) => CornerRadii;
   cornerSpring: SpringName;
-  /** Horizontal padding in px at rest; button groups animate it to widen or squeeze items. */
-  padding: number;
+  /**
+   * Horizontal padding in px at rest; button groups animate it to widen or squeeze items.
+   * A number pads both sides equally. Split button halves pad their two sides differently, so
+   * they pass start and end, which are resolved against the text direction.
+   */
+  padding: number | { start: number; end: number };
   /** Adds the invisible 48px touch target (for components under 48px tall). */
   touchTarget?: boolean;
   /** Extra data-* attributes the component's CSS keys off (variant, size, selected...). */
@@ -61,6 +66,8 @@ export const ButtonBase = forwardRef<GrangeButtonElement, ButtonBaseProps>(funct
     ...ariaProps
   } = props;
   const ref = useObjectRef(forwardedRef);
+  // Resolved up front: the group's squeeze maths works off a single number per side.
+  const sides = typeof padding === 'number' ? { start: padding, end: padding } : padding;
   const ripple = useRef<RippleHandle>(null);
   const pointerType = useRef<string>('mouse');
 
@@ -80,7 +87,7 @@ export const ButtonBase = forwardRef<GrangeButtonElement, ButtonBaseProps>(funct
       onPressStart: (e: PressEvent) => {
         pointerType.current = e.pointerType;
         if (e.pointerType !== 'keyboard' && e.pointerType !== 'virtual') ripple.current?.start(e.x, e.y);
-        if (group && index >= 0) group.setPressed(index, ref.current?.offsetWidth, padding);
+        if (group && index >= 0) group.setPressed(index, ref.current?.offsetWidth, sides.start);
         onPressStart?.(e);
       },
       onPressEnd: (e: PressEvent) => {
@@ -95,11 +102,15 @@ export const ButtonBase = forwardRef<GrangeButtonElement, ButtonBaseProps>(funct
   const { focusProps, isFocusVisible } = useFocusRing();
 
   const { behavior } = useGrangeConfig();
+  const { direction } = useLocale();
   const cornerTransition = useSpring(cornerSpring);
   const groupTransition = useSpring(behavior.springs.groupWidth);
 
   const r = corners({ isPressed });
-  const pad = Math.max(0, padding + paddingDeltaFor(index, group));
+  const delta = paddingDeltaFor(index, group);
+  const padStart = Math.max(0, sides.start + delta);
+  const padEnd = Math.max(0, sides.end + delta);
+  const [padLeft, padRight] = direction === 'rtl' ? [padEnd, padStart] : [padStart, padEnd];
   const pressedKind = isPressed
     ? pointerType.current === 'keyboard' || pointerType.current === 'virtual'
       ? 'keyboard'
@@ -126,8 +137,8 @@ export const ButtonBase = forwardRef<GrangeButtonElement, ButtonBaseProps>(funct
         borderTopRightRadius: r.topRight,
         borderBottomRightRadius: r.bottomRight,
         borderBottomLeftRadius: r.bottomLeft,
-        paddingLeft: pad,
-        paddingRight: pad,
+        paddingLeft: padLeft,
+        paddingRight: padRight,
       }}
       transition={{ default: cornerTransition, paddingLeft: groupTransition, paddingRight: groupTransition }}
       data-hovered={isHovered || undefined}
