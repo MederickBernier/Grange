@@ -18,19 +18,19 @@ Three reference points per component:
 | | Count |
 | --- | --- |
 | In the M3 catalog | 36 |
-| Done | 24 |
-| Remaining | 12 |
+| Done | 26 |
+| Remaining | 10 |
 
 Plus `Icon`, which the catalog does not list as a component of its own although Material Web
 ships it as `md-icon`, so it is not counted above.
 
-Of the 12 remaining, split by how much of the behavior already exists:
+Of the 10 remaining, split by how much of the behavior already exists:
 
 | | Count | Meaning |
 | --- | --- | --- |
 | Dedicated React Aria hook | 4 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
 | Generic React Aria pieces only | 3 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
-| No React Aria support | 5 | Behavior written from scratch: badges, carousel, loading indicator, navigation bar, navigation rail |
+| No React Aria support | 3 | Behavior written from scratch: badges, carousel, loading indicator |
 
 ### Done
 
@@ -61,6 +61,8 @@ Of the 12 remaining, split by how much of the behavior already exists:
 | Cards | Elevated, filled and outlined; plain by default, or a button or link when given a handler |
 | Lists | One, two and three line rows, leading and trailing slots, trailing text, rows that become buttons or links, selection by composition |
 | App bars | Five sizes including the two M3E flexible ones, subtitle, leading and trailing controls, the on-scroll treatment |
+| Navigation bar | Stacked or inline items, the taller bar, badges, selected icons, links or buttons, aria-current |
+| Navigation rail | Collapsed at 96 or 80px, expanded inline within the tokens' 220 to 360px range, header slot |
 | Icon † | Sizes and colours an SVG or a Material Symbols ligature. Reads `--grange-icon-size`, so it matches whatever control it sits in. Filled axis, RTL flip |
 
 † Not a separate entry in the M3 catalog, so it is excluded from the counts.
@@ -112,8 +114,6 @@ counts above.
 
 | Component | M3E | Material Web | React Aria | Capabilities needed |
 | --- | --- | --- | --- | --- |
-| Navigation bar | ✅ | | — | Bottom bar, 3 to 5 destinations, active indicator, badges. M3E restyled it |
-| Navigation rail | ✅ | | — | Vertical, collapsed and expanded, optional FAB and menu slots. M3E restyled it |
 | Navigation drawer | | | `useModalOverlay` | Standard and modal, sections with headlines and dividers, badges |
 
 ### Actions
@@ -143,7 +143,7 @@ Each phase is useful on its own and unblocks the next.
 1. ~~**Foundations**~~ — done: `Icon`, `Divider`, link rendering and form props on `ButtonBase`, RTL.
 2. ~~**Form controls**~~ — done: Checkbox, Switch, Radio button, Sliders, Text fields. A checkbox group still wants `useCheckboxGroup` for shared validation, and the text field has no password reveal yet.
 3. ~~**Overlay infrastructure plus its components**~~ — done: the portal and positioning layer, Dialogs, Tooltips, Menus, Select and Snackbar. — the portal and positioning layer, then Dialogs, Menus, Select, Tooltips, Snackbar. One hard piece of plumbing, then five components come cheaply.
-4. **Navigation and structure** — ~~Toolbars~~, ~~Tabs~~, ~~Cards~~, ~~Lists~~, ~~App bars~~, then Navigation bar / rail / drawer, where the drawer reuses the overlay layer. ← next
+4. **Navigation and structure** — ~~Toolbars~~, ~~Tabs~~, ~~Cards~~, ~~Lists~~, ~~App bars~~, ~~Navigation bar~~, ~~Navigation rail~~, then the Navigation drawer, which reuses the overlay layer. ← next
 5. **M3E signature pieces** — ~~FAB~~, ~~Split button~~, ~~Progress indicators~~, ~~Extended FAB~~, ~~FAB menu~~, then the Loading indicator, which still wants the shape library. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
 6. **Long tail** — Chips, Search, Badges, Bottom and Side sheets, Date and Time pickers, Carousel.
 
