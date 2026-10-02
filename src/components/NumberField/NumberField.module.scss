@@ -1,0 +1,54 @@
+/*
+ * The number field is the text field's chrome, so the geometry here is only the stepper, which
+ * the M3 spec does not draw. 24 by 24 per button, stacked, which fits the 56px container.
+ */
+
+@use '../../scss/api' as grange;
+
+.root {
+  // The stepper has its own gap from the input, narrower than the icon slots' 16px, so the
+  // buttons read as part of the field rather than as something beside it.
+  --_stepper-gap: 4px;
+}
+
+.stepper {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin-inline-start: calc(var(--_stepper-gap) - 16px);
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; // stepperWidth
+  height: 24px; // stepperHeight
+  padding: 0;
+  border: none;
+  background: none;
+  color: grange.color(on-surface-variant); // as the trailing icon
+  cursor: pointer;
+
+  > svg {
+    width: 18px; // stepperIcon
+    height: 18px;
+    fill: currentColor;
+  }
+
+  &:focus-visible {
+    outline: 2px solid grange.color(primary);
+    outline-offset: -2px;
+    border-radius: 2px;
+  }
+
+  // The hook disables a button once the value is at that end of the range.
+  &[disabled] {
+    cursor: default;
+    color: #{grange.translucent(on-surface, 38%)};
+  }
+}
+
+.root[data-error] .step {
+  color: grange.color(error);
+}

@@ -60,6 +60,15 @@ export type TextFieldSlot =
   | 'leadingIcon'
   | 'trailingIcon'
   | 'reveal';
+export type NumberFieldSlot =
+  | 'root'
+  | 'container'
+  | 'label'
+  | 'input'
+  | 'supporting'
+  | 'leadingIcon'
+  | 'trailingIcon'
+  | 'stepper';
 export type DividerSlot = 'root';
 export type DialogSlot = 'root' | 'scrim' | 'headline' | 'content' | 'actions' | 'icon';
 export type TooltipSlot = 'root';
@@ -110,6 +119,7 @@ export interface ClassNamesConfig {
   Radio?: SlotOverrides<RadioSlot>;
   Slider?: SlotOverrides<SliderSlot>;
   TextField?: SlotOverrides<TextFieldSlot>;
+  NumberField?: SlotOverrides<NumberFieldSlot>;
   Dialog?: SlotOverrides<DialogSlot>;
   Tooltip?: SlotOverrides<TooltipSlot>;
   RichTooltip?: SlotOverrides<RichTooltipSlot>;
@@ -209,6 +219,7 @@ export interface DefaultPropsConfig {
     mode?: 'dial' | 'input';
   };
   TextField?: { variant?: 'filled' | 'outlined' };
+  NumberField?: { variant?: 'filled' | 'outlined'; hideStepper?: boolean };
   Select?: { variant?: 'filled' | 'outlined' };
   Menu?: { variant?: 'default' | 'standard' | 'vibrant' };
   RichTooltip?: { placement?: 'top' | 'bottom' | 'start' | 'end'; persistent?: boolean };
@@ -354,6 +365,7 @@ const COMPONENTS: ComponentName[] = [
   'Radio',
   'Slider',
   'TextField',
+  'NumberField',
   'FloatingToolbar',
   'DockedToolbar',
   'LinearProgress',
