@@ -7,18 +7,17 @@ export const loadingIndicator = {
   /** Not tokenised: how long each shape holds before morphing to the next, ms. */
   morphMs: 650,
   /**
-   * Points each shape is resampled to before interpolating, so shapes with different corner
-   * counts can morph into one another.
+   * Points each outline is resampled to before interpolating, so two shapes with nothing in
+   * common can still morph into one another. The samples carry the curvature, so this is also
+   * what decides how smooth a shape looks: 96 across 38px is a chord of about a pixel.
    */
-  samples: 48,
-  /** Corner rounding as a fraction of the shorter adjoining edge. */
-  rounding: 0.38,
+  samples: 96,
 } as const;
 
 /**
- * The shapes the indicator cycles through, by side count.
+ * The shapes the indicator cycles through, from the captured library.
  *
- * A subset of M3 Expressive's 35-shape library: the regular polygons, which can be derived
- * exactly. The irregular ones need androidx.graphics.shapes ported, which the roadmap records.
+ * The spec does not name a sequence, so this is a run that reads as one thing becoming another:
+ * a soft shape, a sharp one, a round one, and back.
  */
-export const defaultShapes = [4, 7, 3, 9, 5, 12] as const;
+export const defaultShapes = ['SoftBurst', 'Cookie9Sided', 'Pentagon', 'Pill', 'Sunny', 'Cookie4Sided'] as const;

@@ -9,6 +9,7 @@ import {
   LoadingIndicator,
   Search,
   defaultShapes,
+  shapeNames,
   loadingIndicator,
   searchBar,
   searchView,
@@ -34,7 +35,8 @@ describe('tokens', () => {
 
   it('cycles regular polygons only, which is the subset that can be derived exactly', () => {
     expect(defaultShapes.length).toBeGreaterThan(1);
-    for (const sides of defaultShapes) expect(sides).toBeGreaterThanOrEqual(3);
+    // Every one is a real name from the captured library, not a shape invented here.
+    for (const name of defaultShapes) expect(shapeNames).toContain(name);
   });
 });
 
@@ -194,7 +196,7 @@ describe('LoadingIndicator', () => {
   });
 
   it('accepts its own shape sequence', () => {
-    const { container } = render(<LoadingIndicator aria-label="Loading" shapes={[3]} />);
+    const { container } = render(<LoadingIndicator aria-label="Loading" shapes={['Heart']} />);
     expect(container.querySelector('path')?.getAttribute('d')).toBeTruthy();
   });
 

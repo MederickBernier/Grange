@@ -3,7 +3,8 @@ import { useReducedMotion } from 'motion/react';
 import { useProgressBar } from 'react-aria';
 import { resolveSlotClass, useComponentConfig, type SlotOverrides } from '../../config/config';
 import { defaultShapes, loadingIndicator as spec } from './specs';
-import { morph, regularPolygon, resample, roundedPath } from './polygon';
+import { morph, resample } from './polygon';
+import { flatten, polylinePath, shape as libraryShape, type ShapeName } from '../../shapes';
 import styles from './LoadingIndicator.module.scss';
 
 export interface LoadingIndicatorProps {
@@ -11,8 +12,8 @@ export interface LoadingIndicatorProps {
   contained?: boolean;
   /** Diameter in px. Defaults to the token's 48. */
   size?: number;
-  /** Side counts to cycle through. Defaults to a run of regular polygons. */
-  shapes?: readonly number[];
+  /** Names from the M3E shape library to cycle through. */
+  shapes?: readonly ShapeName[];
   /** One of aria-label or aria-labelledby, so the wait is announced. */
   'aria-label'?: string;
   'aria-labelledby'?: string;
@@ -27,10 +28,14 @@ export interface LoadingIndicatorProps {
  * For a wait under about five seconds, which is what the spec reserves it for; anything longer
  * wants a progress indicator that says how far along it is.
  *
- * The morph is the real mechanism, interpolating corresponding points between two polygons, but
- * over the regular shapes only. The full 35-shape library is defined in
- * androidx.graphics.shapes as rounded polygons with per-corner rounding, and reproducing those
- * means porting that library.
+ * The shapes are the real ones: `src/shapes` is a port of the rounded-polygon geometry in
+ * androidx.graphics.shapes, and all 35 of the library's shapes are available by name.
+ *
+ * The morph is not upstream's `Morph`, which matches the features of two shapes to decide which
+ * corner becomes which. Each outline is flattened and resampled to the same number of points
+ * instead, and those are interpolated — which is why a shape with eight corners can turn into one
+ * with three without a side collapsing, and why the drawn path is a polyline: by then the samples
+ * are carrying the curvature.
  */
 export function LoadingIndicator(props: LoadingIndicatorProps) {
   const { slots } = useComponentConfig('LoadingIndicator');
@@ -72,11 +77,18 @@ export function LoadingIndicator(props: LoadingIndicatorProps) {
     return () => cancelAnimationFrame(frame.current);
   }, [reduceMotion, shapes.length]);
 
-  const radius = (size * (spec.activeSize / spec.size)) / 2;
-  const center = { x: size / 2, y: size / 2 };
+  // The library's shapes fill the unit square, so this places one in the middle of the canvas at
+  // the token's active size.
+  const drawn = size * (spec.activeSize / spec.size);
+  const inset = (size - drawn) / 2;
+  const place = (points: ReturnType<typeof flatten>) =>
+    points.map((p) => ({ x: inset + p.x * drawn, y: inset + p.y * drawn }));
 
-  const from = resample(regularPolygon(shapes[step] ?? 4, radius), spec.samples);
-  const to = resample(regularPolygon(shapes[(step + 1) % shapes.length] ?? 4, radius), spec.samples);
+  const outline = (name: ShapeName | undefined) =>
+    resample(place(flatten(libraryShape(name ?? defaultShapes[0]))), spec.samples);
+
+  const from = outline(shapes[step]);
+  const to = outline(shapes[(step + 1) % shapes.length]);
   // Eased, so each shape settles rather than arriving at a constant rate.
   const eased = t < 0.5 ? 2 * t * t : 1 - (1 - t) * (1 - t) * 2;
   const points = from.length === to.length ? morph(from, to, eased) : from;
@@ -95,7 +107,7 @@ export function LoadingIndicator(props: LoadingIndicatorProps) {
       data-contained={contained || undefined}
     >
       <svg viewBox={`0 0 ${size} ${size}`} aria-hidden="true" className={styles.canvas}>
-        <path className={styles.shape} d={roundedPath(points, spec.rounding, center)} />
+        <path className={styles.shape} d={polylinePath(points)} />
       </svg>
     </div>
   );

@@ -115,6 +115,8 @@ export { loadingIndicator, defaultShapes } from './components/LoadingIndicator/s
 export { regularPolygon, resample, morph, roundedPath } from './components/LoadingIndicator/polygon';
 export type { Point } from './components/LoadingIndicator/polygon';
 
+export * from './shapes';
+
 export { Chip, ChipGroup } from './components/Chip/Chip';
 export type { ChipProps, ChipGroupProps, ChipVariant } from './components/Chip/Chip';
 export { chip } from './components/Chip/specs';
