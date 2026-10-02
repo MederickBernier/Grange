@@ -30,3 +30,18 @@ export const textField = {
 export function counterText(length: number, maxLength: number): string {
   return `${length}/${maxLength}`;
 }
+
+/**
+ * `aria-describedby` for a field that shows one message at a time.
+ *
+ * The M3 spec replaces the supporting text with the error rather than showing both, so only one
+ * of the two elements is in the DOM. The hook links both unconditionally, which would leave the
+ * input described by an element that was never rendered — a dangling reference that announces
+ * nothing and looks fine. So the ids are assembled from what is actually on screen.
+ */
+export function describedBy(
+  parts: Array<{ id?: string; shown: boolean }>,
+): string | undefined {
+  const ids = parts.filter((part) => part.shown && part.id).map((part) => part.id!);
+  return ids.length > 0 ? ids.join(' ') : undefined;
+}

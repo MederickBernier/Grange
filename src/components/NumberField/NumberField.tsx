@@ -8,7 +8,7 @@ import {
   type SlotOverrides,
 } from '../../config/config';
 import { FieldShell } from '../TextField/FieldShell';
-import type { TextFieldVariant } from '../TextField/specs';
+import { describedBy, type TextFieldVariant } from '../TextField/specs';
 import textStyles from '../TextField/TextField.module.scss';
 import styles from './NumberField.module.scss';
 
@@ -82,6 +82,7 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(
       readOnly,
       required,
       validationBehavior = 'aria',
+      name,
       hideStepper = defaults?.hideStepper ?? false,
       incrementLabel,
       decrementLabel,
@@ -94,10 +95,11 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(
 
     const { locale } = useLocale();
     const ref = useObjectRef(forwardedRef);
-    const description = error && errorText ? undefined : supportingText;
+    const description = supportingText;
 
     const ariaProps = {
       ...rest,
+      name,
       label,
       description,
       errorMessage: error ? errorText : undefined,
@@ -117,7 +119,13 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(
       decrementButtonProps,
       descriptionProps,
       errorMessageProps,
+      isInvalid,
+      validationErrors,
     } = useNumberField(ariaProps, state, ref);
+
+    // The hook's verdict as well as the prop, which is what lets a Form push an error in by name.
+    const invalid = error || isInvalid;
+    const message = errorText ?? (validationErrors.length > 0 ? validationErrors.join(' ') : undefined);
 
     const { hoverProps, isHovered } = useHover({ isDisabled: disabled });
     const { focusProps, isFocusVisible, isFocused } = useFocusRing({ isTextInput: true, within: true });
@@ -135,6 +143,12 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(
       );
 
     const stepperClass = slot('stepper', 'grange-number-field-stepper', styles.stepper);
+    const showingError = invalid && message != null;
+    // Only the message on screen: the hook links both, and the other one is not rendered.
+    const describes = describedBy([
+      { id: errorMessageProps.id, shown: showingError },
+      { id: descriptionProps.id, shown: !showingError && description != null },
+    ]);
 
     return (
       <FieldShell
@@ -153,7 +167,7 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(
           focused: isFocused,
           focusVisible: isFocusVisible,
           hovered: isHovered,
-          error,
+          error: invalid,
           disabled,
         }}
         label={label}
@@ -187,8 +201,8 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(
         }
         prefix={prefix}
         suffix={suffix}
-        supporting={error && errorText != null ? errorText : description}
-        supportingProps={error && errorText != null ? errorMessageProps : descriptionProps}
+        supporting={showingError ? message : description}
+        supportingProps={showingError ? errorMessageProps : descriptionProps}
       >
         {/*
           mergeProps, not two spreads: useFocusRing also returns onFocus and onBlur, and
@@ -200,8 +214,22 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(
           {...mergeProps(inputProps, focusProps)}
           ref={ref}
           placeholder={placeholder}
+          aria-describedby={describes}
           className={slot('input', 'grange-number-field-input', textStyles.input)}
         />
+        {/*
+          The value, for the form. React Aria strips name and form off the visible input on
+          purpose — it holds formatted text like "€1,234.56", which is not what should be posted —
+          and expects a hidden input to carry the number. Without this the field never appears in
+          the submitted data at all, and nothing about it looks wrong.
+        */}
+        {name !== undefined && (
+          <input
+            type="hidden"
+            name={name}
+            value={Number.isNaN(state.numberValue) ? '' : String(state.numberValue)}
+          />
+        )}
       </FieldShell>
     );
   },

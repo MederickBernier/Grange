@@ -11,7 +11,7 @@ import {
 import { Item, useSelectState, type SelectProps as AriaSelectProps, type SelectState } from 'react-stately';
 import { Popover } from '../../overlays/Popover';
 import { resolveSlotClass, useComponentConfig, type SelectSlot, type SlotOverrides } from '../../config/config';
-import type { TextFieldVariant } from '../TextField/specs';
+import { describedBy, type TextFieldVariant } from '../TextField/specs';
 import textFieldStyles from '../TextField/TextField.module.scss';
 import menuStyles from '../Menu/Menu.module.scss';
 import styles from './Select.module.scss';
@@ -92,6 +92,10 @@ export function Select(props: SelectProps) {
     ...rest,
     label,
     placeholder,
+    // The name goes to the state as well as to the hidden select: it is what the validation
+    // state looks itself up by in FormValidationContext, so without it a form cannot address
+    // this field at all.
+    name,
     isDisabled: disabled,
     isRequired: required,
     isInvalid: error,
@@ -101,7 +105,7 @@ export function Select(props: SelectProps) {
 
   const state = useSelectState(ariaProps);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const { labelProps, triggerProps, valueProps, menuProps, descriptionProps, errorMessageProps } =
+  const { labelProps, triggerProps, valueProps, menuProps, descriptionProps, errorMessageProps, isInvalid, validationErrors } =
     useSelect(ariaProps, state, triggerRef);
   // triggerProps are button options, not DOM props: they have to go through useButton to come
   // out with the press handling attached.
@@ -109,7 +113,25 @@ export function Select(props: SelectProps) {
   const { hoverProps, isHovered } = useHover({ isDisabled: disabled });
   const { focusProps, isFocusVisible } = useFocusRing();
 
-  const description = error && errorText ? undefined : supportingText;
+  /*
+   * The hook's verdict as well as the prop. useSelect reads FormValidationContext and finds this
+   * field's name in it, so a Form can push an error in by name — but only if it is read back
+   * here. Without this the trigger gets aria-invalid and no message is ever drawn.
+   */
+  const invalid = error || isInvalid;
+  const errorMessage = errorText ?? (validationErrors.length > 0 ? validationErrors.join(' ') : undefined);
+  const description = supportingText;
+
+  const showingError = invalid && errorMessage != null;
+  /*
+   * Only the message that is rendered. M3 replaces the supporting text with the error rather
+   * than showing both, and the hook links both unconditionally, which would leave the trigger
+   * described by an element that is not in the DOM.
+   */
+  const describes = describedBy([
+    { id: errorMessageProps.id, shown: showingError },
+    { id: descriptionProps.id, shown: !showingError && description != null },
+  ]);
   const populated = state.selectedItem != null || Boolean(placeholder) || state.isOpen;
 
   const slot = (name_: SelectSlot, hook: string, builtIn?: string) =>
@@ -130,7 +152,7 @@ export function Select(props: SelectProps) {
       data-focused={state.isOpen || isFocusVisible || undefined}
       data-focus-visible={isFocusVisible || undefined}
       data-hovered={isHovered || undefined}
-      data-error={error || undefined}
+      data-error={invalid || undefined}
       data-disabled={disabled || undefined}
     >
       {/* A real select, kept out of sight, so the value posts with the form. */}
@@ -140,6 +162,7 @@ export function Select(props: SelectProps) {
         {...buttonProps}
         {...hoverProps}
         {...focusProps}
+        aria-describedby={describes}
         ref={triggerRef}
         className={slot('trigger', 'grange-select-trigger', `${textFieldStyles.container} ${styles.trigger}`)}
       >
@@ -171,10 +194,10 @@ export function Select(props: SelectProps) {
         </span>
       </button>
 
-      {(description != null || (error && errorText != null)) && (
+      {(description != null || showingError) && (
         <div className={textFieldStyles.supporting}>
-          {error && errorText != null ? (
-            <span {...errorMessageProps}>{errorText}</span>
+          {showingError ? (
+            <span {...errorMessageProps}>{errorMessage}</span>
           ) : (
             <span {...descriptionProps}>{description}</span>
           )}

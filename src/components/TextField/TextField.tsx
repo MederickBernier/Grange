@@ -6,7 +6,7 @@ import {
   type SlotOverrides,
   type TextFieldSlot,
 } from '../../config/config';
-import { counterText, type TextFieldVariant } from './specs';
+import { counterText, describedBy, type TextFieldVariant } from './specs';
 import { FieldShell } from './FieldShell';
 import styles from './TextField.module.scss';
 
@@ -104,7 +104,7 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
     } = props;
 
     const ref = useObjectRef(forwardedRef as React.ForwardedRef<HTMLInputElement>);
-    const description = error && errorText ? undefined : supportingText;
+    const description = supportingText;
 
     const [revealed, setRevealed] = useState(false);
     const isPassword = rest.type === 'password';
@@ -131,10 +131,17 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
       inputElementType: multiline ? ('textarea' as const) : ('input' as const),
     };
 
-    const { labelProps, inputProps, descriptionProps, errorMessageProps } = useTextField(
-      ariaProps,
-      ref,
-    );
+    const { labelProps, inputProps, descriptionProps, errorMessageProps, isInvalid, validationErrors } =
+      useTextField(ariaProps, ref);
+
+    /*
+     * The hook's own verdict, merged with the `error` prop. This is what lets a form push an
+     * error in by field name: useTextField reads FormValidationContext, finds this field's name
+     * in it, and reports it here. Without reading it back the context sets aria-invalid and the
+     * message is never drawn, which looks like the plumbing not working at all.
+     */
+    const invalid = error || isInvalid;
+    const message = errorText ?? (validationErrors.length > 0 ? validationErrors.join(' ') : undefined);
     const { hoverProps, isHovered } = useHover({ isDisabled: disabled });
     const { focusProps, isFocusVisible, isFocused } = useFocusRing({ isTextInput: true, within: true });
 
@@ -154,10 +161,13 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
         name === 'root' ? className : undefined,
       );
 
-    // The counter is announced with the field, alongside whatever React Aria already linked.
-    const describedBy =
-      [inputProps['aria-describedby'], showCounter ? counterId : null].filter(Boolean).join(' ') ||
-      undefined;
+    const showingError = invalid && message != null;
+    // Only the message that is actually rendered, plus the counter.
+    const describes = describedBy([
+      { id: errorMessageProps.id, shown: showingError },
+      { id: descriptionProps.id, shown: !showingError && description != null },
+      { id: counterId, shown: showCounter },
+    ]);
     const inputClass = slot('input', 'grange-text-field-input', styles.input);
 
     return (
@@ -177,7 +187,7 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
           focused: isFocused,
           focusVisible: isFocusVisible,
           hovered: isHovered,
-          error,
+          error: invalid,
           disabled,
           multiline,
         }}
@@ -199,8 +209,8 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
         }
         prefix={prefix}
         suffix={suffix}
-        supporting={error && errorText != null ? errorText : description}
-        supportingProps={error && errorText != null ? errorMessageProps : descriptionProps}
+        supporting={showingError ? message : description}
+        supportingProps={showingError ? errorMessageProps : descriptionProps}
         counter={showCounter ? counterText(value.length, maxLength) : undefined}
         counterId={counterId}
       >
@@ -214,14 +224,14 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
             {...mergeProps(inputProps as React.TextareaHTMLAttributes<HTMLTextAreaElement>, focusProps)}
             ref={ref as unknown as React.Ref<HTMLTextAreaElement>}
             rows={rows}
-            aria-describedby={describedBy}
+            aria-describedby={describes}
             className={inputClass}
           />
         ) : (
           <input
             {...mergeProps(inputProps as React.InputHTMLAttributes<HTMLInputElement>, focusProps)}
             ref={ref}
-            aria-describedby={describedBy}
+            aria-describedby={describes}
             className={inputClass}
           />
         )}
