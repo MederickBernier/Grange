@@ -1,0 +1,77 @@
+/*
+ * A signature pad. No tokens upstream and no M3 spec for it, so the geometry is chosen and
+ * specs.ts says what from: the outlined text field's border and outline colour, CornerMedium
+ * rather than the field's 4px because the box is far larger, and a 2px pen.
+ */
+
+@use '../../scss/api' as grange;
+
+.root {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 100%;
+}
+
+.label {
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(label-large);
+}
+
+.surface {
+  display: block;
+  width: 320px; // width
+  max-width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  border: 1px solid grange.color(outline); // outlineWidth / OutlineColor
+  border-radius: 12px; // corner: CornerMedium
+  background: grange.color(surface);
+  // A pointer draws on it, so the browser must not try to scroll or select instead.
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.root[data-error] .surface {
+  border-color: grange.color(error);
+}
+
+.root[data-disabled] .surface,
+.root[data-readonly] .surface {
+  cursor: default;
+}
+
+.root[data-disabled] .surface {
+  border-color: #{grange.translucent(on-surface, 12%)};
+  background: #{grange.translucent(on-surface, 4%)};
+}
+
+/* The line to sign on. */
+.rule {
+  stroke: grange.color(outline-variant);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 32px;
+}
+
+.supporting {
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(body-small);
+}
+
+.root[data-error] .supporting {
+  color: grange.color(error);
+}
+
+.buttons {
+  display: inline-flex;
+  gap: 4px;
+  margin-inline-start: auto;
+}
