@@ -63,6 +63,8 @@ export type {
   NavigationSlot,
   DrawerSlot,
   BottomSheetSlot,
+  SideSheetSlot,
+  CarouselSlot,
   BadgeSlot,
   ChipSlot,
   SearchSlot,
@@ -110,6 +112,13 @@ export { drawer } from './components/Drawer/specs';
 export { BottomSheet } from './components/BottomSheet/BottomSheet';
 export type { BottomSheetProps } from './components/BottomSheet/BottomSheet';
 export { bottomSheet } from './components/BottomSheet/specs';
+export { SideSheet } from './components/SideSheet/SideSheet';
+export type { SideSheetProps } from './components/SideSheet/SideSheet';
+export { sideSheet } from './components/SideSheet/specs';
+export { Carousel, CarouselItem } from './components/Carousel/Carousel';
+export type { CarouselProps, CarouselItemProps } from './components/Carousel/Carousel';
+export { carousel } from './components/Carousel/specs';
+export type { CarouselVariant } from './components/Carousel/specs';
 export { ModalPanel } from './overlays/ModalPanel';
 export type { ModalPanelProps } from './overlays/ModalPanel';
 

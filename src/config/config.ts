@@ -71,6 +71,8 @@ export type AppBarSlot = 'root' | 'title' | 'subtitle' | 'leading' | 'actions';
 export type NavigationSlot = 'root';
 export type DrawerSlot = 'root' | 'scrim';
 export type BottomSheetSlot = 'root' | 'scrim' | 'handle';
+export type SideSheetSlot = 'root' | 'scrim' | 'header' | 'headline' | 'content' | 'actions' | 'handle';
+export type CarouselSlot = 'root' | 'item';
 export type BadgeSlot = 'root';
 export type ChipSlot = 'root' | 'label' | 'remove';
 export type SearchSlot = 'root' | 'bar' | 'input' | 'view';
@@ -117,6 +119,9 @@ export interface ClassNamesConfig {
   NavigationRail?: SlotOverrides<NavigationSlot>;
   NavigationDrawer?: SlotOverrides<DrawerSlot>;
   BottomSheet?: SlotOverrides<BottomSheetSlot>;
+  SideSheet?: SlotOverrides<SideSheetSlot>;
+  Carousel?: SlotOverrides<CarouselSlot>;
+  CarouselItem?: SlotOverrides<CarouselSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
   Chip?: SlotOverrides<ChipSlot>;
   ChipGroup?: SlotOverrides<'root'>;
@@ -201,6 +206,8 @@ export interface DefaultPropsConfig {
   NavigationRail?: { expanded?: boolean; narrow?: boolean };
   NavigationDrawer?: { modal?: boolean; placement?: 'start' | 'end' };
   BottomSheet?: { modal?: boolean };
+  SideSheet?: { modal?: boolean; placement?: 'start' | 'end' };
+  Carousel?: { variant?: 'multi-browse' | 'uncontained' | 'hero' | 'full-screen' };
   Chip?: { variant?: 'assist' | 'filter' | 'input' | 'suggestion'; elevated?: boolean };
   LinearProgress?: { wavy?: boolean };
   CircularProgress?: { wavy?: boolean };
@@ -348,6 +355,9 @@ const COMPONENTS: ComponentName[] = [
   'NavigationRail',
   'NavigationDrawer',
   'BottomSheet',
+  'SideSheet',
+  'Carousel',
+  'CarouselItem',
   'Badge',
   'Chip',
   'ChipGroup',

@@ -37,14 +37,12 @@
 }
 
 // Rounded on the inner edge only: CornerLargeEnd for a start drawer, mirrored for an end one.
-.drawer[data-placement='start'],
-.inner[data-placement='start'] {
+.drawer[data-placement='start'] {
   border-start-end-radius: 16px;
   border-end-end-radius: 16px;
 }
 
-.drawer[data-placement='end'],
-.inner[data-placement='end'] {
+.drawer[data-placement='end'] {
   margin-inline-start: auto;
   border-start-start-radius: 16px;
   border-end-start-radius: 16px;
@@ -56,10 +54,6 @@
   box-shadow:
     0 1px 2px 0 #{grange.translucent(shadow, 30%)},
     0 1px 3px 1px #{grange.translucent(shadow, 15%)};
-}
-
-.inner {
-  display: contents;
 }
 
 .headline {

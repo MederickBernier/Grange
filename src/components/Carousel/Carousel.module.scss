@@ -1,0 +1,119 @@
+/*
+ * Carousel. No Compose token file exists for it (see specs.ts), so the sizes are the spec page's
+ * and the one tokenised value is the corner, ShapeTokens.CornerExtraLarge at 28px.
+ *
+ * The strip is a scroll container with CSS scroll snapping, so touch dragging, the wheel, the
+ * trackpad, momentum and the scrollbar are all the platform's. The four layouts differ only in
+ * how wide the items are, which is why they are data attributes over one set of rules.
+ */
+
+@use '../../scss/api' as grange;
+
+.carousel {
+  --_gap: var(--grange-carousel-gap, 8px);
+
+  box-sizing: border-box;
+  display: flex;
+  gap: var(--_gap);
+  overflow: auto hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  // Keeps a scroll that runs off the end from turning into a page scroll or a back gesture.
+  overscroll-behavior-x: contain;
+
+  &:focus-visible {
+    outline: 2px solid grange.color(primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  // While a mouse drag is in progress, snapping would pull the strip out from under the pointer.
+  &[data-dragging] {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+    cursor: grabbing;
+    user-select: none;
+  }
+}
+
+.item {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  overflow: hidden;
+  scroll-snap-align: start;
+  border-radius: var(--grange-carousel-corner, 28px); // CornerExtraLarge
+  background: grange.color(surface-container-high);
+  color: grange.color(on-surface);
+
+  > img,
+  > video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/*
+ * Multi-browse: a large item, a medium one, then small ones. Position decides the size, so a
+ * carousel reads the same whatever is in it. An explicit data-size on an item overrides it.
+ */
+.carousel[data-variant='multi-browse'] {
+  .item {
+    inline-size: 56px; // the spec's small item, which is also its floor
+    min-inline-size: 40px;
+  }
+
+  .item:first-child {
+    inline-size: 60%; // largeRatio
+  }
+
+  .item:nth-child(2) {
+    inline-size: 120px; // mediumWidth
+  }
+}
+
+/* Uncontained: one size throughout, and nothing is masked at the edges. */
+.carousel[data-variant='uncontained'] .item {
+  inline-size: 200px; // uncontainedWidth
+}
+
+/*
+ * Hero: every item at nearly the full width, so whichever one is scrolled to fills the strip and
+ * the next one peeks in to show there is more. Making only the first item large would be wrong
+ * the moment the strip is scrolled, and CSS cannot know which item is the current one.
+ */
+.carousel[data-variant='hero'] .item {
+  inline-size: 84%; // heroRatio
+}
+
+/* Full-screen: the vertical one, a whole page at a time. */
+.carousel[data-variant='full-screen'] {
+  flex-direction: column;
+  overflow: hidden auto;
+  scroll-snap-type: y mandatory;
+
+  .item {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+}
+
+/* An explicit size wins over the position rules above, in every layout. */
+.carousel .item[data-size='large'] {
+  inline-size: 60%;
+}
+
+.carousel .item[data-size='medium'] {
+  inline-size: 120px;
+}
+
+.carousel .item[data-size='small'] {
+  inline-size: 56px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel {
+    scroll-behavior: auto;
+  }
+}

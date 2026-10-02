@@ -13,6 +13,12 @@ export interface ModalPanelProps {
   className?: string;
   scrimClassName?: string;
   style?: CSSProperties;
+  /**
+   * Reaches the panel element, so a stylesheet can place and shape it by which edge it is on.
+   * Without it the panel would need a wrapper to hang the attribute on, and a wrapper cannot
+   * carry the layout: the scrim's flex only lays out its own child.
+   */
+  'data-placement'?: string;
 }
 
 /**
@@ -29,6 +35,7 @@ export function ModalPanel({
   className,
   scrimClassName,
   style,
+  'data-placement': placement,
   ...aria
 }: ModalPanelProps) {
   const { portalContainer } = useGrangeConfig();
@@ -44,7 +51,13 @@ export function ModalPanel({
   return (
     <Overlay portalContainer={portalContainer ?? undefined}>
       <div {...underlayProps} className={scrimClassName}>
-        <div {...mergeProps(modalProps, dialogProps)} ref={ref} className={className} style={style}>
+        <div
+          {...mergeProps(modalProps, dialogProps)}
+          ref={ref}
+          className={className}
+          style={style}
+          data-placement={placement}
+        >
           {children}
         </div>
       </div>

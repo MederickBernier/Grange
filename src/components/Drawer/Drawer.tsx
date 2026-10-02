@@ -82,10 +82,9 @@ export function NavigationDrawer(props: NavigationDrawerProps) {
         classNames?.scrim,
       )}
       style={style}
+      data-placement={placement}
     >
-      <div className={styles.inner} data-placement={placement} data-modal="true">
-        {children}
-      </div>
+      {children}
     </ModalPanel>
   );
 }
