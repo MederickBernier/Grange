@@ -41,7 +41,8 @@
   },
   "dependencies": {
     "motion": "^12.23.0",
-    "react-aria": "^3.43.0"
+    "react-aria": "^3.43.0",
+    "react-stately": "^3.50.0"
   },
   "devDependencies": {
     "@material/material-color-utilities": "^0.4.0",

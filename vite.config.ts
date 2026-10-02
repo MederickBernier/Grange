@@ -18,7 +18,17 @@ export default defineConfig({
       fileName: 'index',
       },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'motion', /^motion\//, 'react-aria', /^@react-aria\//],
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        'motion',
+        /^motion\//,
+        'react-aria',
+        /^@react-aria\//,
+        'react-stately',
+        /^@react-stately\//,
+      ],
     },
     sourcemap: true,
   },
