@@ -1,0 +1,73 @@
+/*
+ * Time field, the input mode from Compose TimeInputTokens: segment boxes rather than a text box,
+ * so the hour and the minute are each their own target.
+ */
+
+@use '../../scss/api' as grange;
+
+.root {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(label-large);
+}
+
+.field {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.segment {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 96px; // Field width
+  height: 72px; // Field height
+  border-radius: 8px; // Corner
+  background: grange.color(surface-container-highest);
+  color: grange.color(on-surface);
+  outline: none;
+  font-variant-numeric: tabular-nums;
+  @include grange.typescale(display-medium);
+
+  &:focus-visible,
+  &[aria-valuenow]:focus {
+    background: grange.color(primary-container);
+    color: grange.color(on-primary-container);
+  }
+
+  &[data-placeholder] {
+    color: grange.color(on-surface-variant);
+  }
+
+  // The colon between the segments is not a box.
+  &[data-literal] {
+    min-width: 24px; // Separator width
+    height: auto;
+    background: none;
+    color: grange.color(on-surface);
+  }
+}
+
+.supporting {
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(body-small);
+}
+
+.root[data-error] .supporting {
+  color: grange.color(error);
+}
+
+.root[data-disabled] .segment {
+  color: #{grange.translucent(on-surface, 38%)};
+}

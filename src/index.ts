@@ -66,6 +66,8 @@ export type {
   BadgeSlot,
   ChipSlot,
   SearchSlot,
+  CalendarSlot,
+  TimeFieldSlot,
   SnackbarSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
@@ -78,6 +80,13 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { Calendar, RangeCalendar } from './components/Calendar/Calendar';
+export type { CalendarProps, RangeCalendarProps } from './components/Calendar/Calendar';
+export { calendar } from './components/Calendar/specs';
+export { TimeField } from './components/TimeField/TimeField';
+export type { TimeFieldProps } from './components/TimeField/TimeField';
+export { timeField, timePickerDial } from './components/TimeField/specs';
 
 export { Search, useSearchFilter } from './components/Search/Search';
 export type { SearchProps } from './components/Search/Search';

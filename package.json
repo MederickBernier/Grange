@@ -40,6 +40,7 @@
     "react-dom": ">=18.2"
   },
   "dependencies": {
+    "@internationalized/date": "^3.12.4",
     "motion": "^12.23.0",
     "react-aria": "^3.43.0",
     "react-stately": "^3.50.0"

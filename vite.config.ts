@@ -28,6 +28,8 @@ export default defineConfig({
         /^@react-aria\//,
         'react-stately',
         /^@react-stately\//,
+        '@internationalized/date',
+        /^@internationalized\//,
       ],
     },
     sourcemap: true,

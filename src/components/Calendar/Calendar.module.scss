@@ -1,0 +1,113 @@
+/*
+ * Calendar, from Compose DatePickerModalTokens: 40px round date cells, today outlined in the
+ * primary colour, the chosen date filled with it, and a range tinted with the secondary
+ * container.
+ *
+ * The modal panel is not here; a calendar goes inside a Dialog.
+ */
+
+@use '../../scss/api' as grange;
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 360px; // ContainerWidth, as the spec draws the panel
+  max-width: 100%;
+  color: grange.color(on-surface);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.title {
+  @include grange.typescale(title-medium);
+}
+
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.weekday {
+  padding: 0;
+  font-weight: inherit;
+  color: grange.color(on-surface); // WeekdaysLabelTextColor
+  @include grange.typescale(body-large); // WeekdaysLabelTextFont
+}
+
+.cellWrapper {
+  padding: 0;
+  text-align: center;
+}
+
+.cell {
+  --_container: transparent;
+  --_label: #{grange.color(on-surface)}; // DateUnselectedLabelTextColor
+  --_outline: transparent;
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; // DateContainerWidth
+  height: 40px; // DateContainerHeight
+  border-radius: 9999px; // DateContainerShape: CornerFull
+  background: var(--_container);
+  color: var(--_label);
+  outline: none;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px var(--_outline); // DateTodayContainerOutlineWidth
+  @include grange.typescale(body-large); // DateLabelTextFont
+  transition:
+    background-color grange.duration(short3) linear,
+    color grange.duration(short3) linear;
+
+  &:hover:not([data-disabled]) {
+    --_container: #{grange.translucent(on-surface, 8%)};
+  }
+
+  &:focus-visible {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: 2px;
+  }
+}
+
+// Today is outlined rather than filled, so it reads even when another date is chosen.
+.cell[data-today] {
+  --_outline: #{grange.color(primary)}; // DateTodayContainerOutlineColor
+  --_label: #{grange.color(primary)}; // DateTodayLabelTextColor
+}
+
+.cell[data-selected] {
+  --_container: #{grange.color(primary)}; // DateSelectedContainerColor
+  --_label: #{grange.color(on-primary)}; // DateSelectedLabelTextColor
+  --_outline: transparent;
+}
+
+// A range's middle takes the secondary container, so the two ends stay the stronger colour.
+.cell[data-selected]:not([data-selection-start]):not([data-selection-end]) {
+  --_container: #{grange.color(secondary-container)}; // RangeSelection indicator
+  --_label: #{grange.color(on-secondary-container)}; // SelectionDateInRangeLabelTextColor
+}
+
+.cell[data-disabled],
+.cell[data-unavailable] {
+  cursor: default;
+
+  --_label: #{grange.translucent(on-surface, 38%)};
+}
+
+.cell[data-unavailable] {
+  text-decoration: line-through;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell {
+    transition: none;
+  }
+}
