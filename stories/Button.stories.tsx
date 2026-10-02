@@ -8,7 +8,7 @@ const variants = ['filled', 'tonal', 'outlined', 'elevated', 'text'] as const;
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
-  args: { children: 'Label', variant: 'filled', size: 's', shape: 'round', isDisabled: false },
+  args: { children: 'Label', variant: 'filled', size: 's', shape: 'round', disabled: false },
   argTypes: {
     variant: { control: 'inline-radio', options: variants },
     size: { control: 'inline-radio', options: sizes },
@@ -65,7 +65,7 @@ export const Disabled: Story = {
   render: () => (
     <div className="sb-row">
       {variants.map((v) => (
-        <Button key={v} variant={v} isDisabled>
+        <Button key={v} variant={v} disabled>
           {v}
         </Button>
       ))}

@@ -17,11 +17,12 @@ pnpm build            # tokens + library -> dist/
 In an app:
 
 ```tsx
-import { GrangeProvider, Button, ToggleButton, ButtonGroup } from '@jyga/grange-react';
+import { GrangeProvider, FilledButton, OutlinedButton } from '@jyga/grange-react';
 import '@jyga/grange-react/styles.css';
 
 <GrangeProvider scheme="expressive">
-  <Button variant="filled" size="m" onPress={save}>Save</Button>
+  <FilledButton size="m" onClick={save}>Save</FilledButton>
+  <OutlinedButton onClick={cancel}>Cancel</OutlinedButton>
 </GrangeProvider>
 ```
 
@@ -36,8 +37,58 @@ Dark mode follows `prefers-color-scheme`; force it with `data-theme="dark"` (or 
 | Overrides | `GrangeProvider` takes `defaultProps`, `classNames` (per slot, add or replace), `behavior` (ripple, spring roles, touch target, inner corners) and `sizes` (geometry). Providers nest and merge |
 | Motion | `GrangeProvider` (expressive / standard scheme, reduced-motion aware), `useSpring(name)` for the six M3E springs |
 | Primitives | State layer, ripple, focus ring, elevation, 48px touch target (`src/primitives`), and `ButtonBase`, the shared interactive core |
-| Components | `Button` (5 variants × 5 sizes × round/square), `ToggleButton`, `IconButton` (4 variants, 3 widths, toggle), `ButtonGroup` (pressed item widens 15%), `ConnectedButtonGroup` (single / multi select) |
+| Components | One per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single / multi select) |
 | Storybook | Every component and state, light/dark and expressive/standard toolbar switches, and **Foundations / Motion playground** for tuning springs live |
+
+## Component API
+
+One component per variant, the way Material Web ships one custom element per variant and Compose
+one composable each. There is no variant string to misspell and no way to ask for two at once.
+
+| Material Web | Here |
+| --- | --- |
+| `<md-filled-button>` | `<FilledButton>` |
+| `<md-filled-tonal-button>` | `<FilledTonalButton>` |
+| `<md-outlined-button>` | `<OutlinedButton>` |
+| `<md-elevated-button>` | `<ElevatedButton>` |
+| `<md-text-button>` | `<TextButton>` |
+| `<md-icon-button>` | `<IconButton>` |
+| `<md-filled-icon-button>` | `<FilledIconButton>` |
+| `<md-filled-tonal-icon-button>` | `<FilledTonalIconButton>` |
+| `<md-outlined-icon-button>` | `<OutlinedIconButton>` |
+
+`Button` and `IconButton` keep their `variant` prop for the case the named components cannot
+cover, a variant chosen at runtime:
+
+```tsx
+<Button variant={variantFromCms}>Save</Button>
+```
+
+**Props follow Material Web**, not React Aria, and are mapped onto React Aria internally:
+`disabled`, `selected`, `defaultSelected`, `toggle`. `onClick` fires on a real click; `onPress`
+also works and additionally covers touch and keyboard activation.
+
+```tsx
+<FilledButton disabled>Save</FilledButton>
+<IconButton toggle defaultSelected aria-label="Favourite" ariaLabelSelected="Unfavourite">
+  <HeartIcon />
+</IconButton>
+```
+
+**Icons** work like their single `slot="icon"`: one icon, before the label by default, moved
+after it by the `trailingIcon` flag.
+
+```tsx
+<FilledButton icon={<SendIcon />}>Send</FilledButton>
+<TextButton icon={<OpenIcon />} trailingIcon>Open</TextButton>
+```
+
+Size and shape stay props, because Material Web has no size scale — M3 Expressive's five sizes
+are not in its stable release.
+
+```tsx
+<FilledButton size="l" shape="square">Save</FilledButton>
+```
 
 ## Theming
 
@@ -166,7 +217,7 @@ Springs are tuned in the Motion playground story. The "Changed values" panel the
 
 1. Read its section in the spec doc and pull its Compose token file (sizes, colors, shapes).
 2. Build it on `ButtonBase` (or the primitives directly) so it gets press, hover, focus, ripple and state layers for free.
-3. Colors only via `grange.color(<role>)`, never hex. Corners via `grange.corner()` or `shapeCorner`, springs via `useSpring`.
+3. Give it one component per variant, built on `ButtonBase`. Colors only via `grange.color(<role>)`, never hex. Corners via `grange.corner()` or `shapeCorner`, springs via `useSpring`.
 4. Add a story covering every variant, size, state, and dark mode.
 
 ## Known gaps
