@@ -42,15 +42,16 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 47 |
-| In scope, to build | 54 (across 7 phases) |
+| Already covered by Grange | 49 |
+| In scope, to build | 52 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
 verification — they are roughly 28 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phase 1 is under way**: `NumberField` and `MaskedTextField` are in, which is 2 of its 8.
+**Phase 1 is under way**: `NumberField`, `MaskedTextField`, `Rating` and `Signature` are in,
+which is 4 of its 8. The `Form` set is what is left of it.
 
 ## Already covered
 
@@ -116,8 +117,8 @@ unchanged by the extraction, which is how it was checked.
 | --- | --- | --- |
 | ~~`NumberField`~~ ✅ | `useNumberField` | Done. Locale-aware parsing and formatting, step buttons, min and max, currency, percent and unit formats. Not `role="spinbutton"` and not `type="number"`: React Aria uses a described text input in a group, because VoiceOver on iOS mishandles the spinbutton role and a native number input cannot take a locale's decimal separator or a currency |
 | ~~`MaskedTextField`~~ ✅ | ours | Done. The pattern logic is `mask.ts`, pure and tested on its own, because masking is a string problem rather than an accessibility one. The field itself is an ordinary `TextField` |
-| `Rating` | ours | No hook. A radiogroup of stars underneath, half values, hover preview, read-only |
-| `Signature` | ours | Canvas, pointer and stylus pressure, undo, export to data URL. Keyboard cannot draw, so it needs a stated alternative |
+| ~~`Rating`~~ ✅ | ours | Done, on `useRadioGroup`, because that is the pattern a rating is: a set of options where one is chosen. One tab stop, arrows that move and select, real inputs that post in a form, and each option named so a screen reader does not read five unlabelled graphics. `precision={0.5}` doubles the options rather than being a second mechanism; read-only becomes a single labelled image rather than a group nobody can choose from |
+| ~~`Signature`~~ ✅ | ours | Done, and as SVG rather than canvas. A canvas signature is a bitmap: it blurs when resized, undo means replaying every stroke into a fresh context, and none of it is testable without a canvas implementation. The strokes as paths stay crisp, export as readable text and undo by dropping an array; the geometry is in `strokes.ts` and tested there. There is no keyboard way to draw, so the pad is `role="img"` saying whether it has been signed rather than pretending to be an input, and the docs say to offer a typed name beside it |
 | `Form`, `FormElement`, `FormField` (FieldWrapper), `FieldArray` | ours | Deliberately small: wiring, validation on submit or change, and error association. Not a form-state library — an app wanting one brings it |
 
 While this phase is open it is also the moment to export standalone `Label`, `Hint` and
