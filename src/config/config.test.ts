@@ -1,6 +1,24 @@
 import { describe, expect, it } from 'vitest';
-import { defaultConfig, mergeConfig, resolveSlotClass } from './config';
+import { configuredComponents, defaultConfig, mergeConfig, resolveSlotClass } from './config';
 import { defaultSizes, resolveSizes } from '../components/Button/specs';
+
+describe('registration', () => {
+  // A component absent from the merge list still typechecks but quietly drops its overrides,
+  // which is exactly how Dialog and Tooltip first shipped. This fails loudly instead.
+  it('merges class overrides for every component that accepts them', () => {
+    const everyComponent = configuredComponents;
+    const input = Object.fromEntries(everyComponent.map((name) => [name, { root: `mark-${name}` }]));
+
+    const merged = mergeConfig(defaultConfig, { classNames: input });
+    const dropped = everyComponent.filter((name) => merged.classNames[name]?.root?.[0] !== `mark-${name}`);
+
+    expect(dropped).toEqual([]);
+  });
+
+  it('lists no component twice', () => {
+    expect(new Set(configuredComponents).size).toBe(configuredComponents.length);
+  });
+});
 
 describe('slot classes', () => {
   it('adds layers in order, after the built-in class', () => {

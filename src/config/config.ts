@@ -60,6 +60,8 @@ export type TextFieldSlot =
   | 'leadingIcon'
   | 'trailingIcon';
 export type DividerSlot = 'root';
+export type DialogSlot = 'root' | 'scrim' | 'headline' | 'content' | 'actions' | 'icon';
+export type TooltipSlot = 'root';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
 
@@ -87,6 +89,8 @@ export interface ClassNamesConfig {
   Radio?: SlotOverrides<RadioSlot>;
   Slider?: SlotOverrides<SliderSlot>;
   TextField?: SlotOverrides<TextFieldSlot>;
+  Dialog?: SlotOverrides<DialogSlot>;
+  Tooltip?: SlotOverrides<TooltipSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
 }
@@ -227,6 +231,12 @@ export const defaultBehavior: BehaviorConfig = {
 /** What GrangeProvider accepts. Every field is optional and merges onto any outer provider. */
 export interface GrangeConfigInput {
   scheme?: MotionSchemeName;
+  /**
+   * Where overlays are portalled. Defaults to the document body. Set it to render dialogs,
+   * menus and tooltips inside a particular subtree, which a modal host or an embedded widget
+   * needs so the overlay lands in the right stacking and style context.
+   */
+  portalContainer?: Element | null;
   springOverrides?: Partial<Record<SpringName, SpringSpec>>;
   defaultProps?: DefaultPropsConfig;
   classNames?: ClassNamesConfig;
@@ -236,6 +246,7 @@ export interface GrangeConfigInput {
 
 export interface ResolvedConfig {
   scheme: MotionSchemeName;
+  portalContainer?: Element | null;
   springOverrides?: Partial<Record<SpringName, SpringSpec>>;
   defaultProps: DefaultPropsConfig;
   classNames: ClassNameLayers;
@@ -277,6 +288,8 @@ const COMPONENTS: ComponentName[] = [
   'DockedToolbar',
   'LinearProgress',
   'CircularProgress',
+  'Dialog',
+  'Tooltip',
 ];
 
 /**
@@ -306,6 +319,7 @@ export function mergeConfig(parent: ResolvedConfig, input: GrangeConfigInput): R
 
   return {
     scheme: input.scheme ?? parent.scheme,
+    portalContainer: input.portalContainer ?? parent.portalContainer,
     springOverrides:
       input.springOverrides || parent.springOverrides
         ? { ...parent.springOverrides, ...input.springOverrides }
@@ -323,6 +337,13 @@ export function mergeConfig(parent: ResolvedConfig, input: GrangeConfigInput): R
     sizes: resolveSizes(input.sizes, parent.sizes),
   };
 }
+
+/**
+ * Every component that takes class overrides. Exported so a test can check it against
+ * ClassNamesConfig: a component missing from here still typechecks but silently ignores its
+ * overrides, which is how `Dialog` and `Tooltip` first shipped.
+ */
+export const configuredComponents: readonly ComponentName[] = COMPONENTS;
 
 export const GrangeConfigContext = createContext<ResolvedConfig>(defaultConfig);
 

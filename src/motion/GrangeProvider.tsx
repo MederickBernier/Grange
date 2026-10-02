@@ -39,6 +39,9 @@ export function GrangeProvider({ children, ...input }: GrangeProviderProps) {
     ],
   );
 
+  // portalContainer is not applied here: React Aria's own PortalProvider is still an UNSAFE_
+  // export, and its Overlay component takes the container as a prop, so each overlay reads the
+  // config and passes it along instead.
   return (
     <GrangeConfigContext.Provider value={config}>
       <MotionConfig reducedMotion="user">{children}</MotionConfig>
