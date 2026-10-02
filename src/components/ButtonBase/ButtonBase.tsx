@@ -45,6 +45,8 @@ export interface ButtonBaseProps extends AriaButtonProps<'button' | 'a'> {
   touchTarget?: boolean;
   /** Extra data-* attributes the component's CSS keys off (variant, size, selected...). */
   dataAttributes?: Record<string, string | undefined>;
+  /** Overrides the button role, for a button-like acting as a menuitem or an option. */
+  role?: string;
 }
 
 /**
@@ -63,6 +65,7 @@ export const ButtonBase = forwardRef<GrangeButtonElement, ButtonBaseProps>(funct
     dataAttributes,
     onPressStart,
     onPressEnd,
+    role,
     ...ariaProps
   } = props;
   const ref = useObjectRef(forwardedRef);
@@ -119,7 +122,14 @@ export const ButtonBase = forwardRef<GrangeButtonElement, ButtonBaseProps>(funct
 
   // onClick arrives through ariaProps: useButton routes it into usePress, so it fires on a real
   // click while onPress also covers touch and keyboard activation.
-  const domProps = mergeProps(buttonProps, hoverProps, focusProps) as HTMLMotionProps<'button'>;
+  // role is merged rather than set on the element: useButton supplies role="button" for the
+  // anchor case, and setting an undefined role afterwards would wipe it.
+  const domProps = mergeProps(
+    buttonProps,
+    hoverProps,
+    focusProps,
+    role ? { role } : {},
+  ) as HTMLMotionProps<'button'>;
 
   // Same props either way; motion.a and motion.button differ only in the element they render,
   // so they are narrowed to one type here and the ref is cast back at the call site.
