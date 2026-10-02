@@ -1,11 +1,10 @@
 import {
-  Children,
   Fragment,
   forwardRef,
-  isValidElement,
   type CSSProperties,
   type ReactNode,
 } from 'react';
+import { flattenChildren } from '../../utils';
 import { useObjectRef, useToolbar } from 'react-aria';
 import { resolveSlotClass, useComponentConfig, type GroupSlot, type SlotOverrides } from '../../config/config';
 import { dockedToolbar, floatingToolbar } from './specs';
@@ -94,7 +93,7 @@ export const DockedToolbar = forwardRef<HTMLDivElement, DockedToolbarProps>(
 
     const ref = useObjectRef(forwardedRef);
     const { toolbarProps } = useToolbar({ ...aria, orientation: 'horizontal' }, ref);
-    const items = Children.toArray(children).filter(isValidElement);
+    const items = flattenChildren(children);
 
     return (
       <div

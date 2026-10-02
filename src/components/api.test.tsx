@@ -142,7 +142,8 @@ describe('Material Web prop names', () => {
         </ConnectedButtonGroupItem>
       </ConnectedButtonGroup>,
     );
-    expect(button().hasAttribute('disabled')).toBe(true);
+    // A single-select group is a radiogroup, so its items are radios rather than buttons.
+    expect(screen.getByRole('radio').hasAttribute('disabled')).toBe(true);
   });
 });
 

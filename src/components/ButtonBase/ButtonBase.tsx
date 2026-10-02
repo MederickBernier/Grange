@@ -47,6 +47,17 @@ export interface ButtonBaseProps extends AriaButtonProps<'button' | 'a'> {
   dataAttributes?: Record<string, string | undefined>;
   /** Overrides the button role, for a button-like acting as a menuitem or an option. */
   role?: string;
+  /**
+   * Attributes and handlers that go straight to the rendered element.
+   *
+   * Everything else here goes through `useButton`, which filters its props down to the DOM
+   * attributes a button is known to want: `aria-pressed`, `aria-expanded`, `aria-haspopup` and
+   * `aria-controls` survive, and anything else — `aria-checked`, `tabIndex`, an `onKeyDown` —
+   * is dropped on the way, silently. A button-like playing a role the hook does not know about
+   * needs this door, and it is merged after the hook's own props so handlers chain rather than
+   * replace.
+   */
+  domProps?: Record<string, unknown>;
 }
 
 /**
@@ -66,6 +77,7 @@ export const ButtonBase = forwardRef<GrangeButtonElement, ButtonBaseProps>(funct
     onPressStart,
     onPressEnd,
     role,
+    domProps: extraDomProps,
     ...ariaProps
   } = props;
   const ref = useObjectRef(forwardedRef);
@@ -129,6 +141,7 @@ export const ButtonBase = forwardRef<GrangeButtonElement, ButtonBaseProps>(funct
     hoverProps,
     focusProps,
     role ? { role } : {},
+    extraDomProps ?? {},
   ) as HTMLMotionProps<'button'>;
 
   // Same props either way; motion.a and motion.button differ only in the element they render,

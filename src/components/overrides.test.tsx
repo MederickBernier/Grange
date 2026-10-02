@@ -68,7 +68,7 @@ describe('slot class names', () => {
         </ConnectedButtonGroupItem>
       </ConnectedButtonGroup>,
     );
-    const item = screen.getByRole('button');
+    const item = screen.getByRole('radio');
     expect(item.className).toContain('grange-connected-item');
     expect(item.className).toContain('item-class');
   });

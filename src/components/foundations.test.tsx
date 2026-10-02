@@ -227,7 +227,7 @@ describe('RTL', () => {
 
   it('puts the first item\'s full corners on the left in LTR', () => {
     render(group('en-US'));
-    const first = screen.getAllByRole('button')[0]!;
+    const first = screen.getAllByRole('radio')[0]!;
     const c = corners(first);
     // Full is height / 2 = 20px at size s; the inner corner is 8px.
     expect(c.tl).toBe('20px');
@@ -237,7 +237,7 @@ describe('RTL', () => {
 
   it('mirrors them to the right in RTL, where the first item sits', () => {
     render(group('ar-EG'));
-    const first = screen.getAllByRole('button')[0]!;
+    const first = screen.getAllByRole('radio')[0]!;
     const c = corners(first);
     expect(c.tr).toBe('20px');
     expect(c.br).toBe('20px');

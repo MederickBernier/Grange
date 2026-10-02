@@ -33,7 +33,14 @@ export const Standard: StoryObj = {
   ),
 };
 
-/** Single select: the selected item becomes fully round. */
+/**
+ * Single select: the selected item becomes fully round.
+ *
+ * It is a `radiogroup` of `radio`s, which is what a segmented control is — picking one of a set,
+ * not pressing buttons. So it is one tab stop: Tab reaches the selected segment, then the arrows
+ * move between segments and select as they go, and Home and End jump to the ends. Try it in the
+ * RTL story under Foundations too; the arrows follow the row, which is mirrored there.
+ */
 export const ConnectedSingle: StoryObj = {
   render: () => {
     const [keys, setKeys] = useState<Set<string>>(new Set(['week']));
@@ -58,6 +65,11 @@ export const ConnectedSingle: StoryObj = {
   },
 };
 
+/**
+ * Multi select stays a `group` of `aria-pressed` toggle buttons, each its own tab stop, because
+ * that is what it is: several independent toggles that happen to sit together. The arrows are
+ * left to the browser here — in a toggle group they are not a selection gesture.
+ */
 export const ConnectedMultiple: StoryObj = {
   render: () => (
     <ConnectedButtonGroup aria-label="Filters" selectionMode="multiple" defaultSelectedKeys={['sows']}>
