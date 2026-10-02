@@ -49,12 +49,12 @@
     background: grange.color(primary-container);
     color: grange.color(on-primary-container);
 
-    :is(.grange-button, .grange-icon-button)[data-variant] {
+    :is(:global(.grange-button), :global(.grange-icon-button))[data-variant] {
       --_content: #{grange.color(on-primary-container)};
       --_container: transparent;
     }
 
-    :is(.grange-button, .grange-icon-button)[data-variant][data-selected='true'] {
+    :is(:global(.grange-button), :global(.grange-icon-button))[data-variant][data-selected='true'] {
       --_container: #{grange.color(surface-container)};
       --_content: #{grange.color(on-surface)};
     }

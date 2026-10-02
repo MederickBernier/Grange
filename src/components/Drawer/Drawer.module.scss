@@ -64,14 +64,14 @@
 }
 
 // The drawer's items are wider and taller than the bar's, and the indicator spans the row.
-.drawer .grange-navigation-item {
+.drawer :global(.grange-navigation-item) {
   flex-direction: row;
   gap: 0;
   padding: 0;
   width: 100%;
 }
 
-.drawer .grange-navigation-item > span:first-child {
+.drawer :global(.grange-navigation-item) > span:first-child {
   width: 100%;
   max-width: 336px; // ActiveIndicatorWidth
   height: 56px; // ActiveIndicatorHeight
@@ -81,7 +81,7 @@
   border-radius: 9999px; // ActiveIndicatorShape: CornerFull
 }
 
-.drawer .grange-navigation-item[data-selected] > span:first-child {
+.drawer :global(.grange-navigation-item)[data-selected] > span:first-child {
   // ActiveLabelTextColor is on-secondary-container here, where the bar uses secondary.
   color: grange.color(on-secondary-container);
 }
