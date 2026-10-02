@@ -3,7 +3,7 @@
     "source": "androidx-main compose/material3 token files (Apache 2.0)",
     "read": "2026-10-01",
     "units": "dp=px, sp=px",
-    "componentTokensVersion": "v0_192, v0_210",
+    "componentTokensVersion": "14_0_0",
     "componentTokensSource": "androidx-main compose/material3 tokens"
   },
   "motion": {
@@ -1676,6 +1676,35 @@
       "PressedContainerElevation": "elevation:Level0",
       "PressedOutlineColor": "color:OutlineVariant",
       "DisabledOutlineOpacity": "0.12f"
+    },
+    "AppBarSmall": {
+      "ContainerHeight": "64.0.dp",
+      "SubtitleFont": "type:LabelMedium",
+      "TitleFont": "type:TitleLarge"
+    },
+    "AppBarMedium": {
+      "ContainerHeight": "112.0.dp",
+      "TitleFont": "type:HeadlineSmall"
+    },
+    "AppBarLarge": {
+      "ContainerHeight": "152.0.dp",
+      "TitleFont": "type:HeadlineMedium"
+    },
+    "AppBar": {
+      "AvatarSize": "32.0.dp",
+      "ContainerColor": "color:Surface",
+      "ContainerElevation": "elevation:Level0",
+      "ContainerShape": "CornerNone",
+      "IconButtonSpace": "0.0.dp",
+      "IconSize": "24.0.dp",
+      "LeadingIconColor": "color:OnSurface",
+      "LeadingSpace": "4.0.dp",
+      "OnScrollContainerColor": "color:SurfaceContainer",
+      "OnScrollContainerElevation": "elevation:Level2",
+      "SubtitleColor": "color:OnSurfaceVariant",
+      "TitleColor": "color:OnSurface",
+      "TrailingIconColor": "color:OnSurfaceVariant",
+      "TrailingSpace": "4.0.dp"
     }
   }
 }

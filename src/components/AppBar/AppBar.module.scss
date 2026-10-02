@@ -1,0 +1,147 @@
+/*
+ * Top app bars, from Compose AppBarTokens plus the per-size objects.
+ *
+ * Every bar is surface at level 0 until content scrolls under it, at which point the tokens
+ * switch it to surface-container at level 2. The small size keeps its title in the row with the
+ * icons; the taller sizes drop it onto a line of its own.
+ */
+
+@use '../../scss/api' as grange;
+
+.appBar {
+  --_container: #{grange.color(surface)}; // ContainerColor
+  --_title: #{grange.color(on-surface)};
+  --_subtitle: #{grange.color(on-surface-variant)};
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: var(--_height);
+  padding-inline: 4px; // Leading and trailing space
+  border-radius: 0; // ContainerShape: CornerNone
+  background: var(--_container);
+  color: var(--_title);
+  transition:
+    background-color grange.duration(short4) grange.easing(standard),
+    box-shadow grange.duration(short4) grange.easing(standard);
+}
+
+// OnScrollContainerColor and OnScrollContainerElevation: a bar with content under it lifts.
+.appBar[data-scrolled] {
+  --_container: #{grange.color(surface-container)};
+  box-shadow:
+    0 1px 2px 0 #{grange.translucent(shadow, 30%)},
+    0 2px 6px 2px #{grange.translucent(shadow, 15%)};
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 64px; // The icon row is the small bar's height at every size.
+}
+
+.leading,
+.actions {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0; // IconButtonSpace
+  color: grange.color(on-surface); // LeadingIconColor
+  --grange-icon-size: 24px;
+}
+
+.actions {
+  margin-inline-start: auto;
+  color: grange.color(on-surface-variant); // TrailingIconColor
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.title {
+  color: var(--_title);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.subtitle {
+  color: var(--_subtitle);
+}
+
+// Title in the row, for the small size.
+.appBar:not([data-stacked]) .titles {
+  flex: 1 1 auto;
+  padding-inline-start: 12px;
+}
+
+.appBar[data-centered] .titles {
+  align-items: center;
+  text-align: center;
+}
+
+// Title on its own line, for the taller sizes.
+.stackedTitle {
+  display: flex;
+  padding: 0 16px 16px;
+}
+
+// ---------------------------------------------------------------------------
+// Typescale per size, which is the main thing the sizes differ by.
+// ---------------------------------------------------------------------------
+
+.appBar[data-size='small'] {
+  .title {
+    @include grange.typescale(title-large);
+  }
+  .subtitle {
+    @include grange.typescale(label-medium);
+  }
+}
+
+.appBar[data-size='medium'] {
+  .title {
+    @include grange.typescale(headline-small);
+  }
+  .subtitle {
+    @include grange.typescale(label-medium);
+  }
+}
+
+.appBar[data-size='large'] {
+  .title {
+    @include grange.typescale(headline-medium);
+  }
+  .subtitle {
+    @include grange.typescale(label-medium);
+  }
+}
+
+.appBar[data-size='mediumFlexible'] {
+  .title {
+    @include grange.typescale(headline-medium);
+  }
+  .subtitle {
+    @include grange.typescale(label-large);
+  }
+}
+
+.appBar[data-size='largeFlexible'] {
+  .title {
+    @include grange.typescale(display-small);
+  }
+  .subtitle {
+    @include grange.typescale(title-medium);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .appBar {
+    transition: none;
+  }
+}

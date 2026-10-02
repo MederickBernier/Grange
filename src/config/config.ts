@@ -66,6 +66,8 @@ export type MenuSlot = 'root' | 'item';
 export type SelectSlot = 'root' | 'trigger' | 'label' | 'item';
 export type TabsSlot = 'root' | 'list' | 'tab' | 'panel';
 export type CardSlot = 'root';
+export type ListSlot = 'root' | 'item' | 'label';
+export type AppBarSlot = 'root' | 'title' | 'subtitle' | 'leading' | 'actions';
 export type SnackbarSlot = 'root' | 'region' | 'action';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
@@ -100,6 +102,9 @@ export interface ClassNamesConfig {
   Select?: SlotOverrides<SelectSlot>;
   Tabs?: SlotOverrides<TabsSlot>;
   Card?: SlotOverrides<CardSlot>;
+  List?: SlotOverrides<ListSlot>;
+  ListItem?: SlotOverrides<ListSlot>;
+  AppBar?: SlotOverrides<AppBarSlot>;
   Snackbar?: SlotOverrides<SnackbarSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
@@ -169,6 +174,10 @@ export interface DefaultPropsConfig {
   Select?: { variant?: 'filled' | 'outlined' };
   Tabs?: { variant?: 'primary' | 'secondary'; scrollable?: boolean };
   Card?: { variant?: 'elevated' | 'filled' | 'outlined' };
+  AppBar?: {
+    size?: 'small' | 'medium' | 'large' | 'mediumFlexible' | 'largeFlexible';
+    centered?: boolean;
+  };
   LinearProgress?: { wavy?: boolean };
   CircularProgress?: { wavy?: boolean };
 }
@@ -308,6 +317,9 @@ const COMPONENTS: ComponentName[] = [
   'Snackbar',
   'Tabs',
   'Card',
+  'List',
+  'ListItem',
+  'AppBar',
 ];
 
 /**

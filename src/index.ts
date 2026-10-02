@@ -58,6 +58,8 @@ export type {
   SelectSlot,
   TabsSlot,
   CardSlot,
+  ListSlot,
+  AppBarSlot,
   SnackbarSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
@@ -70,6 +72,13 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { List, ListItem } from './components/List/List';
+export type { ListProps, ListItemProps } from './components/List/List';
+export { list, rowHeight } from './components/List/specs';
+export { AppBar } from './components/AppBar/AppBar';
+export type { AppBarProps, AppBarSize } from './components/AppBar/AppBar';
+export { appBar, appBarSizes } from './components/AppBar/specs';
 
 export { Tabs, Tab } from './components/Tabs/Tabs';
 export type { TabsProps, TabProps, TabsVariant } from './components/Tabs/Tabs';

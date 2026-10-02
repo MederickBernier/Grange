@@ -1,0 +1,136 @@
+/*
+ * Lists, from Compose ListTokens. Rows are 56, 72 or 88px for one, two or three lines of text,
+ * with 16px at each end, 12px between a row's slots and its text, and 10px above and below the
+ * text of a taller row.
+ */
+
+@use '../../scss/api' as grange;
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: grange.color(surface); // ItemContainerColor
+  color: grange.color(on-surface);
+
+  // Contained lists become their own surface, which M3 does inside a card or a sheet.
+  &[data-contained] {
+    border-radius: 16px; // ContainerShape: CornerLarge
+    overflow: hidden;
+  }
+}
+
+// Wraps an interactive row, so the list's children stay list items even though the row itself
+// is a button.
+.itemWrapper {
+  display: block;
+}
+
+.item {
+  --_label: #{grange.color(on-surface)};
+  --_supporting: #{grange.color(on-surface-variant)};
+  --_slot: #{grange.color(on-surface-variant)};
+  --_container: transparent;
+
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 12px; // ItemBetweenSpace
+  width: 100%;
+  min-height: 56px; // ItemOneLineContainerHeight
+  padding-inline: 16px; // Item leading and trailing space
+  border: none;
+  border-radius: 0; // ItemContainerShape: CornerNone
+  background: var(--_container);
+  color: var(--_label);
+  text-align: start;
+  font: inherit;
+  transition: background-color grange.duration(short3) linear;
+}
+
+.item[data-lines='2'] {
+  min-height: 72px; // ItemTwoLineContainerHeight
+  align-items: center;
+  padding-block: 10px; // Item top and bottom space
+}
+
+.item[data-lines='3'] {
+  min-height: 88px; // ItemThreeLineContainerHeight
+  align-items: flex-start;
+  padding-block: 10px;
+}
+
+.item[data-interactive] {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.item[data-selected] {
+  --_container: #{grange.color(secondary-container)};
+  --_label: #{grange.color(on-secondary-container)};
+  --_slot: #{grange.color(on-secondary-container)};
+}
+
+.item[data-disabled] {
+  cursor: default;
+
+  --_label: #{grange.translucent(on-surface, 38%)};
+  --_supporting: #{grange.translucent(on-surface, 38%)};
+  --_slot: #{grange.translucent(on-surface, 38%)};
+}
+
+// ---------------------------------------------------------------------------
+// Slots
+// ---------------------------------------------------------------------------
+
+.leading,
+.trailing {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  color: var(--_slot);
+  // An icon takes 24px; an avatar or a control brings its own size.
+  --grange-icon-size: 24px;
+}
+
+// A three-line row keeps its slots aligned with the first line rather than centred.
+.item[data-lines='3'] .leading,
+.item[data-lines='3'] .trailing {
+  align-self: flex-start;
+  padding-block-start: 2px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.overline {
+  color: var(--_supporting);
+  @include grange.typescale(label-small);
+}
+
+.label {
+  @include grange.typescale(body-large);
+}
+
+.supporting {
+  color: var(--_supporting);
+  @include grange.typescale(body-medium);
+}
+
+.trailingText {
+  flex-shrink: 0;
+  color: var(--_supporting);
+  @include grange.typescale(label-small); // ItemTrailingSupportingTextFont
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
+  }
+}
