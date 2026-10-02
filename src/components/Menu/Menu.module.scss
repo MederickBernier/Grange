@@ -1,0 +1,152 @@
+/*
+ * Menu, from Compose MenuTokens for the surface and ListTokens for the rows: a surface-container
+ * panel at level 2 with a 4px corner, 56px rows that grow to 72px with a second line, 16px
+ * leading and trailing space and 12px between an item's parts.
+ *
+ * Selection takes the secondary container, which is MenuTokens. The Expressive StandardMenu and
+ * VibrantMenu variants move it to the tertiary container; those are captured but not built.
+ */
+
+@use '../../scss/api' as grange;
+
+.popover {
+  z-index: 1050;
+}
+
+.menu {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+  min-width: 112px;
+  max-height: 320px;
+  overflow-y: auto;
+  border-radius: 4px; // ContainerShape: CornerExtraSmall
+  background: grange.color(surface-container);
+  color: grange.color(on-surface);
+  // ContainerElevation is level 2; written out because the elevation primitive works through a
+  // child element only ButtonBase renders.
+  box-shadow:
+    0 1px 2px 0 #{grange.translucent(shadow, 30%)},
+    0 2px 6px 2px #{grange.translucent(shadow, 15%)};
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.item {
+  --_label: #{grange.color(on-surface)};
+  --_icon: #{grange.color(on-surface-variant)};
+  --_container: transparent;
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 12px; // ItemBetweenSpace
+  min-height: 56px; // ItemOneLineContainerHeight
+  padding-inline: 16px; // Item leading and trailing space
+  background: var(--_container);
+  color: var(--_label);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition:
+    background-color grange.duration(short3) linear,
+    color grange.duration(short3) linear;
+
+  &[data-two-line] {
+    min-height: 72px; // ItemTwoLineContainerHeight
+  }
+
+  // M3 Expressive morphs a row's corners as it is pointed at and focused, rather than only
+  // tinting it: ItemHoveredContainerExpressiveShape and ItemFocusedContainerExpressiveShape.
+  &[data-focused] {
+    --_container: #{grange.translucent(on-surface, 8%)};
+    border-radius: 16px;
+  }
+
+  &[data-selected] {
+    --_container: #{grange.color(secondary-container)};
+    --_label: #{grange.color(on-secondary-container)};
+    --_icon: #{grange.color(on-secondary-container)};
+  }
+
+  &[data-disabled] {
+    cursor: default;
+
+    --_label: #{grange.translucent(on-surface, 38%)};
+    --_icon: #{grange.translucent(on-surface, 38%)};
+  }
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 24px; // ItemLeadingIconSize
+  height: 24px;
+  --grange-icon-size: 24px;
+  color: var(--_icon);
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.label {
+  @include grange.typescale(body-large);
+}
+
+.supporting {
+  color: #{grange.color(on-surface-variant)};
+  @include grange.typescale(body-medium);
+}
+
+.trailingText {
+  flex-shrink: 0;
+  color: #{grange.color(on-surface-variant)};
+  @include grange.typescale(label-large);
+}
+
+// ---------------------------------------------------------------------------
+// Sections
+// ---------------------------------------------------------------------------
+
+.section {
+  display: block;
+
+  & + .section {
+    border-top: 1px solid grange.color(outline-variant);
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+}
+
+.sectionHeading {
+  display: block;
+  padding: 8px 16px;
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(title-small);
+}
+
+.sectionList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
+  }
+}

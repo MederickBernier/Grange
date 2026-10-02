@@ -62,6 +62,7 @@ export type TextFieldSlot =
 export type DividerSlot = 'root';
 export type DialogSlot = 'root' | 'scrim' | 'headline' | 'content' | 'actions' | 'icon';
 export type TooltipSlot = 'root';
+export type MenuSlot = 'root' | 'item';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
 
@@ -91,6 +92,7 @@ export interface ClassNamesConfig {
   TextField?: SlotOverrides<TextFieldSlot>;
   Dialog?: SlotOverrides<DialogSlot>;
   Tooltip?: SlotOverrides<TooltipSlot>;
+  Menu?: SlotOverrides<MenuSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
 }
@@ -290,6 +292,7 @@ const COMPONENTS: ComponentName[] = [
   'CircularProgress',
   'Dialog',
   'Tooltip',
+  'Menu',
 ];
 
 /**

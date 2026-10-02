@@ -54,6 +54,7 @@ export type {
   TextFieldSlot,
   DialogSlot,
   TooltipSlot,
+  MenuSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
   BehaviorConfig,
@@ -65,6 +66,17 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { Menu, MenuItem, MenuSection, MenuTrigger } from './components/Menu/Menu';
+export type {
+  MenuProps,
+  MenuItemProps,
+  MenuSectionProps,
+  MenuTriggerProps,
+} from './components/Menu/Menu';
+export { menu } from './components/Menu/specs';
+export { Popover } from './overlays/Popover';
+export type { PopoverProps } from './overlays/Popover';
 
 export { Dialog } from './components/Dialog/Dialog';
 export type { DialogProps } from './components/Dialog/Dialog';
