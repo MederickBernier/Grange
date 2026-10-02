@@ -63,6 +63,8 @@ export type {
   NavigationSlot,
   DrawerSlot,
   BottomSheetSlot,
+  BadgeSlot,
+  ChipSlot,
   SnackbarSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
@@ -75,6 +77,13 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { Chip, ChipGroup } from './components/Chip/Chip';
+export type { ChipProps, ChipGroupProps, ChipVariant } from './components/Chip/Chip';
+export { chip } from './components/Chip/specs';
+export { Badge } from './components/Badge/Badge';
+export type { BadgeProps } from './components/Badge/Badge';
+export { badge } from './components/Badge/specs';
 
 export { NavigationDrawer, DrawerHeadline } from './components/Drawer/Drawer';
 export type { NavigationDrawerProps, DrawerHeadlineProps } from './components/Drawer/Drawer';

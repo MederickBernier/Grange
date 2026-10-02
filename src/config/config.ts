@@ -71,6 +71,8 @@ export type AppBarSlot = 'root' | 'title' | 'subtitle' | 'leading' | 'actions';
 export type NavigationSlot = 'root';
 export type DrawerSlot = 'root' | 'scrim';
 export type BottomSheetSlot = 'root' | 'scrim' | 'handle';
+export type BadgeSlot = 'root';
+export type ChipSlot = 'root' | 'label' | 'remove';
 export type SnackbarSlot = 'root' | 'region' | 'action';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
@@ -112,6 +114,9 @@ export interface ClassNamesConfig {
   NavigationRail?: SlotOverrides<NavigationSlot>;
   NavigationDrawer?: SlotOverrides<DrawerSlot>;
   BottomSheet?: SlotOverrides<BottomSheetSlot>;
+  Badge?: SlotOverrides<BadgeSlot>;
+  Chip?: SlotOverrides<ChipSlot>;
+  ChipGroup?: SlotOverrides<'root'>;
   Snackbar?: SlotOverrides<SnackbarSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
@@ -189,6 +194,7 @@ export interface DefaultPropsConfig {
   NavigationRail?: { expanded?: boolean; narrow?: boolean };
   NavigationDrawer?: { modal?: boolean; placement?: 'start' | 'end' };
   BottomSheet?: { modal?: boolean };
+  Chip?: { variant?: 'assist' | 'filter' | 'input' | 'suggestion'; elevated?: boolean };
   LinearProgress?: { wavy?: boolean };
   CircularProgress?: { wavy?: boolean };
 }
@@ -335,6 +341,9 @@ const COMPONENTS: ComponentName[] = [
   'NavigationRail',
   'NavigationDrawer',
   'BottomSheet',
+  'Badge',
+  'Chip',
+  'ChipGroup',
 ];
 
 /**

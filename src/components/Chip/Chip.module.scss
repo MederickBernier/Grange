@@ -1,0 +1,190 @@
+/*
+ * Chips, from Compose ChipsTokens for the shared geometry and the four per-type files for the
+ * rest. 32px tall, 18px icons, a 24px round avatar, label-large.
+ *
+ * The shape change is the M3 Expressive part: medium corners unselected, fully round selected.
+ * The radius itself is animated in JS, since it rides the selection spring.
+ */
+
+@use '../../scss/api' as grange;
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  --_container: transparent;
+  --_label: #{grange.color(on-surface-variant)}; // UnselectedLabelTextColor
+  --_icon: #{grange.color(on-surface-variant)};
+  --_outline: #{grange.color(outline-variant)}; // UnselectedOutlineColor
+  --_outline-width: 1px; // UnselectedOutlineWidth
+  --grange-elevation-level: 0;
+
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: stretch;
+  height: 32px; // Height
+  background: var(--_container);
+  color: var(--_label);
+  // Drawn inside, so an outlined chip is the same size as a filled one.
+  box-shadow: inset 0 0 0 var(--_outline-width) var(--_outline);
+  transition:
+    background-color grange.duration(short3) linear,
+    box-shadow grange.duration(short3) linear,
+    color grange.duration(short3) linear;
+}
+
+// The pressable part, which carries the state layer and the ripple.
+.action {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding-inline: 16px;
+  border: none;
+  border-radius: inherit;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chip[data-interactive] .action {
+  cursor: pointer;
+}
+
+.chip[data-disabled] .action {
+  cursor: default;
+}
+
+// Beside an icon or an avatar the leading space tightens, which is what the spec draws.
+.chip:has(.icon) .action,
+.chip:has(.avatar) .action {
+  padding-inline-start: 8px;
+}
+
+// A removable chip gives its trailing space to the remove button instead.
+.chip[data-removable] .action {
+  padding-inline-end: 0;
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 18px; // LeadingIconSize
+  height: 18px;
+  --grange-icon-size: 18px;
+  color: var(--_icon);
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}
+
+.avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 24px; // AvatarSize
+  height: 24px;
+  border-radius: 9999px; // AvatarShape: CornerFull
+  overflow: hidden;
+  --grange-icon-size: 24px;
+
+  > * {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.label {
+  white-space: nowrap;
+  @include grange.typescale(label-large); // LabelText
+}
+
+.remove {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  margin: 0;
+  padding: 0 8px 0 0;
+  border: none;
+  border-radius: inherit;
+  background: none;
+  color: var(--_icon);
+  cursor: pointer;
+
+  > svg {
+    width: 18px; // TrailingIconSize
+    height: 18px;
+    fill: currentColor;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+// An assist chip colours its icon with the primary role and its label on-surface, which is the
+// one place the per-type tokens disagree with the shared set.
+.chip[data-variant='assist'] {
+  --_label: #{grange.color(on-surface)}; // AssistChip LabelTextColor
+  --_icon: #{grange.color(primary)}; // AssistChip IconColor
+}
+
+// Elevated chips drop the outline and lift instead.
+.chip[data-elevated] {
+  --_container: #{grange.color(surface-container-low)}; // ElevatedContainerColor
+  --_outline-width: 0;
+  --grange-elevation-level: 1; // ElevatedContainerElevation
+  box-shadow:
+    0 1px 2px 0 #{grange.translucent(shadow, 30%)},
+    0 1px 3px 1px #{grange.translucent(shadow, 15%)};
+}
+
+// ---------------------------------------------------------------------------
+// States
+// ---------------------------------------------------------------------------
+
+.chip[data-selected] {
+  --_container: #{grange.color(secondary-container)}; // SelectedContainerColor
+  --_label: #{grange.color(on-secondary-container)}; // SelectedLabelTextColor
+  --_icon: #{grange.color(on-secondary-container)};
+  --_outline-width: 0; // SelectedOutlineWidth
+}
+
+.chip[data-disabled] {
+  --_label: #{grange.translucent(on-surface, 38%)};
+  --_icon: #{grange.translucent(on-surface, 38%)};
+  --_outline: #{grange.translucent(on-surface, 12%)};
+
+  &[data-selected] {
+    --_container: #{grange.translucent(on-surface, 12%)};
+  }
+
+  &[data-elevated] {
+    --grange-elevation-level: 0;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip {
+    transition: none;
+  }
+}

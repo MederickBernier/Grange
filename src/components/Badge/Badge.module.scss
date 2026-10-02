@@ -1,0 +1,28 @@
+/*
+ * Badge, from Compose BadgeTokens: a 6px dot, or 16px once it carries a number, both fully round
+ * and both in the error colour.
+ */
+
+@use '../../scss/api' as grange;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 16px; // LargeSize
+  height: 16px;
+  padding-inline: 4px;
+  border-radius: 9999px; // LargeShape: CornerFull
+  background: grange.color(error); // LargeColor
+  color: grange.color(on-error); // LargeLabelTextColor
+  @include grange.typescale(label-small); // LargeLabelTextFont
+
+  // Without a label it is the small dot, which needs no room for text.
+  &[data-dot] {
+    min-width: 6px; // Size
+    width: 6px;
+    height: 6px;
+    padding: 0;
+  }
+}
