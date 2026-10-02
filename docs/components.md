@@ -47,7 +47,7 @@ What is left is not components but depth: the gaps recorded below, and the ones 
 | Extended FAB | 3 sizes, 4 colours, lowered elevation, collapses to the plain FAB of the same height |
 | FAB menu | Labelled actions revealed nearest-first, with focus containment, arrow keys, Escape and outside-click |
 | Toolbars | Floating (standard and vibrant, horizontal and vertical) and docked, on `useToolbar` for arrow keys, RTL and Tab-out |
-| Checkbox | Checked, unchecked and indeterminate, error state, real `<input type="checkbox">` under it |
+| Checkbox | Checked, unchecked and indeterminate, error state, real `<input type="checkbox">` under it. `CheckboxGroup` validates a set together, on `useCheckboxGroup`, and every box in it points at the one message |
 | Switch | Handle grows 16 to 24 to 28 on the selection spring, optional icons, real input with the switch role |
 | Radio button | `RadioGroup` owns the value and the arrow keys; vertical or horizontal, error state, per-option disable |
 | Sliders | The Expressive restyle: 16px track, 4 by 44 handle in a gap, narrowing while held. Single or range, opt-in stop indicators, value bubble |
@@ -72,7 +72,7 @@ What is left is not components but depth: the gaps recorded below, and the ones 
 | Date pickers | `Calendar` and `RangeCalendar`, on `useCalendar` and `useRangeCalendar`: month navigation, min and max, unavailable dates, full keyboard. Docked as-is, or modal by putting it in a `Dialog`. React Aria brings the first day of the week, the weekday and month names and the non-Gregorian arithmetic |
 | Side sheets | `SideSheet`, modal or standard, on either edge, with a header, bottom actions and an inner edge that can be dragged or arrow-keyed to resize between 256 and 400px. No Compose token file exists for it, so it borrows the drawer's |
 | Carousel | `Carousel` in the spec's four layouts, including the vertical full-screen one. A real scroll container with CSS snapping, so touch, wheel, momentum and the scrollbar are the platform's; the tab stop, the item-sized arrow keys and mouse dragging are added |
-| Time pickers | `TimeField`, the input mode, on `useTimeField`: a segment per part, arrow keys and typing, 12 or 24 hour from the locale, optional seconds. The dial mode is captured but not built |
+| Time pickers | Both modes the spec draws: `TimeField` is the input one, on `useTimeField`, with a segment per part, arrow keys and typing and optional seconds; `TimePicker` is the dial, a circular slider with two rings on a 24-hour face. 12 or 24 hour from the locale |
 | Icon † | Sizes and colours an SVG or a Material Symbols ligature. Reads `--grange-icon-size`, so it matches whatever control it sits in. Filled axis, RTL flip |
 
 † Not a separate entry in the M3 catalog, so it is excluded from the counts.
@@ -99,7 +99,7 @@ Not components, but most of the list below is blocked on them.
 | ~~RTL~~ ✅ | | Done. `Icon` takes `flipInRtl`, the connected group mirrors its outer corners through `useLocale`, and the dividers use logical margins |
 | ~~Token capture~~ ✅ | | Done. `pnpm capture-tokens <Name>` reads the generated Compose token objects straight out of androidx, so a component's geometry is never hand-typed. It reproduces every previously captured object byte for byte |
 | ~~Side sheet tokens~~ ✅ | Resolved as far as it can be. Compose publishes no token file for side sheets: SheetSideTokens and SideSheetTokens are both 404, and only SheetBottomTokens exists | The sheet borrows NavigationDrawerTokens, which is captured, because a side sheet and a navigation drawer are the same panel on the same edge and should not disagree by a pixel. A test asserts the two stay equal |
-| **Clock dial** | The spec draws a time picker two ways, and only the input mode is built. `TimePickerTokens` is captured, so the numbers are known: a 256px dial with a 48px handle | The dial needs pointer and keyboard dragging around a circle, hour and minute passes, and the inner 24-hour ring. It is its own piece of geometry rather than a variant of the field |
+| ~~Clock dial~~ ✅ | Done. `TimePicker` is the dial mode, on the captured TimePickerTokens: a 256px face, a 48px handle, the hour and minute boxes and the AM/PM selector, with `TimeField` as the other mode behind the same value | It is a circular slider and says so, `role="slider"` with an `aria-valuetext`. The obvious markup — a ring of twelve buttons — would give a keyboard user twelve tab stops and no way to set a minute that is not a multiple of five. The face's arithmetic is in `dial.ts` and tested on its own |
 | ~~Carousel tokens~~ ✅ | Resolved as far as it can be. There is no CarouselTokens object either: the Compose carousel keeps its dimensions in its own implementation rather than in a generated token file | The sizes are the spec page's, each one labelled in `specs.ts` with the part of the spec it comes from. The one tokenised value is the corner, CornerExtraLarge at 28px |
 | **Carousel semantics** | The carousel is a scroll region: `role="group"` with `aria-roledescription="carousel"`, a tab stop, and arrow keys that move a whole item. It is deliberately not a listbox, so it has no selection, no typeahead and no active item | Most of its behavior is the platform's on purpose — CSS scroll snapping already brings touch dragging, the wheel, momentum and the scrollbar. A collection-backed version would want `useListBox`, and would be the same decision the List faces |
 | **Shape library** | Partly resolved, and not the way it looked. `shapeLibrary` in the token file is 35 **names** and no geometry, so nothing can be drawn from it. The real shapes are `RoundedPolygon`s in `androidx.graphics.shapes`, defined by vertex lists with per-corner rounding and smoothing | The loading indicator implements the morph for the regular polygons, which can be derived exactly. The irregular ones, the slanted and fan and clam shell, need that library porting, which is a library rather than a component |
@@ -117,13 +117,13 @@ excluded from the counts rather than counted twice.
 Each phase is useful on its own and unblocks the next.
 
 1. ~~**Foundations**~~ — done: `Icon`, `Divider`, link rendering and form props on `ButtonBase`, RTL.
-2. ~~**Form controls**~~ — done: Checkbox, Switch, Radio button, Sliders, Text fields. A checkbox group still wants `useCheckboxGroup` for shared validation, and the text field has no password reveal yet.
+2. ~~**Form controls**~~ — done: Checkbox, `CheckboxGroup`, Switch, Radio button, Sliders, Text fields. The text field has no password reveal yet.
 3. ~~**Overlay infrastructure plus its components**~~ — done: the portal and positioning layer, Dialogs, Tooltips, Menus, Select and Snackbar. — the portal and positioning layer, then Dialogs, Menus, Select, Tooltips, Snackbar. One hard piece of plumbing, then five components come cheaply.
 4. ~~**Navigation and structure**~~ — done: Toolbars, Tabs, Cards, Lists, App bars, Navigation bar, Navigation rail, Navigation drawer.
 5. **M3E signature pieces** — ~~FAB~~, ~~Split button~~, ~~Progress indicators~~, ~~Extended FAB~~, ~~FAB menu~~, then the Loading indicator, which still wants the shape library. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
-6. ~~**Long tail**~~ — done: Bottom sheets, Chips, Badges, Search, Loading indicator, Date pickers, Time pickers (input mode; the dial is not built), the Carousel and Side sheets. The last two had neither a React Aria hook nor a token file, so both their behavior and their numbers are ours and labelled as such.
+6. ~~**Long tail**~~ — done: Bottom sheets, Chips, Badges, Search, Loading indicator, Date pickers, Time pickers, the Carousel and Side sheets. The last two had neither a React Aria hook nor a token file, so both their behavior and their numbers are ours and labelled as such.
 
-The catalog is finished. What is left is the depth recorded in the gaps above: the clock dial, the rich tooltip, the M3E Standard and Vibrant menu styles, a checkbox group, the password reveal, moving `FabMenu` onto `useMenu`, the irregular shape library, a selectable keyboard-navigable list, and a carousel that is a collection rather than a scroll region.
+The catalog is finished. What is left is the depth recorded in the gaps above: the rich tooltip, the M3E Standard and Vibrant menu styles, the text field's password reveal, moving `FabMenu` onto `useMenu`, the irregular shape library, a selectable keyboard-navigable list, and a carousel that is a collection rather than a scroll region.
 
 ## Before building any of them
 

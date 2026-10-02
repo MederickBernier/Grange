@@ -38,7 +38,7 @@ Dark mode follows `prefers-color-scheme`; force it with `data-theme="dark"` (or 
 | Overrides | `GrangeProvider` takes `defaultProps`, `classNames` (per slot, add or replace), `behavior` (ripple, spring roles, touch target, inner corners) and `sizes` (geometry). Providers nest and merge |
 | Motion | `GrangeProvider` (expressive / standard scheme, reduced-motion aware), `useSpring(name)` for the six M3E springs |
 | Primitives | State layer, ripple, focus ring, elevation, 48px touch target (`src/primitives`), and `ButtonBase`, the shared interactive core. `Icon` sizes itself from `--grange-icon-size`; `Divider` is horizontal or vertical, full-width or inset |
-| Components | `Fab` (4 sizes × 4 colours), `ExtendedFab` (3 sizes, collapsible), `FabMenu`, `SplitButton` (5 sizes, expandable trailing half), `FloatingToolbar` and `DockedToolbar`, `Checkbox` (with indeterminate), `Switch`, `RadioGroup`, `Slider` (single or range), `FilledTextField` and `OutlinedTextField`, `Dialog`, `Tooltip`, `Menu` (sections, selection, typeahead), `Select`, `Snackbar`, `Tabs` (primary and secondary), `Card`, `List`, `AppBar` (five sizes), `NavigationBar`, `NavigationRail`, `NavigationDrawer`, `BottomSheet`, `Chip` (four kinds), `Badge`, `Search` and `LoadingIndicator`, `Calendar` and `RangeCalendar` (the date picker, docked or in a `Dialog`), `TimeField`, `SideSheet` (modal or standard, resizable), `Carousel` (four layouts), `LinearProgress` and `CircularProgress` (determinate or indeterminate, flat or M3E wavy), and one button per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single / multi select) |
+| Components | `Fab` (4 sizes × 4 colours), `ExtendedFab` (3 sizes, collapsible), `FabMenu`, `SplitButton` (5 sizes, expandable trailing half), `FloatingToolbar` and `DockedToolbar`, `Checkbox` (with indeterminate) and `CheckboxGroup`, `Switch`, `RadioGroup`, `Slider` (single or range), `FilledTextField` and `OutlinedTextField`, `Dialog`, `Tooltip`, `Menu` (sections, selection, typeahead), `Select`, `Snackbar`, `Tabs` (primary and secondary), `Card`, `List`, `AppBar` (five sizes), `NavigationBar`, `NavigationRail`, `NavigationDrawer`, `BottomSheet`, `Chip` (four kinds), `Badge`, `Search` and `LoadingIndicator`, `Calendar` and `RangeCalendar` (the date picker, docked or in a `Dialog`), `TimeField` and `TimePicker` (the clock dial), `SideSheet` (modal or standard, resizable), `Carousel` (four layouts), `LinearProgress` and `CircularProgress` (determinate or indeterminate, flat or M3E wavy), and one button per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single / multi select) |
 | Roadmap | [`docs/components.md`](docs/components.md) — the full M3 catalog, all 36 of it built, and the recorded gaps behind it |
 | Storybook | Every component and state, light/dark and expressive/standard toolbar switches, and **Foundations / Motion playground** for tuning springs live |
 
@@ -244,13 +244,13 @@ segmented buttons, `Divider`, `Fab`, `ExtendedFab`, `FabMenu`, `SplitButton`, th
 progress indicators, `Checkbox`, `Switch`, `RadioGroup`, `Slider`, the text fields, `Dialog` and
 `Tooltip`, `Menu`, `Select`, `Snackbar`, `Tabs`, `Card`, `List`, `AppBar`, `NavigationBar` and
 `NavigationRail`, `NavigationDrawer`, `BottomSheet`, `Chip`, `Badge`, `Search` and
-`LoadingIndicator`, `Calendar`, `RangeCalendar`, `TimeField`, `SideSheet` and `Carousel`, plus
+`LoadingIndicator`, `Calendar`, `RangeCalendar`, `TimeField` and `TimePicker` (the clock dial), `SideSheet` and `Carousel`, plus
 `Icon`, which the catalog does not list separately.
 
-What is left is depth rather than breadth, and it is all written down: the clock-dial time
-picker, the rich tooltip, the M3E Standard and Vibrant menu styles, a checkbox group on
-`useCheckboxGroup`, the text field's password reveal, moving `FabMenu` onto `useMenu`, the
-irregular shape library, a selectable keyboard-navigable list, and a collection-backed carousel.
+What is left is depth rather than breadth, and it is all written down: the rich tooltip, the M3E
+Standard and Vibrant menu styles, the text field's password reveal, moving `FabMenu` onto
+`useMenu`, the irregular shape library, a selectable keyboard-navigable list, and a
+collection-backed carousel.
 
 See [`docs/components.md`](docs/components.md) for the full catalog and the gap list behind it.
 
@@ -258,7 +258,6 @@ See [`docs/components.md`](docs/components.md) for the full catalog and the gap 
 
 - Group widening uses padding, so a squeezed neighbour's label can clip if it has almost no padding left. Same limit as Compose.
 - Connected group inner corners default to the Small token (8px, 4px pressed) at every size, because Compose only publishes the Small values. Override them with `behavior.connectedInnerCorner`.
-- The time picker has only its input mode. The clock dial's tokens are captured as `timePickerDial` (a 256px dial, a 48px handle) but the dial itself is not built.
 - The side sheet and the carousel are the only two components whose geometry is not captured from androidx, because Compose publishes no token file for either: `SheetSideTokens` and `CarouselTokens` do not exist. Their numbers come from the spec pages and every one is labelled in `specs.ts`. The side sheet borrows `NavigationDrawerTokens`, and a test asserts the two stay equal.
 - The carousel is a scroll region rather than a listbox on purpose, so it has no selection, typeahead or active item. CSS scroll snapping gives it touch dragging, the wheel, momentum and a scrollbar for free; a collection-backed version would want `useListBox`.
 - No visual regression tests yet. Playwright screenshots of the stories are the planned next step.
