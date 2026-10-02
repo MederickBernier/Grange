@@ -30,6 +30,7 @@
     "typecheck": "pnpm tokens && tsc -p tsconfig.json --noEmit",
     "build": "pnpm tokens && vite build && tsc -p tsconfig.build.json && pnpm copy-scss",
     "copy-scss": "tsx scripts/copy-scss.mts",
+    "capture-tokens": "tsx scripts/capture-tokens.mts",
     "test": "pnpm tokens && vitest run",
     "storybook": "pnpm tokens && storybook dev -p 6006",
     "build-storybook": "pnpm tokens && storybook build -o storybook-static"

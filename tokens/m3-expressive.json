@@ -2,113 +2,115 @@
   "$meta": {
     "source": "androidx-main compose/material3 token files (Apache 2.0)",
     "read": "2026-10-01",
-    "units": "dp=px, sp=px"
+    "units": "dp=px, sp=px",
+    "componentTokensVersion": "18_0_18, v0_14_0",
+    "componentTokensSource": "androidx-main compose/material3 tokens"
   },
   "motion": {
     "expressive": {
       "fast-spatial": {
-        "stiffness": 800.0,
+        "stiffness": 800,
         "dampingRatio": 0.6,
         "motionDamping": 33.94,
         "mass": 1
       },
       "fast-effects": {
-        "stiffness": 3800.0,
-        "dampingRatio": 1.0,
+        "stiffness": 3800,
+        "dampingRatio": 1,
         "motionDamping": 123.29,
         "mass": 1
       },
       "default-spatial": {
-        "stiffness": 380.0,
+        "stiffness": 380,
         "dampingRatio": 0.8,
         "motionDamping": 31.19,
         "mass": 1
       },
       "default-effects": {
-        "stiffness": 1600.0,
-        "dampingRatio": 1.0,
-        "motionDamping": 80.0,
+        "stiffness": 1600,
+        "dampingRatio": 1,
+        "motionDamping": 80,
         "mass": 1
       },
       "slow-spatial": {
-        "stiffness": 200.0,
+        "stiffness": 200,
         "dampingRatio": 0.8,
         "motionDamping": 22.63,
         "mass": 1
       },
       "slow-effects": {
-        "stiffness": 800.0,
-        "dampingRatio": 1.0,
+        "stiffness": 800,
+        "dampingRatio": 1,
         "motionDamping": 56.57,
         "mass": 1
       }
     },
     "standard": {
       "fast-spatial": {
-        "stiffness": 1400.0,
+        "stiffness": 1400,
         "dampingRatio": 0.9,
         "motionDamping": 67.35,
         "mass": 1
       },
       "fast-effects": {
-        "stiffness": 3800.0,
-        "dampingRatio": 1.0,
+        "stiffness": 3800,
+        "dampingRatio": 1,
         "motionDamping": 123.29,
         "mass": 1
       },
       "default-spatial": {
-        "stiffness": 700.0,
+        "stiffness": 700,
         "dampingRatio": 0.9,
         "motionDamping": 47.62,
         "mass": 1
       },
       "default-effects": {
-        "stiffness": 1600.0,
-        "dampingRatio": 1.0,
-        "motionDamping": 80.0,
+        "stiffness": 1600,
+        "dampingRatio": 1,
+        "motionDamping": 80,
         "mass": 1
       },
       "slow-spatial": {
-        "stiffness": 300.0,
+        "stiffness": 300,
         "dampingRatio": 0.9,
         "motionDamping": 31.18,
         "mass": 1
       },
       "slow-effects": {
-        "stiffness": 800.0,
-        "dampingRatio": 1.0,
+        "stiffness": 800,
+        "dampingRatio": 1,
         "motionDamping": 56.57,
         "mass": 1
       }
     },
     "duration": {
-      "extra-long-1": 700.0,
-      "extra-long-2": 800.0,
-      "extra-long-3": 900.0,
-      "extra-long-4": 1000.0,
-      "long-1": 450.0,
-      "long-2": 500.0,
-      "long-3": 550.0,
-      "long-4": 600.0,
-      "medium-1": 250.0,
-      "medium-2": 300.0,
-      "medium-3": 350.0,
-      "medium-4": 400.0,
-      "short-1": 50.0,
-      "short-2": 100.0,
-      "short-3": 150.0,
-      "short-4": 200.0
+      "extra-long-1": 700,
+      "extra-long-2": 800,
+      "extra-long-3": 900,
+      "extra-long-4": 1000,
+      "long-1": 450,
+      "long-2": 500,
+      "long-3": 550,
+      "long-4": 600,
+      "medium-1": 250,
+      "medium-2": 300,
+      "medium-3": 350,
+      "medium-4": 400,
+      "short-1": 50,
+      "short-2": 100,
+      "short-3": 150,
+      "short-4": 200
     },
     "easing": {
       "emphasized": [
         0.2,
-        0.0,
-        0.0,
-        1.0
+        0,
+        0,
+        1
       ],
       "emphasized-accelerate": [
         0.3,
-        0.0,
+        0,
         0.8,
         0.15
       ],
@@ -116,62 +118,62 @@
         0.05,
         0.7,
         0.1,
-        1.0
+        1
       ],
       "legacy": [
         0.4,
-        0.0,
+        0,
         0.2,
-        1.0
+        1
       ],
       "legacy-accelerate": [
         0.4,
-        0.0,
-        1.0,
-        1.0
+        0,
+        1,
+        1
       ],
       "legacy-decelerate": [
-        0.0,
-        0.0,
+        0,
+        0,
         0.2,
-        1.0
+        1
       ],
       "linear": [
-        0.0,
-        0.0,
-        1.0,
-        1.0
+        0,
+        0,
+        1,
+        1
       ],
       "standard": [
         0.2,
-        0.0,
-        0.0,
-        1.0
+        0,
+        0,
+        1
       ],
       "standard-accelerate": [
         0.3,
-        0.0,
-        1.0,
-        1.0
+        0,
+        1,
+        1
       ],
       "standard-decelerate": [
-        0.0,
-        0.0,
-        0.0,
-        1.0
+        0,
+        0,
+        0,
+        1
       ]
     }
   },
   "shape": {
-    "extra-extra-large": 48.0,
-    "extra-large": 28.0,
-    "extra-large-increased": 32.0,
-    "extra-small": 4.0,
-    "large": 16.0,
-    "large-increased": 20.0,
-    "medium": 12.0,
-    "none": 0.0,
-    "small": 8.0,
+    "extra-extra-large": 48,
+    "extra-large": 28,
+    "extra-large-increased": 32,
+    "extra-small": 4,
+    "large": 16,
+    "large-increased": 20,
+    "medium": 12,
+    "none": 0,
+    "small": 8,
     "full": "50%"
   },
   "shapeLibrary": [
@@ -214,211 +216,211 @@
   "typescale": {
     "body-large": {
       "font": "plain",
-      "size": 16.0,
-      "lineHeight": 24.0,
+      "size": 16,
+      "lineHeight": 24,
       "tracking": 0.5,
       "weight": 400
     },
     "body-large-emphasized": {
       "font": "plain",
-      "size": 16.0,
-      "lineHeight": 24.0,
+      "size": 16,
+      "lineHeight": 24,
       "tracking": 0.15,
       "weight": 500
     },
     "body-medium": {
       "font": "plain",
-      "size": 14.0,
-      "lineHeight": 20.0,
+      "size": 14,
+      "lineHeight": 20,
       "tracking": 0.2,
       "weight": 400
     },
     "body-medium-emphasized": {
       "font": "plain",
-      "size": 14.0,
-      "lineHeight": 20.0,
+      "size": 14,
+      "lineHeight": 20,
       "tracking": 0.25,
       "weight": 500
     },
     "body-small": {
       "font": "plain",
-      "size": 12.0,
-      "lineHeight": 16.0,
+      "size": 12,
+      "lineHeight": 16,
       "tracking": 0.4,
       "weight": 400
     },
     "body-small-emphasized": {
       "font": "plain",
-      "size": 12.0,
-      "lineHeight": 16.0,
+      "size": 12,
+      "lineHeight": 16,
       "tracking": 0.4,
       "weight": 500
     },
     "display-large": {
       "font": "brand",
-      "size": 57.0,
-      "lineHeight": 64.0,
+      "size": 57,
+      "lineHeight": 64,
       "tracking": -0.2,
       "weight": 400
     },
     "display-large-emphasized": {
       "font": "brand",
-      "size": 57.0,
-      "lineHeight": 64.0,
-      "tracking": 0.0,
+      "size": 57,
+      "lineHeight": 64,
+      "tracking": 0,
       "weight": 500
     },
     "display-medium": {
       "font": "brand",
-      "size": 45.0,
-      "lineHeight": 52.0,
-      "tracking": 0.0,
+      "size": 45,
+      "lineHeight": 52,
+      "tracking": 0,
       "weight": 400
     },
     "display-medium-emphasized": {
       "font": "brand",
-      "size": 45.0,
-      "lineHeight": 52.0,
-      "tracking": 0.0,
+      "size": 45,
+      "lineHeight": 52,
+      "tracking": 0,
       "weight": 500
     },
     "display-small": {
       "font": "brand",
-      "size": 36.0,
-      "lineHeight": 44.0,
-      "tracking": 0.0,
+      "size": 36,
+      "lineHeight": 44,
+      "tracking": 0,
       "weight": 400
     },
     "display-small-emphasized": {
       "font": "brand",
-      "size": 36.0,
-      "lineHeight": 44.0,
-      "tracking": 0.0,
+      "size": 36,
+      "lineHeight": 44,
+      "tracking": 0,
       "weight": 500
     },
     "headline-large": {
       "font": "brand",
-      "size": 32.0,
-      "lineHeight": 40.0,
-      "tracking": 0.0,
+      "size": 32,
+      "lineHeight": 40,
+      "tracking": 0,
       "weight": 400
     },
     "headline-large-emphasized": {
       "font": "brand",
-      "size": 32.0,
-      "lineHeight": 40.0,
-      "tracking": 0.0,
+      "size": 32,
+      "lineHeight": 40,
+      "tracking": 0,
       "weight": 500
     },
     "headline-medium": {
       "font": "brand",
-      "size": 28.0,
-      "lineHeight": 36.0,
-      "tracking": 0.0,
+      "size": 28,
+      "lineHeight": 36,
+      "tracking": 0,
       "weight": 400
     },
     "headline-medium-emphasized": {
       "font": "brand",
-      "size": 28.0,
-      "lineHeight": 36.0,
-      "tracking": 0.0,
+      "size": 28,
+      "lineHeight": 36,
+      "tracking": 0,
       "weight": 500
     },
     "headline-small": {
       "font": "brand",
-      "size": 24.0,
-      "lineHeight": 32.0,
-      "tracking": 0.0,
+      "size": 24,
+      "lineHeight": 32,
+      "tracking": 0,
       "weight": 400
     },
     "headline-small-emphasized": {
       "font": "brand",
-      "size": 24.0,
-      "lineHeight": 32.0,
-      "tracking": 0.0,
+      "size": 24,
+      "lineHeight": 32,
+      "tracking": 0,
       "weight": 500
     },
     "label-large": {
       "font": "plain",
-      "size": 14.0,
-      "lineHeight": 20.0,
+      "size": 14,
+      "lineHeight": 20,
       "tracking": 0.1,
       "weight": 500
     },
     "label-large-emphasized": {
       "font": "plain",
-      "size": 14.0,
-      "lineHeight": 20.0,
+      "size": 14,
+      "lineHeight": 20,
       "tracking": 0.1,
       "weight": 700
     },
     "label-medium": {
       "font": "plain",
-      "size": 12.0,
-      "lineHeight": 16.0,
+      "size": 12,
+      "lineHeight": 16,
       "tracking": 0.5,
       "weight": 500
     },
     "label-medium-emphasized": {
       "font": "plain",
-      "size": 12.0,
-      "lineHeight": 16.0,
+      "size": 12,
+      "lineHeight": 16,
       "tracking": 0.5,
       "weight": 700
     },
     "label-small": {
       "font": "plain",
-      "size": 11.0,
-      "lineHeight": 16.0,
+      "size": 11,
+      "lineHeight": 16,
       "tracking": 0.5,
       "weight": 500
     },
     "label-small-emphasized": {
       "font": "plain",
-      "size": 11.0,
-      "lineHeight": 16.0,
+      "size": 11,
+      "lineHeight": 16,
       "tracking": 0.5,
       "weight": 700
     },
     "title-large": {
       "font": "brand",
-      "size": 22.0,
-      "lineHeight": 28.0,
-      "tracking": 0.0,
+      "size": 22,
+      "lineHeight": 28,
+      "tracking": 0,
       "weight": 400
     },
     "title-large-emphasized": {
       "font": "brand",
-      "size": 22.0,
-      "lineHeight": 28.0,
-      "tracking": 0.0,
+      "size": 22,
+      "lineHeight": 28,
+      "tracking": 0,
       "weight": 500
     },
     "title-medium": {
       "font": "plain",
-      "size": 16.0,
-      "lineHeight": 24.0,
+      "size": 16,
+      "lineHeight": 24,
       "tracking": 0.2,
       "weight": 500
     },
     "title-medium-emphasized": {
       "font": "plain",
-      "size": 16.0,
-      "lineHeight": 24.0,
+      "size": 16,
+      "lineHeight": 24,
       "tracking": 0.15,
       "weight": 700
     },
     "title-small": {
       "font": "plain",
-      "size": 14.0,
-      "lineHeight": 20.0,
+      "size": 14,
+      "lineHeight": 20,
       "tracking": 0.1,
       "weight": 500
     },
     "title-small-emphasized": {
       "font": "plain",
-      "size": 14.0,
-      "lineHeight": 20.0,
+      "size": 14,
+      "lineHeight": 20,
       "tracking": 0.1,
       "weight": 700
     }
@@ -620,12 +622,12 @@
     "pressed": 0.1
   },
   "elevation": {
-    "Level0": 0.0,
-    "Level1": 1.0,
-    "Level2": 3.0,
-    "Level3": 6.0,
-    "Level4": 8.0,
-    "Level5": 12.0
+    "Level0": 0,
+    "Level1": 1,
+    "Level2": 3,
+    "Level3": 6,
+    "Level4": 8,
+    "Level5": 12
   },
   "components": {
     "ButtonXSmall": {
@@ -818,6 +820,91 @@
       "SubtitleFont": "type:TitleMedium",
       "TitleFont": "type:DisplaySmall",
       "LargeContainerHeight": "152.0.dp"
+    },
+    "FabSmall": {
+      "ContainerHeight": "40.0.dp",
+      "ContainerShape": "CornerMedium",
+      "ContainerWidth": "40.0.dp",
+      "IconSize": "24.0.dp"
+    },
+    "FabPrimaryContainer": {
+      "ContainerColor": "color:PrimaryContainer",
+      "ContainerElevation": "elevation:Level3",
+      "FocusedContainerElevation": "elevation:Level3",
+      "FocusedIconColor": "color:OnPrimaryContainer",
+      "HoveredContainerElevation": "elevation:Level4",
+      "HoveredIconColor": "color:OnPrimaryContainer",
+      "IconColor": "color:OnPrimaryContainer",
+      "PressedContainerElevation": "elevation:Level3",
+      "PressedIconColor": "color:OnPrimaryContainer"
+    },
+    "FabSecondaryContainer": {
+      "ContainerColor": "color:SecondaryContainer",
+      "ContainerElevation": "elevation:Level3",
+      "FocusedContainerElevation": "elevation:Level3",
+      "FocusedIconColor": "color:OnSecondaryContainer",
+      "HoveredContainerElevation": "elevation:Level4",
+      "HoveredIconColor": "color:OnSecondaryContainer",
+      "IconColor": "color:OnSecondaryContainer",
+      "PressedContainerElevation": "elevation:Level3",
+      "PressedIconColor": "color:OnSecondaryContainer"
+    },
+    "SplitButtonXSmall": {
+      "BetweenSpace": "2.0.dp",
+      "ContainerHeight": "32.0.dp",
+      "ContainerShape": "CornerFull",
+      "LeadingButtonLeadingSpace": "12.0.dp",
+      "LeadingButtonTrailingSpace": "10.0.dp",
+      "TrailingIconSize": "22.0.dp",
+      "TrailingButtonLeadingSpace": "13.0.dp",
+      "TrailingButtonTrailingSpace": "13.0.dp",
+      "InnerCornerCornerSize": "CornerValueExtraSmall",
+      "InnerHoveredCornerCornerSize": "CornerValueSmall",
+      "InnerPressedCornerCornerSize": "CornerValueSmall",
+      "OuterCornerCornerSizePercent": "50.0f",
+      "TrailingInnerSelectedCornerCornerSizePercent": "50.0f"
+    },
+    "SplitButtonMedium": {
+      "BetweenSpace": "2.0.dp",
+      "ContainerHeight": "56.0.dp",
+      "ContainerShape": "CornerFull",
+      "LeadingButtonLeadingSpace": "24.0.dp",
+      "LeadingButtonTrailingSpace": "24.0.dp",
+      "TrailingIconSize": "26.0.dp",
+      "TrailingButtonLeadingSpace": "15.0.dp",
+      "TrailingButtonTrailingSpace": "15.0.dp",
+      "InnerCornerCornerSize": "CornerValueExtraSmall",
+      "InnerHoveredCornerCornerSize": "CornerValueMedium",
+      "InnerPressedCornerCornerSize": "CornerValueMedium",
+      "TrailingInnerSelectedCornerCornerSizePercent": "50.0f"
+    },
+    "SplitButtonLarge": {
+      "BetweenSpace": "2.0.dp",
+      "ContainerHeight": "96.0.dp",
+      "ContainerShape": "CornerFull",
+      "LeadingButtonLeadingSpace": "48.0.dp",
+      "LeadingButtonTrailingSpace": "48.0.dp",
+      "TrailingIconSize": "38.0.dp",
+      "TrailingButtonLeadingSpace": "29.0.dp",
+      "TrailingButtonTrailingSpace": "29.0.dp",
+      "InnerCornerCornerSize": "CornerValueSmall",
+      "InnerHoveredCornerCornerSize": "CornerValueLargeIncreased",
+      "InnerPressedCornerCornerSize": "CornerValueLargeIncreased",
+      "TrailingInnerSelectedCornerCornerSizePercent": "50.0f"
+    },
+    "SplitButtonXLarge": {
+      "BetweenSpace": "2.0.dp",
+      "ContainerHeight": "136.0.dp",
+      "ContainerShape": "CornerFull",
+      "LeadingButtonLeadingSpace": "64.0.dp",
+      "LeadingButtonTrailingSpace": "64.0.dp",
+      "TrailingIconSize": "50.0.dp",
+      "TrailingButtonLeadingSpace": "43.0.dp",
+      "TrailingButtonTrailingSpace": "43.0.dp",
+      "InnerCornerCornerSize": "CornerValueMedium",
+      "InnerHoveredCornerCornerSize": "CornerValueLargeIncreased",
+      "InnerPressedCornerCornerSize": "CornerValueLargeIncreased",
+      "TrailingInnerSelectedCornerCornerSizePercent": "50.0f"
     }
   }
 }
