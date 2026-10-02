@@ -18,17 +18,17 @@ Three reference points per component:
 | | Count |
 | --- | --- |
 | In the M3 catalog | 36 |
-| Done | 13 |
-| Remaining | 23 |
+| Done | 15 |
+| Remaining | 21 |
 
 Plus `Icon`, which the catalog does not list as a component of its own although Material Web
 ships it as `md-icon`, so it is not counted above.
 
-Of the 23 remaining, split by how much of the behavior already exists:
+Of the 21 remaining, split by how much of the behavior already exists:
 
 | | Count | Meaning |
 | --- | --- | --- |
-| Dedicated React Aria hook | 13 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
+| Dedicated React Aria hook | 11 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
 | Generic React Aria pieces only | 5 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
 | No React Aria support | 5 | Behavior written from scratch: badges, carousel, loading indicator, navigation bar, navigation rail |
 
@@ -49,6 +49,8 @@ Of the 23 remaining, split by how much of the behavior already exists:
 | Toolbars | Floating (standard and vibrant, horizontal and vertical) and docked, on `useToolbar` for arrow keys, RTL and Tab-out |
 | Checkbox | Checked, unchecked and indeterminate, error state, real `<input type="checkbox">` under it |
 | Switch | Handle grows 16 to 24 to 28 on the selection spring, optional icons, real input with the switch role |
+| Radio button | `RadioGroup` owns the value and the arrow keys; vertical or horizontal, error state, per-option disable |
+| Sliders | The Expressive restyle: 16px track, 4 by 44 handle in a gap, narrowing while held. Single or range, opt-in stop indicators, value bubble |
 | Icon † | Sizes and colours an SVG or a Material Symbols ligature. Reads `--grange-icon-size`, so it matches whatever control it sits in. Filled axis, RTL flip |
 
 † Not a separate entry in the M3 catalog, so it is excluded from the counts.
@@ -81,8 +83,6 @@ Not components, but most of the list below is blocked on them.
 
 | Component | M3E | Material Web | React Aria | Capabilities needed |
 | --- | --- | --- | --- | --- |
-| Radio button | | ✅ | `useRadioGroup` | Single selection within a group, roving focus, error state |
-| Sliders | ✅ | ✅ | `useSlider` | Continuous and discrete, single and range, tick marks, value label, M3E restyled the handle and track |
 | Text fields | | ✅ | `useTextField`, `useField` | Filled and outlined, label / placeholder / supporting text, error, prefix and suffix, leading and trailing icons, character counter, multiline, password reveal |
 | Search | | | `useSearchField`, `useComboBox`, `useAutocomplete` | Search bar and expanded search view, suggestions list, leading and trailing actions |
 | Chips | | ✅ | `useTagGroup` | Assist, filter, input and suggestion chips; selected state, leading icon, trailing remove, elevated and outlined styles |
@@ -140,7 +140,7 @@ counts above.
 Each phase is useful on its own and unblocks the next.
 
 1. ~~**Foundations**~~ — done: `Icon`, `Divider`, link rendering and form props on `ButtonBase`, RTL.
-2. **Form controls** — ~~Checkbox~~, ~~Switch~~, then Radio button, Sliders, Text fields. All have React Aria hooks, no overlay needed, and they are what an app needs first. A checkbox group still wants `useCheckboxGroup` for shared validation.
+2. **Form controls** — ~~Checkbox~~, ~~Switch~~, ~~Radio button~~, ~~Sliders~~, then Text fields. All have React Aria hooks, no overlay needed, and they are what an app needs first. A checkbox group still wants `useCheckboxGroup` for shared validation.
 3. **Overlay infrastructure plus its components** — the portal and positioning layer, then Dialogs, Menus, Select, Tooltips, Snackbar. One hard piece of plumbing, then five components come cheaply.
 4. **Navigation and structure** — ~~Toolbars~~, then Tabs, App bars, Navigation bar / rail / drawer, Cards, Lists.
 5. **M3E signature pieces** — ~~FAB~~, ~~Split button~~, ~~Progress indicators~~, ~~Extended FAB~~, ~~FAB menu~~, then the Loading indicator, which still wants the shape library. These are what makes the library visibly M3 Expressive rather than generic M3, and the ones with no web precedent to port. Token data for all of them is captured.
