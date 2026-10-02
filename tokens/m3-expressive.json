@@ -3,7 +3,7 @@
     "source": "androidx-main compose/material3 token files (Apache 2.0)",
     "read": "2026-10-01",
     "units": "dp=px, sp=px",
-    "componentTokensVersion": "37",
+    "componentTokensVersion": "v0_210",
     "componentTokensSource": "androidx-main compose/material3 tokens"
   },
   "motion": {
@@ -2069,6 +2069,38 @@
       "UnselectedTrailingIconColor": "color:OnSurfaceVariant",
       "SelectedDisabledContainerOpacity": "0.12f",
       "UnselectedDisabledOutlineOpacity": "0.1f"
+    },
+    "SearchBar": {
+      "AvatarShape": "CornerFull",
+      "AvatarSize": "30.0.dp",
+      "ContainerColor": "color:SurfaceContainerHigh",
+      "ContainerElevation": "elevation:Level3",
+      "ContainerHeight": "56.0.dp",
+      "ContainerShape": "CornerFull",
+      "FocusIndicatorColor": "color:Secondary",
+      "HoverSupportingTextColor": "color:OnSurfaceVariant",
+      "InputTextColor": "color:OnSurface",
+      "InputTextFont": "type:BodyLarge",
+      "LeadingIconColor": "color:OnSurface",
+      "PressedSupportingTextColor": "color:OnSurfaceVariant",
+      "SupportingTextColor": "color:OnSurfaceVariant",
+      "SupportingTextFont": "type:BodyLarge",
+      "TrailingIconColor": "color:OnSurfaceVariant"
+    },
+    "SearchView": {
+      "ContainerColor": "color:SurfaceContainerHigh",
+      "ContainerElevation": "elevation:Level3",
+      "DividerColor": "color:Outline",
+      "DockedContainerShape": "CornerExtraLarge",
+      "DockedHeaderContainerHeight": "56.0.dp",
+      "FullScreenContainerShape": "CornerNone",
+      "FullScreenHeaderContainerHeight": "72.0.dp",
+      "HeaderInputTextColor": "color:OnSurface",
+      "HeaderInputTextFont": "type:BodyLarge",
+      "HeaderLeadingIconColor": "color:OnSurface",
+      "HeaderSupportingTextColor": "color:OnSurfaceVariant",
+      "HeaderSupportingTextFont": "type:BodyLarge",
+      "HeaderTrailingIconColor": "color:OnSurfaceVariant"
     }
   }
 }

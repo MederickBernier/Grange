@@ -1,0 +1,35 @@
+/*
+ * Loading indicator, from Compose LoadingIndicatorTokens: a 48px container holding a 38px shape
+ * in the primary colour, or the contained variant which fills the container with the primary
+ * container colour and draws the shape on it.
+ */
+
+@use '../../scss/api' as grange;
+
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_size);
+  height: var(--_size);
+  flex-shrink: 0;
+  border-radius: 9999px; // ContainerShape: CornerFull
+}
+
+.indicator[data-contained] {
+  background: grange.color(primary-container); // ContainedContainerColor
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.shape {
+  fill: grange.color(primary); // ActiveIndicatorColor
+}
+
+.indicator[data-contained] .shape {
+  fill: grange.color(on-primary-container); // ContainedActiveColor
+}

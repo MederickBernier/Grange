@@ -73,6 +73,7 @@ export type DrawerSlot = 'root' | 'scrim';
 export type BottomSheetSlot = 'root' | 'scrim' | 'handle';
 export type BadgeSlot = 'root';
 export type ChipSlot = 'root' | 'label' | 'remove';
+export type SearchSlot = 'root' | 'bar' | 'input' | 'view';
 export type SnackbarSlot = 'root' | 'region' | 'action';
 
 export type SlotOverrides<Slot extends string> = Partial<Record<Slot, ClassOverride>>;
@@ -117,6 +118,8 @@ export interface ClassNamesConfig {
   Badge?: SlotOverrides<BadgeSlot>;
   Chip?: SlotOverrides<ChipSlot>;
   ChipGroup?: SlotOverrides<'root'>;
+  Search?: SlotOverrides<SearchSlot>;
+  LoadingIndicator?: SlotOverrides<'root'>;
   Snackbar?: SlotOverrides<SnackbarSlot>;
   LinearProgress?: SlotOverrides<ProgressSlot>;
   CircularProgress?: SlotOverrides<ProgressSlot>;
@@ -344,6 +347,8 @@ const COMPONENTS: ComponentName[] = [
   'Badge',
   'Chip',
   'ChipGroup',
+  'Search',
+  'LoadingIndicator',
 ];
 
 /**

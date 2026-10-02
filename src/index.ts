@@ -65,6 +65,7 @@ export type {
   BottomSheetSlot,
   BadgeSlot,
   ChipSlot,
+  SearchSlot,
   SnackbarSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
@@ -77,6 +78,15 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { Search, useSearchFilter } from './components/Search/Search';
+export type { SearchProps } from './components/Search/Search';
+export { searchBar, searchView } from './components/Search/specs';
+export { LoadingIndicator } from './components/LoadingIndicator/LoadingIndicator';
+export type { LoadingIndicatorProps } from './components/LoadingIndicator/LoadingIndicator';
+export { loadingIndicator, defaultShapes } from './components/LoadingIndicator/specs';
+export { regularPolygon, resample, morph, roundedPath } from './components/LoadingIndicator/polygon';
+export type { Point } from './components/LoadingIndicator/polygon';
 
 export { Chip, ChipGroup } from './components/Chip/Chip';
 export type { ChipProps, ChipGroupProps, ChipVariant } from './components/Chip/Chip';
