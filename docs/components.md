@@ -18,14 +18,17 @@ Three reference points per component:
 | | Count |
 | --- | --- |
 | In the M3 catalog | 36 |
-| Done | 4 |
-| Remaining | 32 |
+| Done | 5 |
+| Remaining | 31 |
 
-Of the 32 remaining, split by how much of the behavior already exists:
+Plus `Icon`, which the catalog does not list as a component of its own although Material Web
+ships it as `md-icon`, so it is not counted above.
+
+Of the 31 remaining, split by how much of the behavior already exists:
 
 | | Count | Meaning |
 | --- | --- | --- |
-| Dedicated React Aria hook | 18 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
+| Dedicated React Aria hook | 17 | The behavior and accessibility are solved. Mostly tokens, CSS and motion |
 | Generic React Aria pieces only | 8 | `usePress`, `useButton` or `useModalOverlay` apply, but the structure and motion are ours |
 | No React Aria support | 6 | Behavior written from scratch: badges, carousel, FAB menu, loading indicator, navigation bar, navigation rail |
 
@@ -37,6 +40,10 @@ Of the 32 remaining, split by how much of the behavior already exists:
 | Icon buttons | 4 variants, 3 widths, plain and toggle |
 | Button groups | Standard (pressed item widens 15%) and connected (single / multi select) |
 | Segmented buttons | Covered by `ConnectedButtonGroup`, which M3E replaces segmented buttons with |
+| Divider | Horizontal and vertical, full-width and inset (both ends, start, end), on `useSeparator` |
+| Icon † | Sizes and colours an SVG or a Material Symbols ligature. Reads `--grange-icon-size`, so it matches whatever control it sits in. Filled axis, RTL flip |
+
+† Not a separate entry in the M3 catalog, so it is excluded from the counts.
 
 Also done, as primitives rather than components: state layer, ripple, focus ring, elevation and
 the 48px touch target. Material Web ships those four as components (`md-ripple`,
@@ -48,13 +55,13 @@ Not components, but most of the list below is blocked on them.
 
 | Gap | Why it blocks things | Notes |
 | --- | --- | --- |
-| **Icon** | Every component below takes icons. Right now stories hand-roll SVGs in `stories/icons.tsx` | Material Web ships `md-icon`. Needs a sizing contract and the `--_icon` custom property the buttons already use |
+| ~~Icon~~ ✅ | | Done. The sizing contract is `--grange-icon-size`, which the buttons publish and `Icon` reads |
 | **Overlay layer** | Dialogs, menus, select, tooltips, sheets, snackbars, date and time pickers all need portalling, focus trapping and dismiss handling | React Aria has all of it: `Overlay`, `PortalProvider`, `FocusScope`, `useOverlay`, `useModalOverlay`, `usePreventScroll`, `useInteractOutside`. Needs a portal container on `GrangeProvider` |
 | **Positioning** | Menus, tooltips, select and popovers must anchor to a trigger and flip in a viewport | `useOverlayPosition`, `usePopover`, `useOverlayTrigger` |
 | **Collections** | Lists, menus, select, tabs and chips all need item collections with typeahead and keyboard navigation | React Aria's `Collection` / `CollectionBuilder` and the `ListKeyboardDelegate` |
-| **Link rendering** | Material Web buttons accept `href` and render an anchor. `ButtonBase` renders `motion.button` only, so `href` does nothing today | React Aria's `useButton` already understands `href` / `target` / `rel`; `ButtonBase` needs to switch element |
-| **Form integration** | Material Web buttons carry `name`, `value`, `type` and `form` and participate in submission | Partly inherited through `AriaButtonProps`, never verified |
-| **RTL** | Material Web has `flip-icon-in-rtl`; connected group corners and leading/trailing icons are direction-sensitive | Nothing handles direction yet |
+| ~~Link rendering~~ ✅ | | Done. An `href` renders `motion.a` with `elementType: 'a'`, keeping the button role so the announced role matches the keyboard behavior. A disabled button drops the href |
+| ~~Form integration~~ ✅ | | Done, and it turned out `useButton` already emitted `type`, `form`, `name` and `value`; it only needed tests, including a real form submission |
+| ~~RTL~~ ✅ | | Done. `Icon` takes `flipInRtl`, the connected group mirrors its outer corners through `useLocale`, and the dividers use logical margins |
 | **Shape library** | M3E's shape morphing (the loading indicator, FAB menu) needs the 35 shapes in `tokens/m3-expressive.json` | `shapeLibrary` is captured in the token file and read by nothing |
 
 ## Remaining components
@@ -113,7 +120,6 @@ counts above.
 | --- | --- | --- | --- | --- |
 | Cards | | | `usePress`, `useFocusRing` | Elevated / filled / outlined, optional whole-card click target, media and action slots |
 | Lists | | ✅ | `useListBox`, `useGridList` | One / two / three line, leading and trailing slots, dividers, selection, keyboard navigation |
-| Divider | | ✅ | `useSeparator` | Full-width and inset, horizontal and vertical. Smallest remaining item |
 | Badges | | | — | Small dot and large numbered, positioned on an icon or a nav item |
 | Carousel | | | custom | Multi-browse / uncontained / hero / full-screen layouts, snapping, keyboard and drag. No React Aria hook |
 | Progress indicators | ✅ | ✅ | `useProgressBar` | Linear and circular, determinate and indeterminate. M3E restyled both with a wavy track |
@@ -130,7 +136,7 @@ counts above.
 
 Each phase is useful on its own and unblocks the next.
 
-1. **Foundations** — `Icon`, `Divider`, link rendering and form props on `ButtonBase`, RTL. Small, and everything else assumes them.
+1. ~~**Foundations**~~ — done: `Icon`, `Divider`, link rendering and form props on `ButtonBase`, RTL.
 2. **Form controls** — Checkbox, Radio button, Switch, Sliders, Text fields. All have React Aria hooks, no overlay needed, and they are what an app needs first.
 3. **Overlay infrastructure plus its components** — the portal and positioning layer, then Dialogs, Menus, Select, Tooltips, Snackbar. One hard piece of plumbing, then five components come cheaply.
 4. **Navigation and structure** — Tabs, App bars, Toolbars, Navigation bar / rail / drawer, Cards, Lists.

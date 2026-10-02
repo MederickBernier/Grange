@@ -36,7 +36,7 @@ Dark mode follows `prefers-color-scheme`; force it with `data-theme="dark"` (or 
 | Sass API | `src/scss` → `@use '@jyga/grange-react/scss'`: `theme()` to override roles, `color()` / `corner()` / `duration()` / `easing()` / `type-prop()` to reference them, `typescale()` to apply a text style. Unknown names fail the build |
 | Overrides | `GrangeProvider` takes `defaultProps`, `classNames` (per slot, add or replace), `behavior` (ripple, spring roles, touch target, inner corners) and `sizes` (geometry). Providers nest and merge |
 | Motion | `GrangeProvider` (expressive / standard scheme, reduced-motion aware), `useSpring(name)` for the six M3E springs |
-| Primitives | State layer, ripple, focus ring, elevation, 48px touch target (`src/primitives`), and `ButtonBase`, the shared interactive core |
+| Primitives | State layer, ripple, focus ring, elevation, 48px touch target (`src/primitives`), and `ButtonBase`, the shared interactive core. `Icon` sizes itself from `--grange-icon-size`; `Divider` is horizontal or vertical, full-width or inset |
 | Components | One per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single / multi select) |
 | Roadmap | [`docs/components.md`](docs/components.md) — the full M3 catalog, what is done, and what each remaining component needs |
 | Storybook | Every component and state, light/dark and expressive/standard toolbar switches, and **Foundations / Motion playground** for tuning springs live |
@@ -90,6 +90,20 @@ are not in its stable release.
 ```tsx
 <FilledButton size="l" shape="square">Save</FilledButton>
 ```
+
+**An `href` renders an `<a>`**, as Material Web's buttons do, so you get middle-click and open-in-new-tab.
+It keeps the button role and Space-to-activate, so what assistive tech announces matches how the
+control behaves. A disabled one drops the href and cannot navigate.
+
+```tsx
+<FilledButton href="/save" target="_blank" rel="noreferrer">Save</FilledButton>
+```
+
+**Form props work**: `type`, `name`, `value` and `form` reach the `<button>`, and `type` defaults
+to `"button"` so a button never submits a form by accident.
+
+**RTL**: `Icon` takes `flipInRtl` for direction-sensitive glyphs, and `ConnectedButtonGroup`
+mirrors its outer corners. Wrap the app in React Aria's `I18nProvider` to set the locale.
 
 ## Theming
 
@@ -223,10 +237,10 @@ Springs are tuned in the Motion playground story. The "Changed values" panel the
 
 ## What's missing
 
-Four of the 36 components in the Material 3 catalog are done: buttons, icon buttons, button
-groups and (through `ConnectedButtonGroup`) segmented buttons. Of the 32 remaining, 18 have a
-dedicated React Aria hook, so their behavior and accessibility are already solved; 6 have no
-React Aria support at all.
+Five of the 36 components in the Material 3 catalog are done: buttons, icon buttons, button
+groups, (through `ConnectedButtonGroup`) segmented buttons and `Divider`, plus `Icon`, which the
+catalog does not list separately. Of the 31 remaining, 17 have a dedicated React Aria hook, so
+their behavior and accessibility are already solved; 6 have no React Aria support at all.
 
 See [`docs/components.md`](docs/components.md) for the full catalog, what each remaining
 component needs, and the foundations most of them are blocked on.
