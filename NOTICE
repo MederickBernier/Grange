@@ -8,6 +8,18 @@ This package includes code ported from, and values taken from, the following Apa
   Copyright The Android Open Source Project. Design token values in tokens/m3-expressive.json,
   button sizes, color mappings and button-group width behaviour.
 
-- Material Symbols icon paths used in stories/icons.tsx (Google, Apache 2.0).
+- Jetpack Compose Material 3, MaterialShapes.kt (https://github.com/androidx/androidx)
+  Copyright The Android Open Source Project. The 35-shape library's vertex lists and corner
+  rounding, captured into tokens/m3-shapes.json by scripts/capture-shapes.mts.
+
+- androidx.graphics.shapes (https://github.com/androidx/androidx)
+  Copyright The Android Open Source Project. The rounded-polygon geometry — corner rounding and
+  smoothing, the cut negotiation between neighbouring corners, the circular-arc approximation and
+  normalisation — ported in src/shapes/{geometry,polygon}.ts. Morph and its feature matching are
+  not ported.
+
+- Material Symbols icon paths used in stories/icons.tsx, src/components/Chip/Chip.tsx,
+  src/components/SideSheet/SideSheet.tsx and src/components/TextField/TextField.tsx
+  (Google, Apache 2.0).
 
 Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
