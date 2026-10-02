@@ -50,6 +50,8 @@ export type {
   CheckboxSlot,
   SwitchSlot,
   RadioSlot,
+  RatingSlot,
+  SignatureSlot,
   SliderSlot,
   TextFieldSlot,
   NumberFieldSlot,
@@ -216,6 +218,16 @@ export {
 } from './components/NumberField/NumberField';
 export type { NumberFieldProps, VariantNumberFieldProps } from './components/NumberField/NumberField';
 export { numberField } from './components/NumberField/specs';
+
+export { Rating } from './components/Rating/Rating';
+export type { RatingProps } from './components/Rating/Rating';
+export { rating } from './components/Rating/specs';
+
+export { Signature } from './components/Signature/Signature';
+export type { SignatureProps } from './components/Signature/Signature';
+export { signature } from './components/Signature/specs';
+export { strokePath, strokesToSvg, strokeBounds, thin } from './components/Signature/strokes';
+export type { Stroke, SvgOptions } from './components/Signature/strokes';
 
 export { RadioGroup, Radio } from './components/Radio/Radio';
 export type { RadioGroupProps, RadioProps } from './components/Radio/Radio';
