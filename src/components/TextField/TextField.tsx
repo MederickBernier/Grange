@@ -1,12 +1,13 @@
 import { forwardRef, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react';
-import { useButton, useFocusRing, useHover, useObjectRef, useTextField } from 'react-aria';
+import { mergeProps, useButton, useFocusRing, useHover, useObjectRef, useTextField } from 'react-aria';
 import {
   resolveSlotClass,
   useComponentConfig,
   type SlotOverrides,
   type TextFieldSlot,
 } from '../../config/config';
-import { counterText, textField as spec, type TextFieldVariant } from './specs';
+import { counterText, type TextFieldVariant } from './specs';
+import { FieldShell } from './FieldShell';
 import styles from './TextField.module.scss';
 
 export type { TextFieldVariant };
@@ -160,72 +161,33 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
     const inputClass = slot('input', 'grange-text-field-input', styles.input);
 
     return (
-      <div
-        className={slot('root', 'grange-text-field', styles.root)}
+      <FieldShell
+        variant={variant}
         style={style}
-        data-variant={variant}
-        data-populated={populated || undefined}
-        data-focused={isFocused || undefined}
-        data-focus-visible={isFocusVisible || undefined}
-        data-hovered={isHovered || undefined}
-        data-error={error || undefined}
-        data-disabled={disabled || undefined}
-        data-multiline={multiline || undefined}
-      >
-        <div {...hoverProps} className={slot('container', 'grange-text-field-container', styles.container)}>
-          {variant === 'outlined' && (
-            // A real fieldset and legend, so the notch is exactly the label's width and the
-            // border closes up again when the label drops back inside.
-            <fieldset className={styles.outline} aria-hidden="true">
-              <legend className={styles.notch}>
-                <span>{label}</span>
-              </legend>
-            </fieldset>
-          )}
-
-          {leadingIcon && (
-            <span className={slot('leadingIcon', 'grange-text-field-leading-icon', styles.icon)}>
-              {leadingIcon}
-            </span>
-          )}
-
-          <div className={styles.field}>
-            {label != null && (
-              <label {...labelProps} className={slot('label', 'grange-text-field-label', styles.label)}>
-                {label}
-              </label>
-            )}
-            <div className={styles.inputRow}>
-              {prefix && <span className={styles.affix}>{prefix}</span>}
-              {multiline ? (
-                <textarea
-                  {...(inputProps as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
-                  {...focusProps}
-                  ref={ref as unknown as React.Ref<HTMLTextAreaElement>}
-                  rows={rows}
-                  aria-describedby={describedBy}
-                  className={inputClass}
-                />
-              ) : (
-                <input
-                  {...(inputProps as React.InputHTMLAttributes<HTMLInputElement>)}
-                  {...focusProps}
-                  ref={ref}
-                  aria-describedby={describedBy}
-                  className={inputClass}
-                />
-              )}
-              {suffix && <span className={styles.affix}>{suffix}</span>}
-            </div>
-          </div>
-
-          {trailingIcon && (
-            <span className={slot('trailingIcon', 'grange-text-field-trailing-icon', styles.icon)}>
-              {trailingIcon}
-            </span>
-          )}
-
-          {showReveal && (
+        classes={{
+          root: slot('root', 'grange-text-field', styles.root),
+          container: slot('container', 'grange-text-field-container', styles.container),
+          label: slot('label', 'grange-text-field-label', styles.label),
+          supporting: slot('supporting', 'grange-text-field-supporting', styles.supporting),
+          leadingIcon: slot('leadingIcon', 'grange-text-field-leading-icon', styles.icon),
+          trailingIcon: slot('trailingIcon', 'grange-text-field-trailing-icon', styles.icon),
+        }}
+        state={{
+          populated,
+          focused: isFocused,
+          focusVisible: isFocusVisible,
+          hovered: isHovered,
+          error,
+          disabled,
+          multiline,
+        }}
+        label={label}
+        labelProps={labelProps}
+        containerProps={hoverProps}
+        leadingIcon={leadingIcon}
+        trailingIcon={trailingIcon}
+        trailing={
+          showReveal && (
             <RevealButton
               className={slot('reveal', 'grange-text-field-reveal', styles.reveal)}
               revealed={revealed}
@@ -233,28 +195,37 @@ export const TextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Text
               disabled={disabled}
               onToggle={() => setRevealed((was) => !was)}
             />
-          )}
-
-          {variant === 'filled' && <span className={styles.indicator} aria-hidden="true" />}
-        </div>
-
-        {(description != null || (error && errorText != null) || showCounter) && (
-          <div className={slot('supporting', 'grange-text-field-supporting', styles.supporting)}>
-            <span>
-              {error && errorText != null ? (
-                <span {...errorMessageProps}>{errorText}</span>
-              ) : description != null ? (
-                <span {...descriptionProps}>{description}</span>
-              ) : null}
-            </span>
-            {showCounter && (
-              <span id={counterId} className={styles.counter}>
-                {counterText(value.length, maxLength)}
-              </span>
-            )}
-          </div>
+          )
+        }
+        prefix={prefix}
+        suffix={suffix}
+        supporting={error && errorText != null ? errorText : description}
+        supportingProps={error && errorText != null ? errorMessageProps : descriptionProps}
+        counter={showCounter ? counterText(value.length, maxLength) : undefined}
+        counterId={counterId}
+      >
+        {/*
+          mergeProps rather than two spreads: useFocusRing also returns onFocus and onBlur, so
+          spreading it second would replace whatever the field hook put there. Harmless here and
+          not harmless in NumberField, where the hook's onBlur is what commits the value.
+        */}
+        {multiline ? (
+          <textarea
+            {...mergeProps(inputProps as React.TextareaHTMLAttributes<HTMLTextAreaElement>, focusProps)}
+            ref={ref as unknown as React.Ref<HTMLTextAreaElement>}
+            rows={rows}
+            aria-describedby={describedBy}
+            className={inputClass}
+          />
+        ) : (
+          <input
+            {...mergeProps(inputProps as React.InputHTMLAttributes<HTMLInputElement>, focusProps)}
+            ref={ref}
+            aria-describedby={describedBy}
+            className={inputClass}
+          />
         )}
-      </div>
+      </FieldShell>
     );
   },
 );
