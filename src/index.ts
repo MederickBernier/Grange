@@ -60,6 +60,7 @@ export type {
   CardSlot,
   ListSlot,
   AppBarSlot,
+  NavigationSlot,
   SnackbarSlot,
   ClassNamesConfig,
   DefaultPropsConfig,
@@ -72,6 +73,13 @@ export type {
 export { Fab } from './components/Fab/Fab';
 export type { FabProps, FabSize, FabVariant } from './components/Fab/Fab';
 export { fabSizes } from './components/Fab/specs';
+
+export { NavigationBar, NavigationRail } from './components/Navigation/NavigationBar';
+export type { NavigationBarProps, NavigationRailProps } from './components/Navigation/NavigationBar';
+export { NavigationItem } from './components/Navigation/NavigationItem';
+export type { NavigationItemProps } from './components/Navigation/NavigationItem';
+export { navigationBar, navigationRail, navigationItem } from './components/Navigation/specs';
+export type { NavigationArrangement } from './components/Navigation/specs';
 
 export { List, ListItem } from './components/List/List';
 export type { ListProps, ListItemProps } from './components/List/List';

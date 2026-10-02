@@ -1,0 +1,208 @@
+/*
+ * Navigation bar and rail, from Compose NavigationBarTokens, the bar and rail item tokens,
+ * NavigationRailCollapsedTokens, NavigationRailExpandedTokens and NavigationRailColorTokens.
+ *
+ * The bar and the rail colour their items identically, so the item rules are shared and only
+ * the containers and the arrangement differ.
+ */
+
+@use '../../scss/api' as grange;
+
+// ---------------------------------------------------------------------------
+// Containers
+// ---------------------------------------------------------------------------
+
+.bar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  gap: 0; // ItemBetweenSpace
+  min-height: 64px; // ContainerHeight
+  border-radius: 0; // NavShape: CornerNone
+  background: grange.color(surface-container); // ContainerColor
+  // ContainerElevation is level 2.
+  box-shadow:
+    0 1px 2px 0 #{grange.translucent(shadow, 30%)},
+    0 2px 6px 2px #{grange.translucent(shadow, 15%)};
+
+  &[data-tall] {
+    min-height: 80px; // TallContainerHeight
+  }
+
+  > * {
+    // Items divide the width between them.
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+.rail {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 96px; // ContainerWidth
+  padding-top: 44px; // TopSpace
+  border-radius: 0; // ContainerShape: CornerNone
+  background: grange.color(surface); // Collapsed container colour
+  // ContainerElevation is level 0, so there is nothing to draw.
+
+  &[data-narrow] {
+    width: 80px; // NarrowContainerWidth
+  }
+
+  // The tokens give the expanded width as a range rather than a number, so both ends are set
+  // and the layout picks within them.
+  &[data-expanded] {
+    width: auto;
+    min-width: 220px; // ContainerWidthMinimum
+    max-width: 360px; // ContainerWidthMaximum
+  }
+}
+
+.railHeader {
+  display: flex;
+  justify-content: center;
+  padding-inline: 16px;
+  padding-bottom: 8px;
+}
+
+.rail[data-expanded] .railHeader {
+  justify-content: flex-start;
+}
+
+.railItems {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; // ItemVerticalSpace
+  padding-inline: 16px; // Rail item leading and trailing space
+}
+
+// ---------------------------------------------------------------------------
+// Items, shared by both
+// ---------------------------------------------------------------------------
+
+.item {
+  --_icon: #{grange.color(on-surface-variant)}; // ItemInactiveIconColor
+  --_label: #{grange.color(on-surface-variant)}; // ItemInactiveLabelTextColor
+  --_indicator: transparent;
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px; // ItemActiveIndicatorIconLabelSpace
+  margin: 0;
+  padding: 8px 4px;
+  border: none;
+  background: none;
+  color: var(--_label);
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.item[data-disabled] {
+  cursor: default;
+
+  --_icon: #{grange.translucent(on-surface, 38%)};
+  --_label: #{grange.translucent(on-surface, 38%)};
+}
+
+// The indicator carries the fill, the state layer and the ripple.
+.indicator {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px; // Vertical item ActiveIndicatorWidth
+  height: 32px; // Vertical item ActiveIndicatorHeight
+  border-radius: 9999px; // ItemActiveIndicatorShape: CornerFull
+  background: var(--_indicator);
+  color: var(--_icon);
+  transition: background-color grange.duration(short3) linear;
+}
+
+.icon {
+  display: inline-flex;
+  width: 24px; // IconSize
+  height: 24px;
+  --grange-icon-size: 24px;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding-inline: 4px;
+  border-radius: 9999px;
+  background: grange.color(error);
+  color: grange.color(on-error);
+  @include grange.typescale(label-small);
+}
+
+.label {
+  color: var(--_label);
+  text-align: center;
+  @include grange.typescale(label-medium); // LabelTextFont
+}
+
+.item[data-selected] {
+  --_indicator: #{grange.color(secondary-container)}; // ItemActiveIndicatorColor
+  --_icon: #{grange.color(on-secondary-container)}; // ItemActiveIconColor
+  --_label: #{grange.color(secondary)}; // ItemActiveLabelTextColor
+}
+
+// ---------------------------------------------------------------------------
+// Inline arrangement: icon beside the label, with the indicator spanning both.
+// ---------------------------------------------------------------------------
+
+.bar[data-arrangement='horizontal'] .item,
+.railItems[data-arrangement='horizontal'] .item {
+  flex-direction: row;
+  gap: 0;
+  padding: 0;
+}
+
+.bar[data-arrangement='horizontal'] .indicator,
+.railItems[data-arrangement='horizontal'] .indicator {
+  width: auto;
+  height: 40px; // Horizontal item ActiveIndicatorHeight
+  gap: 8px;
+  padding-inline: 16px; // Horizontal item leading and trailing space
+}
+
+// With the indicator spanning both, the label goes inside it so the fill covers the pair.
+.bar[data-arrangement='horizontal'] .label,
+.railItems[data-arrangement='horizontal'] .label {
+  color: inherit;
+  white-space: nowrap;
+}
+
+.railItems[data-arrangement='horizontal'] .item {
+  justify-content: flex-start;
+}
+
+.railItems[data-arrangement='horizontal'] .indicator {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: none;
+  }
+}

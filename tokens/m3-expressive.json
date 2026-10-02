@@ -3,7 +3,7 @@
     "source": "androidx-main compose/material3 token files (Apache 2.0)",
     "read": "2026-10-01",
     "units": "dp=px, sp=px",
-    "componentTokensVersion": "14_0_0",
+    "componentTokensVersion": "v0_11_0",
     "componentTokensSource": "androidx-main compose/material3 tokens"
   },
   "motion": {
@@ -1705,6 +1705,82 @@
       "TitleColor": "color:OnSurface",
       "TrailingIconColor": "color:OnSurfaceVariant",
       "TrailingSpace": "4.0.dp"
+    },
+    "NavigationBar": {
+      "ContainerColor": "color:SurfaceContainer",
+      "ContainerElevation": "elevation:Level2",
+      "ContainerHeight": "64.0.dp",
+      "ItemActiveIconColor": "color:OnSecondaryContainer",
+      "ItemActiveIndicatorColor": "color:SecondaryContainer",
+      "ItemActiveIndicatorIconLabelSpace": "4.0.dp",
+      "ItemActiveIndicatorShape": "CornerFull",
+      "ItemActiveLabelTextColor": "color:Secondary",
+      "ItemBetweenSpace": "0.0.dp",
+      "ItemInactiveIconColor": "color:OnSurfaceVariant",
+      "ItemInactiveLabelTextColor": "color:OnSurfaceVariant",
+      "NavShape": "CornerNone",
+      "TallContainerHeight": "80.0.dp",
+      "LabelTextFont": "type:LabelMedium"
+    },
+    "NavigationBarVerticalItem": {
+      "ActiveIndicatorHeight": "32.0.dp",
+      "ActiveIndicatorWidth": "56.0.dp",
+      "ContainerBetweenSpace": "6.0.dp",
+      "IconSize": "24.0.dp"
+    },
+    "NavigationBarHorizontalItem": {
+      "ActiveIndicatorHeight": "40.0.dp",
+      "ActiveIndicatorLeadingSpace": "16.0.dp",
+      "ActiveIndicatorTrailingSpace": "16.0.dp",
+      "IconSize": "24.0.dp"
+    },
+    "NavigationRailCollapsed": {
+      "ContainerElevation": "elevation:Level0",
+      "ContainerShape": "CornerNone",
+      "ContainerWidth": "96.0.dp",
+      "ItemVerticalSpace": "4.0.dp",
+      "TopSpace": "44.0.dp",
+      "ContainerColor": "color:Surface",
+      "NarrowContainerWidth": "80.0.dp"
+    },
+    "NavigationRailExpanded": {
+      "ContainerElevation": "elevation:Level0",
+      "ContainerShape": "CornerNone",
+      "ContainerWidthMaximum": "360.0.dp",
+      "ContainerWidthMinimum": "220.0.dp",
+      "ModalContainerElevation": "elevation:Level2",
+      "ModalContainerShape": "CornerLarge",
+      "TopSpace": "44.0.dp",
+      "ModalContainerColor": "color:SurfaceContainer"
+    },
+    "NavigationRailColor": {
+      "ItemActiveFocusedStateLayer": "color:OnSecondaryContainer",
+      "ItemActiveHoveredStateLayer": "color:OnSecondaryContainer",
+      "ItemActiveIcon": "color:OnSecondaryContainer",
+      "ItemActiveIndicator": "color:SecondaryContainer",
+      "ItemActiveLabelText": "color:Secondary",
+      "ItemActivePressedStateLayer": "color:OnSecondaryContainer",
+      "ItemInactiveFocusedStateLayer": "color:OnSecondaryContainer",
+      "ItemInactiveHoveredStateLayer": "color:OnSecondaryContainer",
+      "ItemInactiveIcon": "color:OnSurfaceVariant",
+      "ItemInactiveLabelText": "color:OnSurfaceVariant",
+      "ItemInactivePressedStateLayer": "color:OnSecondaryContainer"
+    },
+    "NavigationRailVerticalItem": {
+      "ActiveIndicatorHeight": "32.0.dp",
+      "ActiveIndicatorWidth": "56.0.dp",
+      "IconLabelSpace": "4.0.dp",
+      "LeadingSpace": "16.0.dp",
+      "TrailingSpace": "16.0.dp",
+      "LabelTextFont": "type:LabelMedium"
+    },
+    "NavigationRailHorizontalItem": {
+      "ActiveIndicatorHeight": "56.0.dp",
+      "FullWidthLeadingSpace": "16.0.dp",
+      "FullWidthTrailingSpace": "16.0.dp",
+      "IconLabelSpace": "8.0.dp",
+      "LeadingSpace": "16.0.dp",
+      "LabelTextFont": "type:LabelLarge"
     }
   }
 }
