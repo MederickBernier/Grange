@@ -42,16 +42,15 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 62 |
-| In scope, to build | 39 (across 7 phases) |
+| Already covered by Grange | 66 |
+| In scope, to build | 35 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
 verification — they are roughly 28 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phases 1 and 2 are done**, and **phase 3 is under way**: `DateField` and `DatePicker` are in,
-2 of its 6.
+**Phases 1, 2 and 3 are done.** Phase 4 is next.
 
 ## Already covered
 
@@ -198,15 +197,25 @@ rest of it:
   like clamping and is not.
 - **A calendar in a popover has to be given `autoFocus`**, like the combo box's list and the
   context menu before it, or neither the arrows nor Escape do anything.
+- **Several months are several grids, not one wide one.** A `role="grid"` is navigated as a
+  grid: the arrows move within it and a screen reader reads its caption. Two months in one grid
+  would mean arrowing off the end of July into August's first week as if they were one month, and
+  one caption for both. So `MultiViewCalendar` renders one `useCalendarGrid` per month, and each
+  grid is given an explicit `startDate`/`endDate` so a day belonging to a neighbouring month is
+  left blank rather than drawn twice.
+- **A pinned story's baseline has to be re-shot when it is pinned.** One calendar baseline still
+  held the month that `today()` happened to be on the day it was taken, so it disagreed with the
+  pinned story for a reason that had nothing to do with this round's code. Checked by looking at
+  the two images rather than at the pixel count, which is what finally said so.
 
 | Component | Behaviour | Notes |
 | --- | --- | --- |
 | ~~`DateField`~~ ✅ (DateInput) | `useDateField` | Done. Each part its own target, with the order of the parts and the separators coming from the locale: a British user types the day first and an American the month first, into the same component. `Segment` came out of `TimeField` so the behaviour is shared, while the geometry is not — the time picker's input mode draws 96 by 72 boxes from TimeInputTokens, which belongs to the picker rather than to a field |
 | ~~`DatePicker`~~ ✅ | `useDatePicker` | Done, the docked one: the field and a calendar in a popover over one value, opening on the month the value is in. The modal variant is not a separate component — a `Calendar` in a `Dialog`, which the calendar's own story shows |
-| `DateRangePicker` | `useDateRangePicker` | Two fields and `RangeCalendar` |
-| `DateTimePicker` | `useDatePicker` | One control for both, which is a granularity on the same hook |
-| `MultiViewCalendar` | `useCalendar` | Two or three months side by side, via `visibleDuration` |
-| Date Math | utility | `@internationalized/date` is already a dependency and does most of it; this is the thin layer over it the pickers want |
+| ~~`DateRangePicker`~~ ✅ | `useDateRangePicker` | Done. Two sets of segments in one field over one `RangeCalendar`, because a range is one value: the hook keeps the two ends in order and reports an invalid range rather than silently swapping it |
+| ~~`DateTimePicker`~~ ✅ | `useDatePicker` | Done, and it is a granularity rather than a component: the same hook with `granularity="minute"` grows the time segments and puts a `TimeField` under the calendar. `DatePicker` and `DateTimePicker` share one `PickerBase` so the two cannot drift |
+| ~~`MultiViewCalendar`~~ ✅ | `useCalendar` | Done, as `visibleMonths` on the calendars that already exist rather than a fourth component — with `pageBehavior` for whether the arrows move a month or a page, and `selectionAlignment` for where the value sits among the visible months |
+| ~~Date Math~~ ✅ | utility | Done, in `src/dates`: clamping, ordering and overlap for ranges, the day/week/month spans, and range formatting. Thin on purpose — everything `@internationalized/date` already does is re-exported rather than reimplemented, and `isWeekend` takes no locale because the one in that library does, which is the difference worth documenting |
 
 ### Phase 4 — Layout and navigation
 
