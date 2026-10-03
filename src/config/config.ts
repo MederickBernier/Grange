@@ -111,6 +111,8 @@ export type CarouselSlot = 'root' | 'item';
 export type AvatarSlot = 'root' | 'image' | 'label';
 export type DisclosureSlot = 'root' | 'header' | 'title' | 'panel';
 export type BreadcrumbsSlot = 'root' | 'crumb';
+export type TimelineSlot = 'root' | 'item' | 'content';
+export type StepperSlot = 'root' | 'step' | 'button';
 export type SkeletonSlot = 'root' | 'bar';
 export type BadgeSlot = 'root';
 export type ChipSlot = 'root' | 'label' | 'remove';
@@ -185,6 +187,8 @@ export interface ClassNamesConfig {
   ExpansionPanel?: SlotOverrides<DisclosureSlot>;
   Accordion?: SlotOverrides<DisclosureSlot>;
   Breadcrumbs?: SlotOverrides<BreadcrumbsSlot>;
+  Timeline?: SlotOverrides<TimelineSlot>;
+  Stepper?: SlotOverrides<StepperSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
   Chip?: SlotOverrides<ChipSlot>;
@@ -272,6 +276,8 @@ export interface DefaultPropsConfig {
   ExpansionPanel?: { variant?: AccordionVariant };
   Accordion?: { variant?: AccordionVariant; allowsMultipleExpanded?: boolean };
   Breadcrumbs?: { maxVisible?: number };
+  Timeline?: { orientation?: 'vertical' | 'horizontal'; alternating?: boolean };
+  Stepper?: { orientation?: 'horizontal' | 'vertical'; linear?: boolean };
   Skeleton?: { shape?: SkeletonShape; animation?: SkeletonAnimation };
   DatePicker?: { variant?: 'filled' | 'outlined' };
   DateRangePicker?: { variant?: 'filled' | 'outlined'; visibleMonths?: 1 | 2 | 3 };
@@ -470,6 +476,8 @@ const COMPONENTS: ComponentName[] = [
   'ExpansionPanel',
   'Accordion',
   'Breadcrumbs',
+  'Timeline',
+  'Stepper',
   'Skeleton',
   'Badge',
   'Chip',

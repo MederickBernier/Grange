@@ -1,0 +1,172 @@
+/*
+ * Timeline. Nothing captured — Material has no timeline — so the metrics are borrowed: the
+ * marker is ListTokens' 24px leading-icon size, the rail is the divider's one pixel, and the
+ * spacing is the list's between- and leading-space.
+ */
+
+@use '../../scss/api' as grange;
+
+.timeline {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: grange.color(on-surface);
+}
+
+.item {
+  display: grid;
+  // The rail column, then the content.
+  grid-template-columns: 24px 1fr;
+  column-gap: 12px; // ItemBetweenSpace
+  padding-bottom: 16px; // ItemLeadingSpace, between one entry and the next
+
+  &[data-last] {
+    padding-bottom: 0;
+  }
+}
+
+/*
+ * The rail and its marker. One element: the line is a background on the column, so it runs the
+ * full height of the entry without a second box to keep in sync.
+ */
+.rail {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 24px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: -16px;
+    width: 1px; // the divider's thickness
+    background: grange.color(outline-variant);
+  }
+
+  // The last entry's line stops at its own marker rather than running into nothing.
+  .item[data-last] &::before {
+    bottom: auto;
+    height: 12px;
+  }
+}
+
+.marker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 24px; // ItemLeadingIconSize
+  height: 24px;
+  border-radius: 9999px;
+  background: grange.color(surface);
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(label-small);
+
+  // An empty marker is the bare dot, drawn rather than left blank.
+  &:empty::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    border: 1px solid grange.color(outline);
+    background: grange.color(surface);
+  }
+
+  .item[data-current] &:empty::after {
+    border-color: grange.color(primary);
+    background: grange.color(primary);
+  }
+
+  .item[data-current] & {
+    color: grange.color(primary);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding-bottom: 4px;
+}
+
+.time {
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(label-small);
+}
+
+.title {
+  @include grange.typescale(body-large); // ItemLabelTextFont
+}
+
+.body {
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(body-medium); // ItemSupportingTextFont
+}
+
+/*
+ * Alternating sides. The rail moves to the middle column and the content takes whichever side
+ * the item was given, which is a grid change rather than a different component.
+ */
+.timeline[data-alternating] .item {
+  grid-template-columns: 1fr 24px 1fr;
+
+  .rail {
+    grid-column: 2;
+  }
+
+  &[data-side='start'] .content {
+    grid-row: 1;
+    grid-column: 1;
+    text-align: end;
+    align-items: flex-end;
+  }
+
+  &[data-side='end'] .content {
+    grid-row: 1;
+    grid-column: 3;
+  }
+}
+
+/*
+ * Horizontal. The entries become columns and the rail runs across rather than down; everything
+ * else is the same markup.
+ */
+.timeline[data-orientation='horizontal'] {
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+
+  .item {
+    grid-template-columns: none;
+    grid-template-rows: 24px auto;
+    row-gap: 12px;
+    padding-bottom: 0;
+    padding-inline-end: 16px;
+  }
+
+  .item[data-last] {
+    padding-inline-end: 0;
+  }
+
+  .rail {
+    width: auto;
+    height: 24px;
+
+    &::before {
+      top: 50%;
+      right: -16px;
+      bottom: auto;
+      left: 0;
+      width: auto;
+      height: 1px;
+    }
+  }
+
+  .item[data-last] .rail::before {
+    right: auto;
+    width: 50%;
+    height: 1px;
+  }
+}

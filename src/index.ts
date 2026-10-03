@@ -77,6 +77,8 @@ export type {
   AvatarSlot,
   DisclosureSlot,
   BreadcrumbsSlot,
+  TimelineSlot,
+  StepperSlot,
   SkeletonSlot,
   BadgeSlot,
   ChipSlot,
@@ -153,6 +155,12 @@ export * from './shapes';
 export { Chip, ChipGroup } from './components/Chip/Chip';
 export type { ChipProps, ChipGroupProps, ChipVariant } from './components/Chip/Chip';
 export { chip } from './components/Chip/specs';
+export { Timeline, TimelineItem } from './components/Timeline/Timeline';
+export type { TimelineProps, TimelineItemProps } from './components/Timeline/Timeline';
+export { timeline } from './components/Timeline/specs';
+export { Stepper, Step } from './components/Stepper/Stepper';
+export type { StepperProps, StepProps } from './components/Stepper/Stepper';
+export { stepper } from './components/Stepper/specs';
 export { ExpansionPanel, Accordion, AccordionItem } from './components/Disclosure/Disclosure';
 export type {
   ExpansionPanelProps,

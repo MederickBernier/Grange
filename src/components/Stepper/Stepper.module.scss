@@ -1,0 +1,158 @@
+/*
+ * Stepper. No StepperTokens in androidx, so the metrics are chosen and borrowed: the rail is the
+ * divider's one pixel, the gap is ListTokens' ItemBetweenSpace, and the marker is a 32px circle
+ * — bigger than a timeline's 24px dot because it carries a numeral.
+ */
+
+@use '../../scss/api' as grange;
+
+.stepper {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: grange.color(on-surface);
+}
+
+.step {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 72px;
+}
+
+.button {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px; // ItemBetweenSpace
+  padding: 8px;
+  border: none;
+  border-radius: grange.corner(medium);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+
+  &[data-hovered] {
+    background: grange.translucent(on-surface, 8); // the hover state-layer opacity
+  }
+
+  &[data-focus-visible] {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: -3px;
+  }
+
+  // Unreachable, but still readable: aria-disabled rather than disabled, so the path stays
+  // visible to a screen reader and in the Tab order.
+  &[aria-disabled] {
+    cursor: default;
+
+    &[data-hovered] {
+      background: none;
+    }
+
+    // Dimmed, not recoloured: the circle has to stay visible, because the path ahead is what a
+    // stepper is mostly showing. 38% is the opacity the token file uses for every disabled label.
+    .marker,
+    .label,
+    .supporting {
+      opacity: 0.38;
+    }
+  }
+}
+
+.marker {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background: grange.color(surface-container-highest);
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(label-large);
+
+  .step[data-current] & {
+    background: grange.color(primary);
+    color: grange.color(on-primary);
+  }
+
+  .step[data-completed] & {
+    background: grange.color(primary);
+    color: grange.color(on-primary);
+  }
+
+  // Failure wins over both: a completed step that did not validate is not completed.
+  .step[data-error] & {
+    background: grange.color(error);
+    color: grange.color(on-error);
+  }
+}
+
+.glyph {
+  width: 20px;
+  height: 20px;
+  fill: currentcolor;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.label {
+  @include grange.typescale(label-large);
+
+  .step[data-current] & {
+    color: grange.color(primary);
+  }
+
+  .step[data-error] & {
+    color: grange.color(error);
+  }
+}
+
+.supporting {
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(body-small);
+}
+
+/* The line to the next step, which fills whatever is left of the row. */
+.rail {
+  flex: 1;
+  min-width: 16px;
+  height: 1px; // the divider's thickness
+  margin-inline: 8px;
+  background: grange.color(outline-variant);
+
+  .step[data-completed] & {
+    background: grange.color(primary);
+  }
+}
+
+.stepper[data-orientation='vertical'] {
+  flex-direction: column;
+  align-items: stretch;
+
+  .step {
+    flex: none;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rail {
+    // The horizontal rail's min-width has to go, or a vertical rail is a 16px block rather
+    // than a line.
+    width: 1px;
+    min-width: 0;
+    height: auto;
+    min-height: 16px;
+    // Lines up with the middle of the 32px marker plus the button's 8px padding.
+    margin: 4px 0 4px 24px;
+  }
+}
