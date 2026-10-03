@@ -42,15 +42,16 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 60 |
-| In scope, to build | 41 (across 7 phases) |
+| Already covered by Grange | 62 |
+| In scope, to build | 39 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
 verification — they are roughly 28 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phases 1 and 2 are done.** Phase 3 — the rest of the date and time set — is next.
+**Phases 1 and 2 are done**, and **phase 3 is under way**: `DateField` and `DatePicker` are in,
+2 of its 6.
 
 ## Already covered
 
@@ -170,9 +171,11 @@ finished and was not:
   the row is not read twice, which left the option with no accessible name at all until the label
   went back in visually hidden. Worse than having no columns.
 
-Twice now the answer has been that React Aria already names something and `aria-label` loses to
-it: the combo box's chevron, and a menu opened from a button. Both would have shipped as props
-that sat in the API looking like they worked.
+Three times now the answer has been that React Aria already names something and `aria-label`
+loses to it: the combo box's chevron, a menu opened from a button, and the date picker's calendar
+button. All three would have shipped as props that sat in the API looking like they worked. The
+rule, written down so the next one is cheaper: a trigger that belongs to a field is named by that
+field, and the only way to change what it says is to change the field's label.
 
 | Component | Behaviour | Notes |
 | --- | --- | --- |
@@ -186,10 +189,20 @@ that sat in the API looking like they worked.
 
 ### Phase 3 — Finish the date and time set
 
+Two things the first round of this phase established, both worth knowing before building the
+rest of it:
+
+- **`minValue` and `maxValue` are validation, not a clamp.** The arrows will take the value
+  outside the range; the hook reports it and marks the field invalid, and it is the app that
+  decides. A controlled field that ignores the change keeps showing the old value, which looks
+  like clamping and is not.
+- **A calendar in a popover has to be given `autoFocus`**, like the combo box's list and the
+  context menu before it, or neither the arrows nor Escape do anything.
+
 | Component | Behaviour | Notes |
 | --- | --- | --- |
-| `DateField` (DateInput) | `useDateField` | The segmented date entry, which is `TimeField`'s sibling |
-| `DatePicker` | `useDatePicker` | `DateField` plus the calendar in a popover. The docked picker the M3 spec draws |
+| ~~`DateField`~~ ✅ (DateInput) | `useDateField` | Done. Each part its own target, with the order of the parts and the separators coming from the locale: a British user types the day first and an American the month first, into the same component. `Segment` came out of `TimeField` so the behaviour is shared, while the geometry is not — the time picker's input mode draws 96 by 72 boxes from TimeInputTokens, which belongs to the picker rather than to a field |
+| ~~`DatePicker`~~ ✅ | `useDatePicker` | Done, the docked one: the field and a calendar in a popover over one value, opening on the month the value is in. The modal variant is not a separate component — a `Calendar` in a `Dialog`, which the calendar's own story shows |
 | `DateRangePicker` | `useDateRangePicker` | Two fields and `RangeCalendar` |
 | `DateTimePicker` | `useDatePicker` | One control for both, which is a granularity on the same hook |
 | `MultiViewCalendar` | `useCalendar` | Two or three months side by side, via `visibleDuration` |
