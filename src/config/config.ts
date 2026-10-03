@@ -110,6 +110,15 @@ export type ChipSlot = 'root' | 'label' | 'remove';
 export type SearchSlot = 'root' | 'bar' | 'input' | 'view';
 export type CalendarSlot = 'root' | 'header' | 'cell';
 export type TimeFieldSlot = 'root' | 'input' | 'label';
+export type DateFieldSlot =
+  | 'root'
+  | 'container'
+  | 'label'
+  | 'input'
+  | 'supporting'
+  | 'leadingIcon'
+  | 'trailingIcon'
+  | 'calendarButton';
 export type TimePickerSlot = 'root' | 'headline' | 'hour' | 'minute' | 'period' | 'dial';
 export type SnackbarSlot = 'root' | 'region' | 'action';
 
@@ -172,6 +181,8 @@ export interface ClassNamesConfig {
   LoadingIndicator?: SlotOverrides<'root'>;
   Calendar?: SlotOverrides<CalendarSlot>;
   TimeField?: SlotOverrides<TimeFieldSlot>;
+  DateField?: SlotOverrides<DateFieldSlot>;
+  DatePicker?: SlotOverrides<DateFieldSlot>;
   TimePicker?: SlotOverrides<TimePickerSlot>;
   CheckboxGroup?: SlotOverrides<'root' | 'label' | 'supportingText'>;
   Snackbar?: SlotOverrides<SnackbarSlot>;
@@ -243,6 +254,8 @@ export interface DefaultPropsConfig {
   Rating?: { max?: number; precision?: 1 | 0.5; allowClear?: boolean };
   Signature?: { width?: number; height?: number; strokeWidth?: number };
   Form?: { validationBehavior?: 'aria' | 'native' };
+  DateField?: { variant?: 'filled' | 'outlined' };
+  DatePicker?: { variant?: 'filled' | 'outlined' };
   TimePicker?: {
     hourCycle?: 12 | 24;
     periodOrientation?: 'vertical' | 'horizontal';
@@ -441,6 +454,8 @@ const COMPONENTS: ComponentName[] = [
   'LoadingIndicator',
   'Calendar',
   'TimeField',
+  'DateField',
+  'DatePicker',
   'TimePicker',
   'CheckboxGroup',
 ];

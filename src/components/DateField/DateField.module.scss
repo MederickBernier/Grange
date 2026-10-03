@@ -1,0 +1,44 @@
+/*
+ * A date field is a line of segments inside the text field's chrome, so the geometry is the text
+ * field's — which is captured. The time picker's input mode draws 96 by 72 boxes from
+ * TimeInputTokens instead, and that belongs to the picker rather than to a field.
+ */
+
+@use '../../scss/api' as grange;
+
+.segments {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  outline: none;
+  font-variant-numeric: tabular-nums;
+  color: grange.color(on-surface); // InputColor
+  @include grange.typescale(body-large); // InputFont
+}
+
+.segment {
+  box-sizing: border-box;
+  padding-inline: 1px;
+  border-radius: 2px;
+  outline: none;
+  text-align: end;
+
+  /* The separators are not targets, and must not look like one. */
+  &[data-literal] {
+    padding-inline: 0;
+  }
+
+  &[data-placeholder] {
+    color: grange.color(on-surface-variant);
+  }
+
+  &:focus {
+    background: grange.color(primary);
+    color: grange.color(on-primary);
+  }
+}
+
+.root[data-disabled] .segments,
+.root[data-disabled] .segment[data-placeholder] {
+  color: #{grange.translucent(on-surface, 38%)};
+}

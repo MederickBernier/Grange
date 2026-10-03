@@ -79,6 +79,7 @@ export type {
   SearchSlot,
   CalendarSlot,
   TimeFieldSlot,
+  DateFieldSlot,
   TimePickerSlot,
   SnackbarSlot,
   ClassNamesConfig,
@@ -96,6 +97,13 @@ export { fabSizes } from './components/Fab/specs';
 export { Calendar, RangeCalendar } from './components/Calendar/Calendar';
 export type { CalendarProps, RangeCalendarProps } from './components/Calendar/Calendar';
 export { calendar } from './components/Calendar/specs';
+export { DateField, FilledDateField, OutlinedDateField } from './components/DateField/DateField';
+export type { DateFieldProps, VariantDateFieldProps } from './components/DateField/DateField';
+export { DatePicker, FilledDatePicker, OutlinedDatePicker } from './components/DateField/DatePicker';
+export type { DatePickerProps, VariantDatePickerProps } from './components/DateField/DatePicker';
+export { Segment } from './components/DateField/Segment';
+export type { SegmentProps, FieldSegment } from './components/DateField/Segment';
+
 export { TimeField } from './components/TimeField/TimeField';
 export type { TimeFieldProps } from './components/TimeField/TimeField';
 export { timeField } from './components/TimeField/specs';

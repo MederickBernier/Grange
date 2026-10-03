@@ -1,0 +1,48 @@
+/*
+ * The docked date picker: a date field with the calendar in a popover. The calendar's own
+ * geometry comes from DatePickerModalTokens and is already in Calendar; this is only the
+ * surface it sits on, which borrows the menu's container and elevation.
+ */
+
+@use '../../scss/api' as grange;
+
+.calendarButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px; // TrailingIconSize
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: grange.color(on-surface-variant); // TrailingIconColor
+  cursor: pointer;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  &:focus-visible {
+    outline: 2px solid grange.color(primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.panel {
+  box-sizing: border-box;
+  padding: 12px;
+  border-radius: 16px; // CornerLarge, as the panel rather than the grid
+  background: grange.color(surface-container-high); // DatePickerModal ContainerColor
+  box-shadow:
+    0 1px 3px 0 #{grange.translucent(shadow, 30%)},
+    0 4px 8px 3px #{grange.translucent(shadow, 15%)};
+}
+
+/* The grid fills the panel rather than keeping the modal's fixed width. */
+.calendar {
+  width: 100%;
+}
