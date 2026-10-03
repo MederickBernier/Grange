@@ -42,8 +42,8 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 75 |
-| In scope, to build | 26 (across 7 phases) |
+| Already covered by Grange | 77 |
+| In scope, to build | 24 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
@@ -51,8 +51,9 @@ verification — they are roughly 28 rounds. The three buckets are exhaustive an
 and always add to 144.
 
 **Phases 1, 2 and 3 are done**, and **phase 4 is under way**: `Avatar`, `Skeleton`,
-`Breadcrumbs`, `ExpansionPanel`, `Accordion`, `Timeline`, `Stepper`, `Stack` and `Grid`
-are in, 9 of its 12 — and the spacing scale the phase was waiting on now exists.
+`Breadcrumbs`, `ExpansionPanel`, `Accordion`, `Timeline`, `Stepper`, `Stack`, `Grid`,
+`Splitter` and `Window` are in, 11 of its 12 — and the spacing scale the phase was waiting
+on now exists. Only `TileLayout` is left.
 
 ## Already covered
 
@@ -253,6 +254,10 @@ Three things the first round of this phase established:
 - **jsdom's CSS parser rejects a negative grid line**, so `grid-column-end: -1` cannot be
   asserted in a unit test at all. That one is covered by a visual baseline instead, and the test
   says so rather than pretending.
+- **A story whose whole output is portalled had no way to be shot.** The visual spec waited on
+  `#storybook-root > *`, and React Aria's `Overlay` portals straight into `body` with no
+  wrapper, so a window-only story timed out. The spec now waits on either, which is a gap in
+  the harness rather than in the story.
 - **A changed baseline is only reliably re-shot by deleting it first.** `--update-snapshots`
   reported ten passes and left a stale picture in place while the live page had plainly changed;
   the run after deleting the file produced the right one. What caught it was looking at the
@@ -268,8 +273,8 @@ Three things the first round of this phase established:
 | ~~`Timeline`~~ ✅ | — | Done. An ordered list, because in a timeline the order *is* the content; the rail, the dots and the connectors are `aria-hidden`, since they draw an order the markup already carries. A timestamp given a `dateTime` becomes a real `<time>`, which is the one piece of machine-readable semantics a timeline can honestly offer |
 | ~~`Grid` / `Stack`~~ ✅ | — | Done, and so is the scale they were waiting on. Eight steps on the 4dp grid, in `tokens/grange-spacing.json` — **the only values in this library that are not Google's**, because Material publishes no spacing tokens. They are emitted as `--grange-space-*` rather than `--md-sys-*`: a chosen value in Google's namespace would claim a provenance it does not have. The middle of the scale is `ListTokens` (`md` is `ItemBetweenSpace`, `lg` is `ItemLeadingSpace`), so a layout agrees with the components inside it, and `theme()` overrides it like any other token |
 | ~~`Stepper`~~ ✅ | ours | Done, and the markup was a decision rather than a lookup: no React Aria hook and no ARIA pattern. An ordered list of buttons with `aria-current="step"` — not a tablist, since tabs are views of one thing and steps are stages of one thing. Unreachable steps are `aria-disabled` rather than `disabled`, because the path ahead is most of what a stepper shows, and each step's state is **said** — "Step 2 of 4, completed" — not only drawn |
-| `Splitter` | ours | `role="separator"` with `aria-valuenow`, drag and arrow keys — the same pattern `SideSheet`'s resize handle already uses |
-| `Window` | `useDialog` | A non-modal dialog that can be dragged, resized, minimised and maximised |
+| ~~`Splitter`~~ ✅ | ours | Done, on `useMove`, so the arrows move a boundary exactly as a pointer does and Home and End take it to its limits. Sizes are percentages, not pixels: a splitter holding pixel widths is correct exactly once, and then the window is resized. The clamping is a pure module, because jsdom reports every element as 0 by 0 and a rendered splitter can never be measured there |
+| ~~`Window`~~ ✅ | `useDialog` | Done. Non-modal is the substance: no scrim, no focus trap, because the page behind has to stay usable — that is the whole difference from a dialog. Moving and resizing have **no ARIA role that fits**, so each handle is a labelled focusable control on `useMove` rather than a `separator` that would describe it wrongly. Position and size are clamped to the viewport, since a window dragged off the top takes every one of its own controls with it |
 | `TileLayout` | `useDrag`/`useDrop` | A reorderable, resizable grid of cards. The largest thing in this phase |
 
 ### Phase 5 — Collections and data tools
