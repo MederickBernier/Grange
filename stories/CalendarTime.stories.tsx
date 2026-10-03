@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { I18nProvider } from 'react-aria';
-import { CalendarDate, Time, getLocalTimeZone, today } from '@internationalized/date';
+import { CalendarDate, Time } from '@internationalized/date';
 import {
   Calendar,
   Dialog,
@@ -14,6 +14,12 @@ import {
 
 /**
  * The date and time pickers.
+ *
+ * Every story here is pinned to a fixed date rather than `today()`, and that is not fussiness:
+ * the visual tests shoot these stories in a container that runs on UTC while a developer's
+ * machine does not, so for part of every day the two disagree about what day it is and the
+ * screenshots drift. A pinned month in the past also means no "today" ring moves around inside
+ * it. The regression suite caught exactly this, four stories at once.
  *
  * React Aria does the part that is genuinely hard and quietly wrong when hand-rolled: which day
  * the week starts on, the weekday and month names, the hour cycle, and the arithmetic for
@@ -29,9 +35,15 @@ const meta: Meta = {
 };
 export default meta;
 
+/**
+ * A fixed day, so the screenshots do not depend on when they were taken or on which timezone the
+ * machine taking them is in. Deliberately in the past, so no "today" marker appears either.
+ */
+const PINNED = new CalendarDate(2026, 7, 15);
+
 export const SingleDate: StoryObj = {
   render: function Render() {
-    const [value, setValue] = useState<CalendarDate>(today(getLocalTimeZone()));
+    const [value, setValue] = useState<CalendarDate>(PINNED);
     return (
       <div className="sb-col">
         <Calendar aria-label="Pick a date" value={value} onChange={setValue} />
@@ -44,7 +56,7 @@ export const SingleDate: StoryObj = {
 /** A range tints the days between its ends with the secondary container. */
 export const DateRange: StoryObj = {
   render: function Render() {
-    const start = today(getLocalTimeZone());
+    const start = PINNED;
     const [value, setValue] = useState({ start, end: start.add({ days: 4 }) });
     return (
       <div className="sb-col">
@@ -60,7 +72,7 @@ export const DateRange: StoryObj = {
 /** Dates outside the allowed span are struck through, and the arrows stop at the edges. */
 export const Limits: StoryObj = {
   render: function Render() {
-    const now = today(getLocalTimeZone());
+    const now = PINNED;
     return (
       <Calendar
         aria-label="Pick a date this month"
@@ -78,7 +90,7 @@ export const Limits: StoryObj = {
  */
 export const Locales: StoryObj = {
   render: function Render() {
-    const now = today(getLocalTimeZone());
+    const now = PINNED;
     return (
       <div className="sb-row" style={{ gap: 32, alignItems: 'flex-start', flexWrap: 'wrap' }}>
         {['en-US', 'en-GB', 'ar-EG'].map((locale) => (
@@ -98,7 +110,7 @@ export const Locales: StoryObj = {
 export const InADialog: StoryObj = {
   render: function Render() {
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState<CalendarDate>(today(getLocalTimeZone()));
+    const [value, setValue] = useState<CalendarDate>(PINNED);
     const [draft, setDraft] = useState(value);
     return (
       <div className="sb-col">
