@@ -21,6 +21,7 @@ import { defaultSizes, resolveSizes } from '../components/Button/specs';
 import type { ExtendedFabSize, FabSize, FabVariant } from '../components/Fab/specs';
 import type { AvatarColor, AvatarShape, AvatarSize } from '../components/Avatar/specs';
 import type { SkeletonAnimation, SkeletonShape } from '../components/Skeleton/specs';
+import type { AccordionVariant } from '../components/Disclosure/specs';
 
 /** A spring as M3 defines it: stiffness plus damping ratio (1 = no overshoot). */
 export interface SpringSpec {
@@ -108,6 +109,8 @@ export type BottomSheetSlot = 'root' | 'scrim' | 'handle';
 export type SideSheetSlot = 'root' | 'scrim' | 'header' | 'headline' | 'content' | 'actions' | 'handle';
 export type CarouselSlot = 'root' | 'item';
 export type AvatarSlot = 'root' | 'image' | 'label';
+export type DisclosureSlot = 'root' | 'header' | 'title' | 'panel';
+export type BreadcrumbsSlot = 'root' | 'crumb';
 export type SkeletonSlot = 'root' | 'bar';
 export type BadgeSlot = 'root';
 export type ChipSlot = 'root' | 'label' | 'remove';
@@ -179,6 +182,9 @@ export interface ClassNamesConfig {
   Carousel?: SlotOverrides<CarouselSlot>;
   CarouselItem?: SlotOverrides<CarouselSlot>;
   Avatar?: SlotOverrides<AvatarSlot>;
+  ExpansionPanel?: SlotOverrides<DisclosureSlot>;
+  Accordion?: SlotOverrides<DisclosureSlot>;
+  Breadcrumbs?: SlotOverrides<BreadcrumbsSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
   Chip?: SlotOverrides<ChipSlot>;
@@ -263,6 +269,9 @@ export interface DefaultPropsConfig {
   Form?: { validationBehavior?: 'aria' | 'native' };
   DateField?: { variant?: 'filled' | 'outlined' };
   Avatar?: { size?: AvatarSize; shape?: AvatarShape; color?: AvatarColor };
+  ExpansionPanel?: { variant?: AccordionVariant };
+  Accordion?: { variant?: AccordionVariant; allowsMultipleExpanded?: boolean };
+  Breadcrumbs?: { maxVisible?: number };
   Skeleton?: { shape?: SkeletonShape; animation?: SkeletonAnimation };
   DatePicker?: { variant?: 'filled' | 'outlined' };
   DateRangePicker?: { variant?: 'filled' | 'outlined'; visibleMonths?: 1 | 2 | 3 };
@@ -458,6 +467,9 @@ const COMPONENTS: ComponentName[] = [
   'Carousel',
   'CarouselItem',
   'Avatar',
+  'ExpansionPanel',
+  'Accordion',
+  'Breadcrumbs',
   'Skeleton',
   'Badge',
   'Chip',

@@ -75,6 +75,8 @@ export type {
   SideSheetSlot,
   CarouselSlot,
   AvatarSlot,
+  DisclosureSlot,
+  BreadcrumbsSlot,
   SkeletonSlot,
   BadgeSlot,
   ChipSlot,
@@ -151,6 +153,17 @@ export * from './shapes';
 export { Chip, ChipGroup } from './components/Chip/Chip';
 export type { ChipProps, ChipGroupProps, ChipVariant } from './components/Chip/Chip';
 export { chip } from './components/Chip/specs';
+export { ExpansionPanel, Accordion, AccordionItem } from './components/Disclosure/Disclosure';
+export type {
+  ExpansionPanelProps,
+  AccordionProps,
+  AccordionItemProps,
+} from './components/Disclosure/Disclosure';
+export { disclosure } from './components/Disclosure/specs';
+export type { AccordionVariant } from './components/Disclosure/specs';
+export { Breadcrumbs, Breadcrumb } from './components/Breadcrumbs/Breadcrumbs';
+export type { BreadcrumbsProps, BreadcrumbProps } from './components/Breadcrumbs/Breadcrumbs';
+export { breadcrumbs } from './components/Breadcrumbs/specs';
 export { Avatar } from './components/Avatar/Avatar';
 export type { AvatarProps } from './components/Avatar/Avatar';
 export { avatar } from './components/Avatar/specs';
