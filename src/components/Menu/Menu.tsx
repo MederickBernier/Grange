@@ -86,6 +86,12 @@ export interface MenuProps {
    * colour only — the geometry is the same menu.
    */
   variant?: 'default' | 'standard' | 'vibrant';
+  /**
+   * Which item takes focus when it appears. `MenuTrigger` handles this itself; a menu opened
+   * some other way — at a pointer, say — has to say so, or the arrows and Escape do nothing
+   * because focus never entered it.
+   */
+  autoFocus?: boolean | 'first' | 'last';
   'aria-label'?: string;
   className?: string;
   style?: CSSProperties;

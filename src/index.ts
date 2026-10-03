@@ -178,6 +178,8 @@ export type { SnackbarRegionProps, SnackbarContent } from './components/Snackbar
 export { snackbar } from './components/Snackbar/specs';
 
 export { Menu, MenuItem, MenuSection, MenuTrigger } from './components/Menu/Menu';
+export { MenuButton, ContextMenu } from './components/Menu/MenuButton';
+export type { MenuButtonProps, ContextMenuProps } from './components/Menu/MenuButton';
 export type {
   MenuProps,
   MenuItemProps,
@@ -188,10 +190,17 @@ export { menu } from './components/Menu/specs';
 export { Popover, PopoverTrigger } from './overlays/Popover';
 export type { PopoverProps, PopoverTriggerProps } from './overlays/Popover';
 
-export { ComboBox, ComboBoxItem, FilledComboBox, OutlinedComboBox } from './components/ComboBox/ComboBox';
+export {
+  ComboBox,
+  ComboBoxItem,
+  FilledComboBox,
+  OutlinedComboBox,
+  MultiColumnComboBox,
+} from './components/ComboBox/ComboBox';
 export type {
   ComboBoxProps,
   ComboBoxItemProps,
+  ComboBoxColumn,
   VariantComboBoxProps,
 } from './components/ComboBox/ComboBox';
 export { Autocomplete } from './components/ComboBox/Autocomplete';
@@ -210,7 +219,7 @@ export type {
 } from './components/MultiSelect/MultiSelect';
 
 export { OptionList } from './components/Select/OptionList';
-export type { OptionListProps, OptionListItemProps } from './components/Select/OptionList';
+export type { OptionListProps, OptionListItemProps, OptionListColumn } from './components/Select/OptionList';
 
 export { Dialog } from './components/Dialog/Dialog';
 export type { DialogProps } from './components/Dialog/Dialog';
