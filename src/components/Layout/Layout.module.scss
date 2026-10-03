@@ -1,0 +1,16 @@
+/*
+ * Stack and Grid. Two rules, deliberately: everything else about a layout is a prop, because a
+ * stylesheet cannot know how many columns a caller wants.
+ */
+
+.stack {
+  display: flex;
+  // Without this a stack inside a flex or grid parent refuses to shrink below its content, and
+  // a long word in one child pushes the whole layout wider than its container.
+  min-width: 0;
+}
+
+.grid {
+  display: grid;
+  min-width: 0;
+}

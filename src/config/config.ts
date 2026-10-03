@@ -187,6 +187,8 @@ export interface ClassNamesConfig {
   ExpansionPanel?: SlotOverrides<DisclosureSlot>;
   Accordion?: SlotOverrides<DisclosureSlot>;
   Breadcrumbs?: SlotOverrides<BreadcrumbsSlot>;
+  Stack?: SlotOverrides<'root'>;
+  Grid?: SlotOverrides<'root'>;
   Timeline?: SlotOverrides<TimelineSlot>;
   Stepper?: SlotOverrides<StepperSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
@@ -276,6 +278,8 @@ export interface DefaultPropsConfig {
   ExpansionPanel?: { variant?: AccordionVariant };
   Accordion?: { variant?: AccordionVariant; allowsMultipleExpanded?: boolean };
   Breadcrumbs?: { maxVisible?: number };
+  Stack?: { direction?: 'row' | 'column'; gap?: string | number };
+  Grid?: { columns?: number | string; gap?: string | number };
   Timeline?: { orientation?: 'vertical' | 'horizontal'; alternating?: boolean };
   Stepper?: { orientation?: 'horizontal' | 'vertical'; linear?: boolean };
   Skeleton?: { shape?: SkeletonShape; animation?: SkeletonAnimation };
@@ -476,6 +480,8 @@ const COMPONENTS: ComponentName[] = [
   'ExpansionPanel',
   'Accordion',
   'Breadcrumbs',
+  'Stack',
+  'Grid',
   'Timeline',
   'Stepper',
   'Skeleton',
