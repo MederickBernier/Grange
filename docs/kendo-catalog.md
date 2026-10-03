@@ -42,8 +42,8 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 71 |
-| In scope, to build | 30 (across 7 phases) |
+| Already covered by Grange | 73 |
+| In scope, to build | 28 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
@@ -51,7 +51,7 @@ verification — they are roughly 28 rounds. The three buckets are exhaustive an
 and always add to 144.
 
 **Phases 1, 2 and 3 are done**, and **phase 4 is under way**: `Avatar`, `Skeleton`,
-`Breadcrumbs`, `ExpansionPanel` and `Accordion` are in, 5 of its 12.
+`Breadcrumbs`, `ExpansionPanel`, `Accordion`, `Timeline` and `Stepper` are in, 7 of its 12.
 
 ## Already covered
 
@@ -238,6 +238,10 @@ Three things the first round of this phase established:
   nothing; it has to go through `useButton`.
 - **React 19's `Key` includes `bigint` and React Aria's does not.** Any component with keys
   reads the key type off a hook's own props rather than importing React's.
+- **`Children.toArray` does not flatten fragments**, so anything that counts its children sees
+  one. The repo already had `flattenChildren` and a comment explaining exactly this; it was
+  still written wrong three times in a row before a test caught it. `Breadcrumbs` shipped with
+  the bug last round and is fixed here.
 - **A changed baseline is only reliably re-shot by deleting it first.** `--update-snapshots`
   reported ten passes and left a stale picture in place while the live page had plainly changed;
   the run after deleting the file produced the right one. What caught it was looking at the
@@ -250,9 +254,9 @@ Three things the first round of this phase established:
 | ~~`Breadcrumbs`~~ ✅ | `useBreadcrumbs` | Done. The last crumb is the current page and is deliberately not a link — `aria-current="page"` on a plain element, so a screen reader says where you are rather than offering to take you where you already are. A long trail folds its middle into the library's own `MenuButton`, keeping the first crumb and the last two, so the folded crumbs keep typeahead and arrow keys instead of becoming a second, lesser list |
 | ~~`ExpansionPanel`~~ ✅ | `useDisclosure` | Done. The collapsed panel stays in the DOM under `hidden="until-found"`, so find-in-page reaches the text and the browser opens the section; the hook also measures the panel and writes `--disclosure-panel-height`, which is the only way to animate to a height nobody knows in advance |
 | ~~`Accordion`~~ ✅ (PanelBar) | `useDisclosureGroupState` | Done. The group owns the open keys, so single-open falls out of the state rather than out of each panel watching the others. Arrow keys between headers are deliberately absent: the ARIA pattern makes them optional and a header is an ordinary button Tab already reaches, so wiring them would take a Tab stop away to buy nothing |
-| `Timeline` | — | Presentational, horizontal or vertical, alternating sides |
+| ~~`Timeline`~~ ✅ | — | Done. An ordered list, because in a timeline the order *is* the content; the rail, the dots and the connectors are `aria-hidden`, since they draw an order the markup already carries. A timestamp given a `dateTime` becomes a real `<time>`, which is the one piece of machine-readable semantics a timeline can honestly offer |
 | `Grid` / `Stack` | — | CSS-only layout primitives. They need a spacing scale, and there is not one: the token file has colour, shape, type, elevation, motion and state-layer opacity, and no spacing at all. So this is also where a scale gets chosen — M3 lays out on a 4dp grid, which is the obvious basis — and it has to be a named, overridable set rather than numbers inlined per component |
-| `Stepper` | ours | No hook. Linear and non-linear, horizontal and vertical, per-step validity |
+| ~~`Stepper`~~ ✅ | ours | Done, and the markup was a decision rather than a lookup: no React Aria hook and no ARIA pattern. An ordered list of buttons with `aria-current="step"` — not a tablist, since tabs are views of one thing and steps are stages of one thing. Unreachable steps are `aria-disabled` rather than `disabled`, because the path ahead is most of what a stepper shows, and each step's state is **said** — "Step 2 of 4, completed" — not only drawn |
 | `Splitter` | ours | `role="separator"` with `aria-valuenow`, drag and arrow keys — the same pattern `SideSheet`'s resize handle already uses |
 | `Window` | `useDialog` | A non-modal dialog that can be dragged, resized, minimised and maximised |
 | `TileLayout` | `useDrag`/`useDrop` | A reorderable, resizable grid of cards. The largest thing in this phase |
