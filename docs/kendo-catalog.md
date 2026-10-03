@@ -42,8 +42,8 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 73 |
-| In scope, to build | 28 (across 7 phases) |
+| Already covered by Grange | 75 |
+| In scope, to build | 26 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
@@ -51,7 +51,8 @@ verification — they are roughly 28 rounds. The three buckets are exhaustive an
 and always add to 144.
 
 **Phases 1, 2 and 3 are done**, and **phase 4 is under way**: `Avatar`, `Skeleton`,
-`Breadcrumbs`, `ExpansionPanel`, `Accordion`, `Timeline` and `Stepper` are in, 7 of its 12.
+`Breadcrumbs`, `ExpansionPanel`, `Accordion`, `Timeline`, `Stepper`, `Stack` and `Grid`
+are in, 9 of its 12 — and the spacing scale the phase was waiting on now exists.
 
 ## Already covered
 
@@ -242,6 +243,16 @@ Three things the first round of this phase established:
   one. The repo already had `flattenChildren` and a comment explaining exactly this; it was
   still written wrong three times in a row before a test caught it. `Breadcrumbs` shipped with
   the bug last round and is fixed here.
+- **Never put a CSS shorthand and its longhands in one React style object.** React writes the
+  object key by key and an `undefined` clears that property, so `{ gap, columnGap: undefined }`
+  set the shorthand and then wiped both halves of it. The grid rendered with no gaps at all and
+  nothing in the markup said why. `Grid` now writes only `rowGap` and `columnGap`.
+- **React's `grid-column` shorthand did not survive either**: `1 / -1` reached the browser as
+  `grid-column-end: -1` with the start line lost, so a full-row cell silently sat in the last
+  column. Longhands again.
+- **jsdom's CSS parser rejects a negative grid line**, so `grid-column-end: -1` cannot be
+  asserted in a unit test at all. That one is covered by a visual baseline instead, and the test
+  says so rather than pretending.
 - **A changed baseline is only reliably re-shot by deleting it first.** `--update-snapshots`
   reported ten passes and left a stale picture in place while the live page had plainly changed;
   the run after deleting the file produced the right one. What caught it was looking at the
@@ -255,7 +266,7 @@ Three things the first round of this phase established:
 | ~~`ExpansionPanel`~~ ✅ | `useDisclosure` | Done. The collapsed panel stays in the DOM under `hidden="until-found"`, so find-in-page reaches the text and the browser opens the section; the hook also measures the panel and writes `--disclosure-panel-height`, which is the only way to animate to a height nobody knows in advance |
 | ~~`Accordion`~~ ✅ (PanelBar) | `useDisclosureGroupState` | Done. The group owns the open keys, so single-open falls out of the state rather than out of each panel watching the others. Arrow keys between headers are deliberately absent: the ARIA pattern makes them optional and a header is an ordinary button Tab already reaches, so wiring them would take a Tab stop away to buy nothing |
 | ~~`Timeline`~~ ✅ | — | Done. An ordered list, because in a timeline the order *is* the content; the rail, the dots and the connectors are `aria-hidden`, since they draw an order the markup already carries. A timestamp given a `dateTime` becomes a real `<time>`, which is the one piece of machine-readable semantics a timeline can honestly offer |
-| `Grid` / `Stack` | — | CSS-only layout primitives. They need a spacing scale, and there is not one: the token file has colour, shape, type, elevation, motion and state-layer opacity, and no spacing at all. So this is also where a scale gets chosen — M3 lays out on a 4dp grid, which is the obvious basis — and it has to be a named, overridable set rather than numbers inlined per component |
+| ~~`Grid` / `Stack`~~ ✅ | — | Done, and so is the scale they were waiting on. Eight steps on the 4dp grid, in `tokens/grange-spacing.json` — **the only values in this library that are not Google's**, because Material publishes no spacing tokens. They are emitted as `--grange-space-*` rather than `--md-sys-*`: a chosen value in Google's namespace would claim a provenance it does not have. The middle of the scale is `ListTokens` (`md` is `ItemBetweenSpace`, `lg` is `ItemLeadingSpace`), so a layout agrees with the components inside it, and `theme()` overrides it like any other token |
 | ~~`Stepper`~~ ✅ | ours | Done, and the markup was a decision rather than a lookup: no React Aria hook and no ARIA pattern. An ordered list of buttons with `aria-current="step"` — not a tablist, since tabs are views of one thing and steps are stages of one thing. Unreachable steps are `aria-disabled` rather than `disabled`, because the path ahead is most of what a stepper shows, and each step's state is **said** — "Step 2 of 4, completed" — not only drawn |
 | `Splitter` | ours | `role="separator"` with `aria-valuenow`, drag and arrow keys — the same pattern `SideSheet`'s resize handle already uses |
 | `Window` | `useDialog` | A non-modal dialog that can be dragged, resized, minimised and maximised |
