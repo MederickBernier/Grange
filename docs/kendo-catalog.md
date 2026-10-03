@@ -42,15 +42,16 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 66 |
-| In scope, to build | 35 (across 7 phases) |
+| Already covered by Grange | 68 |
+| In scope, to build | 33 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
 verification — they are roughly 28 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phases 1, 2 and 3 are done.** Phase 4 is next.
+**Phases 1, 2 and 3 are done**, and **phase 4 is under way**: `Avatar` and `Skeleton` are
+in, 2 of its 12.
 
 ## Already covered
 
@@ -219,10 +220,28 @@ rest of it:
 
 ### Phase 4 — Layout and navigation
 
+Three things the first round of this phase established:
+
+- **None of this phase has a token file, and that does not mean the values are free.** `Avatar`,
+  `Skeleton`, `Placeholder`, `Shimmer`, `Breadcrumb`, `ExpansionPanel`, `Accordion`, `Timeline`,
+  `Stepper` and `Splitter` are all 404 in androidx, every one of them checked. But Compose does
+  draw an avatar — inside `ListTokens`, as a list item's leading element — so the avatar's size,
+  shape, colours and label font are captured values rather than taste. Where nothing is captured,
+  as with the skeleton, the value is built out of tokens that are: a duration, an easing, a state
+  layer opacity.
+- **`width: 100%` on a component root is a bug waiting for a flex row.** The skeleton had it, and
+  a skeleton beside anything else took the whole line and pushed its neighbour onto the next one
+  while looking as though it had not. A block box already fills the row it is in; the width only
+  stops it ever sharing one.
+- **A changed baseline is only reliably re-shot by deleting it first.** `--update-snapshots`
+  reported ten passes and left a stale picture in place while the live page had plainly changed;
+  the run after deleting the file produced the right one. What caught it was looking at the
+  picture, not the pass count — the second time this phase that has been the thing that worked.
+
 | Component | Behaviour | Notes |
 | --- | --- | --- |
-| `Avatar` | — | Image, initials or icon, three sizes. Trivial, and `ListTokens` has the 40px |
-| `Skeleton` | — | Shimmer over the shape tokens, held still under reduced motion |
+| ~~`Avatar`~~ ✅ | — | Done. Image, initials or icon, three sizes, three shapes, four colour pairs. Every number is a `ListTokens` value: 40 is `ItemLeadingAvatarSize`, 24 is `ItemLeadingIconSize`, 56 is `ItemLeadingImageWidth`. Initials are passed in rather than split out of a name, because `split(' ')` is wrong for most of the world's names, and a broken image falls back to them rather than leaving a torn page |
+| ~~`Skeleton`~~ ✅ | — | Done. Text, block or disc, shimmer or pulse, held still under reduced motion because a loop with no end state is the clearest case that setting is about. Hidden from assistive tech with no way to label it: what a screen reader needs is the loading region's own `aria-busy`, not the shape of absent text |
 | `Breadcrumbs` | `useBreadcrumbs` | Collapsing to a menu when the trail is too long for the row |
 | `ExpansionPanel` | `useDisclosure` | One panel |
 | `Accordion` (PanelBar) | `useDisclosureGroupState` | A set of them, single or multiple open |
