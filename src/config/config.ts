@@ -87,6 +87,14 @@ export type ComboBoxSlot =
   | 'leadingIcon'
   | 'item';
 export type PopoverSlot = 'root';
+export type MultiSelectSlot =
+  | 'root'
+  | 'container'
+  | 'label'
+  | 'supporting'
+  | 'leadingIcon'
+  | 'tag'
+  | 'item';
 export type TabsSlot = 'root' | 'list' | 'tab' | 'panel';
 export type CardSlot = 'root';
 export type ListSlot = 'root' | 'item' | 'label';
@@ -142,6 +150,7 @@ export interface ClassNamesConfig {
   Menu?: SlotOverrides<MenuSlot>;
   Select?: SlotOverrides<SelectSlot>;
   ComboBox?: SlotOverrides<ComboBoxSlot>;
+  MultiSelect?: SlotOverrides<MultiSelectSlot>;
   Popover?: SlotOverrides<PopoverSlot>;
   Tabs?: SlotOverrides<TabsSlot>;
   Card?: SlotOverrides<CardSlot>;
@@ -246,7 +255,9 @@ export interface DefaultPropsConfig {
     variant?: 'filled' | 'outlined';
     allowsCustomValue?: boolean;
     menuTrigger?: 'input' | 'focus' | 'manual';
+    showOpenButton?: boolean;
   };
+  MultiSelect?: { variant?: 'filled' | 'outlined' };
   Popover?: { placement?: 'top' | 'bottom' | 'start' | 'end'; nonModal?: boolean };
   Menu?: { variant?: 'default' | 'standard' | 'vibrant' };
   RichTooltip?: { placement?: 'top' | 'bottom' | 'start' | 'end'; persistent?: boolean };
@@ -407,6 +418,7 @@ const COMPONENTS: ComponentName[] = [
   'Menu',
   'Select',
   'ComboBox',
+  'MultiSelect',
   'Popover',
   'Snackbar',
   'Tabs',

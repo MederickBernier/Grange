@@ -62,6 +62,7 @@ export type {
   MenuSlot,
   SelectSlot,
   ComboBoxSlot,
+  MultiSelectSlot,
   PopoverSlot,
   TabsSlot,
   CardSlot,
@@ -193,6 +194,21 @@ export type {
   ComboBoxItemProps,
   VariantComboBoxProps,
 } from './components/ComboBox/ComboBox';
+export { Autocomplete } from './components/ComboBox/Autocomplete';
+export type { AutocompleteProps } from './components/ComboBox/Autocomplete';
+
+export {
+  MultiSelect,
+  MultiSelectItem,
+  FilledMultiSelect,
+  OutlinedMultiSelect,
+} from './components/MultiSelect/MultiSelect';
+export type {
+  MultiSelectProps,
+  MultiSelectItemProps,
+  VariantMultiSelectProps,
+} from './components/MultiSelect/MultiSelect';
+
 export { OptionList } from './components/Select/OptionList';
 export type { OptionListProps, OptionListItemProps } from './components/Select/OptionList';
 

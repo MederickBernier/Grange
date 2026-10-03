@@ -51,6 +51,11 @@ export interface ComboBoxProps {
   menuTrigger?: 'input' | 'focus' | 'manual';
   /** Shown in the list when nothing matches what has been typed. */
   emptyState?: ReactNode;
+  /**
+   * The chevron that opens the whole list. On for a picker, off for a field that only suggests
+   * as you type — which is what `Autocomplete` is.
+   */
+  showOpenButton?: boolean;
   placeholder?: string;
   supportingText?: ReactNode;
   error?: boolean;
@@ -94,6 +99,7 @@ export function ComboBox(props: ComboBoxProps) {
     allowsCustomValue = defaults?.allowsCustomValue ?? false,
     menuTrigger = defaults?.menuTrigger ?? 'input',
     emptyState = 'No matches',
+    showOpenButton = defaults?.showOpenButton ?? true,
     placeholder,
     supportingText,
     error,
@@ -203,7 +209,9 @@ export function ComboBox(props: ComboBoxProps) {
       labelProps={labelProps}
       containerProps={hoverProps}
       leadingIcon={leadingIcon}
-      trailing={<OpenButton buttonProps={buttonProps} buttonRef={buttonRef} isOpen={state.isOpen} />}
+      trailing={
+        showOpenButton && <OpenButton buttonProps={buttonProps} buttonRef={buttonRef} isOpen={state.isOpen} />
+      }
       supporting={showingError ? message : supportingText}
       supportingProps={showingError ? errorMessageProps : descriptionProps}
     >
