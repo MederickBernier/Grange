@@ -42,16 +42,15 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 57 |
-| In scope, to build | 44 (across 7 phases) |
+| Already covered by Grange | 60 |
+| In scope, to build | 41 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
 verification — they are roughly 28 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phase 1 is done**, and **phase 2 is under way**: `Popover`, `ComboBox`, `Autocomplete` and
-`MultiSelect` are in, 4 of its 7.
+**Phases 1 and 2 are done.** Phase 3 — the rest of the date and time set — is next.
 
 ## Already covered
 
@@ -165,7 +164,15 @@ finished and was not:
   A string `aria-label` needs no element, which is what it gets.
 - **A listbox in a popover has to be given `autoFocus`.** `useOverlay` listens for Escape on the
   overlay element, and unlike a select nothing else moves focus in, so without it neither Escape
-  nor the arrow keys do anything.
+  nor the arrow keys do anything. The same applies to a menu opened at a pointer, which is why
+  `Menu` gained an `autoFocus` prop.
+- **Hiding an option's cells takes its name with them.** The columned rows are `aria-hidden` so
+  the row is not read twice, which left the option with no accessible name at all until the label
+  went back in visually hidden. Worse than having no columns.
+
+Twice now the answer has been that React Aria already names something and `aria-label` loses to
+it: the combo box's chevron, and a menu opened from a button. Both would have shipped as props
+that sat in the API looking like they worked.
 
 | Component | Behaviour | Notes |
 | --- | --- | --- |
@@ -173,9 +180,9 @@ finished and was not:
 | ~~`ComboBox`~~ ✅ | `useComboBox` | Done, and it shares both halves with what was already here: `FieldShell` for the chrome and `OptionList` for the list, which `Select` was moved onto in the same round. Filtering goes through `useFilter`, so it follows the locale — typing "ist" finds Istanbul in English and correctly does not in Turkish, where the dotted and dotless i are different letters |
 | ~~`Autocomplete`~~ ✅ | `useComboBox` | Done, as a wrapper over `ComboBox`, because that is honestly all it is: the same hook with the selection taken out, so the text is the value and whatever is typed stands. `useAutocomplete` is a different thing despite the name — it drives a *separate* collection, a searchable menu, from an input — and is deliberately not used |
 | ~~`MultiSelect`~~ ✅ | `useListBox` + `useTagGroup` | Done. The options are a multiple-selection `useListBox` in the shared `Popover` and `OptionList`; the chips are a real tag group, so they have their own arrow keys and a live region that announces a removal. Two widgets in one field on purpose: both want the arrow keys, so one tab stop would mean choosing which |
-| `MultiColumnComboBox` | `useComboBox` | Same behaviour, a tabular popover |
-| `MenuButton` (DropDownButton) | `useMenuTrigger` | A button whose press opens a menu. Small, and it already exists inside `SplitButton` |
-| `ContextMenu` | `useContextMenu` | Right-click and the keyboard's context key, plus submenus through `useSubmenuTrigger` |
+| ~~`MultiColumnComboBox`~~ ✅ | `useComboBox` | Done, as a wrapper: the columns are presentation, so an option stays one option named by its label and the cells are hidden from assistive tech. A real tabular list would want `useGridList` and would make every cell a focus stop, which is the wrong trade for picking one thing |
+| ~~`MenuButton`~~ ✅ (DropDownButton) | `useMenuTrigger` | Done, and thin, because `MenuTrigger` already wires a trigger to a menu. It has no label of its own for the menu and there is none to give: `useMenuTrigger` points the menu's `aria-labelledby` at the button, which wins over any `aria-label` |
+| ~~`ContextMenu`~~ ✅ | `useContextMenu` | Done. The hook is the part worth having: it recognises a right-click, a long press and the keyboard's context key, none of which are the same event. The menu opens at the pointer, so a one-pixel element is placed there and used as the anchor — which keeps the flipping and the containment instead of reimplementing them against raw coordinates |
 
 ### Phase 3 — Finish the date and time set
 
