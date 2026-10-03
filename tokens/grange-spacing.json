@@ -1,0 +1,17 @@
+{
+  "$meta": {
+    "note": "NOT a Google token file. Material publishes no spacing tokens — SpacingTokens, SpaceTokens, DimensionTokens, DensityTokens, GridTokens and LayoutTokens are all 404 in androidx — but a layout component cannot be written without a scale. So this one is chosen, and kept in its own file under its own --grange-space-* namespace rather than smuggled into --md-sys-*, which would claim a provenance it does not have.",
+    "basis": "The 4dp grid Material lays out on. Every step is a multiple of 4, and the four middle steps are values Compose already publishes in ListTokens, so the scale agrees with the components rather than sitting beside them.",
+    "source": "chosen for @jyga/grange-react"
+  },
+  "scale": {
+    "none": { "px": 0, "why": "No space. Named so a conditional gap has something to be." },
+    "xs": { "px": 4, "why": "The grid unit itself." },
+    "sm": { "px": 8, "why": "Two units. ListTokens' ItemTopSpace is 10 and rounds here." },
+    "md": { "px": 12, "why": "ListTokens: ItemBetweenSpace, the gap between a row's slots." },
+    "lg": { "px": 16, "why": "ListTokens: ItemLeadingSpace and ItemTrailingSpace, a row's gutters." },
+    "xl": { "px": 24, "why": "Six units. The gap between one block of content and the next." },
+    "2xl": { "px": 32, "why": "Eight units." },
+    "3xl": { "px": 48, "why": "Twelve units. The largest step worth naming; past this a layout wants a measurement, not a token." }
+  }
+}

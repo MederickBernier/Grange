@@ -29,6 +29,7 @@ $easings: data.$easings;
 $state-layer-opacity: data.$state-layer-opacity;
 $elevation: data.$elevation;
 $typescale: data.$typescale;
+$spacing: data.$spacing;
 
 /// Every color role a theme may override.
 $color-roles: map.keys(data.$colors-light);
@@ -87,6 +88,14 @@ $_suggestion-limit: 6;
 /// A shape corner radius, e.g. corner(large) -> var(--md-sys-shape-corner-large).
 @function corner($name) {
   @return _ref(data.$shape, $name, 'shape corner', 'md-sys-shape-corner');
+}
+
+/// A step on the spacing scale, e.g. space(lg) -> var(--grange-space-lg).
+///
+/// The only function here that does not return an --md-sys-* reference, because Material
+/// publishes no spacing tokens and this scale is the library's own. The namespace says so.
+@function space($name) {
+  @return _ref(data.$spacing, $name, 'spacing step', 'grange-space');
 }
 
 /// A motion duration, e.g. duration(short3) -> var(--md-sys-motion-duration-short3).
@@ -153,7 +162,7 @@ $_suggestion-limit: 6;
 ///   .acme-brand { @include grange.theme((primary: #005bbb)); }
 ///
 /// Unknown names raise a build error rather than emitting a property nothing reads.
-@mixin theme($colors: (), $corners: (), $typeface: ()) {
+@mixin theme($colors: (), $corners: (), $typeface: (), $spacing: ()) {
   @each $role, $value in $colors {
     @if not map.has-key(data.$colors-light, $role) {
       @error _unknown('color role', $role, map.keys(data.$colors-light));
@@ -173,5 +182,12 @@ $_suggestion-limit: 6;
       @error _unknown('typeface', $name, (brand, plain));
     }
     --md-ref-typeface-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $spacing {
+    @if not map.has-key(data.$spacing, $name) {
+      @error _unknown('spacing step', $name, map.keys(data.$spacing));
+    }
+    --grange-space-#{$name}: #{$value};
   }
 }
