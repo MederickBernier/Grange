@@ -49,8 +49,14 @@ for (const story of stories()) {
        * Storybook renders asynchronously, so wait for the story rather than for the document.
        * Not `not.toBeEmpty()`: that reads an element's text, and plenty of stories here draw only
        * icons, which would make the root look empty forever.
+       *
+       * The second half of the selector is for a story whose whole output is portalled — a
+       * window, a dialog opened on mount. React Aria's Overlay portals straight into `body`
+       * with no wrapper, so the story root stays empty and waiting only on it times out.
        */
-      await expect(page.locator('#storybook-root > *').first()).toBeAttached();
+      await expect(
+        page.locator('#storybook-root > *, body > div:not(#storybook-root):not(#storybook-docs)').first(),
+      ).toBeAttached();
       // A story whose first paint is in a fallback font would otherwise be shot mid-swap.
       await page.evaluate(() => document.fonts.ready);
 
