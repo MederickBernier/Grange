@@ -101,6 +101,8 @@ export { DateField, FilledDateField, OutlinedDateField } from './components/Date
 export type { DateFieldProps, VariantDateFieldProps } from './components/DateField/DateField';
 export { DatePicker, FilledDatePicker, OutlinedDatePicker } from './components/DateField/DatePicker';
 export type { DatePickerProps, VariantDatePickerProps } from './components/DateField/DatePicker';
+
+export * from './dates/dates';
 export { Segment } from './components/DateField/Segment';
 export type { SegmentProps, FieldSegment } from './components/DateField/Segment';
 
