@@ -42,16 +42,16 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 68 |
-| In scope, to build | 33 (across 7 phases) |
+| Already covered by Grange | 71 |
+| In scope, to build | 30 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
 verification — they are roughly 28 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phases 1, 2 and 3 are done**, and **phase 4 is under way**: `Avatar` and `Skeleton` are
-in, 2 of its 12.
+**Phases 1, 2 and 3 are done**, and **phase 4 is under way**: `Avatar`, `Skeleton`,
+`Breadcrumbs`, `ExpansionPanel` and `Accordion` are in, 5 of its 12.
 
 ## Already covered
 
@@ -233,6 +233,11 @@ Three things the first round of this phase established:
   a skeleton beside anything else took the whole line and pushed its neighbour onto the next one
   while looking as though it had not. A block box already fills the row it is in; the width only
   stops it ever sharing one.
+- **`useDisclosure`'s `buttonProps` are button options, not DOM props.** Sixth component where
+  spreading a hook's `buttonProps` straight onto a `<button>` would have looked right and done
+  nothing; it has to go through `useButton`.
+- **React 19's `Key` includes `bigint` and React Aria's does not.** Any component with keys
+  reads the key type off a hook's own props rather than importing React's.
 - **A changed baseline is only reliably re-shot by deleting it first.** `--update-snapshots`
   reported ten passes and left a stale picture in place while the live page had plainly changed;
   the run after deleting the file produced the right one. What caught it was looking at the
@@ -242,9 +247,9 @@ Three things the first round of this phase established:
 | --- | --- | --- |
 | ~~`Avatar`~~ ✅ | — | Done. Image, initials or icon, three sizes, three shapes, four colour pairs. Every number is a `ListTokens` value: 40 is `ItemLeadingAvatarSize`, 24 is `ItemLeadingIconSize`, 56 is `ItemLeadingImageWidth`. Initials are passed in rather than split out of a name, because `split(' ')` is wrong for most of the world's names, and a broken image falls back to them rather than leaving a torn page |
 | ~~`Skeleton`~~ ✅ | — | Done. Text, block or disc, shimmer or pulse, held still under reduced motion because a loop with no end state is the clearest case that setting is about. Hidden from assistive tech with no way to label it: what a screen reader needs is the loading region's own `aria-busy`, not the shape of absent text |
-| `Breadcrumbs` | `useBreadcrumbs` | Collapsing to a menu when the trail is too long for the row |
-| `ExpansionPanel` | `useDisclosure` | One panel |
-| `Accordion` (PanelBar) | `useDisclosureGroupState` | A set of them, single or multiple open |
+| ~~`Breadcrumbs`~~ ✅ | `useBreadcrumbs` | Done. The last crumb is the current page and is deliberately not a link — `aria-current="page"` on a plain element, so a screen reader says where you are rather than offering to take you where you already are. A long trail folds its middle into the library's own `MenuButton`, keeping the first crumb and the last two, so the folded crumbs keep typeahead and arrow keys instead of becoming a second, lesser list |
+| ~~`ExpansionPanel`~~ ✅ | `useDisclosure` | Done. The collapsed panel stays in the DOM under `hidden="until-found"`, so find-in-page reaches the text and the browser opens the section; the hook also measures the panel and writes `--disclosure-panel-height`, which is the only way to animate to a height nobody knows in advance |
+| ~~`Accordion`~~ ✅ (PanelBar) | `useDisclosureGroupState` | Done. The group owns the open keys, so single-open falls out of the state rather than out of each panel watching the others. Arrow keys between headers are deliberately absent: the ARIA pattern makes them optional and a header is an ordinary button Tab already reaches, so wiring them would take a Tab stop away to buy nothing |
 | `Timeline` | — | Presentational, horizontal or vertical, alternating sides |
 | `Grid` / `Stack` | — | CSS-only layout primitives. They need a spacing scale, and there is not one: the token file has colour, shape, type, elevation, motion and state-layer opacity, and no spacing at all. So this is also where a scale gets chosen — M3 lays out on a 4dp grid, which is the obvious basis — and it has to be a named, overridable set rather than numbers inlined per component |
 | `Stepper` | ours | No hook. Linear and non-linear, horizontal and vertical, per-step validity |
