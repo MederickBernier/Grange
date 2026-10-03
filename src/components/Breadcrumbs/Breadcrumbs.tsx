@@ -1,14 +1,8 @@
-import {
-  Children,
-  isValidElement,
-  useRef,
-  type CSSProperties,
-  type ReactElement,
-  type ReactNode,
-} from 'react';
+import { isValidElement, useRef, type CSSProperties, type ReactElement, type ReactNode } from 'react';
 import { useBreadcrumbItem, useBreadcrumbs } from 'react-aria';
 import { MenuButton, type MenuButtonProps } from '../Menu/MenuButton';
 import { MenuItem } from '../Menu/Menu';
+import { flattenChildren } from '../../utils';
 import {
   resolveSlotClass,
   useComponentConfig,
@@ -92,7 +86,9 @@ export function Breadcrumbs(props: BreadcrumbsProps) {
   } = props;
 
   const { navProps } = useBreadcrumbs({ 'aria-label': ariaLabel });
-  const items = Children.toArray(children).filter(isCrumb).map((child) => child.props);
+  // flattenChildren, not Children.toArray: a trail written as a fragment would otherwise be
+  // one crumb long.
+  const items = flattenChildren(children).filter(isCrumb).map((child) => child.props);
 
   const slot = (name: BreadcrumbsSlot, hook: string, builtIn?: string) =>
     resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);

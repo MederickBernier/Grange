@@ -253,6 +253,23 @@ describe('Breadcrumbs', () => {
     expect(onAction).toHaveBeenCalledWith('c3');
   });
 
+  it('counts crumbs written as a fragment, which Children.toArray would see as one', () => {
+    render(
+      <Breadcrumbs>
+        <>
+          <Breadcrumb id="a" href="/a">
+            A
+          </Breadcrumb>
+          <Breadcrumb id="b" href="/b">
+            B
+          </Breadcrumb>
+        </>
+      </Breadcrumbs>,
+    );
+    expect(screen.getByText('B').getAttribute('aria-current')).toBe('page');
+    expect(screen.getByText('A').tagName).toBe('A');
+  });
+
   it('takes the fold threshold from the provider', () => {
     render(
       <GrangeProvider defaultProps={{ Breadcrumbs: { maxVisible: 3 } }}>
