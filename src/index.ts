@@ -74,6 +74,8 @@ export type {
   BottomSheetSlot,
   SideSheetSlot,
   CarouselSlot,
+  AvatarSlot,
+  SkeletonSlot,
   BadgeSlot,
   ChipSlot,
   SearchSlot,
@@ -149,6 +151,14 @@ export * from './shapes';
 export { Chip, ChipGroup } from './components/Chip/Chip';
 export type { ChipProps, ChipGroupProps, ChipVariant } from './components/Chip/Chip';
 export { chip } from './components/Chip/specs';
+export { Avatar } from './components/Avatar/Avatar';
+export type { AvatarProps } from './components/Avatar/Avatar';
+export { avatar } from './components/Avatar/specs';
+export type { AvatarSize, AvatarShape, AvatarColor } from './components/Avatar/specs';
+export { Skeleton } from './components/Skeleton/Skeleton';
+export type { SkeletonProps } from './components/Skeleton/Skeleton';
+export { skeleton } from './components/Skeleton/specs';
+export type { SkeletonShape, SkeletonAnimation } from './components/Skeleton/specs';
 export { Badge } from './components/Badge/Badge';
 export type { BadgeProps } from './components/Badge/Badge';
 export { badge } from './components/Badge/specs';

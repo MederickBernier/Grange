@@ -1,0 +1,75 @@
+/*
+ * Avatar. The 40px size, the full corner and the primary-container pair are ListTokens'
+ * ItemLeadingAvatar* values; 24 and 56 are the icon and image sizes from the same file. The
+ * other three colour pairs follow the same container/on-container shape as the captured one.
+ */
+
+@use '../../scss/api' as grange;
+
+.avatar {
+  --_size: 40px; // ItemLeadingAvatarSize
+  --_container: #{grange.color(primary-container)}; // ItemLeadingAvatarColor
+  --_label: #{grange.color(on-primary-container)}; // ItemLeadingAvatarLabelColor
+
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: var(--_size);
+  height: var(--_size);
+  border-radius: 9999px; // ItemLeadingAvatarShape: CornerFull
+  background: var(--_container);
+  color: var(--_label);
+  user-select: none;
+  @include grange.typescale(title-medium); // ItemLeadingAvatarLabelFont
+
+  &[data-size='sm'] {
+    --_size: 24px; // ItemLeadingIconSize
+    @include grange.typescale(label-medium); // chosen, scaled down from the captured one
+  }
+
+  &[data-size='lg'] {
+    --_size: 56px; // ItemLeadingImageWidth / ItemLeadingImageHeight
+    @include grange.typescale(headline-small); // chosen, scaled up
+  }
+
+  // Chosen shapes, off the corner scale rather than off a number.
+  &[data-shape='rounded'] {
+    border-radius: grange.corner(medium);
+  }
+
+  &[data-shape='square'] {
+    border-radius: 0;
+  }
+
+  &[data-color='secondary'] {
+    --_container: #{grange.color(secondary-container)};
+    --_label: #{grange.color(on-secondary-container)};
+  }
+
+  &[data-color='tertiary'] {
+    --_container: #{grange.color(tertiary-container)};
+    --_label: #{grange.color(on-tertiary-container)};
+  }
+
+  &[data-color='surface'] {
+    --_container: #{grange.color(surface-container-high)};
+    --_label: #{grange.color(on-surface-variant)};
+  }
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  // The image fills the circle rather than being letterboxed inside it, which is what makes a
+  // portrait and a landscape photo look like the same component.
+  object-fit: cover;
+}
+
+.label {
+  // The initials sit on the baseline grid of their typescale, which the flex centring would
+  // otherwise fight with on a tall line-height.
+  line-height: 1;
+}

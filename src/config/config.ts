@@ -19,6 +19,8 @@ import type {
 } from '../components/Button/specs';
 import { defaultSizes, resolveSizes } from '../components/Button/specs';
 import type { ExtendedFabSize, FabSize, FabVariant } from '../components/Fab/specs';
+import type { AvatarColor, AvatarShape, AvatarSize } from '../components/Avatar/specs';
+import type { SkeletonAnimation, SkeletonShape } from '../components/Skeleton/specs';
 
 /** A spring as M3 defines it: stiffness plus damping ratio (1 = no overshoot). */
 export interface SpringSpec {
@@ -105,6 +107,8 @@ export type DrawerSlot = 'root' | 'scrim';
 export type BottomSheetSlot = 'root' | 'scrim' | 'handle';
 export type SideSheetSlot = 'root' | 'scrim' | 'header' | 'headline' | 'content' | 'actions' | 'handle';
 export type CarouselSlot = 'root' | 'item';
+export type AvatarSlot = 'root' | 'image' | 'label';
+export type SkeletonSlot = 'root' | 'bar';
 export type BadgeSlot = 'root';
 export type ChipSlot = 'root' | 'label' | 'remove';
 export type SearchSlot = 'root' | 'bar' | 'input' | 'view';
@@ -174,6 +178,8 @@ export interface ClassNamesConfig {
   SideSheet?: SlotOverrides<SideSheetSlot>;
   Carousel?: SlotOverrides<CarouselSlot>;
   CarouselItem?: SlotOverrides<CarouselSlot>;
+  Avatar?: SlotOverrides<AvatarSlot>;
+  Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
   Chip?: SlotOverrides<ChipSlot>;
   ChipGroup?: SlotOverrides<'root'>;
@@ -256,6 +262,8 @@ export interface DefaultPropsConfig {
   Signature?: { width?: number; height?: number; strokeWidth?: number };
   Form?: { validationBehavior?: 'aria' | 'native' };
   DateField?: { variant?: 'filled' | 'outlined' };
+  Avatar?: { size?: AvatarSize; shape?: AvatarShape; color?: AvatarColor };
+  Skeleton?: { shape?: SkeletonShape; animation?: SkeletonAnimation };
   DatePicker?: { variant?: 'filled' | 'outlined' };
   DateRangePicker?: { variant?: 'filled' | 'outlined'; visibleMonths?: 1 | 2 | 3 };
   TimePicker?: {
@@ -449,6 +457,8 @@ const COMPONENTS: ComponentName[] = [
   'SideSheet',
   'Carousel',
   'CarouselItem',
+  'Avatar',
+  'Skeleton',
   'Badge',
   'Chip',
   'ChipGroup',

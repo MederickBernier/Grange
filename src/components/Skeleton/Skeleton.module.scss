@@ -1,0 +1,109 @@
+/*
+ * Skeleton. Nothing here is a captured component token, because Material has no skeleton — the
+ * androidx files are 404. What is captured is everything the values are made of: the surface is
+ * surface-container-highest, the sweep is on-surface at the hover state-layer opacity, and the
+ * period is the extra-long4 duration on the linear easing.
+ */
+
+@use '../../scss/api' as grange;
+
+.skeleton {
+  --_height: 24px; // body-large's line-height, which is what a line of text occupies
+  --_gap: 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--_gap);
+  /*
+   * No width of its own. A block box already fills the row it is in, and `width: 100%` would
+   * additionally make the skeleton refuse to share a flex row with anything — it would take the
+   * whole line and push its neighbour onto the next one while looking as though it had not.
+   */
+  min-width: 0;
+}
+
+.bar {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: var(--_height);
+  border-radius: grange.corner(extra-small);
+  background: grange.color(surface-container-highest);
+
+  // The sweep. A pseudo-element rather than a background-position animation, because a gradient
+  // sized to the element cannot be moved past its own edges without stretching it.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      grange.translucent(on-surface, 8), // the hover state-layer opacity, as a literal percent
+      transparent
+    );
+  }
+}
+
+.skeleton[data-animation='shimmer'] .bar::after {
+  animation: grange-skeleton-sweep grange.duration(extra-long4) grange.easing(linear) infinite;
+}
+
+.skeleton[data-animation='pulse'] .bar {
+  animation: grange-skeleton-pulse grange.duration(extra-long4) grange.easing(standard) infinite;
+
+  &::after {
+    content: none;
+  }
+}
+
+.skeleton[data-animation='none'] .bar::after {
+  content: none;
+}
+
+/* A rect fills whatever box it is given, so it has no line height of its own. */
+.skeleton[data-shape='rect'] .bar {
+  height: var(--_height);
+}
+
+/*
+ * A circle is as wide as it is tall, whatever height it was given — through aspect-ratio rather
+ * than by repeating the height as a width, so a circle cannot be told a width and quietly
+ * become an ellipse.
+ */
+.skeleton[data-shape='circle'] {
+  // Shrinks to the disc. Without this the root still fills the row, and a circle beside
+  // something else pushes it onto the next line while looking as though it has not.
+  width: fit-content;
+}
+
+.skeleton[data-shape='circle'] .bar {
+  width: auto;
+  aspect-ratio: 1;
+  align-self: flex-start;
+  border-radius: 9999px;
+}
+
+@keyframes grange-skeleton-sweep {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes grange-skeleton-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/*
+ * A shimmer is a loop with no end state, which is the clearest case this setting is about. It
+ * stops rather than slowing down.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton[data-animation] .bar,
+  .skeleton[data-animation] .bar::after {
+    animation: none;
+  }
+}
