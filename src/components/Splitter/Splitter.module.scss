@@ -1,0 +1,81 @@
+/*
+ * Splitter. Nothing captured — Material has no splitter — so the bar is the divider's one pixel
+ * inside a 16px hit area, which is ListTokens' ItemLeadingSpace and the smallest target the
+ * rest of the library draws.
+ */
+
+@use '../../scss/api' as grange;
+
+.splitter {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+
+  &[data-orientation='vertical'] {
+    flex-direction: column;
+  }
+}
+
+.pane {
+  // Panes are sized by flex-basis alone: grow and shrink would fight the percentages the
+  // component is keeping, and a pane would end up a size nobody asked for.
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+}
+
+.bar {
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  // The band, not the line: a one-pixel target cannot be hit with a pointer.
+  width: 16px;
+  margin-inline: -8px;
+  cursor: col-resize;
+  touch-action: none;
+  z-index: 1;
+
+  // The line itself, drawn down the middle of the band.
+  &::after {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    left: 50%;
+    width: 1px; // the divider's thickness
+    background: grange.color(outline-variant);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    background: grange.color(primary);
+    width: 2px;
+  }
+
+  &:focus-visible {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: -3px;
+  }
+
+  .splitter[data-orientation='vertical'] & {
+    width: auto;
+    height: 16px;
+    margin-inline: 0;
+    margin-block: -8px;
+    cursor: row-resize;
+
+    &::after {
+      inset-block: auto;
+      inset-inline: 0;
+      top: 50%;
+      width: auto;
+      height: 1px;
+    }
+
+    &:hover::after,
+    &:focus-visible::after {
+      width: auto;
+      height: 2px;
+    }
+  }
+}

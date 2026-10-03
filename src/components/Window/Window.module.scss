@@ -1,0 +1,112 @@
+/*
+ * Window. Material has no floating window, so the chrome is borrowed from the two things it
+ * most resembles: DialogTokens for the container (SurfaceContainerHigh, CornerExtraLarge,
+ * Level3) and ListTokens for the title bar, which is a one-line row with the usual gutters.
+ */
+
+@use '../../scss/api' as grange;
+
+.window {
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: grange.corner(extra-large); // DialogTokens: ContainerShape
+  background: grange.color(surface-container-high); // DialogTokens: ContainerColor
+  color: grange.color(on-surface);
+  // DialogTokens: ContainerElevation is Level3. Written out rather than referenced, because the
+  // elevation tokens are numbers for Compose rather than CSS shadows.
+  box-shadow:
+    0 1px 3px 0 #{grange.translucent(shadow, 30%)},
+    0 4px 8px 3px #{grange.translucent(shadow, 15%)};
+
+  /*
+   * useDialog focuses the container so a screen reader lands inside the window, and the
+   * browser then draws a ring around the whole thing. The handles and buttons inside have
+   * their own rings; this one only outlines the frame and says nothing.
+   */
+  &:focus-visible {
+    outline: none;
+  }
+
+  // A maximised window squares off: rounded corners against the viewport edge look like a
+  // mistake rather than a shape.
+  &[data-maximized] {
+    border-radius: 0;
+  }
+}
+
+.bar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  min-height: 56px; // ListTokens: a one-line row
+  padding-inline: 16px 8px; // ItemLeadingSpace, less at the end where the buttons sit
+  border-bottom: 1px solid grange.color(outline-variant);
+}
+
+/* The drag surface, which is everything in the bar that is not a control. */
+.grab {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+  min-height: 40px;
+  border-radius: grange.corner(small);
+  touch-action: none;
+
+  &[data-movable] {
+    cursor: move;
+  }
+
+  &:focus-visible {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: -3px;
+  }
+}
+
+.title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  @include grange.typescale(title-medium); // the app bar's title size
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 16px; // ItemLeadingSpace, continued
+  @include grange.typescale(body-medium);
+}
+
+/*
+ * The resize grip. Bottom-end rather than bottom-right, so it follows the writing direction
+ * instead of sitting under the scrollbar in RTL.
+ */
+.grip {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  touch-action: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-inline-end: 2px solid grange.color(outline);
+    border-block-end: 2px solid grange.color(outline);
+  }
+
+  &:focus-visible {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: -3px;
+  }
+}

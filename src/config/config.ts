@@ -112,6 +112,8 @@ export type AvatarSlot = 'root' | 'image' | 'label';
 export type DisclosureSlot = 'root' | 'header' | 'title' | 'panel';
 export type BreadcrumbsSlot = 'root' | 'crumb';
 export type TimelineSlot = 'root' | 'item' | 'content';
+export type SplitterSlot = 'root' | 'pane' | 'bar';
+export type WindowSlot = 'root' | 'bar' | 'body';
 export type StepperSlot = 'root' | 'step' | 'button';
 export type SkeletonSlot = 'root' | 'bar';
 export type BadgeSlot = 'root';
@@ -190,6 +192,8 @@ export interface ClassNamesConfig {
   Stack?: SlotOverrides<'root'>;
   Grid?: SlotOverrides<'root'>;
   Timeline?: SlotOverrides<TimelineSlot>;
+  Splitter?: SlotOverrides<SplitterSlot>;
+  Window?: SlotOverrides<WindowSlot>;
   Stepper?: SlotOverrides<StepperSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
@@ -281,6 +285,8 @@ export interface DefaultPropsConfig {
   Stack?: { direction?: 'row' | 'column'; gap?: string | number };
   Grid?: { columns?: number | string; gap?: string | number };
   Timeline?: { orientation?: 'vertical' | 'horizontal'; alternating?: boolean };
+  Splitter?: { orientation?: 'horizontal' | 'vertical' };
+  Window?: { minimizable?: boolean; maximizable?: boolean; resizable?: boolean; closable?: boolean };
   Stepper?: { orientation?: 'horizontal' | 'vertical'; linear?: boolean };
   Skeleton?: { shape?: SkeletonShape; animation?: SkeletonAnimation };
   DatePicker?: { variant?: 'filled' | 'outlined' };
@@ -483,6 +489,8 @@ const COMPONENTS: ComponentName[] = [
   'Stack',
   'Grid',
   'Timeline',
+  'Splitter',
+  'Window',
   'Stepper',
   'Skeleton',
   'Badge',

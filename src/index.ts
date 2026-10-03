@@ -78,6 +78,8 @@ export type {
   DisclosureSlot,
   BreadcrumbsSlot,
   TimelineSlot,
+  SplitterSlot,
+  WindowSlot,
   StepperSlot,
   SkeletonSlot,
   BadgeSlot,
@@ -159,6 +161,14 @@ export { Stack, Grid, GridItem, spaceValue } from './components/Layout/Layout';
 export type { StackProps, GridProps, GridItemProps, Space } from './components/Layout/Layout';
 export { space } from './components/Layout/specs';
 export type { SpaceName } from './components/Layout/specs';
+export { Splitter, SplitterPane } from './components/Splitter/Splitter';
+export type { SplitterProps, SplitterPaneProps } from './components/Splitter/Splitter';
+export { splitter } from './components/Splitter/specs';
+export { moveBoundary } from './components/Splitter/resize';
+export type { PaneLimits } from './components/Splitter/resize';
+export { Window } from './components/Window/Window';
+export type { WindowProps, WindowPosition, WindowSize } from './components/Window/Window';
+export { windowSpec } from './components/Window/specs';
 export { Timeline, TimelineItem } from './components/Timeline/Timeline';
 export type { TimelineProps, TimelineItemProps } from './components/Timeline/Timeline';
 export { timeline } from './components/Timeline/specs';
