@@ -42,16 +42,16 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 55 |
-| In scope, to build | 46 (across 7 phases) |
+| Already covered by Grange | 57 |
+| In scope, to build | 44 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
 verification — they are roughly 28 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phase 1 is done**, and **phase 2 is under way**: the public `Popover` and `ComboBox` are in,
-2 of its 7.
+**Phase 1 is done**, and **phase 2 is under way**: `Popover`, `ComboBox`, `Autocomplete` and
+`MultiSelect` are in, 4 of its 7.
 
 ## Already covered
 
@@ -157,13 +157,22 @@ finished and was not:
 - **The combo box's chevron must not be given a label.** `useComboBox` labels it by the field
   through `aria-labelledby`, which wins over `aria-label` — so an `aria-label` would sit in the
   markup doing nothing.
+- **Escape in a multiple-selection listbox clears the selection by default**, and stops there.
+  It never reaches the popover, so the list cannot be closed with it and everything chosen is
+  thrown away instead. `escapeKeyBehavior: 'none'` puts Escape back to meaning "close".
+- **`useTagGroup` given a `label` expects its `labelProps` to be rendered somewhere.** The
+  field's own label is not that element, so the grid ends up named by an id that exists nowhere.
+  A string `aria-label` needs no element, which is what it gets.
+- **A listbox in a popover has to be given `autoFocus`.** `useOverlay` listens for Escape on the
+  overlay element, and unlike a select nothing else moves focus in, so without it neither Escape
+  nor the arrow keys do anything.
 
 | Component | Behaviour | Notes |
 | --- | --- | --- |
 | ~~`Popover`~~ ✅ (Popup) | `usePopover` | Done. The low-level `Popover` was already there behind `Menu` and `Select`; `PopoverTrigger` is the component: a button and the surface it opens, for content that is not a list. A dialog rather than a tooltip, because the moment there is something to interact with inside, a tooltip is the wrong markup — assistive tech cannot reach into one and it closes on pointer-leave |
 | ~~`ComboBox`~~ ✅ | `useComboBox` | Done, and it shares both halves with what was already here: `FieldShell` for the chrome and `OptionList` for the list, which `Select` was moved onto in the same round. Filtering goes through `useFilter`, so it follows the locale — typing "ist" finds Istanbul in English and correctly does not in Turkish, where the dotted and dotless i are different letters |
-| `Autocomplete` | `useAutocomplete` | A text field that suggests, without the listbox owning the value |
-| `MultiSelect` | `useListBox` + `useTagGroup` | Selected values as removable chips, which is what `useTagGroup` is for |
+| ~~`Autocomplete`~~ ✅ | `useComboBox` | Done, as a wrapper over `ComboBox`, because that is honestly all it is: the same hook with the selection taken out, so the text is the value and whatever is typed stands. `useAutocomplete` is a different thing despite the name — it drives a *separate* collection, a searchable menu, from an input — and is deliberately not used |
+| ~~`MultiSelect`~~ ✅ | `useListBox` + `useTagGroup` | Done. The options are a multiple-selection `useListBox` in the shared `Popover` and `OptionList`; the chips are a real tag group, so they have their own arrow keys and a live region that announces a removal. Two widgets in one field on purpose: both want the arrow keys, so one tab stop would mean choosing which |
 | `MultiColumnComboBox` | `useComboBox` | Same behaviour, a tabular popover |
 | `MenuButton` (DropDownButton) | `useMenuTrigger` | A button whose press opens a menu. Small, and it already exists inside `SplitButton` |
 | `ContextMenu` | `useContextMenu` | Right-click and the keyboard's context key, plus submenus through `useSubmenuTrigger` |
@@ -305,6 +314,11 @@ pnpm build                 # dist/index.js, index.d.ts, index.css
 pnpm build-storybook
 pnpm visual:docker         # 292 baselines and rising, in the image CI uses
 ```
+
+One thing the visual suite caught that no other check would: four calendar stories were pinned to
+`today()`, and the container runs on UTC while a developer's machine does not — so for part of
+every day the two disagree about what day it is and the screenshots drift. Those stories are
+pinned to a fixed past date now. A story that renders the current date cannot be a baseline.
 
 Then from a fresh clone of the merged branch, all four scripts plus the container visual run,
 which is what has caught every problem that only shows up outside the working tree: the
