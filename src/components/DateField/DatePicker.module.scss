@@ -46,3 +46,16 @@
 .calendar {
   width: 100%;
 }
+
+/* The two ends of a range, with the dash between them. */
+.rangeFields {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  outline: none;
+}
+
+.rangeDash {
+  color: grange.color(on-surface-variant);
+}

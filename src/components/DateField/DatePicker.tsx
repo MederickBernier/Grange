@@ -1,7 +1,12 @@
 import { useRef, type CSSProperties, type ReactNode } from 'react';
 import { useButton, useDateField, useDatePicker, useFocusRing, useHover, useLocale } from 'react-aria';
 import { useDateFieldState, useDatePickerState } from 'react-stately';
-import { createCalendar, type CalendarDate, type DateValue } from '@internationalized/date';
+import {
+  createCalendar,
+  type CalendarDate,
+  type CalendarDateTime,
+  type DateValue,
+} from '@internationalized/date';
 import { Calendar } from '../Calendar/Calendar';
 import { Popover } from '../../overlays/Popover';
 import { FieldShell } from '../TextField/FieldShell';
@@ -18,17 +23,18 @@ import menuStyles from '../Menu/Menu.module.scss';
 import fieldStyles from './DateField.module.scss';
 import styles from './DatePicker.module.scss';
 
-export interface DatePickerProps {
+interface CommonPickerProps {
   /** The visible label. Without one, pass aria-label. */
   label?: ReactNode;
   variant?: TextFieldVariant;
-  value?: CalendarDate | null;
-  defaultValue?: CalendarDate | null;
-  onChange?: (value: CalendarDate | null) => void;
   minValue?: DateValue;
   maxValue?: DateValue;
   /** Marks individual dates as unavailable, rather than a whole range. */
   isDateUnavailable?: (date: DateValue) => boolean;
+  /** How precise the field is. A day for a date picker; minutes for a date-time one. */
+  granularity?: 'day' | 'hour' | 'minute' | 'second';
+  /** 12 or 24 hour, when there are time segments. Left out, it follows the locale. */
+  hourCycle?: 12 | 24;
   supportingText?: ReactNode;
   error?: boolean;
   errorText?: ReactNode;
@@ -44,6 +50,18 @@ export interface DatePickerProps {
   classNames?: SlotOverrides<DateFieldSlot>;
 }
 
+export interface DatePickerProps extends CommonPickerProps {
+  value?: CalendarDate | null;
+  defaultValue?: CalendarDate | null;
+  onChange?: (value: CalendarDate | null) => void;
+}
+
+export interface DateTimePickerProps extends CommonPickerProps {
+  value?: CalendarDateTime | null;
+  defaultValue?: CalendarDateTime | null;
+  onChange?: (value: CalendarDateTime | null) => void;
+}
+
 /**
  * A date field with a calendar in a popover — the docked picker the M3 spec draws.
  *
@@ -54,8 +72,19 @@ export interface DatePickerProps {
  *
  * The modal variant is not a different component: put a `Calendar` in a `Dialog`, which the
  * calendar's own story shows. This is the inline one.
+ *
+ * `DateTimePicker` is the same component with time segments, which is why they share an
+ * implementation and differ only in the type of their value: a `CalendarDate` cannot hold a
+ * time, and the hook says so outright rather than quietly dropping it, so the two have to be
+ * typed apart even though nothing else about them differs.
  */
-export function DatePicker(props: DatePickerProps) {
+interface PickerBaseProps extends CommonPickerProps {
+  value?: DateValue | null;
+  defaultValue?: DateValue | null;
+  onChange?: (value: DateValue | null) => void;
+}
+
+function PickerBase(props: PickerBaseProps) {
   const { defaults, slots } = useComponentConfig('DatePicker');
   const {
     label,
@@ -207,6 +236,26 @@ export function DatePicker(props: DatePickerProps) {
         </Popover>
       )}
     </FieldShell>
+  );
+}
+
+/** A date, to the day. */
+export function DatePicker(props: DatePickerProps) {
+  // Cast at the boundary: the hooks are generic over DateValue so one implementation serves
+  // both pickers, while each public component promises the exact type an app configured.
+  return <PickerBase {...(props as PickerBaseProps)} />;
+}
+
+/**
+ * A date and a time in one field — the catalog's DateTimePicker.
+ *
+ * The same component as `DatePicker` with the time segments turned on, so the calendar still
+ * picks the day and the segments still take the hour. Its value is a `CalendarDateTime`, because
+ * a `CalendarDate` has nowhere to put the time.
+ */
+export function DateTimePicker(props: DateTimePickerProps) {
+  return (
+    <PickerBase granularity="minute" {...(props as PickerBaseProps)} />
   );
 }
 

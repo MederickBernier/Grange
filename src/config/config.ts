@@ -183,6 +183,7 @@ export interface ClassNamesConfig {
   TimeField?: SlotOverrides<TimeFieldSlot>;
   DateField?: SlotOverrides<DateFieldSlot>;
   DatePicker?: SlotOverrides<DateFieldSlot>;
+  DateRangePicker?: SlotOverrides<DateFieldSlot>;
   TimePicker?: SlotOverrides<TimePickerSlot>;
   CheckboxGroup?: SlotOverrides<'root' | 'label' | 'supportingText'>;
   Snackbar?: SlotOverrides<SnackbarSlot>;
@@ -256,6 +257,7 @@ export interface DefaultPropsConfig {
   Form?: { validationBehavior?: 'aria' | 'native' };
   DateField?: { variant?: 'filled' | 'outlined' };
   DatePicker?: { variant?: 'filled' | 'outlined' };
+  DateRangePicker?: { variant?: 'filled' | 'outlined'; visibleMonths?: 1 | 2 | 3 };
   TimePicker?: {
     hourCycle?: 12 | 24;
     periodOrientation?: 'vertical' | 'horizontal';
@@ -456,6 +458,7 @@ const COMPONENTS: ComponentName[] = [
   'TimeField',
   'DateField',
   'DatePicker',
+  'DateRangePicker',
   'TimePicker',
   'CheckboxGroup',
 ];

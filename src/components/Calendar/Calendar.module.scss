@@ -111,3 +111,29 @@
     transition: none;
   }
 }
+
+/*
+ * Two or three months side by side — the catalog's MultiViewCalendar. Each is its own grid: a
+ * grid's arrow keys move within a month and a screen reader reads its caption, so two months in
+ * one table would be wrong about both.
+ */
+.months {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+
+  &[data-months='1'] {
+    display: block;
+  }
+}
+
+/*
+ * Several months need more room than one. Done with a data attribute on the calendar rather than
+ * `:has()`: the `:has()` version matched a single month too and stretched it to the full width of
+ * whatever it sat in, which the screenshots caught — a one-line rule that broke the shape of
+ * every ordinary calendar.
+ */
+.calendar[data-months='2'],
+.calendar[data-months='3'] {
+  width: auto;
+}

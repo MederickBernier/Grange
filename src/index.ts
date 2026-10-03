@@ -99,8 +99,19 @@ export type { CalendarProps, RangeCalendarProps } from './components/Calendar/Ca
 export { calendar } from './components/Calendar/specs';
 export { DateField, FilledDateField, OutlinedDateField } from './components/DateField/DateField';
 export type { DateFieldProps, VariantDateFieldProps } from './components/DateField/DateField';
-export { DatePicker, FilledDatePicker, OutlinedDatePicker } from './components/DateField/DatePicker';
-export type { DatePickerProps, VariantDatePickerProps } from './components/DateField/DatePicker';
+export {
+  DatePicker,
+  DateTimePicker,
+  FilledDatePicker,
+  OutlinedDatePicker,
+} from './components/DateField/DatePicker';
+export type {
+  DatePickerProps,
+  DateTimePickerProps,
+  VariantDatePickerProps,
+} from './components/DateField/DatePicker';
+export { DateRangePicker } from './components/DateField/DateRangePicker';
+export type { DateRangePickerProps, DateRangeValue } from './components/DateField/DateRangePicker';
 
 export * from './dates/dates';
 export { Segment } from './components/DateField/Segment';
