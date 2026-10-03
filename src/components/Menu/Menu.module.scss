@@ -226,3 +226,43 @@
     border-top-color: #{grange.translucent(on-tertiary-container, 20%)};
   }
 }
+
+// ---------------------------------------------------------------------------
+// Columns, for a multi-column combo box
+// ---------------------------------------------------------------------------
+
+/*
+ * The tracks are set once on the list as a custom property, so the header and every row share
+ * them and line up. No tokens for any of this: M3 has no tabular list.
+ */
+.columned {
+  min-width: 320px;
+}
+
+.columnHeader,
+.cells {
+  display: grid;
+  grid-template-columns: var(--grange-option-columns, 1fr);
+  gap: 12px; // ItemBetweenSpace, as the rows use between their parts
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.columnHeader {
+  box-sizing: border-box;
+  padding: 8px 16px;
+  color: grange.color(on-surface-variant);
+  border-bottom: 1px solid grange.color(outline-variant);
+  @include grange.typescale(label-medium);
+}
+
+.columned .item {
+  @include grange.typescale(body-large);
+}

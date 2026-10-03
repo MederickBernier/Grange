@@ -2,7 +2,7 @@ import { useRef, type CSSProperties, type ReactElement, type ReactNode } from 'r
 import { mergeProps, useButton, useComboBox, useFilter, useFocusRing, useHover } from 'react-aria';
 import { Item, useComboBoxState, type ComboBoxProps as AriaComboBoxProps } from 'react-stately';
 import { Popover } from '../../overlays/Popover';
-import { OptionList, type OptionListItemProps } from '../Select/OptionList';
+import { OptionList, type OptionListColumn, type OptionListItemProps } from '../Select/OptionList';
 import { FieldShell } from '../TextField/FieldShell';
 import {
   resolveSlotClass,
@@ -19,6 +19,7 @@ type Key = NonNullable<AriaComboBoxProps<never>['disabledKeys']> extends Iterabl
 type CollectionChildren = AriaComboBoxProps<object>['children'];
 
 export type ComboBoxItemProps = OptionListItemProps;
+export type ComboBoxColumn = OptionListColumn;
 
 /**
  * One option. Identified by its React `key`, as the menu's and the select's items are, because
@@ -56,6 +57,11 @@ export interface ComboBoxProps {
    * as you type — which is what `Autocomplete` is.
    */
   showOpenButton?: boolean;
+  /**
+   * Lays the list out in columns, with a header. Each item then carries `cells`; its `children`
+   * stay the label, which is what typeahead matches and what is announced.
+   */
+  columns?: readonly ComboBoxColumn[];
   placeholder?: string;
   supportingText?: ReactNode;
   error?: boolean;
@@ -100,6 +106,7 @@ export function ComboBox(props: ComboBoxProps) {
     menuTrigger = defaults?.menuTrigger ?? 'input',
     emptyState = 'No matches',
     showOpenButton = defaults?.showOpenButton ?? true,
+    columns,
     placeholder,
     supportingText,
     error,
@@ -240,6 +247,7 @@ export function ComboBox(props: ComboBoxProps) {
             itemClass={slot('item', 'grange-combo-box-item', menuStyles.item)}
             emptyState={emptyState}
             listRef={listBoxRef}
+            columns={columns}
           />
         </Popover>
       )}
@@ -276,6 +284,17 @@ function OpenButton({
       </svg>
     </button>
   );
+}
+
+/**
+ * The catalog's MultiColumnComboBox: the same combo box with the list laid out in columns.
+ *
+ * A wrapper rather than its own component, because the columns are presentation. An option is
+ * still one option named by its label; a real tabular list would need `useGridList`, and making
+ * every cell a focus stop is the wrong trade for a list you pick one thing from.
+ */
+export function MultiColumnComboBox(props: ComboBoxProps & { columns: readonly ComboBoxColumn[] }) {
+  return <ComboBox {...props} />;
 }
 
 export type VariantComboBoxProps = Omit<ComboBoxProps, 'variant'>;
