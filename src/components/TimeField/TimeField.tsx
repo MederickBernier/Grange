@@ -1,11 +1,10 @@
 import { useRef, type CSSProperties, type ReactNode } from 'react';
-import { useDateSegment, useLocale, useTimeField } from 'react-aria';
-import { useTimeFieldState, type DateFieldState } from 'react-stately';
+import { useLocale, useTimeField } from 'react-aria';
+import { useTimeFieldState } from 'react-stately';
 import type { Time } from '@internationalized/date';
 import { resolveSlotClass, useComponentConfig, type SlotOverrides, type TimeFieldSlot } from '../../config/config';
+import { Segment } from '../DateField/Segment';
 import styles from './TimeField.module.scss';
-
-type Segment = DateFieldState['segments'][number];
 
 export interface TimeFieldProps {
   /** The visible label. Without one, pass aria-label. */
@@ -92,7 +91,7 @@ export function TimeField(props: TimeFieldProps) {
       )}
       <div {...fieldProps} ref={ref} className={slot('input', 'grange-time-field-input', styles.field)}>
         {state.segments.map((segment, i) => (
-          <SegmentBox key={i} segment={segment} state={state} />
+          <Segment key={i} segment={segment} state={state} className={styles.segment} />
         ))}
       </div>
       {supportingText != null && (
@@ -100,23 +99,6 @@ export function TimeField(props: TimeFieldProps) {
           {supportingText}
         </span>
       )}
-    </div>
-  );
-}
-
-function SegmentBox({ segment, state }: { segment: Segment; state: DateFieldState }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { segmentProps } = useDateSegment(segment, state, ref);
-
-  return (
-    <div
-      {...segmentProps}
-      ref={ref}
-      className={styles.segment}
-      data-literal={segment.type === 'literal' ? 'true' : undefined}
-      data-placeholder={segment.isPlaceholder || undefined}
-    >
-      {segment.text}
     </div>
   );
 }

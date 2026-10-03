@@ -18,6 +18,7 @@ import {
   getWeeksInMonth,
   isToday as isDateToday,
   type CalendarDate,
+  type DateValue,
 } from '@internationalized/date';
 import { IconButton } from '../Button/Button';
 import { resolveSlotClass, useComponentConfig, type CalendarSlot, type SlotOverrides } from '../../config/config';
@@ -28,6 +29,22 @@ interface CommonProps {
   label?: ReactNode;
   minValue?: CalendarDate;
   maxValue?: CalendarDate;
+  /**
+   * Marks individual dates as unavailable — a closed day, a booked one — rather than a range.
+   *
+   * Takes a `DateValue` rather than a `CalendarDate`, because that is what React Aria hands it:
+   * the same callback is used by the date-time pickers, where the value carries a time as well.
+   */
+  isDateUnavailable?: (date: DateValue) => boolean;
+  /**
+   * Which month is on screen, and when it changes. A date picker drives these, so that opening
+   * it shows the month the value is in rather than this one.
+   */
+  focusedValue?: CalendarDate;
+  defaultFocusedValue?: CalendarDate;
+  onFocusChange?: (date: CalendarDate) => void;
+  /** Takes focus when it appears, which a calendar in a popover needs. */
+  autoFocus?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
   'aria-label'?: string;
