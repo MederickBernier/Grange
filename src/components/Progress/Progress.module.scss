@@ -117,3 +117,39 @@
     animation: none;
   }
 }
+
+/*
+ * The chunked bar. Material has no segmented progress indicator, so the only chosen value is
+ * the gap; the thickness and the colours are LinearProgressIndicatorTokens'.
+ */
+.chunked {
+  width: 100%;
+}
+
+.chunks {
+  display: flex;
+  // The gap between the bar and the remaining track, reused between the segments.
+  gap: 4px; // LinearProgressIndicatorTokens: TrackActiveSpace
+  width: 100%;
+}
+
+.chunk {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  border-radius: 9999px; // TrackShape: CornerFull
+  background: grange.color(secondary-container); // TrackColor
+
+  &[data-filled] {
+    background: grange.color(primary); // ActiveIndicatorColor
+  }
+}
+
+/* Only drawn when a caller has asked for partly filled chunks. */
+.chunkPart {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  border-radius: inherit;
+  background: grange.color(primary);
+}

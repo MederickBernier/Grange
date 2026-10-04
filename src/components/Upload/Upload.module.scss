@@ -1,0 +1,148 @@
+/*
+ * Upload and drop zone. Material has neither, so the metrics are chosen — out of ListTokens,
+ * which is what a file row is, and the shape scale for the zone's dashed outline.
+ */
+
+@use '../../scss/api' as grange;
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grange-space-md);
+  color: grange.color(on-surface);
+}
+
+.zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--grange-space-sm);
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 120px;
+  padding: var(--grange-space-lg);
+  // Dashed, because a drop target that looks like a button is a button people will not drop on.
+  border: 2px dashed grange.color(outline-variant);
+  border-radius: grange.corner(large);
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+
+  &[data-hovered] {
+    background: grange.translucent(on-surface, 8); // the hover state-layer opacity
+  }
+
+  // While a drag is over it. Filled rather than only outlined, so it is obvious under a cursor
+  // that is already carrying something.
+  &[data-drop-target] {
+    border-style: solid;
+    border-color: grange.color(primary);
+    background: grange.color(primary-container);
+    color: grange.color(on-primary-container);
+  }
+
+  &[data-focus-visible] {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: 2px;
+  }
+
+  &[data-disabled] {
+    opacity: 0.38;
+    cursor: default;
+  }
+}
+
+.zoneIcon {
+  width: 32px;
+  height: 32px;
+  fill: currentcolor;
+}
+
+.zoneLabel {
+  @include grange.typescale(body-medium);
+}
+
+/* The real file input, which is the only thing that can open the system dialog. */
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--grange-space-md);
+  box-sizing: border-box;
+  min-height: 56px; // ListTokens: a one-line row
+  padding-inline: 16px 8px; // ItemLeadingSpace, less where the buttons are
+
+  &[data-status='error'] {
+    color: grange.color(error);
+  }
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--grange-space-xs);
+  min-width: 0;
+}
+
+.line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--grange-space-md);
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  @include grange.typescale(body-large); // ItemLabelTextFont
+}
+
+.meta {
+  color: grange.color(on-surface-variant); // ItemSupportingTextColor
+  @include grange.typescale(body-small);
+
+  .item[data-status='error'] & {
+    color: grange.color(error);
+  }
+}
+
+.progress {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+/* Announced, never shown: the list itself is the visible change. */
+.announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

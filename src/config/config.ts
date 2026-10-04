@@ -122,6 +122,7 @@ export type SortableSlot = 'root' | 'row';
 export type FilterBuilderSlot = 'root' | 'group' | 'row';
 export type ColorSlot = 'root' | 'track' | 'thumb';
 export type GaugeSlot = 'root' | 'label' | 'value';
+export type UploadSlot = 'root' | 'zone' | 'list' | 'item';
 export type StepperSlot = 'root' | 'step' | 'button';
 export type SkeletonSlot = 'root' | 'bar';
 export type BadgeSlot = 'root';
@@ -220,6 +221,9 @@ export interface ClassNamesConfig {
   RadialGauge?: SlotOverrides<GaugeSlot>;
   LinearGauge?: SlotOverrides<GaugeSlot>;
   Sparkline?: SlotOverrides<'root'>;
+  ChunkProgress?: SlotOverrides<ProgressSlot>;
+  Upload?: SlotOverrides<UploadSlot>;
+  DropZone?: SlotOverrides<UploadSlot>;
   Stepper?: SlotOverrides<StepperSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
@@ -333,6 +337,8 @@ export interface DefaultPropsConfig {
     showValue?: boolean;
   };
   Sparkline?: { variant?: 'line' | 'area' | 'bar'; width?: number; height?: number; showLast?: boolean };
+  ChunkProgress?: { chunks?: number; whole?: boolean; thickness?: number };
+  Upload?: { multiple?: boolean; showList?: boolean };
   TileLayout?: {
     columns?: number;
     gap?: string | number;
@@ -562,6 +568,9 @@ const COMPONENTS: ComponentName[] = [
   'RadialGauge',
   'LinearGauge',
   'Sparkline',
+  'ChunkProgress',
+  'Upload',
+  'DropZone',
   'Stepper',
   'Skeleton',
   'Badge',

@@ -88,6 +88,7 @@ export type {
   FilterBuilderSlot,
   ColorSlot,
   GaugeSlot,
+  UploadSlot,
   StepperSlot,
   SkeletonSlot,
   BadgeSlot,
@@ -231,6 +232,15 @@ export type {
   Operator,
   OperatorSpec,
 } from './data/query';
+
+export { ChunkProgress } from './components/Progress/ChunkProgress';
+export type { ChunkProgressProps } from './components/Progress/ChunkProgress';
+export { Upload } from './components/Upload/Upload';
+export type { UploadProps } from './components/Upload/Upload';
+export { DropZone } from './components/Upload/DropZone';
+export type { DropZoneProps } from './components/Upload/DropZone';
+export { acceptsFile, rejectReason, formatBytes, fileId, toUploadFiles } from './components/Upload/files';
+export type { UploadFile, FileStatus, FileRules, FileLike } from './components/Upload/files';
 
 export { ArcGauge, CircularGauge, RadialGauge, LinearGauge } from './components/Gauge/Gauge';
 export type { GaugeProps, LinearGaugeProps, GaugeBand } from './components/Gauge/Gauge';
