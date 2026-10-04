@@ -1,0 +1,68 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Grange
+
+**Material 3 Expressive components for React**, built from Google's own captured token values
+rather than from screenshots of the spec.
+
+Every component here is three things: the behaviour from
+[React Aria](https://react-spectrum.adobe.com/react-aria/) where a hook exists for it, the
+geometry and colour from Compose's published token files where they exist, and a written reason
+where neither does. The pages in the sidebar are generated from that writing — the explanation
+of a component lives above the component, so there is one copy of it and it cannot drift.
+
+## Install
+
+```sh
+npm install @jyga/grange-react
+# or: pnpm add @jyga/grange-react
+```
+
+React 18.2 or newer is a peer dependency; everything else the components need comes with the
+package.
+
+## Use
+
+```tsx
+import { GrangeProvider, FilledButton } from '@jyga/grange-react';
+import '@jyga/grange-react/styles.css';
+
+export function App() {
+  return (
+    <GrangeProvider>
+      <FilledButton onClick={() => console.log('pressed')}>Save</FilledButton>
+    </GrangeProvider>
+  );
+}
+```
+
+The stylesheet carries the tokens — every colour role, type style, shape corner, duration and
+easing as a CSS custom property — so it has to be imported once, anywhere, before the
+components render.
+
+## What to look at first
+
+- **Foundations → Tokens and Layout** — where the values come from, and the spacing scale, which
+  is the one set of numbers in this library that Material does not publish.
+- **Components → Variants** — the buttons, which is where the token pipeline is easiest to see.
+- Any component's **Docs** tab. The prose explains what was decided and why, including the
+  places where the obvious answer was wrong.
+
+## Reading the a11y panel
+
+The **Accessibility** tab beside each story runs axe against it. It is worth having and it is
+not the point: axe cannot tell whether a menu's arrow keys work, whether Escape reverts a combo
+box, or whether a drag handle can be reached without a pointer. Those are covered by the
+behaviour tests — 1,300 of them — and by the decisions written on each component.
+
+## Light and dark
+
+Use the **Theme** toolbar above. It sets `data-theme` on the document, which is all the library
+needs: every colour is a custom property that follows `prefers-color-scheme` by default and
+`data-theme` when it is set.
+
+The **Motion** toolbar switches between the expressive and standard spring sets. M3 Expressive's
+springs overshoot; the standard ones do not. Toggle something with a shape change — a filter
+chip, a button group — and watch the difference.

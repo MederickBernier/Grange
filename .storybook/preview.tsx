@@ -15,6 +15,8 @@ const preview: Preview = {
     },
   },
   initialGlobals: { theme: 'light', motionScheme: 'expressive' },
+  // Every story group gets a Docs page built from the prose above it.
+  tags: ['autodocs'],
   decorators: [
     (Story, context) => {
       const theme = context.globals.theme as string;
