@@ -50,9 +50,9 @@ At the project's established pace — two components a round, each round ending 
 verification — the remainder is roughly 12 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phases 1 to 6 are done**, and **phase 7 is under way**: the gauges and the sparkline are
-in, 2 of its 5 rows. The chunked progress bar, the two encoders and the upload are the last
-of it.
+**Phases 1 to 6 are done**, and **phase 7 is nearly**: the gauges, the sparkline, the chunked
+progress bar and the upload are in, 4 of its 5 rows. Only `Barcode` and `QRCode` are left —
+two encoders, and the last of the whole catalog.
 
 ## Already covered
 
@@ -341,9 +341,9 @@ Two things the first round of this phase established:
 | --- | --- | --- |
 | ~~`ArcGauge`, `CircularGauge`, `LinearGauge`, `RadialGauge`~~ ✅ | `useMeter` | Done, one engine and four faces. They are **meters, not progress bars**: a progress bar says a task is partly done and will finish, a meter says a quantity sits in a range, and a disk that is 80% full is not 80% finished. The geometry is pure — SVG measures angles from three o'clock and a gauge is read from twelve, so that conversion happens in one place rather than at every call site |
 | ~~`Sparkline`~~ ✅ | — | Done. Hidden from assistive tech unless given a label, which is the right default: it nearly always sits beside the number it illustrates, and reading the shape out after the number says the same thing twice. A flat series runs down the middle and a single point is a dot — neither is a special case in the component, only in the arithmetic |
-| `ChunkProgress` (ChunkProgressBar) | `useProgressBar` | The progress bar in discrete segments |
+| ~~`ChunkProgress`~~ ✅ (ChunkProgressBar) | `useProgressBar` | Done, and still **one** progress bar: a screen reader hears "62%" once rather than being read eight boxes, and the segments are `aria-hidden` like the gauges' arcs. Whole chunks by default — part-filling the one in progress turns a counter back into a smooth bar with stripes drawn on it |
 | `Barcode`, `QRCode` | ours | Encoders, not geometry: Code 128 and QR with its Reed–Solomon error correction. Self-contained, no dependency |
-| `Upload`, `DropZone` | `useDrop` | File selection, the drop target, per-file progress and retry. The network side stays the app's |
+| ~~`Upload`, `DropZone`~~ ✅ | `useDrop`, `useClipboard` | Done, and the network really does stay the app's: the component collects files, reports them, and draws whatever status it is handed. Dropping is not an interaction everybody has, so the zone is a real button that opens the system dialog, and `useClipboard` adds pasting as a third route. A file that cannot be accepted is refused **as it arrives**, with a sentence rather than a code |
 
 ## Out of scope
 
