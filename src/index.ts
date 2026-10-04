@@ -89,6 +89,7 @@ export type {
   ColorSlot,
   GaugeSlot,
   UploadSlot,
+  CodeSlot,
   StepperSlot,
   SkeletonSlot,
   BadgeSlot,
@@ -232,6 +233,28 @@ export type {
   Operator,
   OperatorSpec,
 } from './data/query';
+
+export { Barcode } from './components/Barcode/Barcode';
+export type { BarcodeProps } from './components/Barcode/Barcode';
+export { code as codeSpec } from './components/Barcode/specs';
+export { encode as encodeCode128, widths, moduleWidth, checksum, PATTERNS } from './components/Barcode/code128';
+export { QRCode } from './components/QRCode/QRCode';
+export type { QRCodeProps } from './components/QRCode/QRCode';
+export {
+  encode as encodeQR,
+  codewords,
+  chooseVersion,
+  dataCapacity,
+  byteCapacity,
+  formatBits,
+  versionBits,
+  penalty,
+  sizeOf,
+  MASKS,
+  MAX_VERSION,
+} from './components/QRCode/qr';
+export type { EcLevel } from './components/QRCode/qr';
+export { gfMul, generator, remainder } from './components/QRCode/galois';
 
 export { ChunkProgress } from './components/Progress/ChunkProgress';
 export type { ChunkProgressProps } from './components/Progress/ChunkProgress';

@@ -1,0 +1,31 @@
+/*
+ * Barcode and QR code. Nothing captured and nothing to capture: these are encodings with their
+ * own standards rather than Material components. The only decision here is which colour roles
+ * stand in for black and white, and it has to be a pair with real contrast in both schemes —
+ * a scanner reads light against dark, and a tasteful grey-on-grey does not scan.
+ */
+
+@use '../../scss/api' as grange;
+
+.barcode,
+.qr {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* The quiet zone and the background between the bars. */
+.quiet {
+  fill: grange.color(surface);
+}
+
+.bar,
+.module {
+  fill: grange.color(on-surface);
+}
+
+.caption {
+  fill: grange.color(on-surface);
+  font-size: 8px;
+  font-family: monospace;
+}

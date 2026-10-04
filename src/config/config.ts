@@ -123,6 +123,7 @@ export type FilterBuilderSlot = 'root' | 'group' | 'row';
 export type ColorSlot = 'root' | 'track' | 'thumb';
 export type GaugeSlot = 'root' | 'label' | 'value';
 export type UploadSlot = 'root' | 'zone' | 'list' | 'item';
+export type CodeSlot = 'root';
 export type StepperSlot = 'root' | 'step' | 'button';
 export type SkeletonSlot = 'root' | 'bar';
 export type BadgeSlot = 'root';
@@ -224,6 +225,8 @@ export interface ClassNamesConfig {
   ChunkProgress?: SlotOverrides<ProgressSlot>;
   Upload?: SlotOverrides<UploadSlot>;
   DropZone?: SlotOverrides<UploadSlot>;
+  Barcode?: SlotOverrides<CodeSlot>;
+  QRCode?: SlotOverrides<CodeSlot>;
   Stepper?: SlotOverrides<StepperSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
@@ -339,6 +342,8 @@ export interface DefaultPropsConfig {
   Sparkline?: { variant?: 'line' | 'area' | 'bar'; width?: number; height?: number; showLast?: boolean };
   ChunkProgress?: { chunks?: number; whole?: boolean; thickness?: number };
   Upload?: { multiple?: boolean; showList?: boolean };
+  Barcode?: { moduleSize?: number; height?: number; showValue?: boolean; quietZone?: number };
+  QRCode?: { level?: 'L' | 'M' | 'Q' | 'H'; moduleSize?: number; quietZone?: number };
   TileLayout?: {
     columns?: number;
     gap?: string | number;
@@ -571,6 +576,8 @@ const COMPONENTS: ComponentName[] = [
   'ChunkProgress',
   'Upload',
   'DropZone',
+  'Barcode',
+  'QRCode',
   'Stepper',
   'Skeleton',
   'Badge',
