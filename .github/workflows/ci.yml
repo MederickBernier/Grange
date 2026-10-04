@@ -11,6 +11,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Its own job: lint and formatting fail for reasons that have nothing to do with the tests,
+  # and finding out about both at once is better than one after the other. It is also the
+  # fastest job, so a misplaced comma is reported in under a minute.
+  style:
+    name: lint, format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # The tokens first: the lint is type-aware, and src/tokens/generated is imported by the
+      # files it reads.
+      - run: pnpm tokens
+      - run: pnpm lint
+      - run: pnpm format:check
+
   verify:
     name: typecheck, test, build
     runs-on: ubuntu-latest

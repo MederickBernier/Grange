@@ -45,7 +45,8 @@ Dark mode follows `prefers-color-scheme`; force it with `data-theme="dark"` (or 
 | Next catalog | [`docs/kendo-catalog.md`](docs/kendo-catalog.md) — the 144 components of the KendoReact catalog mapped against this library: all 101 in scope now covered, 43 out of scope with the reason |
 | Storybook | Every component and state, light/dark and expressive/standard toolbar switches, and **Foundations / Motion playground** for tuning springs live |
 | Visual tests | `pnpm visual` shoots every story in both colour schemes with Playwright and compares against `visual/__screenshots__`. 292 baselines, which is the only check that notices a token or a stylesheet quietly redrawing something. `pnpm visual:docker` runs them in the image the baselines were taken in, which is what CI uses |
-| CI | `.github/workflows/ci.yml` — typecheck, tests, both builds and a check that `dist` exports what `package.json` promises, plus the visual job in the Playwright image |
+| Lint and format | `eslint.config.mjs` and `prettier.config.mjs` — type-aware rules, `jsx-a11y`, `react-hooks`; Prettier at 110 columns, which is the width the code was already written to. `pnpm lint`, `pnpm format` |
+| CI | `.github/workflows/ci.yml` — lint and formatting, then typecheck, tests, both builds and a check that `dist` exports what `package.json` promises, plus the visual job in the Playwright image |
 
 ## Component API
 
