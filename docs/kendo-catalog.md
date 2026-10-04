@@ -50,7 +50,9 @@ At the project's established pace — two components a round, each round ending 
 verification — the remainder is roughly 12 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phases 1 to 5 are done.** Phase 6 — colour — is next, then phase 7.
+**Phases 1 to 5 are done**, and **phase 6 is under way**: the colour engine is in —
+`ColorArea`, `ColorSlider`, `ColorWheel` and `ColorField`, 2 of its 4 rows. The swatch
+picker and the composed picker are what is left.
 
 ## Already covered
 
@@ -314,10 +316,22 @@ Three things the first round of this phase established, all of them about the se
 
 One engine, four faces, all on React Aria's colour hooks and `parseColor`.
 
+Two things the first round of this phase established:
+
+- **None of these is a canvas, and that is the point.** Every control is a range input under
+  the paint, so it is reachable by keyboard and described in words. The square exposes a
+  *single* slider with `aria-roledescription="2D slider"` and a value text reading
+  "Saturation: 50%, Brightness: 60%, Hue: 220°, dark grayish cyan blue" — the colour named
+  rather than numbered, which a canvas picker can never offer. The second axis input carries
+  `aria-hidden`, because the square is one control and not two.
+- **A colour area's axes must follow the value's own colour space.** Defaulting them to
+  saturation and brightness throws on an `rgb()` or hex value, which has no saturation channel
+  at all: `Unknown color channel: saturation`. Found by a test using a hex default.
+
 | Component | Behaviour |
 | --- | --- |
-| `ColorArea` (ColorGradient) | `useColorArea`, `useColorAreaState` |
-| `ColorSlider`, `ColorWheel`, `ColorField` | `useColorSlider`, `useColorWheel`, `useColorField` |
+| ~~`ColorArea`~~ ✅ (ColorGradient) | Done. `useColorArea`, `useColorAreaState` |
+| ~~`ColorSlider`, `ColorWheel`, `ColorField`~~ ✅ | Done. `useColorSlider`, `useColorWheel`, `useColorField`. A track's gradient is lifted onto a layer over a chequerboard, or a half-transparent alpha track reads as a pale colour rather than as transparency |
 | `ColorSwatchPicker` (ColorPalette) | `useColorSwatch` |
 | `ColorPicker` / `FlatColorPicker` | `useColorPickerState`, in a popover or inline |
 
