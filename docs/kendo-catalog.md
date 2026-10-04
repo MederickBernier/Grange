@@ -42,18 +42,15 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 77 |
-| In scope, to build | 24 (across 7 phases) |
+| Already covered by Grange | 78 |
+| In scope, to build | 23 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
-verification — they are roughly 28 rounds. The three buckets are exhaustive and do not overlap
+verification — the remainder is roughly 12 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phases 1, 2 and 3 are done**, and **phase 4 is under way**: `Avatar`, `Skeleton`,
-`Breadcrumbs`, `ExpansionPanel`, `Accordion`, `Timeline`, `Stepper`, `Stack`, `Grid`,
-`Splitter` and `Window` are in, 11 of its 12 — and the spacing scale the phase was waiting
-on now exists. Only `TileLayout` is left.
+**Phases 1 to 4 are done.** Phase 5 — collections and data tools — is next.
 
 ## Already covered
 
@@ -275,7 +272,7 @@ Three things the first round of this phase established:
 | ~~`Stepper`~~ ✅ | ours | Done, and the markup was a decision rather than a lookup: no React Aria hook and no ARIA pattern. An ordered list of buttons with `aria-current="step"` — not a tablist, since tabs are views of one thing and steps are stages of one thing. Unreachable steps are `aria-disabled` rather than `disabled`, because the path ahead is most of what a stepper shows, and each step's state is **said** — "Step 2 of 4, completed" — not only drawn |
 | ~~`Splitter`~~ ✅ | ours | Done, on `useMove`, so the arrows move a boundary exactly as a pointer does and Home and End take it to its limits. Sizes are percentages, not pixels: a splitter holding pixel widths is correct exactly once, and then the window is resized. The clamping is a pure module, because jsdom reports every element as 0 by 0 and a rendered splitter can never be measured there |
 | ~~`Window`~~ ✅ | `useDialog` | Done. Non-modal is the substance: no scrim, no focus trap, because the page behind has to stay usable — that is the whole difference from a dialog. Moving and resizing have **no ARIA role that fits**, so each handle is a labelled focusable control on `useMove` rather than a `separator` that would describe it wrongly. Position and size are clamped to the viewport, since a window dragged off the top takes every one of its own controls with it |
-| `TileLayout` | `useDrag`/`useDrop` | A reorderable, resizable grid of cards. The largest thing in this phase |
+| ~~`TileLayout`~~ ✅ | ours | Done, and **not** on `useDrag`/`useDrop`: those place an item between two others in a list, and a dashboard is a grid. The layout is an order plus a span per tile rather than a position per tile, so CSS grid auto-placement keeps it valid — free x/y lets a dashboard reach states nobody wants (a hole in the middle, two tiles on one cell) and every implementation that allows it spends its life repairing them. Both handles work from the keyboard, and the arithmetic is a pure module because jsdom cannot measure a grid |
 
 ### Phase 5 — Collections and data tools
 
