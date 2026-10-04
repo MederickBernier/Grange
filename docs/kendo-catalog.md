@@ -50,9 +50,7 @@ At the project's established pace — two components a round, each round ending 
 verification — the remainder is roughly 12 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phases 1 to 5 are done**, and **phase 6 is under way**: the colour engine is in —
-`ColorArea`, `ColorSlider`, `ColorWheel` and `ColorField`, 2 of its 4 rows. The swatch
-picker and the composed picker are what is left.
+**Phases 1 to 6 are done.** Phase 7 — visual and I/O, ten items — is the last of it.
 
 ## Already covered
 
@@ -332,8 +330,8 @@ Two things the first round of this phase established:
 | --- | --- |
 | ~~`ColorArea`~~ ✅ (ColorGradient) | Done. `useColorArea`, `useColorAreaState` |
 | ~~`ColorSlider`, `ColorWheel`, `ColorField`~~ ✅ | Done. `useColorSlider`, `useColorWheel`, `useColorField`. A track's gradient is lifted onto a layer over a chequerboard, or a half-transparent alpha track reads as a pale colour rather than as transparency |
-| `ColorSwatchPicker` (ColorPalette) | `useColorSwatch` |
-| `ColorPicker` / `FlatColorPicker` | `useColorPickerState`, in a popover or inline |
+| ~~`ColorSwatchPicker`~~ ✅ (ColorPalette) | `useColorSwatch`. Each swatch is **named** — "vivid red", not "#f44336" — because a grid that reads out hex codes cannot be used by ear. The arrows move across the rows, which needed a keyboard delegate of its own: a listbox's default treats "above" as "the previous item", so up and down would step one swatch instead of one row |
+| ~~`ColorPicker` / `FlatColorPicker`~~ ✅ | `useColorPickerState`, in a popover or inline. Nothing new is drawn: it is the four controls wired to one state, which is why they were built first. The panel works in **HSB** whatever the caller's format — in RGB the hue is lost the moment a colour reaches black, so dragging brightness down and back up would land on red |
 
 ### Phase 7 — Visual and I/O
 
