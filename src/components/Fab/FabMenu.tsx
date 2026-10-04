@@ -160,7 +160,8 @@ export function FabMenu(props: FabMenuProps) {
     if (event.key.length !== 1 || event.altKey || event.ctrlKey || event.metaKey) return;
 
     const now = Date.now();
-    typed.current.buffer = now - typed.current.at > spec.typeaheadResetMs ? event.key : typed.current.buffer + event.key;
+    typed.current.buffer =
+      now - typed.current.at > spec.typeaheadResetMs ? event.key : typed.current.buffer + event.key;
     typed.current.at = now;
     const query = typed.current.buffer.toLowerCase();
 
@@ -199,6 +200,12 @@ export function FabMenu(props: FabMenuProps) {
             ref={list}
             id={listId}
             role="menu"
+            /*
+             * Focusable programmatically but not a tab stop: the FocusScope above moves focus
+             * into the first item when the menu opens, and -1 is what lets anything focus the
+             * list itself without adding a stop that lands on nothing.
+             */
+            tabIndex={-1}
             aria-label={ariaLabel}
             className={styles.list}
             onKeyDown={onListKeyDown}
@@ -217,7 +224,7 @@ export function FabMenu(props: FabMenuProps) {
           ['--_size' as string]: `${spec.closeSize}px`,
           ['--grange-icon-size' as string]: `${open ? spec.closeIcon : spec.itemIcon}px`,
         }}
-        aria-label={open ? closeAriaLabel ?? ariaLabel : ariaLabel}
+        aria-label={open ? (closeAriaLabel ?? ariaLabel) : ariaLabel}
         aria-expanded={open}
         aria-haspopup="menu"
         aria-controls={open ? listId : undefined}
@@ -243,8 +250,10 @@ function itemsIn(root: HTMLElement | null): HTMLElement[] {
 // Items
 // ---------------------------------------------------------------------------
 
-export interface FabMenuItemProps
-  extends Omit<AriaButtonProps<'button' | 'a'>, 'children' | 'elementType' | 'isDisabled'> {
+export interface FabMenuItemProps extends Omit<
+  AriaButtonProps<'button' | 'a'>,
+  'children' | 'elementType' | 'isDisabled'
+> {
   children: ReactNode;
   icon?: ReactNode;
   disabled?: boolean;

@@ -18,7 +18,7 @@
  * **Nothing is mutated.** Every function returns a new array, because a grid that sorts its
  * own source array is a grid that has quietly changed the caller's data.
  */
-import type { FieldType, Operator } from './operators';
+import type { Operator } from './operators';
 
 export interface FilterDescriptor {
   field: string;
@@ -74,8 +74,29 @@ export function getField(item: unknown, path: string): unknown {
   }, item);
 }
 
+/**
+ * A value as a string, or null when turning it into one would be meaningless.
+ *
+ * The test is whether the object has a `toString` **of its own**: a `CalendarDate` or a
+ * `URL` describes itself usefully, and a plain object inherits `Object.prototype.toString`
+ * and produces `[object Object]`. The first version of this checked `'toString' in value`,
+ * which every object satisfies — so a row whose field held an object compared equal to every
+ * other such row, and grouping by it put the whole table in one bucket called
+ * `[object Object]`. A linter found it; no test would have.
+ */
+function stringify(value: unknown): string | null {
+  if (value == null) return null;
+  if (typeof value === 'object') {
+    const own = (value as { toString?: unknown }).toString;
+    if (typeof own !== 'function' || own === Object.prototype.toString) return null;
+    return (value as { toString: () => string }).toString();
+  }
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string -- primitives only by here
+  return String(value);
+}
+
 const text = (value: unknown, ignoreCase: boolean) => {
-  const string = value == null ? '' : String(value);
+  const string = stringify(value) ?? '';
   return ignoreCase ? string.toLocaleLowerCase() : string;
 };
 
@@ -84,9 +105,9 @@ const comparable = (value: unknown): number | string | null => {
   if (value == null) return null;
   if (value instanceof Date) return value.getTime();
   if (typeof value === 'number' || typeof value === 'boolean') return Number(value);
-  // An object with its own compare, such as @internationalized/date's CalendarDate.
-  if (typeof value === 'object' && 'toString' in value) return String(value);
-  return String(value);
+  // Anything that cannot describe itself is absent rather than "[object Object]", which the
+  // sort and the ordered comparisons already know how to treat.
+  return stringify(value);
 };
 
 /** Whether one row passes one condition. */
@@ -181,7 +202,11 @@ export function filterItems<T>(items: readonly T[], filter: Filter | undefined, 
  * and then by name leaves the names in order within each city, which is the only reason to
  * sort by two fields at all.
  */
-export function sortItems<T>(items: readonly T[], sort: readonly SortDescriptor[] = [], locale?: string): T[] {
+export function sortItems<T>(
+  items: readonly T[],
+  sort: readonly SortDescriptor[] = [],
+  locale?: string,
+): T[] {
   if (sort.length === 0) return [...items];
   return [...items].sort((a, b) => {
     for (const { field, direction = 'asc' } of sort) {
@@ -235,7 +260,9 @@ export function groupItems<T>(
   const groups = new Map<string, Group<T>>();
   for (const item of items) {
     const value = getField(item, field);
-    const key = String(value);
+    // Grouping by a field whose value cannot describe itself puts those rows together under
+    // one honest key rather than under "[object Object]".
+    const key = stringify(value) ?? '\u2014';
     let group = groups.get(key);
     if (!group) {
       group = { field, value, items: [] };
@@ -248,7 +275,10 @@ export function groupItems<T>(
   if (aggregates.length > 0) {
     for (const group of out) {
       group.aggregates = Object.fromEntries(
-        aggregates.map((descriptor) => [`${descriptor.field}:${descriptor.kind}`, aggregate(group.items, descriptor)]),
+        aggregates.map((descriptor) => [
+          `${descriptor.field}:${descriptor.kind}`,
+          aggregate(group.items, descriptor),
+        ]),
       );
     }
   }
@@ -286,7 +316,10 @@ export function query<T>(items: readonly T[], options: QueryOptions = {}): Query
     // Over everything that matched, not over the page: a total that changes as you page is
     // not a total.
     result.aggregates = Object.fromEntries(
-      aggregates.map((descriptor) => [`${descriptor.field}:${descriptor.kind}`, aggregate(sorted, descriptor)]),
+      aggregates.map((descriptor) => [
+        `${descriptor.field}:${descriptor.kind}`,
+        aggregate(sorted, descriptor),
+      ]),
     );
   }
   if (group) result.groups = groupItems(result.items, group, aggregates);

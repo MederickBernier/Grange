@@ -1,4 +1,4 @@
-import { type CSSProperties, type ReactNode } from 'react';
+import { type CSSProperties } from 'react';
 import { IconButton, type IconButtonProps } from '../Button/Button';
 import { TextButton } from '../Button/variants';
 import { Select, SelectItem } from '../Select/Select';
@@ -12,7 +12,6 @@ import {
   OPERATORS,
   type CompositeFilter,
   type FieldType,
-  type Filter,
   type FilterDescriptor,
   type Operator,
 } from '../../data/query';
@@ -85,10 +84,21 @@ export function FilterBuilder(props: FilterBuilderProps) {
   );
 
   const slot = (name: FilterBuilderSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
-    <div className={slot('root', 'grange-filter-builder', styles.builder)} style={style} aria-label={ariaLabel} role="group">
+    <div
+      className={slot('root', 'grange-filter-builder', styles.builder)}
+      style={style}
+      aria-label={ariaLabel}
+      role="group"
+    >
       <Group
         node={filter}
         path={[]}
@@ -331,7 +341,9 @@ function Value({
        */
       type="text"
       placeholder={type === 'date' ? 'YYYY-MM-DD' : undefined}
-      value={value == null ? '' : String(value)}
+      // Only a primitive can be typed into a text field; anything else shows as empty rather
+      // than as "[object Object]".
+      value={typeof value === 'string' || typeof value === 'number' ? String(value) : ''}
       disabled={disabled}
       onChange={(next) => onChange(next)}
       className={styles.value}

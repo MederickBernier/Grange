@@ -130,7 +130,13 @@ export function Window(props: WindowProps) {
   );
 
   const slot = (name: WindowSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   if (!open) return null;
 
@@ -201,9 +207,7 @@ export function Window(props: WindowProps) {
           }
         />
 
-        {!minimized && (
-          <div className={slot('body', 'grange-window-body', styles.body)}>{children}</div>
-        )}
+        {!minimized && <div className={slot('body', 'grange-window-body', styles.body)}>{children}</div>}
 
         {resizable && !maximized && !minimized && (
           <ResizeGrip className={styles.grip} onResize={resizeBy} size={box} />
@@ -248,6 +252,8 @@ function TitleBar({
       <div
         {...(movable ? moveProps : {})}
         className={styles.grab}
+        // See the comment above: a move handle has no ARIA role, so it is a labelled focus stop.
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={movable ? 0 : undefined}
         aria-label={movable ? 'Move window with the arrow keys' : undefined}
         data-movable={movable || undefined}
@@ -282,6 +288,7 @@ function ResizeGrip({
     <div
       {...moveProps}
       className={className}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- see the note below
       tabIndex={0}
       /*
        * No role. A separator describes a boundary on one axis; this grip changes width and

@@ -112,7 +112,9 @@ export function SideSheet(props: SideSheetProps) {
         </div>
       )}
       <div className={slot('content', 'grange-side-sheet-content', styles.content)}>{children}</div>
-      {actions != null && <div className={slot('actions', 'grange-side-sheet-actions', styles.actions)}>{actions}</div>}
+      {actions != null && (
+        <div className={slot('actions', 'grange-side-sheet-actions', styles.actions)}>{actions}</div>
+      )}
       {resizable && (
         <ResizeHandle
           className={slot('handle', 'grange-side-sheet-handle', styles.handle)}
@@ -176,7 +178,14 @@ function ResizeHandle({
   onResize: (width: number) => void;
 }) {
   const { direction } = useLocale();
+  /*
+   * The width as the drag last left it. Written during render so a width changed from outside
+   * — a controlled sheet, a reset — is picked up without rebuilding the move handler; the rule
+   * is right that this is not generally safe, and it is safe here because nothing reads it
+   * until a pointer or a key moves the handle, which is always after a paint.
+   */
   const live = useRef(width);
+  // eslint-disable-next-line react-hooks/refs -- see above
   live.current = width;
 
   /**

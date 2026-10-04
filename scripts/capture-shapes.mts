@@ -28,9 +28,29 @@ type Transform = { rotate: number } | { scale: [number, number] };
 
 type Descriptor =
   | { kind: 'circle'; numVertices: number; transforms?: Transform[] }
-  | { kind: 'regular'; numVertices: number; rounding?: Rounding; perVertexRounding?: Rounding[]; transforms?: Transform[] }
-  | { kind: 'rectangle'; width: number; height: number; rounding?: Rounding; perVertexRounding?: Rounding[]; transforms?: Transform[] }
-  | { kind: 'star'; numVerticesPerRadius: number; innerRadius: number; rounding?: Rounding; innerRounding?: Rounding; transforms?: Transform[] }
+  | {
+      kind: 'regular';
+      numVertices: number;
+      rounding?: Rounding;
+      perVertexRounding?: Rounding[];
+      transforms?: Transform[];
+    }
+  | {
+      kind: 'rectangle';
+      width: number;
+      height: number;
+      rounding?: Rounding;
+      perVertexRounding?: Rounding[];
+      transforms?: Transform[];
+    }
+  | {
+      kind: 'star';
+      numVerticesPerRadius: number;
+      innerRadius: number;
+      rounding?: Rounding;
+      innerRounding?: Rounding;
+      transforms?: Transform[];
+    }
   | {
       kind: 'custom';
       points: Array<{ x: number; y: number; radius: number; smoothing: number }>;
@@ -47,9 +67,10 @@ function parseRounding(text: string | undefined, named: Record<string, Rounding>
   if (!text) return undefined;
   const trimmed = text.trim();
   if (trimmed in named) return named[trimmed];
-  const call = /^CornerRounding\(\s*(?:radius\s*=\s*)?([-\d.f]+)\s*(?:,\s*(?:smoothing\s*=\s*)?([-\d.f]+)\s*)?\)$/.exec(
-    trimmed,
-  );
+  const call =
+    /^CornerRounding\(\s*(?:radius\s*=\s*)?([-\d.f]+)\s*(?:,\s*(?:smoothing\s*=\s*)?([-\d.f]+)\s*)?\)$/.exec(
+      trimmed,
+    );
   if (!call) throw new Error(`unrecognised CornerRounding: ${trimmed}`);
   const rounding: Rounding = { radius: num(call[1]!) };
   if (call[2] !== undefined) rounding.smoothing = num(call[2]);
@@ -108,7 +129,9 @@ function argMap(args: string[]): { byName: Record<string, string>; positional: s
 /** `val m = Matrix().apply { scale(1f, 0.64f) }`, declared inside the shape that uses it. */
 function localMatrices(body: string): Record<string, Transform> {
   const found: Record<string, Transform> = {};
-  for (const match of body.matchAll(/val (\w+) = Matrix\(\)\.apply \{ scale\(([-\d.f]+)\s*,\s*([-\d.f]+)\) \}/g)) {
+  for (const match of body.matchAll(
+    /val (\w+) = Matrix\(\)\.apply \{ scale\(([-\d.f]+)\s*,\s*([-\d.f]+)\) \}/g,
+  )) {
     found[match[1]!] = { scale: [num(match[2]!), num(match[3]!)] };
   }
   for (const match of body.matchAll(/val (\w+) = Matrix\(\)\.apply \{ rotateZ\(([-\d.f]+)\) \}/g)) {
@@ -136,7 +159,7 @@ async function main() {
   // The shared CornerRounding constants, e.g. `private val cornerRound15 = CornerRounding(radius = .15f)`.
   const roundingConstants: Record<string, Rounding> = { 'CornerRounding.Unrounded': { radius: 0 } };
   for (const match of source.matchAll(/private val (cornerRound\w+) = (CornerRounding\([^)]*\))/g)) {
-    roundingConstants[match[1]!] = parseRounding(match[2]!, {})!;
+    roundingConstants[match[1]!] = parseRounding(match[2], {});
   }
 
   // The file-level rotations. The scales are declared inside the shape that uses them, and both
@@ -150,7 +173,11 @@ async function main() {
   const shapes: Record<string, Descriptor> = {};
   const order: string[] = [];
 
-  for (const match of source.matchAll(/internal fun (\w+)\((?:[^)]*)\): RoundedPolygon \{([\s\S]*?)\n        \}/g)) {
+  for (const match of source.matchAll(
+    // The closing brace of a top-level function in this file sits at eight spaces, which is
+    // what ends the match.
+    /internal fun (\w+)\((?:[^)]*)\): RoundedPolygon \{([\s\S]*?)\n {8}\}/g,
+  )) {
     const name = match[1]!;
     const body = match[2]!;
     const scoped = { ...matrices, ...localMatrices(body) };
@@ -170,7 +197,7 @@ async function main() {
        */
       const forwarded = byName.numVertices?.trim();
       const literal = forwarded !== undefined && /^[-\d.f]+$/.test(forwarded);
-      const fromSignature = /internal fun \w+\(numVertices: Int = (\d+)\)/.exec(match[0]!)?.[1];
+      const fromSignature = /internal fun \w+\(numVertices: Int = (\d+)\)/.exec(match[0])?.[1];
       add({
         kind: 'circle',
         numVertices: literal ? num(forwarded) : fromSignature ? Number(fromSignature) : 8,
@@ -206,17 +233,19 @@ async function main() {
       const args = splitArgs(inner);
       const { byName, positional } = argMap(args);
       const list = args.find((arg) => named(arg)[1].startsWith('listOf('))!;
-      const points = [...named(list)[1].matchAll(/PointNRound\(\s*Offset\(([-\d.f]+)\s*,\s*([-\d.f]+)\)\s*(?:,\s*(CornerRounding\([^)]*\)))?\s*\)/g)].map(
-        (point) => {
-          const rounding = parseRounding(point[3], roundingConstants) ?? { radius: 0 };
-          return {
-            x: num(point[1]!),
-            y: num(point[2]!),
-            radius: rounding.radius,
-            smoothing: rounding.smoothing ?? 0,
-          };
-        },
-      );
+      const points = [
+        ...named(list)[1].matchAll(
+          /PointNRound\(\s*Offset\(([-\d.f]+)\s*,\s*([-\d.f]+)\)\s*(?:,\s*(CornerRounding\([^)]*\)))?\s*\)/g,
+        ),
+      ].map((point) => {
+        const rounding = parseRounding(point[3], roundingConstants) ?? { radius: 0 };
+        return {
+          x: num(point[1]!),
+          y: num(point[2]!),
+          radius: rounding.radius,
+          smoothing: rounding.smoothing ?? 0,
+        };
+      });
       // `reps` is named in some shapes and the second positional argument in others.
       const reps = byName.reps ?? positional[1];
       const centre = byName.center
@@ -246,9 +275,9 @@ async function main() {
   }
 
   // The public names, which are what the token file lists, in the order the source declares them.
-  const publicNames = [...source.matchAll(/public val (\w+): RoundedPolygon\n\s*get\(\) = _\w+ \?: (\w+)\(\)/g)].map(
-    (match) => ({ name: match[1]!, from: match[2]! }),
-  );
+  const publicNames = [
+    ...source.matchAll(/public val (\w+): RoundedPolygon\n\s*get\(\) = _\w+ \?: (\w+)\(\)/g),
+  ].map((match) => ({ name: match[1]!, from: match[2]! }));
 
   const library: Record<string, Descriptor> = {};
   for (const { name, from } of publicNames) {

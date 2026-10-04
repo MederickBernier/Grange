@@ -4,7 +4,6 @@ import {
   useCallback,
   useContext,
   useMemo,
-  useRef,
   useState,
   type CSSProperties,
   type KeyboardEvent,
@@ -63,8 +62,6 @@ export function ButtonGroup(props: ButtonGroupProps) {
   } = props;
   const items = flattenChildren(children);
   const count = items.length;
-  const countRef = useRef(count);
-  countRef.current = count;
   const [state, setState] = useState<ButtonGroupState>({ pressedIndex: null, growth: 0 });
 
   const setPressed = useCallback(
@@ -73,14 +70,16 @@ export function ButtonGroup(props: ButtonGroupProps) {
         setState((s) => ({ ...s, pressedIndex: null }));
         return;
       }
-      const n = countRef.current;
-      if (n < 2) return;
-      const isMiddle = index > 0 && index < n - 1;
+      if (count < 2) return;
+      const isMiddle = index > 0 && index < count - 1;
       // Growth per neighbour, capped by the neighbour's padding (its compression limit), as in Compose.
-      const growth = Math.min(isMiddle ? (expandedRatio * ownWidth) / 2 : expandedRatio * ownWidth, ownPadding);
+      const growth = Math.min(
+        isMiddle ? (expandedRatio * ownWidth) / 2 : expandedRatio * ownWidth,
+        ownPadding,
+      );
       setState({ pressedIndex: index, growth });
     },
-    [expandedRatio],
+    [count, expandedRatio],
   );
 
   const ctx = useMemo<ButtonGroupContextValue>(
@@ -223,7 +222,16 @@ export function ConnectedButtonGroup(props: ConnectedButtonGroupProps) {
         }
       },
     }),
-    [items.length, size, variant, selected, selectionMode, disallowEmptySelection, setSelected, firstSelectable],
+    [
+      items.length,
+      size,
+      variant,
+      selected,
+      selectionMode,
+      disallowEmptySelection,
+      setSelected,
+      firstSelectable,
+    ],
   );
 
   /**
@@ -306,7 +314,8 @@ export interface ConnectedButtonGroupItemProps {
 export const ConnectedButtonGroupItem = forwardRef<GrangeButtonElement, ConnectedButtonGroupItemProps>(
   function ConnectedButtonGroupItem(props, ref) {
     const { slots, behavior, sizes } = useComponentConfig('ConnectedButtonGroupItem');
-    const { id, icon, selectedIcon, children, onPress, className, classNames, style, disabled, ...rest } = props;
+    const { id, icon, selectedIcon, children, onPress, className, classNames, style, disabled, ...rest } =
+      props;
     const group = useContext(ConnectedContext);
     const index = useContext(ButtonGroupItemIndex);
     if (!group) throw new Error('ConnectedButtonGroupItem must be inside a ConnectedButtonGroup');

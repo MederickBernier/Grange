@@ -9,7 +9,7 @@ import {
   type SlotOverrides,
   type SwitchSlot,
 } from '../../config/config';
-import { handlePosition, handleSize, switchSpec as spec } from './specs';
+import { handlePosition, handleSize } from './specs';
 import styles from './Switch.module.scss';
 
 export interface SwitchProps {

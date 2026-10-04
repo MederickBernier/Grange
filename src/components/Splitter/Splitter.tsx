@@ -85,14 +85,22 @@ export function Splitter(props: SplitterProps) {
     style,
   } = props;
 
-  const panes = flattenChildren(children).filter(isPane).map((child) => child.props);
+  const panes = flattenChildren(children)
+    .filter(isPane)
+    .map((child) => child.props);
   const even = panes.length > 0 ? panes.map(() => 100 / panes.length) : [];
   const [current, setSizes] = useControlledState(sizes, defaultSizes ?? even, onSizesChange);
   const containerRef = useRef<HTMLDivElement>(null);
   const horizontal = orientation === 'horizontal';
 
   const slot = (name: SplitterSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   /**
    * Turns a drag in pixels into a move in percentage points, and hands the clamping to
@@ -112,7 +120,7 @@ export function Splitter(props: SplitterProps) {
       const pct = (px: number) => (px / total) * 100;
       return moveBoundary(from, index, pct(deltaPx), (i) => ({
         min: pct(panes[i]?.min ?? spec.minSize),
-        max: panes[i]?.max != null ? pct(panes[i]!.max!) : Infinity,
+        max: panes[i]?.max != null ? pct(panes[i].max) : Infinity,
       }));
     },
     [horizontal, panes],
@@ -196,6 +204,11 @@ function PaneAndBoundary({
         {pane.children}
       </div>
       {!last && (
+        /*
+         * The handlers belong on the separator because the separator is the control: this is
+         * the window-splitter pattern, where a focusable separator takes the arrow keys.
+         */
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
         <div
           {...moveProps}
           className={barClass}

@@ -1,7 +1,9 @@
 import {
   cloneElement,
   isValidElement,
+  useLayoutEffect,
   useRef,
+  useState,
   type CSSProperties,
   type ReactElement,
   type ReactNode,
@@ -64,9 +66,19 @@ export function Popover({
     state,
   );
 
-  const width = matchTriggerWidth
-    ? { width: (triggerRef.current as HTMLElement | null)?.offsetWidth }
-    : undefined;
+  /*
+   * Measured in a layout effect rather than during render. A layout effect runs before the
+   * browser paints, so the popover is still drawn once, at the right width — and the ref is
+   * read at the only time React guarantees it is populated.
+   */
+  const [triggerWidth, setTriggerWidth] = useState<number>();
+  useLayoutEffect(() => {
+    if (!matchTriggerWidth) return;
+    const trigger = triggerRef.current as HTMLElement | null;
+    if (trigger) setTriggerWidth(trigger.offsetWidth);
+  }, [matchTriggerWidth, triggerRef]);
+
+  const width = matchTriggerWidth && triggerWidth != null ? { width: triggerWidth } : undefined;
 
   return (
     <Overlay portalContainer={portalContainer ?? undefined}>

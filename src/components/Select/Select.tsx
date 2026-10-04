@@ -1,9 +1,14 @@
 import { useRef, type CSSProperties, type ReactElement, type ReactNode } from 'react';
 import { HiddenSelect, useButton, useFocusRing, useHover, useSelect } from 'react-aria';
-import { Item, useSelectState, type SelectProps as AriaSelectProps, type SelectState } from 'react-stately';
+import { Item, useSelectState, type SelectProps as AriaSelectProps } from 'react-stately';
 import { Popover } from '../../overlays/Popover';
 import { OptionList } from './OptionList';
-import { resolveSlotClass, useComponentConfig, type SelectSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type SelectSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import { describedBy, type TextFieldVariant } from '../TextField/specs';
 import textFieldStyles from '../TextField/TextField.module.scss';
 import menuStyles from '../Menu/Menu.module.scss';
@@ -97,8 +102,16 @@ export function Select(props: SelectProps) {
 
   const state = useSelectState(ariaProps);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const { labelProps, triggerProps, valueProps, menuProps, descriptionProps, errorMessageProps, isInvalid, validationErrors } =
-    useSelect(ariaProps, state, triggerRef);
+  const {
+    labelProps,
+    triggerProps,
+    valueProps,
+    menuProps,
+    descriptionProps,
+    errorMessageProps,
+    isInvalid,
+    validationErrors,
+  } = useSelect(ariaProps, state, triggerRef);
   // triggerProps are button options, not DOM props: they have to go through useButton to come
   // out with the press handling attached.
   const { buttonProps } = useButton(triggerProps, triggerRef);
@@ -197,12 +210,7 @@ export function Select(props: SelectProps) {
       )}
 
       {state.isOpen && (
-        <Popover
-          state={state}
-          triggerRef={triggerRef}
-          matchTriggerWidth
-          className={menuStyles.popover}
-        >
+        <Popover state={state} triggerRef={triggerRef} matchTriggerWidth className={menuStyles.popover}>
           <OptionList
             state={state}
             listProps={menuProps as Record<string, unknown>}

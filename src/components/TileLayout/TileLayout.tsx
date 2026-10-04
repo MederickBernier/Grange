@@ -100,14 +100,24 @@ export function TileLayout(props: TileLayoutProps) {
     style,
   } = props;
 
-  const tiles = flattenChildren(children).filter(isTile).map((child) => child.props);
+  const tiles = flattenChildren(children)
+    .filter(isTile)
+    .map((child) => child.props);
+  /*
+   * What the tiles declare about themselves, rebuilt only when one of those declarations
+   * changes. `tiles` is a new array on every render — it is read out of `children` — so it
+   * cannot be the dependency; the signature of their ids and spans can.
+   */
+  const signature = tiles.map((tile) => `${tile.id}:${tile.colSpan ?? 1}:${tile.rowSpan ?? 1}`).join('|');
   const declared = useMemo(
     () =>
-      tiles.map(
-        (tile): TileSpec => ({ id: tile.id, colSpan: tile.colSpan ?? 1, rowSpan: tile.rowSpan ?? 1 }),
-      ),
-    // The tiles' own declarations only matter when the set of tiles or their defaults change.
-    [tiles.map((t) => `${t.id}:${t.colSpan ?? 1}:${t.rowSpan ?? 1}`).join('|')], // eslint-disable-line react-hooks/exhaustive-deps
+      tiles.map((tile): TileSpec => ({
+        id: tile.id,
+        colSpan: tile.colSpan ?? 1,
+        rowSpan: tile.rowSpan ?? 1,
+      })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- see above: `tiles` identity churns
+    [signature],
   );
 
   const [saved, setLayout] = useControlledState(layout, defaultLayout ?? declared, onLayoutChange);
@@ -118,11 +128,16 @@ export function TileLayout(props: TileLayoutProps) {
   const gridRef = useRef<HTMLUListElement>(null);
 
   const slot = (name: TileLayoutSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   /** The rectangle of every tile, in viewport coordinates, for the pointer hit test. */
-  const rects = () =>
-    [...(gridRef.current?.children ?? [])].map((child) => child.getBoundingClientRect());
+  const rects = () => [...(gridRef.current?.children ?? [])].map((child) => child.getBoundingClientRect());
 
   return (
     <ul
@@ -208,8 +223,7 @@ function TileCard({
     onMove: (event) => {
       if (event.pointerType === 'keyboard') {
         // One arrow key is one place along the order, or one row, which is `columns` places.
-        const step =
-          event.deltaX !== 0 ? Math.sign(event.deltaX) : Math.sign(event.deltaY) * columns;
+        const step = event.deltaX !== 0 ? Math.sign(event.deltaX) : Math.sign(event.deltaY) * columns;
         if (step !== 0) onMoveTo(index + step);
         return;
       }
@@ -265,6 +279,12 @@ function TileCard({
           <div
             {...moveProps}
             className={styles.handle}
+            /*
+             * No ARIA role fits a move handle: there is none, and `separator` describes a
+             * boundary on one axis rather than a tile that moves in two. It is focusable and
+             * labelled with what the keys do, which is the honest version.
+             */
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
             tabIndex={0}
             /*
              * The position is in the label rather than only in the layout, the same way the
@@ -285,6 +305,8 @@ function TileCard({
         <div
           {...resizeProps}
           className={styles.grip}
+          // Same as the move handle above: a corner grip has no role of its own either.
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
           aria-label={`Resize ${name}, ${placed.colSpan} by ${placed.rowSpan}`}
         />

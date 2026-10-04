@@ -28,6 +28,11 @@ export function GrangeProvider({ children, ...input }: GrangeProviderProps) {
   // objects you pass (or memoize them) so this does not rebuild on every parent render.
   const config = useMemo(
     () => mergeConfig(parent, input),
+    /*
+     * `input` is a fresh object every render, so depending on it would rebuild the config
+     * every time; the fields are listed instead, which is what the comment above is about.
+     */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       parent,
       input.scheme,

@@ -1,10 +1,5 @@
 import { useMemo, type CSSProperties } from 'react';
-import {
-  resolveSlotClass,
-  useComponentConfig,
-  type CodeSlot,
-  type SlotOverrides,
-} from '../../config/config';
+import { resolveSlotClass, useComponentConfig, type CodeSlot, type SlotOverrides } from '../../config/config';
 import { moduleWidth, widths } from './code128';
 import { code as spec } from './specs';
 import styles from './Code.module.scss';
@@ -67,12 +62,27 @@ export function Barcode(props: BarcodeProps) {
   const total = modules + quietZone * 2;
 
   const slot = (name: CodeSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   // Drawn in module units and scaled by the viewBox, so the bars stay on whole modules at any
   // size — a bar landing on half a pixel is a bar a scanner may not read.
   const textHeight = showValue ? spec.textHeight : 0;
-  let x = quietZone;
+
+  /*
+   * Where each bar starts, worked out up front. Accumulating an offset inside the map below
+   * reads more naturally and is wrong: the callback runs while React renders, and a variable
+   * it reassigns is not guaranteed to be in any particular state when it does.
+   */
+  const offsets = bars.reduce<number[]>(
+    (acc, width, index) => [...acc, (acc[index - 1] ?? quietZone) + (index === 0 ? 0 : bars[index - 1]!)],
+    [],
+  );
 
   return (
     <svg
@@ -88,14 +98,19 @@ export function Barcode(props: BarcodeProps) {
       {/* The quiet zone is part of the symbol, so the background is drawn across all of it. */}
       <rect width={total} height={height / moduleSize + textHeight} className={styles.quiet} />
 
-      {bars.map((width, index) => {
-        const at = x;
-        x += width;
+      {bars.map((width, index) =>
         // Even indices are bars, odd ones spaces: the pattern always starts with a bar.
-        return index % 2 === 0 ? (
-          <rect key={index} x={at} y={0} width={width} height={height / moduleSize} className={styles.bar} />
-        ) : null;
-      })}
+        index % 2 === 0 ? (
+          <rect
+            key={index}
+            x={offsets[index]}
+            y={0}
+            width={width}
+            height={height / moduleSize}
+            className={styles.bar}
+          />
+        ) : null,
+      )}
 
       {showValue && (
         <text

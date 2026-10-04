@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useRef, type CSSProperties, type PointerEvent, type ReactNode } from 'react';
-import { resolveSlotClass, useComponentConfig, type CarouselSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type CarouselSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import { carousel as spec, type CarouselVariant } from './specs';
 import styles from './Carousel.module.scss';
 
@@ -161,6 +166,12 @@ export function Carousel(props: CarouselProps) {
   }, [onIndexChange, step, vertical]);
 
   return (
+    /*
+     * The listeners are on the scroll container itself, because that is the element that
+     * scrolls: the component reports which item has come into view, and there is nothing
+     * else for them to be on.
+     */
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
       {...aria}
       ref={scroller}

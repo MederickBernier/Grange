@@ -16,7 +16,6 @@ import {
   type CheckboxSlot,
   type SlotOverrides,
 } from '../../config/config';
-import { checkbox as spec } from './specs';
 import styles from './Checkbox.module.scss';
 
 export interface CheckboxProps {
@@ -74,7 +73,16 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
 type InnerProps = CheckboxProps & { forwardedRef: React.ForwardedRef<HTMLInputElement> };
 
 function StandaloneCheckbox({ forwardedRef, ...props }: InnerProps) {
-  const { children, checked, defaultChecked, onChange, indeterminate = false, disabled, error, ...rest } = props;
+  const {
+    children,
+    checked,
+    defaultChecked,
+    onChange,
+    indeterminate = false,
+    disabled,
+    error,
+    ...rest
+  } = props;
   const ref = useObjectRef(forwardedRef);
   const ariaProps = {
     ...rest,

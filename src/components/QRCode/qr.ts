@@ -16,8 +16,11 @@ import { remainder } from './galois';
 
 export type EcLevel = 'L' | 'M' | 'Q' | 'H';
 
-/** Total codewords per version, which is what the block table has to add up to. */
-const CAPACITY = [26, 44, 70, 100, 134, 172, 196, 242, 292, 346];
+/*
+ * The total codewords each version holds are 26, 44, 70, 100, 134, 172, 196, 242, 292 and
+ * 346. The block table below has to add up to them, and `code.test.tsx` is where that is
+ * asserted rather than here — a constant nothing reads is a comment with extra steps.
+ */
 
 /**
  * Per version and level: error-correction codewords per block, then the two groups of blocks
@@ -25,26 +28,67 @@ const CAPACITY = [26, 44, 70, 100, 134, 172, 196, 242, 292, 346];
  */
 const BLOCKS: Record<EcLevel, ReadonlyArray<readonly [number, number, number, number, number]>> = {
   L: [
-    [7, 1, 19, 0, 0], [10, 1, 34, 0, 0], [15, 1, 55, 0, 0], [20, 1, 80, 0, 0], [26, 1, 108, 0, 0],
-    [18, 2, 68, 0, 0], [20, 2, 78, 0, 0], [24, 2, 97, 0, 0], [30, 2, 116, 0, 0], [18, 2, 68, 2, 69],
+    [7, 1, 19, 0, 0],
+    [10, 1, 34, 0, 0],
+    [15, 1, 55, 0, 0],
+    [20, 1, 80, 0, 0],
+    [26, 1, 108, 0, 0],
+    [18, 2, 68, 0, 0],
+    [20, 2, 78, 0, 0],
+    [24, 2, 97, 0, 0],
+    [30, 2, 116, 0, 0],
+    [18, 2, 68, 2, 69],
   ],
   M: [
-    [10, 1, 16, 0, 0], [16, 1, 28, 0, 0], [26, 1, 44, 0, 0], [18, 2, 32, 0, 0], [24, 2, 43, 0, 0],
-    [16, 4, 27, 0, 0], [18, 4, 31, 0, 0], [22, 2, 38, 2, 39], [22, 3, 36, 2, 37], [26, 4, 43, 1, 44],
+    [10, 1, 16, 0, 0],
+    [16, 1, 28, 0, 0],
+    [26, 1, 44, 0, 0],
+    [18, 2, 32, 0, 0],
+    [24, 2, 43, 0, 0],
+    [16, 4, 27, 0, 0],
+    [18, 4, 31, 0, 0],
+    [22, 2, 38, 2, 39],
+    [22, 3, 36, 2, 37],
+    [26, 4, 43, 1, 44],
   ],
   Q: [
-    [13, 1, 13, 0, 0], [22, 1, 22, 0, 0], [18, 2, 17, 0, 0], [26, 2, 24, 0, 0], [18, 2, 15, 2, 16],
-    [24, 4, 19, 0, 0], [18, 2, 14, 4, 15], [22, 4, 18, 2, 19], [20, 4, 16, 4, 17], [24, 6, 19, 2, 20],
+    [13, 1, 13, 0, 0],
+    [22, 1, 22, 0, 0],
+    [18, 2, 17, 0, 0],
+    [26, 2, 24, 0, 0],
+    [18, 2, 15, 2, 16],
+    [24, 4, 19, 0, 0],
+    [18, 2, 14, 4, 15],
+    [22, 4, 18, 2, 19],
+    [20, 4, 16, 4, 17],
+    [24, 6, 19, 2, 20],
   ],
   H: [
-    [17, 1, 9, 0, 0], [28, 1, 16, 0, 0], [22, 2, 13, 0, 0], [16, 4, 9, 0, 0], [22, 2, 11, 2, 12],
-    [28, 4, 15, 0, 0], [26, 4, 13, 1, 14], [26, 4, 14, 2, 15], [24, 4, 12, 4, 13], [28, 6, 15, 2, 16],
+    [17, 1, 9, 0, 0],
+    [28, 1, 16, 0, 0],
+    [22, 2, 13, 0, 0],
+    [16, 4, 9, 0, 0],
+    [22, 2, 11, 2, 12],
+    [28, 4, 15, 0, 0],
+    [26, 4, 13, 1, 14],
+    [26, 4, 14, 2, 15],
+    [24, 4, 12, 4, 13],
+    [28, 6, 15, 2, 16],
   ],
 };
 
 /** Where the alignment patterns' centres go, per version. Version 1 has none. */
 const ALIGNMENT: ReadonlyArray<readonly number[]> = [
-  [], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34], [6, 22, 38], [6, 24, 42], [6, 26, 46], [6, 28, 50],
+  [],
+  [6, 18],
+  [6, 22],
+  [6, 26],
+  [6, 30],
+  [6, 34],
+  [6, 22, 38],
+  [6, 24, 42],
+  [6, 26, 46],
+  [6, 28, 50],
 ];
 
 export const MAX_VERSION = BLOCKS.L.length;
@@ -206,9 +250,7 @@ function drawFunctionPatterns(grid: Grid, version: number): void {
        * code and does not scan; a round-trip test is what caught it.
        */
       const nearFinder =
-        (row <= 8 && col <= 8) ||
-        (row <= 8 && col >= size - 9) ||
-        (row >= size - 9 && col <= 8);
+        (row <= 8 && col <= 8) || (row <= 8 && col >= size - 9) || (row >= size - 9 && col <= 8);
       if (nearFinder) continue;
       for (let r = -2; r <= 2; r += 1) {
         for (let c = -2; c <= 2; c += 1) {
@@ -386,7 +428,7 @@ export function encode(text: string, level: EcLevel = 'M'): number[][] {
   let bestScore = Infinity;
   for (let mask = 0; mask < MASKS.length; mask += 1) {
     const candidate = grid.map((row, r) =>
-      Int8Array.from(row, (value, c) => (base[r]![c] === -1 && MASKS[mask]!(r, c) ? (value ^ 1) : value)),
+      Int8Array.from(row, (value, c) => (base[r]![c] === -1 && MASKS[mask]!(r, c) ? value ^ 1 : value)),
     );
     writeFormat(candidate, level, mask);
     if (version >= 7) writeVersion(candidate, version);

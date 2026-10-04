@@ -1,13 +1,12 @@
-import {
-  Fragment,
-  forwardRef,
-  type CSSProperties,
-  type ReactNode,
-} from 'react';
+import { Fragment, forwardRef, type CSSProperties, type ReactNode } from 'react';
 import { flattenChildren } from '../../utils';
 import { useObjectRef, useToolbar } from 'react-aria';
-import { resolveSlotClass, useComponentConfig, type GroupSlot, type SlotOverrides } from '../../config/config';
-import { dockedToolbar, floatingToolbar } from './specs';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type GroupSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import styles from './Toolbar.module.scss';
 
 export type ToolbarOrientation = 'horizontal' | 'vertical';
@@ -77,7 +76,7 @@ export const FloatingToolbar = forwardRef<HTMLDivElement, FloatingToolbarProps>(
   },
 );
 
-export interface DockedToolbarProps extends ToolbarBaseProps {}
+export type DockedToolbarProps = ToolbarBaseProps;
 
 /**
  * A full-width bar of actions attached to an edge, with square corners. New in M3 Expressive.

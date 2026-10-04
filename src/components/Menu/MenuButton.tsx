@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, useEffect, useRef, useState, type ReactElement, type ReactNode } from 'react';
+import { cloneElement, isValidElement, useRef, useState, type ReactElement, type ReactNode } from 'react';
 import { useContextMenu, useMenuTrigger } from 'react-aria';
 import { useMenuTriggerState } from 'react-stately';
 import { Popover } from '../../overlays/Popover';
@@ -93,7 +93,15 @@ export interface ContextMenuProps {
  */
 export function ContextMenu({ children, onOpenChange }: ContextMenuProps) {
   const [target, menu] = children;
-  const state = useMenuTriggerState({ onOpenChange });
+  const state = useMenuTriggerState({
+    onOpenChange: (open) => {
+      // Cleared here rather than in an effect watching `isOpen`: an effect that sets state in
+      // response to state is a second render for something already known at the moment it
+      // happens.
+      if (!open) setPoint(null);
+      onOpenChange?.(open);
+    },
+  });
   const [point, setPoint] = useState<{ x: number; y: number } | null>(null);
   const anchorRef = useRef<HTMLSpanElement>(null);
   const triggerRef = useRef<HTMLElement>(null);
@@ -107,12 +115,6 @@ export function ContextMenu({ children, onOpenChange }: ContextMenuProps) {
       state.open();
     },
   });
-
-  // The anchor has to exist before usePopover measures it, which is why the point is state and
-  // the popover only renders once there is one.
-  useEffect(() => {
-    if (!state.isOpen) setPoint(null);
-  }, [state.isOpen]);
 
   if (!isValidElement(target) || !isValidElement(menu)) {
     throw new Error('ContextMenu expects an element to press followed by a Menu');
@@ -129,7 +131,13 @@ export function ContextMenu({ children, onOpenChange }: ContextMenuProps) {
             aria-hidden="true"
             style={{ position: 'fixed', left: point.x, top: point.y, width: 1, height: 1 }}
           />
-          <Popover state={state} triggerRef={anchorRef} placement="bottom" offset={0} className={styles.popover}>
+          <Popover
+            state={state}
+            triggerRef={anchorRef}
+            placement="bottom"
+            offset={0}
+            className={styles.popover}
+          >
             {cloneElement(menu, { ...menuProps, autoFocus: 'first' } as never)}
           </Popover>
         </>
