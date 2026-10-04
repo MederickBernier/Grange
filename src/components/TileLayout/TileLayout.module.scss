@@ -1,0 +1,107 @@
+/*
+ * Tile layout. Material has no dashboard, but a tile is a card and that is captured:
+ * OutlinedCardTokens gives CornerMedium, Level0 at rest and Level3 while dragged. The header is
+ * a ListTokens row.
+ */
+
+@use '../../scss/api' as grange;
+
+.layout {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid grange.color(outline-variant); // OutlinedCardTokens: OutlineColor
+  border-radius: grange.corner(medium); // ContainerShape: CornerMedium
+  background: grange.color(surface); // ContainerColor
+  color: grange.color(on-surface);
+}
+
+.header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  min-height: 56px; // ListTokens: a one-line row
+  padding-inline: 16px 8px; // ItemLeadingSpace, less where the handles sit
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  @include grange.typescale(title-small);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0 16px 16px;
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(body-medium);
+}
+
+/* The move handle. A grab target, not a button: pressing it does nothing, dragging it does. */
+.handle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  color: grange.color(on-surface-variant);
+  cursor: move;
+  touch-action: none;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: currentcolor;
+  }
+
+  &:hover {
+    background: grange.translucent(on-surface, 8); // the hover state-layer opacity
+  }
+
+  &:focus-visible {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: -3px;
+  }
+}
+
+.grip {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  touch-action: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-inline-end: 2px solid grange.color(outline);
+    border-block-end: 2px solid grange.color(outline);
+  }
+
+  &:focus-visible {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: -3px;
+  }
+}

@@ -80,6 +80,7 @@ export type {
   TimelineSlot,
   SplitterSlot,
   WindowSlot,
+  TileLayoutSlot,
   StepperSlot,
   SkeletonSlot,
   BadgeSlot,
@@ -161,6 +162,11 @@ export { Stack, Grid, GridItem, spaceValue } from './components/Layout/Layout';
 export type { StackProps, GridProps, GridItemProps, Space } from './components/Layout/Layout';
 export { space } from './components/Layout/specs';
 export type { SpaceName } from './components/Layout/specs';
+export { TileLayout, Tile } from './components/TileLayout/TileLayout';
+export type { TileLayoutProps, TileProps } from './components/TileLayout/TileLayout';
+export { tileLayout } from './components/TileLayout/specs';
+export { moveTile, resizeTile, reconcile, tileAt } from './components/TileLayout/layout';
+export type { TileSpec } from './components/TileLayout/layout';
 export { Splitter, SplitterPane } from './components/Splitter/Splitter';
 export type { SplitterProps, SplitterPaneProps } from './components/Splitter/Splitter';
 export { splitter } from './components/Splitter/specs';
