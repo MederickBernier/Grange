@@ -120,6 +120,7 @@ export type PagerSlot = 'root' | 'summary' | 'page';
 export type TransferListSlot = 'root' | 'list';
 export type SortableSlot = 'root' | 'row';
 export type FilterBuilderSlot = 'root' | 'group' | 'row';
+export type ColorSlot = 'root' | 'track' | 'thumb';
 export type StepperSlot = 'root' | 'step' | 'button';
 export type SkeletonSlot = 'root' | 'bar';
 export type BadgeSlot = 'root';
@@ -207,6 +208,10 @@ export interface ClassNamesConfig {
   TransferList?: SlotOverrides<TransferListSlot>;
   Sortable?: SlotOverrides<SortableSlot>;
   FilterBuilder?: SlotOverrides<FilterBuilderSlot>;
+  ColorArea?: SlotOverrides<ColorSlot>;
+  ColorSlider?: SlotOverrides<ColorSlot>;
+  ColorWheel?: SlotOverrides<ColorSlot>;
+  ColorField?: SlotOverrides<TextFieldSlot>;
   Stepper?: SlotOverrides<StepperSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
@@ -305,6 +310,9 @@ export interface DefaultPropsConfig {
   Pager?: { pageSize?: number; pageSizes?: readonly number[]; numbers?: boolean };
   TransferList?: { allowMoveAll?: boolean };
   FilterBuilder?: { maxDepth?: number };
+  ColorArea?: { size?: number };
+  ColorWheel?: { outerRadius?: number; innerRadius?: number };
+  ColorField?: { variant?: 'filled' | 'outlined'; showSwatch?: boolean };
   TileLayout?: {
     columns?: number;
     gap?: string | number;
@@ -523,6 +531,10 @@ const COMPONENTS: ComponentName[] = [
   'TransferList',
   'Sortable',
   'FilterBuilder',
+  'ColorArea',
+  'ColorSlider',
+  'ColorWheel',
+  'ColorField',
   'Stepper',
   'Skeleton',
   'Badge',

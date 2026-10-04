@@ -86,6 +86,7 @@ export type {
   TransferListSlot,
   SortableSlot,
   FilterBuilderSlot,
+  ColorSlot,
   StepperSlot,
   SkeletonSlot,
   BadgeSlot,
@@ -229,6 +230,19 @@ export type {
   Operator,
   OperatorSpec,
 } from './data/query';
+
+export { ColorArea } from './components/Color/ColorArea';
+export type { ColorAreaProps } from './components/Color/ColorArea';
+export { ColorSlider } from './components/Color/ColorSlider';
+export type { ColorSliderProps } from './components/Color/ColorSlider';
+export { ColorWheel } from './components/Color/ColorWheel';
+export type { ColorWheelProps } from './components/Color/ColorWheel';
+export { ColorField } from './components/Color/ColorField';
+export type { ColorFieldProps } from './components/Color/ColorField';
+export { color as colorSpec } from './components/Color/specs';
+/* parseColor is how a caller turns a string into the Color these take, so it travels with them. */
+export { parseColor } from 'react-stately';
+export type { Color, ColorSpace, ColorChannel, ColorFormat } from 'react-stately';
 
 export { FilterBuilder } from './components/FilterBuilder/FilterBuilder';
 export type { FilterBuilderProps, FilterField } from './components/FilterBuilder/FilterBuilder';

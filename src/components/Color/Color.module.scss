@@ -1,0 +1,138 @@
+/*
+ * Colour controls. Material has no colour picker, so every size is chosen — out of values the
+ * library already draws: the track is ListTokens' leading-icon size, the swatch is its avatar,
+ * and the corners come off the shape scale.
+ */
+
+@use '../../scss/api' as grange;
+
+.area {
+  position: relative;
+  box-sizing: border-box;
+  border-radius: grange.corner(medium);
+  // The gradients come from useColorArea, which sets them as inline background layers.
+  touch-action: none;
+
+  &[data-disabled] {
+    opacity: 0.38;
+  }
+
+  &[data-focus-visible] {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: 3px;
+  }
+}
+
+/*
+ * The thumb, shared by the area, the sliders and the wheel. A ring rather than a dot, so the
+ * colour underneath is still visible: a picker whose handle hides the colour it is picking is
+ * the oldest mistake in this component.
+ */
+.thumb {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 2px solid grange.color(surface);
+  border-radius: 9999px;
+  box-shadow:
+    0 0 0 1px #{grange.translucent(shadow, 40%)},
+    0 1px 3px #{grange.translucent(shadow, 30%)};
+
+  &[data-focus-visible] {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: 2px;
+  }
+}
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grange-space-xs);
+  color: grange.color(on-surface);
+
+  &[data-disabled] {
+    opacity: 0.38;
+  }
+}
+
+.sliderHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--grange-space-sm);
+  @include grange.typescale(label-medium);
+}
+
+.track {
+  position: relative;
+  overflow: visible;
+  border-radius: 9999px;
+  touch-action: none;
+
+  &[data-orientation='horizontal'] {
+    width: 100%;
+    height: 24px; // ItemLeadingIconSize, so the thumb sits inside the track
+  }
+
+  &[data-orientation='vertical'] {
+    width: 24px;
+    height: 192px;
+  }
+}
+
+.wheel {
+  position: relative;
+  touch-action: none;
+
+  &[data-disabled] {
+    opacity: 0.38;
+  }
+}
+
+.wheelTrack {
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * The two layers under a track: the chequerboard, then the channel's gradient over it. Both
+ * are inert decoration; the slider itself is the hidden range input.
+ */
+.checker,
+.gradient {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.checker {
+  background:
+    repeating-conic-gradient(
+        #{grange.translucent(on-surface, 14%)} 0% 25%,
+        transparent 0% 50%
+      )
+      0 0 / 12px 12px,
+    grange.color(surface);
+}
+
+/* The square at the start of a colour field, over a chequerboard so alpha reads. */
+.fieldSwatch {
+  position: relative;
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  border: 1px solid grange.color(outline-variant);
+  border-radius: grange.corner(extra-small);
+  background:
+    repeating-conic-gradient(
+        #{grange.translucent(on-surface, 14%)} 0% 25%,
+        transparent 0% 50%
+      )
+      0 0 / 8px 8px,
+    grange.color(surface);
+}
+
+.fieldSwatchColor {
+  position: absolute;
+  inset: 0;
+}
