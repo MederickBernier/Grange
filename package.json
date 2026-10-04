@@ -29,8 +29,8 @@
   "scripts": {
     "tokens": "tsx scripts/build-tokens.mts",
     "typecheck": "pnpm tokens && tsc -p tsconfig.json --noEmit",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "pnpm tokens && eslint .",
+    "lint:fix": "pnpm tokens && eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "build": "pnpm tokens && vite build && tsc -p tsconfig.build.json && pnpm copy-scss",

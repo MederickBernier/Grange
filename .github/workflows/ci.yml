@@ -26,9 +26,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
 
-      # The tokens first: the lint is type-aware, and src/tokens/generated is imported by the
-      # files it reads.
-      - run: pnpm tokens
+      # `lint` regenerates the tokens first, as `typecheck` and `test` do: the rules are
+      # type-aware, and src/tokens/generated is imported by most of what they read.
       - run: pnpm lint
       - run: pnpm format:check
 
