@@ -1,0 +1,102 @@
+/*
+ * Tree. Material has no tree, but a tree row is a list row, and that is captured: ListTokens
+ * gives the 56px height, the 16px gutters, the 24px icons, the 12px between-space and the
+ * body-large label. Only the indent per level is chosen — the chevron plus the between-space,
+ * so a child's label starts where its parent's does.
+ */
+
+@use '../../scss/api' as grange;
+
+.tree {
+  display: flex;
+  flex-direction: column;
+  color: grange.color(on-surface);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 56px; // ListTokens: a one-line item
+  padding-inline: 16px; // ItemLeadingSpace / ItemTrailingSpace
+  // One indent per level, set as a custom property by the component.
+  padding-inline-start: calc(16px + var(--grange-tree-level, 0) * 36px);
+  border-radius: grange.corner(extra-small); // ItemContainerExpressiveShape
+  cursor: default;
+
+  &[data-hovered] {
+    background: grange.translucent(on-surface, 8); // the hover state-layer opacity
+  }
+
+  &[data-selected] {
+    background: grange.color(secondary-container); // ItemSelectedContainerColor
+    color: grange.color(on-secondary-container);
+  }
+
+  &[data-focus-visible] {
+    outline: 3px solid grange.color(secondary); // FocusIndicatorColor
+    outline-offset: -3px;
+  }
+
+  &[data-disabled] {
+    // The 38% the token file uses for every disabled label.
+    opacity: 0.38;
+  }
+}
+
+.cell {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 12px; // ItemBetweenSpace
+  min-width: 0;
+}
+
+.chevron {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 24px; // ItemLeadingIconSize
+  height: 24px;
+  color: grange.color(on-surface-variant); // ItemLeadingIconColor
+  cursor: pointer;
+  transition: transform grange.duration(short4) grange.easing(standard);
+
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: currentcolor;
+  }
+
+  .row[data-expanded] & {
+    transform: rotate(90deg);
+  }
+
+  &:focus-visible {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: -3px;
+    border-radius: 9999px;
+  }
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  color: grange.color(on-surface-variant);
+}
+
+.label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  @include grange.typescale(body-large); // ItemLabelTextFont
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}

@@ -81,6 +81,8 @@ export type {
   SplitterSlot,
   WindowSlot,
   TileLayoutSlot,
+  TreeSlot,
+  PagerSlot,
   StepperSlot,
   SkeletonSlot,
   BadgeSlot,
@@ -162,6 +164,14 @@ export { Stack, Grid, GridItem, spaceValue } from './components/Layout/Layout';
 export type { StackProps, GridProps, GridItemProps, Space } from './components/Layout/Layout';
 export { space } from './components/Layout/specs';
 export type { SpaceName } from './components/Layout/specs';
+export { TreeView, TreeItem } from './components/Tree/Tree';
+export type { TreeViewProps, TreeItemProps } from './components/Tree/Tree';
+export { tree } from './components/Tree/specs';
+export { Pager } from './components/Pager/Pager';
+export type { PagerProps } from './components/Pager/Pager';
+export { pager } from './components/Pager/specs';
+export { pageCount, clampPage, pageRange, pageList } from './components/Pager/paging';
+export type { PageRange } from './components/Pager/paging';
 export { TileLayout, Tile } from './components/TileLayout/TileLayout';
 export type { TileLayoutProps, TileProps } from './components/TileLayout/TileLayout';
 export { tileLayout } from './components/TileLayout/specs';

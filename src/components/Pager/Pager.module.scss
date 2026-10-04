@@ -1,0 +1,72 @@
+/*
+ * Pager. Material has no pager, so the metrics come from the row it sits under: ListTokens
+ * gives the 56px height, the 16px gutters and the 12px between-space.
+ */
+
+@use '../../scss/api' as grange;
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px; // ItemBetweenSpace
+  box-sizing: border-box;
+  min-height: 56px; // a one-line row
+  padding-inline: 16px; // ItemLeadingSpace
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(label-large);
+}
+
+.size {
+  flex: none;
+  width: 104px;
+}
+
+.summary {
+  flex: 1;
+  min-width: 0;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 40px;
+  height: 40px;
+  padding-inline: 8px;
+  border: none;
+  border-radius: 9999px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+
+  &:hover {
+    background: grange.translucent(on-surface, 8); // the hover state-layer opacity
+  }
+
+  &:focus-visible {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: -3px;
+  }
+
+  // The page you are on. Filled rather than only bolder, because a pager is read at a glance.
+  &[aria-current] {
+    background: grange.color(primary);
+    color: grange.color(on-primary);
+  }
+}
+
+.gap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+}
