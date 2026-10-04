@@ -1,4 +1,8 @@
-This package includes code ported from, and values taken from, the following Apache License 2.0 projects:
+@jyga/grange-react is licensed under the MIT License; see LICENSE.
+
+It includes code ported from, and values taken from, the following Apache License 2.0 projects.
+Apache 2.0 requires that this notice travel with the software, which is why NOTICE is published
+in the package alongside the licence:
 
 - Material Web (https://github.com/material-components/material-web)
   Copyright Google LLC. Ripple constants and elevation shadow recipe

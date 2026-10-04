@@ -2,9 +2,36 @@
   "name": "@jyga/grange-react",
   "version": "0.1.0",
   "description": "Material 3 Expressive components for React, built from the M3E token spec",
+  "keywords": [
+    "react",
+    "material-design",
+    "material-3",
+    "material-you",
+    "m3-expressive",
+    "component-library",
+    "design-system",
+    "react-aria",
+    "accessibility",
+    "design-tokens"
+  ],
+  "homepage": "https://mederickbernier.github.io/Grange/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MederickBernier/Grange.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MederickBernier/Grange/issues"
+  },
+  "author": "Mederick Bernier",
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "packageManager": "pnpm@10.27.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "sideEffects": [
     "**/*.css",
     "./src/index.ts",
@@ -59,6 +86,8 @@
     "@eslint/js": "^10.0.1",
     "@material/material-color-utilities": "^0.4.0",
     "@playwright/test": "^1.63.0",
+    "@storybook/addon-a11y": "^10.6.1",
+    "@storybook/addon-docs": "^10.6.1",
     "@storybook/react-vite": "^10.6.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
