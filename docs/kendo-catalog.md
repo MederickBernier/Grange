@@ -50,7 +50,9 @@ At the project's established pace — two components a round, each round ending 
 verification — the remainder is roughly 12 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phases 1 to 6 are done.** Phase 7 — visual and I/O, ten items — is the last of it.
+**Phases 1 to 6 are done**, and **phase 7 is under way**: the gauges and the sparkline are
+in, 2 of its 5 rows. The chunked progress bar, the two encoders and the upload are the last
+of it.
 
 ## Already covered
 
@@ -337,8 +339,8 @@ Two things the first round of this phase established:
 
 | Component | Behaviour | Notes |
 | --- | --- | --- |
-| `ArcGauge`, `CircularGauge`, `LinearGauge`, `RadialGauge` | `useMeter` | One SVG engine, four presentations. `useMeter` gives them the right role and value text |
-| `Sparkline` | — | A line or bar in a line of text, no axes |
+| ~~`ArcGauge`, `CircularGauge`, `LinearGauge`, `RadialGauge`~~ ✅ | `useMeter` | Done, one engine and four faces. They are **meters, not progress bars**: a progress bar says a task is partly done and will finish, a meter says a quantity sits in a range, and a disk that is 80% full is not 80% finished. The geometry is pure — SVG measures angles from three o'clock and a gauge is read from twelve, so that conversion happens in one place rather than at every call site |
+| ~~`Sparkline`~~ ✅ | — | Done. Hidden from assistive tech unless given a label, which is the right default: it nearly always sits beside the number it illustrates, and reading the shape out after the number says the same thing twice. A flat series runs down the middle and a single point is a dot — neither is a special case in the component, only in the arithmetic |
 | `ChunkProgress` (ChunkProgressBar) | `useProgressBar` | The progress bar in discrete segments |
 | `Barcode`, `QRCode` | ours | Encoders, not geometry: Code 128 and QR with its Reed–Solomon error correction. Self-contained, no dependency |
 | `Upload`, `DropZone` | `useDrop` | File selection, the drop target, per-file progress and retry. The network side stays the app's |
