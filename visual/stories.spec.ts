@@ -53,9 +53,13 @@ for (const story of stories()) {
        * The second half of the selector is for a story whose whole output is portalled — a
        * window, a dialog opened on mount. React Aria's Overlay portals straight into `body`
        * with no wrapper, so the story root stays empty and waiting only on it times out.
+       *
+       * It matches one of this library's own hook classes rather than "any div in body", which
+       * is what it said first and which also matched Storybook's loading spinner: the wait then
+       * passed immediately and the baseline was a picture of the spinner.
        */
       await expect(
-        page.locator('#storybook-root > *, body > div:not(#storybook-root):not(#storybook-docs)').first(),
+        page.locator('#storybook-root > *, body > [class*="grange-"]').first(),
       ).toBeAttached();
       // A story whose first paint is in a fallback font would otherwise be shot mid-swap.
       await page.evaluate(() => document.fonts.ready);
