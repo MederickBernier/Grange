@@ -7,7 +7,7 @@ import styles from './theming.module.scss';
  * Theming is CSS custom properties all the way down, so an override is just a scoped rule.
  * The Sass API validates the role names at build time:
  *
- *   @use '@jyga/grange-react/scss' as grange;
+ *   @use 'grange-react/scss' as grange;
  *   .brand { @include grange.theme((primary: #005bbb)); }
  *
  * See stories/theming.module.scss for the override these panels use.

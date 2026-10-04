@@ -1,5 +1,5 @@
 {
-  "name": "@jyga/grange-react",
+  "name": "grange-react",
   "version": "0.1.0",
   "description": "Material 3 Expressive components for React, built from the M3E token spec",
   "keywords": [
@@ -26,9 +26,6 @@
   "type": "module",
   "license": "MIT",
   "packageManager": "pnpm@10.27.0",
-  "publishConfig": {
-    "access": "public"
-  },
   "engines": {
     "node": ">=20"
   },

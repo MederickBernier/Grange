@@ -2,7 +2,7 @@
   "$meta": {
     "note": "NOT a Google token file. Material publishes no spacing tokens — SpacingTokens, SpaceTokens, DimensionTokens, DensityTokens, GridTokens and LayoutTokens are all 404 in androidx — but a layout component cannot be written without a scale. So this one is chosen, and kept in its own file under its own --grange-space-* namespace rather than smuggled into --md-sys-*, which would claim a provenance it does not have.",
     "basis": "The 4dp grid Material lays out on. Every step is a multiple of 4, and the four middle steps are values Compose already publishes in ListTokens, so the scale agrees with the components rather than sitting beside them.",
-    "source": "chosen for @jyga/grange-react"
+    "source": "chosen for grange-react"
   },
   "scale": {
     "none": { "px": 0, "why": "No space. Named so a conditional gap has something to be." },

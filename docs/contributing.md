@@ -94,7 +94,7 @@ The package is ESM-only, published from `dist/`.
 ```sh
 pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm visual:docker
 npm version <patch|minor|major>
-npm publish            # publishConfig.access is already public
+npm publish
 git push --follow-tags
 ```
 
@@ -104,8 +104,8 @@ git push --follow-tags
 To try a build inside another project before publishing:
 
 ```sh
-pnpm build && npm pack           # writes jyga-grange-react-<version>.tgz
-cd ../your-app && npm install ../Grange/jyga-grange-react-0.1.0.tgz
+pnpm build && npm pack           # writes grange-react-<version>.tgz
+cd ../your-app && npm install ../Grange/grange-react-0.1.0.tgz
 ```
 
 A tarball is better than `npm link` here, because it exercises the `exports` map and the `files`

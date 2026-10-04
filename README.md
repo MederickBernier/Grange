@@ -1,4 +1,4 @@
-# @jyga/grange-react
+# grange-react
 
 **Material 3 Expressive components for React.** Google never shipped M3 Expressive for the web,
 so this library implements it from Google's own published values: the token files are read
@@ -21,13 +21,7 @@ Every component is three things:
 
 ---
 
-## Install
-
-```sh
-npm install @jyga/grange-react
-# pnpm add @jyga/grange-react
-# yarn add @jyga/grange-react
-```
+## Requirements
 
 React 18.2 or newer is a peer dependency. Everything else the components need — React Aria,
 React Stately, Motion, `@internationalized/date` — comes with the package.
@@ -39,8 +33,8 @@ React Stately, Motion, `@internationalized/date` — comes with the package.
 ## Quick start
 
 ```tsx
-import { GrangeProvider, FilledButton, OutlinedTextField } from '@jyga/grange-react';
-import '@jyga/grange-react/styles.css';
+import { GrangeProvider, FilledButton, OutlinedTextField } from 'grange-react';
+import 'grange-react/styles.css';
 
 export function App() {
   return (
@@ -145,7 +139,7 @@ The Sass API validates names, which `var(--typo)` cannot — a misspelling is a 
 listing the near misses:
 
 ```scss
-@use '@jyga/grange-react/scss' as grange;
+@use 'grange-react/scss' as grange;
 
 .acme-brand {
   @include grange.theme(

@@ -13,12 +13,7 @@ geometry and colour from Compose's published token files where they exist, and a
 where neither does. The pages in the sidebar are generated from that writing — the explanation
 of a component lives above the component, so there is one copy of it and it cannot drift.
 
-## Install
-
-```sh
-npm install @jyga/grange-react
-# or: pnpm add @jyga/grange-react
-```
+## Requirements
 
 React 18.2 or newer is a peer dependency; everything else the components need comes with the
 package.
@@ -26,8 +21,8 @@ package.
 ## Use
 
 ```tsx
-import { GrangeProvider, FilledButton } from '@jyga/grange-react';
-import '@jyga/grange-react/styles.css';
+import { GrangeProvider, FilledButton } from 'grange-react';
+import 'grange-react/styles.css';
 
 export function App() {
   return (

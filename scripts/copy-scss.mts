@@ -1,7 +1,7 @@
 /**
  * Copies the public Sass API into dist/ after `vite build` has emptied it.
  *
- * Consumers reach it as `@use '@jyga/grange-react/scss' as grange;`. The directory layout is kept
+ * Consumers reach it as `@use 'grange-react/scss' as grange;`. The directory layout is kept
  * flat and identical to src/scss/, so the `@use 'data'` and `@use 'api'` references inside
  * resolve the same whether Sass is compiling from source or from the published package.
  *
