@@ -1,183 +1,187 @@
 # @jyga/grange-react
 
-Material 3 Expressive components for React, built on our own spec reference instead of a paid library.
-Google never shipped M3 Expressive for the web, so this package implements it from Google's token values.
+**Material 3 Expressive components for React.** Google never shipped M3 Expressive for the web,
+so this library implements it from Google's own published values: the token files are read
+straight out of androidx by a script, not transcribed from screenshots of the spec.
 
-**Stack:** React 18/19 · [React Aria](https://react-spectrum.adobe.com/react-aria/) and React Stately for behavior, state and accessibility · [Motion](https://motion.dev) for spring physics · Sass (CSS Modules) authored over plain CSS custom properties, so it drops in next to Tailwind, CSS Modules or anything else.
+[**Documentation and live examples →**](https://mederickbernier.github.io/Grange/)
+
+Every component is three things:
+
+- **Behaviour** from [React Aria](https://react-spectrum.adobe.com/react-aria/) wherever a hook
+  exists for it, so the keyboard, focus management and announcements are the ones Adobe
+  maintains rather than ones invented here.
+- **Geometry and colour** from Compose's token files wherever they exist. Where they do not —
+  Material has no gauge, no barcode, no spacing scale — the value is chosen, and the reason is
+  written at the value.
+- **A written decision** wherever the two disagree or neither applies. Those are in the source,
+  above the component, and they are what the documentation site renders.
+
+101 components, 1,339 tests, 512 visual baselines.
+
+---
+
+## Install
+
+```sh
+npm install @jyga/grange-react
+# pnpm add @jyga/grange-react
+# yarn add @jyga/grange-react
+```
+
+React 18.2 or newer is a peer dependency. Everything else the components need — React Aria,
+React Stately, Motion, `@internationalized/date` — comes with the package.
+
+> **ESM only.** The package ships `"type": "module"` with no CommonJS build. Vite, Next.js,
+> Remix, Parcel and modern Webpack handle that as a matter of course; a project still running
+> `require()` through an old bundler will not.
 
 ## Quick start
 
-```bash
-pnpm install
-pnpm storybook        # http://localhost:6006
-pnpm test             # unit tests
-pnpm build            # tokens + library -> dist/
-```
-
-In an app:
-
 ```tsx
-import { GrangeProvider, FilledButton, OutlinedButton } from '@jyga/grange-react';
+import { GrangeProvider, FilledButton, OutlinedTextField } from '@jyga/grange-react';
 import '@jyga/grange-react/styles.css';
 
-<GrangeProvider scheme="expressive">
-  <FilledButton size="m" onClick={save}>Save</FilledButton>
-  <OutlinedButton onClick={cancel}>Cancel</OutlinedButton>
-</GrangeProvider>
-```
-
-Dark mode follows `prefers-color-scheme`; force it with `data-theme="dark"` (or `"light"`) on `<html>` or any container.
-
-## What's here
-
-| Area | Contents |
-| --- | --- |
-| Tokens | `pnpm capture-tokens <Name>` reads Compose token objects straight out of androidx into `tokens/m3-expressive.json`, and `pnpm capture-shapes` reads the 35-shape library out of MaterialShapes.kt into `tokens/m3-shapes.json`, so component geometry is never hand-typed. Then `tokens/m3-expressive.json` (Google's values) + `tokens/theme.json` (our seed color and overrides) → `pnpm tokens` → `src/tokens/generated/tokens.css`, `tokens.ts` and `src/scss/_data.scss` |
-| Sass API | `src/scss` → `@use '@jyga/grange-react/scss'`: `theme()` to override roles, `color()` / `corner()` / `duration()` / `easing()` / `space()` / `type-prop()` to reference them, `typescale()` to apply a text style. Unknown names fail the build |
-| Forms | `Form` collects values from `FormData` and distributes an error map to fields by name through React Aria's validation context — no wrapper, no cloning. Plus `FormField` for a control that brings no label of its own, and `FieldArray` for a repeating group |
-| Overlays | `PopoverTrigger` for an anchored panel, plus the internals: portalled, focus contained and restored, scroll locked, the page behind hidden from assistive tech. `portalContainer` on `GrangeProvider` scopes where they land |
-| Overrides | `GrangeProvider` takes `defaultProps`, `classNames` (per slot, add or replace), `behavior` (ripple, spring roles, touch target, inner corners) and `sizes` (geometry). Providers nest and merge |
-| Motion | `GrangeProvider` (expressive / standard scheme, reduced-motion aware), `useSpring(name)` for the six M3E springs |
-| Shapes | `src/shapes` — a port of the rounded-polygon geometry in androidx.graphics.shapes, and all 35 M3E shapes by name: `shapePath(shape('Heart'), { size: 48 })`. `Morph` is not ported; the loading indicator interpolates resampled outlines instead |
-| Primitives | State layer, ripple, focus ring, elevation, 48px touch target (`src/primitives`), and `ButtonBase`, the shared interactive core. `Icon` sizes itself from `--grange-icon-size`; `Divider` is horizontal or vertical, full-width or inset |
-| Components | `Fab` (4 sizes × 4 colours), `ExtendedFab` (3 sizes, collapsible), `FabMenu`, `SplitButton` (5 sizes, expandable trailing half), `FloatingToolbar` and `DockedToolbar`, `Checkbox` (with indeterminate) and `CheckboxGroup`, `Switch`, `RadioGroup`, `Slider` (single or range), `FilledTextField` and `OutlinedTextField` (with the password reveal), `NumberField` (locale-aware, with currency and percent formats), `MaskedTextField`, `Rating` (a radio group under the stars), `Signature` (an SVG pad, not a canvas), `Form`, `FormField` and `FieldArray`, `Dialog`, `Tooltip` and `RichTooltip`, `Menu` (sections, selection, typeahead, and the M3E standard and vibrant restyles), `MenuButton`, `ContextMenu`, `Select`, `ComboBox` (locale-aware filtering, optionally in columns), `Autocomplete`, `MultiSelect` (chips as a real tag group), `PopoverTrigger`, `Snackbar`, `Tabs` (primary and secondary), `Card`, `List` and `SelectableList` (a listbox, vertical or a horizontal snapping strip), `AppBar` (five sizes), `NavigationBar`, `NavigationRail`, `NavigationDrawer`, `BottomSheet`, `Chip` (four kinds), `Badge`, `Avatar` (image, initials or icon), `Skeleton`, `ExpansionPanel` and `Accordion` (find-in-page reaches a collapsed section), `Breadcrumbs` (folding to a menu when the trail is long), `Timeline` and `Stepper` (linear or not, each step's state said out loud), `Stack` and `Grid` (over the library's own spacing scale, the one thing here Material does not publish), `Splitter` (percentages, with arrow keys), `Window` (non-modal, moved and resized from the keyboard) and `TileLayout` (a dashboard reordered and resized from the keyboard too), `TreeView` (a treegrid, so a row can hold its own controls) and `Pager` (whose summary is a live region), `DropDownTree` and `MultiSelectTree` (a tree in a field), `TransferList` (two lists, every move announced), `Sortable` (reorderable with a keyboard, not only a pointer), `FilterBuilder` over the `query` data layer (typed filter, sort, group, aggregate and page, locale-aware and non-mutating), `ColorArea`, `ColorSlider`, `ColorWheel` and `ColorField` (range inputs under the paint, so a colour is pickable without a pointer), `ColorSwatchPicker` (every swatch named, not hexed), `ColorPicker` and `FlatColorPicker`, `ArcGauge`, `CircularGauge`, `RadialGauge` and `LinearGauge` (meters, not progress bars) with `Sparkline`, `ChunkProgress`, `Upload` and `DropZone` (droppable, pressable and pasteable; the network stays yours), `Barcode` and `QRCode` (encoded here, no dependency), `Search` and `LoadingIndicator` (morphing through the real shape library), `Calendar` and `RangeCalendar` (the date picker, docked or in a `Dialog`), `DateField`, `DatePicker`, `DateRangePicker` and `DateTimePicker` (segments plus a calendar in a popover, one month or three), `TimeField` and `TimePicker` (the clock dial), `SideSheet` (modal or standard, resizable), `Carousel` (four layouts), `LinearProgress` and `CircularProgress` (determinate or indeterminate, flat or M3E wavy), and one button per variant, as Material Web ships one element each: `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`, `TextButton`, and `IconButton` / `FilledIconButton` / `FilledTonalIconButton` / `OutlinedIconButton`. Plus `ToggleButton`, `ButtonGroup` (pressed item widens 15%) and `ConnectedButtonGroup` (single select as a radiogroup, multi as toggles) |
-| Roadmap | [`docs/components.md`](docs/components.md) — the full M3 catalog, all 36 of it built, and the recorded gaps behind it |
-| Next catalog | [`docs/kendo-catalog.md`](docs/kendo-catalog.md) — the 144 components of the KendoReact catalog mapped against this library: all 101 in scope now covered, 43 out of scope with the reason |
-| Storybook | Every component and state, light/dark and expressive/standard toolbar switches, and **Foundations / Motion playground** for tuning springs live |
-| Visual tests | `pnpm visual` shoots every story in both colour schemes with Playwright and compares against `visual/__screenshots__`. 292 baselines, which is the only check that notices a token or a stylesheet quietly redrawing something. `pnpm visual:docker` runs them in the image the baselines were taken in, which is what CI uses |
-| Lint and format | `eslint.config.mjs` and `prettier.config.mjs` — type-aware rules, `jsx-a11y`, `react-hooks`; Prettier at 110 columns, which is the width the code was already written to. `pnpm lint`, `pnpm format` |
-| CI | `.github/workflows/ci.yml` — lint and formatting, then typecheck, tests, both builds and a check that `dist` exports what `package.json` promises, plus the visual job in the Playwright image |
-
-## Component API
-
-One component per variant, the way Material Web ships one custom element per variant and Compose
-one composable each. There is no variant string to misspell and no way to ask for two at once.
-
-| Material Web | Here |
-| --- | --- |
-| `<md-filled-button>` | `<FilledButton>` |
-| `<md-filled-tonal-button>` | `<FilledTonalButton>` |
-| `<md-outlined-button>` | `<OutlinedButton>` |
-| `<md-elevated-button>` | `<ElevatedButton>` |
-| `<md-text-button>` | `<TextButton>` |
-| `<md-icon-button>` | `<IconButton>` |
-| `<md-filled-icon-button>` | `<FilledIconButton>` |
-| `<md-filled-tonal-icon-button>` | `<FilledTonalIconButton>` |
-| `<md-outlined-icon-button>` | `<OutlinedIconButton>` |
-
-`Button` and `IconButton` keep their `variant` prop for the case the named components cannot
-cover, a variant chosen at runtime:
-
-```tsx
-<Button variant={variantFromCms}>Save</Button>
-```
-
-**Props follow Material Web**, not React Aria, and are mapped onto React Aria internally:
-`disabled`, `selected`, `defaultSelected`, `toggle`. `onClick` fires on a real click; `onPress`
-also works and additionally covers touch and keyboard activation.
-
-```tsx
-<FilledButton disabled>Save</FilledButton>
-<IconButton toggle defaultSelected aria-label="Favourite" ariaLabelSelected="Unfavourite">
-  <HeartIcon />
-</IconButton>
-```
-
-**Icons** work like their single `slot="icon"`: one icon, before the label by default, moved
-after it by the `trailingIcon` flag.
-
-```tsx
-<FilledButton icon={<SendIcon />}>Send</FilledButton>
-<TextButton icon={<OpenIcon />} trailingIcon>Open</TextButton>
-```
-
-Size and shape stay props, because Material Web has no size scale — M3 Expressive's five sizes
-are not in its stable release.
-
-```tsx
-<FilledButton size="l" shape="square">Save</FilledButton>
-```
-
-**An `href` renders an `<a>`**, as Material Web's buttons do, so you get middle-click and open-in-new-tab.
-It keeps the button role and Space-to-activate, so what assistive tech announces matches how the
-control behaves. A disabled one drops the href and cannot navigate.
-
-```tsx
-<FilledButton href="/save" target="_blank" rel="noreferrer">Save</FilledButton>
-```
-
-**Form props work**: `type`, `name`, `value` and `form` reach the `<button>`, and `type` defaults
-to `"button"` so a button never submits a form by accident.
-
-**RTL**: `Icon` takes `flipInRtl` for direction-sensitive glyphs, and `ConnectedButtonGroup`
-mirrors its outer corners. Wrap the app in React Aria's `I18nProvider` to set the locale.
-
-## Theming
-
-Two namespaces are in play, deliberately. `--md-sys-*` and `--md-ref-*` are Google's Material
-Design System token names, kept verbatim so every value cross-references Compose and the Figma
-variables. `grange-*` classes and `--grange-*` properties are this library's own.
-
-- **Brand color:** set `seed` in `tokens/theme.json` and run `pnpm tokens`. Palettes are generated with Google's `material-color-utilities` (Tonal Spot), and roles map to tones exactly as in Compose.
-- **Figma Variables:** paste exported hex values into `overrides.light` / `overrides.dark` (keys are role names such as `primary`, `surface-container-high`). Overrides win over generated values.
-- **Fonts:** `typeface.brand` / `typeface.plain` in the same file. The app is responsible for loading the font files.
-
-### Overriding roles from your app
-
-One scale here is **not** Google's, and it is marked as such everywhere: Material publishes no
-spacing tokens (`SpacingTokens`, `SpaceTokens`, `DimensionTokens`, `DensityTokens`, `GridTokens`
-and `LayoutTokens` are all 404 in androidx), and `Stack` and `Grid` cannot be written without
-one. So `tokens/grange-spacing.json` holds eight chosen steps on the 4dp grid Material lays out
-on, and they are emitted as `--grange-space-*` rather than `--md-sys-*` — a chosen value in
-Google's namespace would claim a provenance it does not have. The middle of the scale is taken
-from `ListTokens`, so a layout agrees with the components inside it.
-
-Every token is a CSS custom property, so an override is an ordinary scoped rule. The Sass API
-validates the names, which `var(--typo)` cannot:
-
-```scss
-@use '@jyga/grange-react/scss' as grange;
-
-// whole app
-:root {
-  @include grange.theme((primary: #005bbb, on-primary: #fff));
-}
-
-// or one subtree, composing with light/dark
-.acme-brand {
-  @include grange.theme(
-    $colors: (primary: #005bbb, surface-container-low: #eef3fb),
-    $corners: (large: 20px),
-    $typeface: (brand: '"Inter", sans-serif')
+export function App() {
+  return (
+    <GrangeProvider>
+      <OutlinedTextField label="Name" />
+      <FilledButton onClick={() => save()}>Save</FilledButton>
+    </GrangeProvider>
   );
 }
 ```
 
-Roles you do not list keep following the generated palette and the `data-theme` / `prefers-color-scheme`
-switch. A misspelled role is a Sass error naming the near misses, not a property nothing reads.
+Two things are doing the work there.
 
-The same API is how you reference tokens in your own styles:
+**The stylesheet carries the design tokens.** Every colour role, type style, shape corner,
+duration, easing and spacing step is a CSS custom property in `styles.css`. Import it once,
+anywhere, before anything renders. Without it the components have no values to read and will
+look unstyled.
+
+**`GrangeProvider` carries motion and configuration.** It is optional for a single button and
+necessary for anything spring-animated, and it is where app-wide defaults, class names and
+behaviour overrides live. Nest providers to change one subtree.
+
+## Dark mode
+
+Colours follow `prefers-color-scheme` on their own. To force a scheme, set `data-theme` on any
+element — the document, or one container:
+
+```html
+<html data-theme="dark">
+```
+
+```tsx
+<div data-theme="light">{/* stays light inside a dark page */}</div>
+```
+
+## What is in it
+
+<details>
+<summary><strong>101 components</strong> — click to expand</summary>
+
+**Buttons** — `FilledButton`, `FilledTonalButton`, `OutlinedButton`, `ElevatedButton`,
+`TextButton`, `IconButton`, `FilledIconButton`, `FilledTonalIconButton`, `OutlinedIconButton`,
+`ToggleButton`, `ButtonGroup`, `ConnectedButtonGroup`, `Fab`, `ExtendedFab`, `FabMenu`,
+`SplitButton`.
+
+**Form controls** — `FilledTextField`, `OutlinedTextField`, `NumberField`, `MaskedTextField`,
+`Checkbox`, `CheckboxGroup`, `Switch`, `RadioGroup`, `Slider`, `Rating`, `Signature`, `Form`,
+`FormField`, `FieldArray`.
+
+**Pickers** — `Select`, `ComboBox`, `Autocomplete`, `MultiSelect`, `DropDownTree`,
+`MultiSelectTree`, `ColorPicker`, `FlatColorPicker`, `ColorArea`, `ColorSlider`, `ColorWheel`,
+`ColorField`, `ColorSwatchPicker`.
+
+**Dates and times** — `Calendar`, `RangeCalendar`, `DateField`, `DatePicker`,
+`DateRangePicker`, `DateTimePicker`, `TimeField`, `TimePicker`, plus the `dates` helpers.
+
+**Overlays** — `Dialog`, `Tooltip`, `RichTooltip`, `Menu`, `MenuButton`, `ContextMenu`,
+`PopoverTrigger`, `Snackbar`, `BottomSheet`, `SideSheet`, `Window`.
+
+**Navigation and layout** — `AppBar`, `NavigationBar`, `NavigationRail`, `NavigationDrawer`,
+`Tabs`, `Breadcrumbs`, `Stepper`, `Stack`, `Grid`, `Splitter`, `TileLayout`, `Card`,
+`ExpansionPanel`, `Accordion`, `Divider`, `FloatingToolbar`, `DockedToolbar`.
+
+**Collections** — `List`, `SelectableList`, `TreeView`, `Sortable`, `TransferList`, `Pager`,
+`FilterBuilder`, `Carousel`, `Timeline`.
+
+**Display and feedback** — `Avatar`, `Badge`, `Chip`, `ChipGroup`, `Skeleton`, `Search`,
+`LinearProgress`, `CircularProgress`, `ChunkProgress`, `LoadingIndicator`, `ArcGauge`,
+`CircularGauge`, `RadialGauge`, `LinearGauge`, `Sparkline`, `Barcode`, `QRCode`, `Icon`.
+
+**Files** — `Upload`, `DropZone`.
+
+</details>
+
+Beyond the components: a typed **data layer** (`query` — filter, sort, group, aggregate and
+page, locale-aware and non-mutating), the **shape library** (all 35 M3E shapes by name, as a
+port of androidx's rounded-polygon geometry), and the **motion system** (the six M3E springs,
+reduced-motion aware).
+
+## Theming
+
+Two namespaces are in play, deliberately. `--md-sys-*` and `--md-ref-*` are Google's token
+names, kept verbatim so every value cross-references Compose and the Figma variables.
+`--grange-*` and `grange-*` are this library's own — and the distinction is load-bearing: the
+spacing scale is `--grange-space-*` precisely because Material publishes no spacing tokens, and
+putting a chosen value in Google's namespace would claim a provenance it does not have.
+
+### From CSS
+
+Every token is a custom property, so an override is an ordinary rule:
+
+```css
+:root {
+  --md-sys-color-primary: #005bbb;
+  --md-sys-shape-corner-large: 20px;
+}
+```
+
+### From Sass
+
+The Sass API validates names, which `var(--typo)` cannot — a misspelling is a build error
+listing the near misses:
 
 ```scss
+@use '@jyga/grange-react/scss' as grange;
+
+.acme-brand {
+  @include grange.theme(
+    $colors: (primary: #005bbb, surface-container-low: #eef3fb),
+    $corners: (large: 20px),
+    $spacing: (lg: 20px)
+  );
+}
+
 .callout {
   color: grange.color(on-primary-container);
   border-radius: grange.corner(large-increased);
+  padding: grange.space(lg);
   transition: opacity grange.duration(short3) grange.easing(emphasized);
   @include grange.typescale(title-medium);
 }
 ```
 
-`Foundations / Theming` in Storybook shows both, side by side with the default palette.
+Roles you do not list keep following the generated palette and the light/dark switch.
 
-## Overrides beyond color
+### From a seed colour
+
+To regenerate the whole palette from one brand colour you need the source, not the package:
+set `seed` in `tokens/theme.json` and run `pnpm tokens`. Palettes come from Google's
+`material-color-utilities` (Tonal Spot) and roles map to tones exactly as Compose does. Exported
+Figma hex values go in `overrides.light` / `overrides.dark` and win over generated ones.
+
+## Configuration
 
 `GrangeProvider` carries four things a product can change without forking a component. Providers
-nest and merge, so a subtree can change one part and inherit the rest.
+nest and merge, so a subtree changes one part and inherits the rest.
 
 ```tsx
 <GrangeProvider
   defaultProps={{ Button: { variant: 'tonal', size: 'm' } }}
-  classNames={{ Button: { root: 'shadow-sm', label: 'uppercase tracking-wide' } }}
+  classNames={{ Button: { root: 'shadow-sm', label: 'uppercase' } }}
   behavior={{ ripple: { enabled: false }, springs: { press: 'fastSpatial' } }}
   sizes={{ button: { s: { height: 32, padding: 10 } } }}
 >
@@ -186,100 +190,74 @@ nest and merge, so a subtree can change one part and inherit the rest.
 | Field | Changes |
 | --- | --- |
 | `defaultProps` | What a bare `<Button>` means. Props at the call site still win |
-| `classNames` | The classes each slot carries (`root`, `label`, `icon`) |
-| `behavior` | Ripple timings and whether it runs, which spring each interaction uses, the touch-target threshold, connected-group inner corners |
+| `classNames` | The classes each slot carries. Added by default; `{ replace }` drops the library's own |
+| `behavior` | Ripple timings and whether it runs, which spring each interaction uses, the touch-target threshold |
 | `sizes` | Height, padding, icon box, gap and corner radii per size |
 
-Hoist the objects you pass, or memoize them, so the provider does not rebuild its config on
-every parent render.
+Hoist or memoize the objects you pass, so the provider does not rebuild its config on every
+parent render.
 
-### Class names
-
-Overrides **add** by default, so theming cannot accidentally break layout. `{ replace }` drops
-the library's own classes for that slot, for a team restyling from scratch. Layers apply outer
-provider → inner provider → instance `classNames` → `className`.
-
-```tsx
-<Button classNames={{ label: 'uppercase' }} />                 // added
-<Button classNames={{ root: { replace: 'my-button' } }} />     // library classes dropped
-```
-
-Each slot also carries a **stable, unhashed hook class** that no override ever removes and that
-the library attaches no styles to. It is there so plain CSS and tests can find the element:
+Every slot also carries a **stable, unhashed hook class** that no override removes and that the
+library attaches no styles to. It is there so plain CSS and tests can find the element:
 
 ```css
 .grange-button[data-variant='filled'] { text-transform: uppercase; }
 ```
 
-The hooks are `grange-button`, `grange-icon-button`, `grange-button-label`, `grange-button-icon`,
-`grange-button-group`, `grange-connected-group`, `grange-connected-item`, plus the primitives
-`grange-state-layer`, `grange-ripple`, `grange-elevation` and `grange-touch`. State comes from the
-`data-*` attributes the components already set: `data-variant`, `data-size`, `data-shape`,
-`data-selected`, `data-hovered`, `data-focus-visible`, `data-pressed`, `data-disabled`.
+State comes from the `data-*` attributes the components already set: `data-variant`,
+`data-size`, `data-shape`, `data-selected`, `data-hovered`, `data-focus-visible`,
+`data-pressed`, `data-disabled`.
 
-### Behavior
+## Server rendering
 
-`springOverrides` retunes a spring; `behavior.springs` reassigns which spring an interaction
-uses — `press` (corner morph), `selection` (toggle shape swap) and `groupWidth` (group widening).
+The components render on the server. Three things to know:
 
-Turning the ripple off is not just cosmetic: a pointer press then falls back to the pressed
-state layer, the way a keyboard press already does, so the press still reads.
+- **Mark them client components.** In Next.js's app router, a file importing anything from this
+  package needs `'use client'` at the top — these are interactive controls with state and
+  effects, not static markup.
+- **Import the stylesheet once**, in the root layout, not per component.
+- **Overlays portal to `document.body`** by default. Pass `portalContainer` to `GrangeProvider`
+  to scope them somewhere else, which is what a shadow root or a modal host needs.
 
-### Size geometry
+## Accessibility
 
-Geometry flows from the config outward. `src/components/Button/specs.ts` is the only place it is
-written down; the component resolves its spec and hands CSS `--_height`, `--_gap` and `--_icon`.
-It works that way because the pill radius is derived from `height` in JS and the padding is
-spring-animated, so a CSS-only override would let the two drift. Override it through `sizes` and
-both stay in step.
+This is the reason the library is built on hooks rather than on markup. What that buys, in
+practice:
 
-## Motion rules (from the M3E spec)
+- Keyboard parity for everything that can be dragged — the splitter, the window, the tile
+  layout, `Sortable`. Reordering a list with the arrow keys is a path most drag-and-drop
+  libraries do not have at all.
+- Announcements where a press changes something elsewhere: a pager's summary, a transfer list's
+  moves, an upload's per-file status are all live regions.
+- Roles chosen for what the markup can actually hold. `TreeView` is a `treegrid` and `Sortable`
+  is a grid, because a `treeitem` and a listbox `option` cannot contain a focusable control —
+  which is a thing people put in tree rows every day.
+- Where no ARIA role fits — a window's move handle, a tile's resize grip — the element is a
+  labelled focus stop and the component says so in its own documentation rather than borrowing
+  a role that would describe it wrongly.
 
-| Interaction | Spring | Why |
-| --- | --- | --- |
-| Button press corner morph | `defaultEffects` | Compose deliberately avoids bounce here |
-| Toggle select shape swap, button group widening | `fastSpatial` | Expressive overshoot |
-| Color, opacity, elevation | CSS transitions on the M3 duration tokens | Effects never overshoot |
+Known limits are listed in [`docs/components.md`](docs/components.md); the honest one is that
+`Signature` cannot be used without a pointer, and nothing can fix that.
 
-Springs are tuned in the Motion playground story. The "Changed values" panel there gives the JSON to paste back as the agreed values.
+## TypeScript
 
-## Adding a component
+Types ship with the package. Everything is written under `strict` and
+`noUncheckedIndexedAccess`, and the public API has no `any`.
 
-1. Read its section in the spec doc and pull its Compose token file (sizes, colors, shapes).
-2. Build it on `ButtonBase` (or the primitives directly) so it gets press, hover, focus, ripple and state layers for free.
-3. Give it one component per variant, built on `ButtonBase`. Colors only via `grange.color(<role>)`, never hex. Corners via `grange.corner()` or `shapeCorner`, springs via `useSpring`.
-4. Add a story covering every variant, size, state, and dark mode.
+## Documentation
 
-## What's missing
+| | |
+| --- | --- |
+| [Live docs and examples](https://mederickbernier.github.io/Grange/) | Every component, both colour schemes, both motion schemes, with the written reasoning behind each one |
+| [`docs/components.md`](docs/components.md) | The Material 3 catalog — all 36 of it — and the recorded gaps |
+| [`docs/kendo-catalog.md`](docs/kendo-catalog.md) | 144 KendoReact components mapped against this library: 101 covered, 43 out of scope with a reason each |
+| [`docs/contributing.md`](docs/contributing.md) | Building from source, the token pipeline, the test suites, adding a component, releasing |
 
-All 36 components in the Material 3 catalog are done, and the form controls, the
-overlay layer and the navigation set are all complete: buttons, icon buttons, button groups, (through `ConnectedButtonGroup`)
-segmented buttons, `Divider`, `Fab`, `ExtendedFab`, `FabMenu`, `SplitButton`, the toolbars, the
-progress indicators, `Checkbox`, `Switch`, `RadioGroup`, `Slider`, the text fields, `Dialog` and
-`NumberField`, `MaskedTextField`, `Rating`, `Signature`, `Tooltip` and `RichTooltip`, `Menu`, `Select`, `Snackbar`, `Tabs`, `Card`, `List` and `SelectableList`, `AppBar`, `NavigationBar` and
-`NavigationRail`, `NavigationDrawer`, `BottomSheet`, `Chip`, `Badge`, `Search` and
-`LoadingIndicator`, `Calendar`, `RangeCalendar`, `DateField`, `DatePicker`, `DateRangePicker` and `DateTimePicker` (segments plus a calendar in a popover, one month or three), `TimeField` and `TimePicker` (the clock dial), `SideSheet` and `Carousel`, plus
-`Icon`, which the catalog does not list separately. The date helpers in `src/dates` sit beside
-the pickers: clamping, ordering and overlap for ranges, the day, week and month spans, and range
-formatting — over `@internationalized/date` rather than instead of it, so everything that library
-already does is re-exported rather than rewritten.
+## Licence
 
-Two things are left open and written down in the roadmap: `useGridList`, for a selectable row
-that carries its own controls, and the horizontal-listbox arrow keys React Aria does not wire up,
-which `SelectableList` works around by building its own keyboard delegate.
+MIT — see [LICENSE](LICENSE).
 
-See [`docs/components.md`](docs/components.md) for the full catalog and the gap list behind it.
-
-## Known gaps
-
-- `Signature` cannot be used without a pointer, and nothing can fix that: drawing is a physical gesture with no keyboard equivalent. It reports itself as a labelled image rather than pretending to be an input, and a form that requires one should offer a typed name as an alternative.
-- Group widening uses padding, so a squeezed neighbour's label can clip if it has almost no padding left. Same limit as Compose.
-- `ButtonBase` routes its props through React Aria's `useButton`, which keeps only the DOM attributes a button is known to want. Anything else — `aria-checked`, `tabIndex`, an `onKeyDown` — is dropped silently, so a button-like playing an unusual role passes those through `domProps` instead.
-- Connected group inner corners default to the Small token (8px, 4px pressed) at every size, because Compose only publishes the Small values. Override them with `behavior.connectedInnerCorner`.
-- The side sheet and the carousel are the only two components whose geometry is not captured from androidx, because Compose publishes no token file for either: `SheetSideTokens` and `CarouselTokens` do not exist. Their numbers come from the spec pages and every one is labelled in `specs.ts`. The side sheet borrows `NavigationDrawerTokens`, and a test asserts the two stay equal.
-- The carousel is a scroll region rather than a listbox on purpose, so it has no selection, typeahead or active item. CSS scroll snapping gives it touch dragging, the wheel, momentum and a scrollbar for free; a collection-backed version would want `useListBox`.
-- A class in a `*.module.scss` named after another component's stable hook class has to be wrapped in `:global()`, or it is scoped and the rule silently never applies. `src/styles.test.ts` fails the build on an unwrapped one.
-- `SelectableList` is a listbox, so a row cannot contain its own controls: ARIA does not allow a control inside an option. That row belongs in `List` with a `Checkbox` in its slot. A `useGridList` version, which is the pattern that does allow it, is not built.
-- The visual baselines are Linux screenshots. Playwright suffixes them with the platform, so on macOS or Windows the first run writes a new set rather than comparing against these; `pnpm visual:docker` compares against the committed ones from anywhere Docker runs.
-
-See `NOTICE` for Apache 2.0 attributions (Material Web, Jetpack Compose).
+Token values, the shape library and some geometry are derived from Apache-2.0 projects
+(Material Web, Jetpack Compose, androidx.graphics.shapes). [`NOTICE`](NOTICE) records what came
+from where, and is published with the package because Apache 2.0 requires it to travel with the
+software.
