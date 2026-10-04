@@ -42,17 +42,21 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 85 |
-| In scope, to build | 16 (across 7 phases) |
+| Already covered by Grange | 101 |
+| In scope, to build | 0 — every phase is done |
 | Out of scope, recorded with a reason | 43 |
 
-At the project's established pace — two components a round, each round ending in a fresh-clone
-verification — the remainder is roughly 12 rounds. The three buckets are exhaustive and do not overlap
-and always add to 144.
+The three buckets are exhaustive, do not overlap, and add to 144. The 101 is derivable rather
+than counted by hand: the first audit found 45 already covered and 56 in scope, and all 56 have
+now been built.
 
-**Phases 1 to 6 are done**, and **phase 7 is nearly**: the gauges, the sparkline, the chunked
-progress bar and the upload are in, 4 of its 5 rows. Only `Barcode` and `QRCode` are left —
-two encoders, and the last of the whole catalog.
+A note on this table: its numbers sat at 85 and 16 for four rounds while the phase rows below
+were kept current. The updates were written as string replacements that were not checked, so
+when the wording moved they did nothing and said nothing. The rows were right and the summary
+of them was wrong — which is the ordinary way a counter in a document goes stale.
+
+**All seven phases are done.** 101 of the 144 components are covered and the other 43 are out
+of scope with a reason recorded against each. Nothing in this plan is outstanding.
 
 ## Already covered
 
@@ -342,8 +346,17 @@ Two things the first round of this phase established:
 | ~~`ArcGauge`, `CircularGauge`, `LinearGauge`, `RadialGauge`~~ ✅ | `useMeter` | Done, one engine and four faces. They are **meters, not progress bars**: a progress bar says a task is partly done and will finish, a meter says a quantity sits in a range, and a disk that is 80% full is not 80% finished. The geometry is pure — SVG measures angles from three o'clock and a gauge is read from twelve, so that conversion happens in one place rather than at every call site |
 | ~~`Sparkline`~~ ✅ | — | Done. Hidden from assistive tech unless given a label, which is the right default: it nearly always sits beside the number it illustrates, and reading the shape out after the number says the same thing twice. A flat series runs down the middle and a single point is a dot — neither is a special case in the component, only in the arithmetic |
 | ~~`ChunkProgress`~~ ✅ (ChunkProgressBar) | `useProgressBar` | Done, and still **one** progress bar: a screen reader hears "62%" once rather than being read eight boxes, and the segments are `aria-hidden` like the gauges' arcs. Whole chunks by default — part-filling the one in progress turns a counter back into a smooth bar with stripes drawn on it |
-| `Barcode`, `QRCode` | ours | Encoders, not geometry: Code 128 and QR with its Reed–Solomon error correction. Self-contained, no dependency |
+| ~~`Barcode`, `QRCode`~~ ✅ | ours | Done, self-contained. Code 128 in full, and QR in byte mode at every level up to version 10 — 271 bytes at level L, which covers a URL, a ticket id, a Wi-Fi string. **Every table is checked by arithmetic rather than by eye**: Code 128's patterns must each add to eleven modules, the QR block table must add to each version's published capacity, and the format and version information are computed from their BCH generators rather than transcribed. A round-trip test reads the codewords back out of the finished grid the way a scanner would, and it earned its place — it caught an alignment pattern being dropped from version 7 upwards, which produced a symbol that looked completely normal and carried nothing |
 | ~~`Upload`, `DropZone`~~ ✅ | `useDrop`, `useClipboard` | Done, and the network really does stay the app's: the component collects files, reports them, and draws whatever status it is handed. Dropping is not an interaction everybody has, so the zone is a real button that opens the system dialog, and `useClipboard` adds pasting as a third route. A file that cannot be accepted is refused **as it arrives**, with a sentence rather than a code |
+
+### What is not verified
+
+The QR encoder has never been read by a camera. It is checked against the standard's own
+published values — the Reed–Solomon worked example, two format strings, the version 7
+information, the byte capacities at both ends of the version range — and by a round trip that
+reads the codewords back out of the placed, masked grid. That is strong evidence and it is not
+the same thing as a phone scanning it, which is worth knowing before printing a few thousand
+of them.
 
 ## Out of scope
 
