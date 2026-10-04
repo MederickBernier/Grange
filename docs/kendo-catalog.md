@@ -42,8 +42,8 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 83 |
-| In scope, to build | 18 (across 7 phases) |
+| Already covered by Grange | 85 |
+| In scope, to build | 16 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
@@ -51,7 +51,9 @@ verification — the remainder is roughly 12 rounds. The three buckets are exhau
 and always add to 144.
 
 **Phases 1 to 4 are done**, and **phase 5 is under way**: `TreeView`, `Pager`,
-`DropDownTree`, `MultiSelectTree` and `TransferList` are in, 4 of its 8 rows.
+`DropDownTree`, `MultiSelectTree`, `TransferList` and `Sortable` are in, with the
+drag-and-drop utilities published — 6 of its 8 rows. `FilterBuilder` and the data query
+are what is left.
 
 ## Already covered
 
@@ -287,6 +289,10 @@ Three things the first round of this phase established, all of them about the se
   have.** The hook was written against react-aria-components' collection. Without it a row's
   siblings come back empty and the hook throws on `siblings[0].type` the moment anything below
   the first level renders — so a tree works until it is expanded.
+- **A listbox option cannot hold a focusable control**, which is the same finding the tree
+  produced from the other direction. `Sortable` started as a listbox and its drag handles were
+  unreachable: Tab stops at the option and never enters it. A grid list fixed it, and the rule
+  is now written twice because it decided two components.
 - **A loose wait in the visual harness shot the loading spinner.** Last round's fix for
   portal-only stories matched "any div in `body`", which Storybook's own loader is: the wait
   passed instantly and four baselines were pictures of a spinner. It now matches one of this
@@ -300,12 +306,12 @@ Three things the first round of this phase established, all of them about the se
 | --- | --- | --- |
 | ~~`TreeView`~~ ✅ | `useTree`, `useTreeState` | Done, and it is a **treegrid** rather than a tree — React Aria's choice, because a `treeitem`'s children must be treeitems, so nothing interactive can live in a tree row. Two of `useTreeItem`'s assumptions do not hold against `useTreeState`'s collection and had to be repaired here; both are written up below |
 | ~~`DropDownTree` / `MultiSelectTree`~~ ✅ | `useTree` + `Popover` | Done, and **not** on `useComboBox`: a combo box is a text field that filters a list, and this is a button that opens a tree. The trigger says `aria-haspopup="dialog"` rather than `listbox`, because what opens is a tree and promising a screen reader a list of options it will not find is worse than saying nothing. Naming the choice needed a pure walk of the children, since a tree's labels live in a nested React structure rather than a flat list |
-| `Sortable` | `useDraggableCollection`, `useDroppableCollection` | Reordering with a keyboard path, which drag-and-drop usually lacks |
+| ~~`Sortable`~~ ✅ | `useDraggableCollection`, `useDroppableCollection` | Done, and this is the one component where these hooks are the right answer rather than a near miss. It is a **grid**, not a listbox, for the same reason the tree is a treegrid: a listbox option cannot hold a focusable control, so a drag handle inside one is unreachable. Tab to a row, ArrowRight into the handle, Enter to pick it up — the arrows then move between drop positions and every step is announced |
 | ~~`TransferList`~~ ✅ (ListBox) | `useListBox` | Done, as the transfer part only: the two sides are `SelectableList`s. Both keep the order of `items` rather than appending, because a transfer list is usually options in a meaningful order and moving one back should return it to its place. Every move is announced — the press changes two lists at once and leaves focus where it was, so without a live region it is silent |
 | ~~`Pager`~~ ✅ | `useButton`, `Select` | Done. The summary is a live region, which most pagers miss: pressing "next" changes a table elsewhere on the page and a silent press tells a screen reader user nothing. The arithmetic is a pure module, because paging is almost entirely off-by-one cases |
 | `FilterBuilder` (Filter) | ours | Nested and/or groups over field, operator and value. Pairs with the Data Query utility |
 | Data Query | utility | Typed sort, filter, group and aggregate over arrays, plus the operator set `FilterBuilder` edits |
-| Drag & drop utilities | re-export | `useDrag`, `useDrop`, the collection hooks and the drop-item helpers, documented rather than reinvented |
+| ~~Drag & drop utilities~~ ✅ | re-export | Done, unwrapped. `Sortable` uses exactly these, so an app building its own draggable collection gets the versions this library was built and tested against without adding react-aria as a second direct dependency. A wrapper around a hook this large would only be a worse copy of its documentation |
 
 ### Phase 6 — Colour
 
