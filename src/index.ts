@@ -83,6 +83,7 @@ export type {
   TileLayoutSlot,
   TreeSlot,
   PagerSlot,
+  TransferListSlot,
   StepperSlot,
   SkeletonSlot,
   BadgeSlot,
@@ -165,8 +166,15 @@ export type { StackProps, GridProps, GridItemProps, Space } from './components/L
 export { space } from './components/Layout/specs';
 export type { SpaceName } from './components/Layout/specs';
 export { TreeView, TreeItem } from './components/Tree/Tree';
+export { treeLabels } from './components/Tree/labels';
+export { DropDownTree, MultiSelectTree } from './components/DropDownTree/DropDownTree';
+export type { DropDownTreeProps } from './components/DropDownTree/DropDownTree';
 export type { TreeViewProps, TreeItemProps } from './components/Tree/Tree';
 export { tree } from './components/Tree/specs';
+export { TransferList } from './components/TransferList/TransferList';
+export type { TransferListProps } from './components/TransferList/TransferList';
+export { transfer, movable, keepSelected } from './components/TransferList/transfer';
+export type { TransferItem } from './components/TransferList/transfer';
 export { Pager } from './components/Pager/Pager';
 export type { PagerProps } from './components/Pager/Pager';
 export { pager } from './components/Pager/specs';

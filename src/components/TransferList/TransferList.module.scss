@@ -1,0 +1,54 @@
+/*
+ * Transfer list. No metrics of its own: the two sides are SelectableLists and the buttons are
+ * icon buttons. Only the column layout and the panel height are decided here, and both come
+ * off the spacing scale.
+ */
+
+@use '../../scss/api' as grange;
+
+.transfer {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--grange-space-lg);
+  color: grange.color(on-surface);
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grange-space-xs);
+  min-width: 0;
+}
+
+.heading {
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(label-large);
+}
+
+.list {
+  // Chosen: five list rows, after which the side scrolls rather than the page. Fixed rather
+  // than growing, so the two sides stay the same height as items move between them.
+  height: 280px;
+  overflow: auto;
+  border: 1px solid grange.color(outline-variant);
+  border-radius: grange.corner(medium);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grange-space-sm);
+}
+
+/* Announced, never shown: the visible change is the two lists themselves. */
+.announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

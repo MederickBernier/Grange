@@ -1,0 +1,20 @@
+/*
+ * Drop-down tree. No metrics of its own: the field is the select's chrome and the panel is the
+ * menu's surface. Only the panel's height is decided here, because a tree can be arbitrarily
+ * deep and a popover that grows past the viewport is unusable.
+ */
+
+@use '../../scss/api' as grange;
+
+.panel {
+  // Chosen: roughly six list rows, after which the tree scrolls rather than the page.
+  max-height: 336px;
+  overflow: auto;
+  padding-block: 8px;
+}
+
+.value {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

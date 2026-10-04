@@ -117,6 +117,7 @@ export type WindowSlot = 'root' | 'bar' | 'body';
 export type TileLayoutSlot = 'root' | 'tile' | 'header' | 'body';
 export type TreeSlot = 'root' | 'row' | 'label';
 export type PagerSlot = 'root' | 'summary' | 'page';
+export type TransferListSlot = 'root' | 'list';
 export type StepperSlot = 'root' | 'step' | 'button';
 export type SkeletonSlot = 'root' | 'bar';
 export type BadgeSlot = 'root';
@@ -199,7 +200,9 @@ export interface ClassNamesConfig {
   Window?: SlotOverrides<WindowSlot>;
   TileLayout?: SlotOverrides<TileLayoutSlot>;
   TreeView?: SlotOverrides<TreeSlot>;
+  DropDownTree?: SlotOverrides<SelectSlot>;
   Pager?: SlotOverrides<PagerSlot>;
+  TransferList?: SlotOverrides<TransferListSlot>;
   Stepper?: SlotOverrides<StepperSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
@@ -294,7 +297,9 @@ export interface DefaultPropsConfig {
   Splitter?: { orientation?: 'horizontal' | 'vertical' };
   Window?: { minimizable?: boolean; maximizable?: boolean; resizable?: boolean; closable?: boolean };
   TreeView?: { selectionMode?: 'none' | 'single' | 'multiple' };
+  DropDownTree?: { variant?: 'filled' | 'outlined'; selectionMode?: 'single' | 'multiple' };
   Pager?: { pageSize?: number; pageSizes?: readonly number[]; numbers?: boolean };
+  TransferList?: { allowMoveAll?: boolean };
   TileLayout?: {
     columns?: number;
     gap?: string | number;
@@ -508,7 +513,9 @@ const COMPONENTS: ComponentName[] = [
   'Window',
   'TileLayout',
   'TreeView',
+  'DropDownTree',
   'Pager',
+  'TransferList',
   'Stepper',
   'Skeleton',
   'Badge',
