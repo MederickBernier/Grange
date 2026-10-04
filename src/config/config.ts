@@ -119,6 +119,7 @@ export type TreeSlot = 'root' | 'row' | 'label';
 export type PagerSlot = 'root' | 'summary' | 'page';
 export type TransferListSlot = 'root' | 'list';
 export type SortableSlot = 'root' | 'row';
+export type FilterBuilderSlot = 'root' | 'group' | 'row';
 export type StepperSlot = 'root' | 'step' | 'button';
 export type SkeletonSlot = 'root' | 'bar';
 export type BadgeSlot = 'root';
@@ -205,6 +206,7 @@ export interface ClassNamesConfig {
   Pager?: SlotOverrides<PagerSlot>;
   TransferList?: SlotOverrides<TransferListSlot>;
   Sortable?: SlotOverrides<SortableSlot>;
+  FilterBuilder?: SlotOverrides<FilterBuilderSlot>;
   Stepper?: SlotOverrides<StepperSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
@@ -302,6 +304,7 @@ export interface DefaultPropsConfig {
   DropDownTree?: { variant?: 'filled' | 'outlined'; selectionMode?: 'single' | 'multiple' };
   Pager?: { pageSize?: number; pageSizes?: readonly number[]; numbers?: boolean };
   TransferList?: { allowMoveAll?: boolean };
+  FilterBuilder?: { maxDepth?: number };
   TileLayout?: {
     columns?: number;
     gap?: string | number;
@@ -519,6 +522,7 @@ const COMPONENTS: ComponentName[] = [
   'Pager',
   'TransferList',
   'Sortable',
+  'FilterBuilder',
   'Stepper',
   'Skeleton',
   'Badge',

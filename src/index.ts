@@ -85,6 +85,7 @@ export type {
   PagerSlot,
   TransferListSlot,
   SortableSlot,
+  FilterBuilderSlot,
   StepperSlot,
   SkeletonSlot,
   BadgeSlot,
@@ -196,6 +197,43 @@ export {
 } from 'react-aria';
 export { useDraggableCollectionState, useDroppableCollectionState } from 'react-stately';
 export type { DraggableCollectionState, DroppableCollectionState } from 'react-stately';
+
+/*
+ * The data layer: typed filter, sort, group and aggregate over arrays, and the operator set
+ * `FilterBuilder` edits. Pure functions, so the awkward parts — collation, where nulls sort,
+ * dates that are objects — can be reasoned about as arithmetic.
+ */
+export {
+  query,
+  filterItems,
+  sortItems,
+  groupItems,
+  aggregate,
+  matches,
+  passes,
+  getField,
+  isComposite,
+  OPERATORS,
+  isUnary,
+} from './data/query';
+export type {
+  QueryOptions,
+  QueryResult,
+  Filter,
+  FilterDescriptor,
+  CompositeFilter,
+  SortDescriptor,
+  AggregateDescriptor,
+  Group,
+  FieldType,
+  Operator,
+  OperatorSpec,
+} from './data/query';
+
+export { FilterBuilder } from './components/FilterBuilder/FilterBuilder';
+export type { FilterBuilderProps, FilterField } from './components/FilterBuilder/FilterBuilder';
+export { emptyGroup, nodeAt, replaceAt, appendAt, prune, newCondition } from './components/FilterBuilder/edit';
+export type { Path } from './components/FilterBuilder/edit';
 
 export { Sortable } from './components/Sortable/Sortable';
 export type { SortableProps, SortableItem } from './components/Sortable/Sortable';

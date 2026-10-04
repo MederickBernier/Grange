@@ -1,0 +1,77 @@
+/*
+ * Filter builder. No tokens of its own: the controls are the library's own fields and buttons.
+ * The nesting is drawn with the outline colour and the spacing scale, so a group reads as
+ * contained without inventing a surface for it.
+ */
+
+@use '../../scss/api' as grange;
+
+.builder {
+  color: grange.color(on-surface);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grange-space-sm);
+  padding: var(--grange-space-md);
+  border: 1px solid grange.color(outline-variant);
+  border-radius: grange.corner(medium);
+  background: grange.color(surface);
+
+  // A nested group sits on the container surface, so the nesting is visible without a border
+  // for every level fighting the one outside it.
+  &[data-depth='1'],
+  &[data-depth='3'] {
+    background: grange.color(surface-container);
+  }
+}
+
+.logic {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--grange-space-sm);
+}
+
+.logicSelect {
+  width: 128px;
+}
+
+.children {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grange-space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.child {
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--grange-space-sm);
+}
+
+.field {
+  width: 160px;
+}
+
+.operator {
+  width: 200px;
+}
+
+.value {
+  width: 180px;
+}
+
+.empty {
+  margin: 0;
+  color: grange.color(on-surface-variant);
+  @include grange.typescale(body-small);
+}
