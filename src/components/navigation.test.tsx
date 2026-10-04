@@ -222,9 +222,9 @@ describe('NavigationRail', () => {
       </NavigationRail>,
     );
     expect(rail(container).dataset.expanded).toBeUndefined();
-    expect((container.querySelector('.grange-navigation-rail > div') as HTMLElement).dataset.arrangement).toBe(
-      'vertical',
-    );
+    expect(
+      (container.querySelector('.grange-navigation-rail > div') as HTMLElement).dataset.arrangement,
+    ).toBe('vertical');
     unmount();
 
     render(
@@ -233,9 +233,9 @@ describe('NavigationRail', () => {
       </NavigationRail>,
     );
     expect((document.querySelector('.grange-navigation-rail') as HTMLElement).dataset.expanded).toBe('true');
-    expect(
-      (document.querySelector('.grange-navigation-rail > div') as HTMLElement).dataset.arrangement,
-    ).toBe('horizontal');
+    expect((document.querySelector('.grange-navigation-rail > div') as HTMLElement).dataset.arrangement).toBe(
+      'horizontal',
+    );
   });
 
   it('takes the narrow width only while collapsed', () => {

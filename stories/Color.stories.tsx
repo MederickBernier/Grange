@@ -96,7 +96,13 @@ export const Together: StoryObj = {
     return (
       <Stack direction="row" gap="xl" align="start">
         <Stack gap="md" style={{ width: 200 }}>
-          <ColorArea value={value} onChange={setValue} xChannel="saturation" yChannel="brightness" size={200} />
+          <ColorArea
+            value={value}
+            onChange={setValue}
+            xChannel="saturation"
+            yChannel="brightness"
+            size={200}
+          />
           <ColorSlider channel="hue" value={value} onChange={setValue} />
         </Stack>
         <Stack gap="md" style={{ width: 200 }}>
@@ -137,7 +143,13 @@ export const Swatches: StoryObj = {
     const [value, setValue] = useState<Color>(parseColor('#9c27b0'));
     return (
       <Stack gap="md" align="start">
-        <ColorSwatchPicker colors={palette} value={value} onChange={setValue} columns={6} aria-label="Palette" />
+        <ColorSwatchPicker
+          colors={palette}
+          value={value}
+          onChange={setValue}
+          columns={6}
+          aria-label="Palette"
+        />
         <code className="sb-label">{value.toString('hex')}</code>
       </Stack>
     );
@@ -150,7 +162,13 @@ export const Picker: StoryObj = {
     const [value, setValue] = useState<Color>(parseColor('#6750A4'));
     return (
       <Stack direction="row" gap="lg" align="center">
-        <ColorPicker label="Brand" value={value} onChange={setValue} showAlpha presets={palette.slice(0, 6)} />
+        <ColorPicker
+          label="Brand"
+          value={value}
+          onChange={setValue}
+          showAlpha
+          presets={palette.slice(0, 6)}
+        />
         <code className="sb-label">{value.toString('hex')}</code>
       </Stack>
     );

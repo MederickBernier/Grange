@@ -27,7 +27,9 @@ export default meta;
 
 const Figure = ({ value, note }: { value: string; note: string }) => (
   <Stack gap="xs">
-    <strong style={{ fontSize: 28, lineHeight: 1.1, color: 'var(--md-sys-color-on-surface)' }}>{value}</strong>
+    <strong style={{ fontSize: 28, lineHeight: 1.1, color: 'var(--md-sys-color-on-surface)' }}>
+      {value}
+    </strong>
     <span>{note}</span>
   </Stack>
 );

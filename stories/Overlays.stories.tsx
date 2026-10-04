@@ -63,7 +63,11 @@ export const WithIcon: StoryObj = {
         <Dialog
           open={open}
           onOpenChange={setOpen}
-          icon={<Icon><HeartIcon /></Icon>}
+          icon={
+            <Icon>
+              <HeartIcon />
+            </Icon>
+          }
           headline="Reset to defaults?"
           actions={
             <>
@@ -90,7 +94,9 @@ export const WithForm: StoryObj = {
     return (
       <div className="sb-col">
         <p className="sb-label">A tall page, so the scroll lock is visible</p>
-        <div style={{ height: 400, background: 'var(--md-sys-color-surface-container-low)', borderRadius: 16 }} />
+        <div
+          style={{ height: 400, background: 'var(--md-sys-color-surface-container-low)', borderRadius: 16 }}
+        />
         <FilledButton onClick={() => setOpen(true)}>Rename</FilledButton>
         <Dialog
           open={open}
@@ -145,22 +151,30 @@ export const Tooltips: StoryObj = {
     <div className="sb-row">
       <Tooltip content="Add something">
         <IconButton aria-label="Add">
-          <Icon><AddIcon /></Icon>
+          <Icon>
+            <AddIcon />
+          </Icon>
         </IconButton>
       </Tooltip>
       <Tooltip content="Mark as done">
         <IconButton aria-label="Confirm">
-          <Icon><CheckIcon /></Icon>
+          <Icon>
+            <CheckIcon />
+          </Icon>
         </IconButton>
       </Tooltip>
       <Tooltip content="Add to favourites, a longer label that wraps onto two lines">
         <IconButton aria-label="Favourite">
-          <Icon><HeartIcon /></Icon>
+          <Icon>
+            <HeartIcon />
+          </Icon>
         </IconButton>
       </Tooltip>
       <Tooltip content="Go forward" placement="bottom">
         <IconButton aria-label="Forward">
-          <Icon><ArrowIcon /></Icon>
+          <Icon>
+            <ArrowIcon />
+          </Icon>
         </IconButton>
       </Tooltip>
     </div>

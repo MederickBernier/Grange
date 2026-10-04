@@ -185,7 +185,9 @@ describe('DateRangePicker', () => {
         <DateRangePicker label="Stay" value={RANGE} />
       </GrangeProvider>,
     );
-    expect(container.querySelector('.grange-date-range-picker')?.getAttribute('data-variant')).toBe('outlined');
+    expect(container.querySelector('.grange-date-range-picker')?.getAttribute('data-variant')).toBe(
+      'outlined',
+    );
     expect(container.querySelector('.x-root')).toBeTruthy();
     expect(container.querySelector('.x-label')).toBeTruthy();
     await user.click(calendarButton(/Stay/));

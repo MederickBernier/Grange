@@ -38,7 +38,9 @@ export const DefaultProps: StoryObj = {
   render: () => (
     <div className="sb-col">
       <Panel title="Built-in defaults: filled, s, round">{row}</Panel>
-      <GrangeProvider defaultProps={{ Button: { variant: 'tonal', size: 'm' }, IconButton: { width: 'wide' } }}>
+      <GrangeProvider
+        defaultProps={{ Button: { variant: 'tonal', size: 'm' }, IconButton: { width: 'wide' } }}
+      >
         <Panel title="defaultProps: Button tonal/m, IconButton wide — Cancel still overrides to outlined">
           {row}
         </Panel>
@@ -55,7 +57,9 @@ export const DefaultProps: StoryObj = {
 export const ClassNames: StoryObj = {
   render: () => (
     <div className="sb-col">
-      <GrangeProvider classNames={{ Button: { label: styles.loudLabel }, IconButton: { icon: styles.bigIcon } }}>
+      <GrangeProvider
+        classNames={{ Button: { label: styles.loudLabel }, IconButton: { icon: styles.bigIcon } }}
+      >
         <Panel title="classNames on the label and icon slots, added to the built-in classes">{row}</Panel>
       </GrangeProvider>
       <Panel title="{ replace } on the root slot: styled from scratch, still a real button">

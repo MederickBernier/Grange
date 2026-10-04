@@ -37,13 +37,37 @@ export const PrimaryTabs: StoryObj = {
 export const PrimaryWithIcons: StoryObj = {
   render: () => (
     <Tabs aria-label="Sections">
-      <Tab key="home" title="Home" icon={<Icon><AddIcon /></Icon>}>
+      <Tab
+        key="home"
+        title="Home"
+        icon={
+          <Icon>
+            <AddIcon />
+          </Icon>
+        }
+      >
         <p>The home panel.</p>
       </Tab>
-      <Tab key="saved" title="Saved" icon={<Icon><HeartIcon /></Icon>}>
+      <Tab
+        key="saved"
+        title="Saved"
+        icon={
+          <Icon>
+            <HeartIcon />
+          </Icon>
+        }
+      >
         <p>Things you kept.</p>
       </Tab>
-      <Tab key="done" title="Done" icon={<Icon><CheckIcon /></Icon>}>
+      <Tab
+        key="done"
+        title="Done"
+        icon={
+          <Icon>
+            <CheckIcon />
+          </Icon>
+        }
+      >
         <p>Things you finished.</p>
       </Tab>
     </Tabs>
@@ -54,7 +78,15 @@ export const PrimaryWithIcons: StoryObj = {
 export const SecondaryTabs: StoryObj = {
   render: () => (
     <Tabs aria-label="Sections" variant="secondary">
-      <Tab key="all" title="All" icon={<Icon><AddIcon /></Icon>}>
+      <Tab
+        key="all"
+        title="All"
+        icon={
+          <Icon>
+            <AddIcon />
+          </Icon>
+        }
+      >
         <p>Everything.</p>
       </Tab>
       <Tab key="unread" title="Unread">
@@ -148,7 +180,14 @@ export const WithActions: StoryObj = {
       <Divider />
       <div className="sb-row" style={{ justifyContent: 'flex-end', gap: 8 }}>
         <TextButton>Dismiss</TextButton>
-        <TextButton icon={<Icon><ArrowIcon /></Icon>} trailingIcon>
+        <TextButton
+          icon={
+            <Icon>
+              <ArrowIcon />
+            </Icon>
+          }
+          trailingIcon
+        >
           Open
         </TextButton>
       </div>

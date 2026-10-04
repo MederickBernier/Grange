@@ -12,6 +12,9 @@
     "lg": { "px": 16, "why": "ListTokens: ItemLeadingSpace and ItemTrailingSpace, a row's gutters." },
     "xl": { "px": 24, "why": "Six units. The gap between one block of content and the next." },
     "2xl": { "px": 32, "why": "Eight units." },
-    "3xl": { "px": 48, "why": "Twelve units. The largest step worth naming; past this a layout wants a measurement, not a token." }
+    "3xl": {
+      "px": 48,
+      "why": "Twelve units. The largest step worth naming; past this a layout wants a measurement, not a token."
+    }
   }
 }

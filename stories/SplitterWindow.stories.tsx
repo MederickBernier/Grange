@@ -94,9 +94,7 @@ export const AWindow: StoryObj = {
     const [open, setOpen] = useState(true);
     return (
       <Stack gap="lg">
-        <p className="sb-label">
-          The page behind stays usable, which is the whole difference from a dialog
-        </p>
+        <p className="sb-label">The page behind stays usable, which is the whole difference from a dialog</p>
         <div>
           <FilledButton onClick={() => setOpen(true)} disabled={open}>
             Open the window
@@ -110,13 +108,13 @@ export const AWindow: StoryObj = {
           defaultSize={{ width: 420, height: 240 }}
         >
           <p style={{ marginTop: 0 }}>
-            Tab into the title bar and the arrow keys move this window. Focus the corner grip and
-            they resize it. Both are on React Aria&rsquo;s <code>useMove</code>, so a pointer and a
-            keyboard take the same path.
+            Tab into the title bar and the arrow keys move this window. Focus the corner grip and they resize
+            it. Both are on React Aria&rsquo;s <code>useMove</code>, so a pointer and a keyboard take the same
+            path.
           </p>
           <p style={{ marginBottom: 0 }}>
-            Neither has an ARIA role that fits, so each handle carries a label saying what the
-            keys do rather than a role that would describe it wrongly.
+            Neither has an ARIA role that fits, so each handle carries a label saying what the keys do rather
+            than a role that would describe it wrongly.
           </p>
         </Window>
       </Stack>

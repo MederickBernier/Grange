@@ -54,7 +54,11 @@ export const SearchWithResults: StoryObj = {
           value={query}
           onChange={setQuery}
           open={query !== ''}
-          leading={<Icon><AddIcon /></Icon>}
+          leading={
+            <Icon>
+              <AddIcon />
+            </Icon>
+          }
           trailing={
             <IconButton aria-label="Filters">
               <Icon>
@@ -66,7 +70,15 @@ export const SearchWithResults: StoryObj = {
           {results.length > 0 ? (
             <List aria-label="Results">
               {results.map((person) => (
-                <ListItem key={person} leading={<Icon><HeartIcon /></Icon>} onClick={() => setQuery(person)}>
+                <ListItem
+                  key={person}
+                  leading={
+                    <Icon>
+                      <HeartIcon />
+                    </Icon>
+                  }
+                  onClick={() => setQuery(person)}
+                >
                   {person}
                 </ListItem>
               ))}
@@ -96,7 +108,11 @@ export const SearchBehaviour: StoryObj = {
           placeholder="Type, then press Escape"
           onSubmit={(v) => setLog((l) => [...l, `submitted: ${v}`])}
           onClear={() => setLog((l) => [...l, 'cleared'])}
-          leading={<Icon><AddIcon /></Icon>}
+          leading={
+            <Icon>
+              <AddIcon />
+            </Icon>
+          }
         />
         <p className="sb-label">{log.length ? log.join(' | ') : 'Enter to submit, Escape to clear'}</p>
       </div>
@@ -138,7 +154,15 @@ export const FullScreenSearch: StoryObj = {
             {people
               .filter((p) => query === '' || contains(p, query))
               .map((person) => (
-                <ListItem key={person} leading={<Icon><HeartIcon /></Icon>} onClick={() => {}}>
+                <ListItem
+                  key={person}
+                  leading={
+                    <Icon>
+                      <HeartIcon />
+                    </Icon>
+                  }
+                  onClick={() => {}}
+                >
                   {person}
                 </ListItem>
               ))}
@@ -188,7 +212,13 @@ export const WhileLoading: StoryObj = {
     const [loading, setLoading] = useState(false);
     return (
       <div className="sb-col" style={{ minHeight: 160 }}>
-        <button type="button" onClick={() => { setLoading(true); window.setTimeout(() => setLoading(false), 3000); }}>
+        <button
+          type="button"
+          onClick={() => {
+            setLoading(true);
+            window.setTimeout(() => setLoading(false), 3000);
+          }}
+        >
           Load for three seconds
         </button>
         {loading ? (

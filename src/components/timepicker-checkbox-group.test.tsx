@@ -51,7 +51,9 @@ describe('TimePicker', () => {
   it('moves one unit on the arrows and five minutes on a page, wrapping round the face', async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
-    render(<TimePicker aria-label="Time" defaultValue={new Time(9, 30)} hourCycle={12} onChange={onChange} />);
+    render(
+      <TimePicker aria-label="Time" defaultValue={new Time(9, 30)} hourCycle={12} onChange={onChange} />,
+    );
     const dial = screen.getByRole('slider');
     dial.focus();
 
@@ -76,7 +78,9 @@ describe('TimePicker', () => {
   it('keeps the half of the day while the hour is stepped', async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
-    render(<TimePicker aria-label="Time" defaultValue={new Time(21, 0)} hourCycle={12} onChange={onChange} />);
+    render(
+      <TimePicker aria-label="Time" defaultValue={new Time(21, 0)} hourCycle={12} onChange={onChange} />,
+    );
     screen.getByRole('slider').focus();
     await user.keyboard('{ArrowUp}');
     // Ten in the evening, not ten in the morning.
@@ -85,7 +89,9 @@ describe('TimePicker', () => {
 
   it('sets the hour from a press on the face', () => {
     const onChange = vi.fn();
-    render(<TimePicker aria-label="Time" defaultValue={new Time(9, 30)} hourCycle={12} onChange={onChange} />);
+    render(
+      <TimePicker aria-label="Time" defaultValue={new Time(9, 30)} hourCycle={12} onChange={onChange} />,
+    );
     // Straight out to the right is three o'clock, and the morning is the half in play.
     pressDial({ x: centre + outer, y: centre });
     expect(onChange).toHaveBeenLastCalledWith(new Time(3, 30));
@@ -103,7 +109,9 @@ describe('TimePicker', () => {
 
   it('follows a drag across the face rather than only the press', () => {
     const onChange = vi.fn();
-    render(<TimePicker aria-label="Time" defaultValue={new Time(9, 30)} hourCycle={12} onChange={onChange} />);
+    render(
+      <TimePicker aria-label="Time" defaultValue={new Time(9, 30)} hourCycle={12} onChange={onChange} />,
+    );
     const dial = screen.getByRole('slider');
     fireEvent.pointerDown(dial, { button: 0, pointerId: 1, clientX: centre, clientY: centre - outer });
     // Twelve at the top of a morning face is midnight, which is hour 0.
@@ -120,7 +128,9 @@ describe('TimePicker', () => {
   it('switches the half of the day without moving the hand', async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
-    render(<TimePicker aria-label="Time" defaultValue={new Time(9, 30)} hourCycle={12} onChange={onChange} />);
+    render(
+      <TimePicker aria-label="Time" defaultValue={new Time(9, 30)} hourCycle={12} onChange={onChange} />,
+    );
     const group = screen.getByRole('group', { name: 'AM or PM' });
     expect(screen.getByRole('button', { name: 'AM' }).getAttribute('aria-pressed')).toBe('true');
 
@@ -166,7 +176,9 @@ describe('TimePicker', () => {
   });
 
   it('hides the numbers from assistive tech, because the slider already reads the value', () => {
-    const { container } = render(<TimePicker aria-label="Time" defaultValue={new Time(9, 0)} hourCycle={12} />);
+    const { container } = render(
+      <TimePicker aria-label="Time" defaultValue={new Time(9, 0)} hourCycle={12} />,
+    );
     const dial = container.querySelector('.grange-time-picker-dial');
     // Twelve numbers, a hand, a centre dot and a handle, none of them announced.
     expect(dial?.querySelectorAll('[aria-hidden="true"]').length).toBe(15);
@@ -177,7 +189,15 @@ describe('TimePicker', () => {
     const user = userEvent.setup();
     function Host() {
       const [mode, setMode] = useState<'dial' | 'input'>('dial');
-      return <TimePicker aria-label="Time" defaultValue={new Time(9, 30)} hourCycle={12} mode={mode} onModeChange={setMode} />;
+      return (
+        <TimePicker
+          aria-label="Time"
+          defaultValue={new Time(9, 30)}
+          hourCycle={12}
+          mode={mode}
+          onModeChange={setMode}
+        />
+      );
     }
     render(<Host />);
     expect(screen.getByRole('slider')).toBeTruthy();
@@ -243,7 +263,11 @@ describe('CheckboxGroup', () => {
 
   it('is controlled when it is given a value', async () => {
     const user = userEvent.setup();
-    render(<CheckboxGroup label="Notify me by" value={['sms']}>{options}</CheckboxGroup>);
+    render(
+      <CheckboxGroup label="Notify me by" value={['sms']}>
+        {options}
+      </CheckboxGroup>,
+    );
     expect(checked('Text message')).toBe(true);
     await user.click(screen.getByRole('checkbox', { name: 'Push' }));
     // No handler, so nothing moves: the value is the app's.
@@ -332,7 +356,9 @@ describe('CheckboxGroup', () => {
         {options}
       </CheckboxGroup>,
     );
-    expect(container.querySelector('.grange-checkbox-group')?.getAttribute('data-orientation')).toBe('horizontal');
+    expect(container.querySelector('.grange-checkbox-group')?.getAttribute('data-orientation')).toBe(
+      'horizontal',
+    );
     unmount();
 
     const second = render(

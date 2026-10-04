@@ -117,10 +117,7 @@ export const MultipleSelection: StoryObj = {
 /** A pager over a real list, so the summary means something. */
 export const Paged: StoryObj = {
   render: function Render() {
-    const rows = useMemo(
-      () => Array.from({ length: 243 }, (_, i) => `Row ${i + 1}`),
-      [],
-    );
+    const rows = useMemo(() => Array.from({ length: 243 }, (_, i) => `Row ${i + 1}`), []);
     const [page, setPage] = useState(1);
     const [size, setSize] = useState(10);
     const { from, to } = pageRange(rows.length, page, size);

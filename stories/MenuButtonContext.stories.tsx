@@ -10,7 +10,7 @@ import {
   MenuSection,
   MultiColumnComboBox,
 } from '../src';
-import { ArrowIcon, CheckIcon, HeartIcon } from './icons';
+import { ArrowIcon, HeartIcon } from './icons';
 
 /**
  * The last of phase 2. Three small components, and each one turned on a question about who names
@@ -25,7 +25,15 @@ export default meta;
 const actions = (
   <>
     <MenuSection title="Clipboard">
-      <MenuItem key="cut" icon={<Icon><ArrowIcon /></Icon>} trailingText="⌘X">
+      <MenuItem
+        key="cut"
+        icon={
+          <Icon>
+            <ArrowIcon />
+          </Icon>
+        }
+        trailingText="⌘X"
+      >
         Cut
       </MenuItem>
       <MenuItem key="copy" trailingText="⌘C">
@@ -86,7 +94,12 @@ export const Selecting: StoryObj = {
       <MenuButton items={actions} selectionMode="single" defaultSelectedKeys={['copy']}>
         Single select
       </MenuButton>
-      <MenuButton items={actions} selectionMode="multiple" defaultSelectedKeys={['cut', 'copy']} menuVariant="vibrant">
+      <MenuButton
+        items={actions}
+        selectionMode="multiple"
+        defaultSelectedKeys={['cut', 'copy']}
+        menuVariant="vibrant"
+      >
         Multiple, vibrant
       </MenuButton>
       <MenuButton items={actions} menuVariant="standard" placement="end">
@@ -112,6 +125,9 @@ export const ContextMenus: StoryObj = {
       <div className="sb-col">
         <ContextMenu>
           <div
+            // A demo surface you can right-click or press the context key on, so it has to be
+            // reachable; there is no role for "the thing a context menu belongs to".
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
             tabIndex={0}
             style={{
               display: 'grid',

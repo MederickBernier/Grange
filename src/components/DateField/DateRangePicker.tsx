@@ -1,12 +1,5 @@
 import { useRef, type CSSProperties, type ReactNode } from 'react';
-import {
-  useButton,
-  useDateField,
-  useDateRangePicker,
-  useFocusRing,
-  useHover,
-  useLocale,
-} from 'react-aria';
+import { useButton, useDateField, useDateRangePicker, useFocusRing, useHover, useLocale } from 'react-aria';
 import { useDateFieldState, useDateRangePickerState } from 'react-stately';
 import { createCalendar, type CalendarDate, type DateValue } from '@internationalized/date';
 import { RangeCalendar } from '../Calendar/Calendar';
@@ -181,11 +174,19 @@ export function DateRangePicker(props: DateRangePickerProps) {
       supportingProps={showingError ? errorMessageProps : descriptionProps}
     >
       <div {...focusProps} aria-describedby={describes} className={styles.rangeFields}>
-        <RangeSegments props={startFieldProps} locale={locale} slotClass={slot('input', 'grange-date-range-picker-start')} />
+        <RangeSegments
+          props={startFieldProps}
+          locale={locale}
+          slotClass={slot('input', 'grange-date-range-picker-start')}
+        />
         <span aria-hidden="true" className={styles.rangeDash}>
           –
         </span>
-        <RangeSegments props={endFieldProps} locale={locale} slotClass={slot('input', 'grange-date-range-picker-end')} />
+        <RangeSegments
+          props={endFieldProps}
+          locale={locale}
+          slotClass={slot('input', 'grange-date-range-picker-end')}
+        />
       </div>
 
       {state.isOpen && (

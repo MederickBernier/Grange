@@ -16,7 +16,14 @@ import { HeartFilledIcon, HeartIcon } from './icons';
 
 type SpringName = tokens.SpringName;
 type Scheme = tokens.MotionSchemeName;
-const NAMES: SpringName[] = ['fastSpatial', 'defaultSpatial', 'slowSpatial', 'fastEffects', 'defaultEffects', 'slowEffects'];
+const NAMES: SpringName[] = [
+  'fastSpatial',
+  'defaultSpatial',
+  'slowSpatial',
+  'fastEffects',
+  'defaultEffects',
+  'slowEffects',
+];
 
 const meta: Meta = {
   title: 'Foundations/Motion playground',
@@ -26,7 +33,13 @@ export default meta;
 
 function fromTokens(scheme: Scheme): Record<SpringName, SpringSpec> {
   return Object.fromEntries(
-    NAMES.map((n) => [n, { stiffness: tokens.springs[scheme][n].stiffness, dampingRatio: tokens.springs[scheme][n].dampingRatio }]),
+    NAMES.map((n) => [
+      n,
+      {
+        stiffness: tokens.springs[scheme][n].stiffness,
+        dampingRatio: tokens.springs[scheme][n].dampingRatio,
+      },
+    ]),
   ) as Record<SpringName, SpringSpec>;
 }
 
@@ -39,7 +52,8 @@ function response(t: number, { stiffness, dampingRatio: z }: SpringSpec): number
 }
 
 function stats(s: SpringSpec) {
-  const overshoot = s.dampingRatio < 1 ? Math.exp((-Math.PI * s.dampingRatio) / Math.sqrt(1 - s.dampingRatio ** 2)) : 0;
+  const overshoot =
+    s.dampingRatio < 1 ? Math.exp((-Math.PI * s.dampingRatio) / Math.sqrt(1 - s.dampingRatio ** 2)) : 0;
   let settle = 0;
   for (let t = 0; t < 3; t += 0.002) if (Math.abs(1 - response(t, s)) > 0.02) settle = t;
   return { overshoot, settleMs: Math.round(settle * 1000) };
@@ -61,9 +75,22 @@ function Curve({ spec, base }: { spec: SpringSpec; base: SpringSpec }) {
   const target = H - 12 - (H - 30);
   return (
     <svg width={W} height={H} style={{ display: 'block', overflow: 'visible' }} aria-hidden="true">
-      <line x1={0} x2={W} y1={target} y2={target} stroke="var(--md-sys-color-outline-variant)" strokeDasharray="3 3" />
+      <line
+        x1={0}
+        x2={W}
+        y1={target}
+        y2={target}
+        stroke="var(--md-sys-color-outline-variant)"
+        strokeDasharray="3 3"
+      />
       <line x1={0} x2={W} y1={H - 12} y2={H - 12} stroke="var(--md-sys-color-outline-variant)" />
-      <path d={path(base)} fill="none" stroke="var(--md-sys-color-outline)" strokeWidth={1.5} strokeDasharray="4 3" />
+      <path
+        d={path(base)}
+        fill="none"
+        stroke="var(--md-sys-color-outline)"
+        strokeWidth={1.5}
+        strokeDasharray="4 3"
+      />
       <path d={path(spec)} fill="none" stroke="var(--md-sys-color-primary)" strokeWidth={2.5} />
       <text x={W} y={H} textAnchor="end" fontSize={10} fill="var(--md-sys-color-on-surface-variant)">
         {T * 1000} ms
@@ -136,12 +163,28 @@ function SpatialDemo() {
       <Button variant="tonal" onPress={() => setRight((r) => !r)}>
         Move
       </Button>
-      <div style={{ position: 'relative', width: 260, height: 56, borderRadius: 28, background: 'var(--md-sys-color-surface-container-high)' }}>
+      <div
+        style={{
+          position: 'relative',
+          width: 260,
+          height: 56,
+          borderRadius: 28,
+          background: 'var(--md-sys-color-surface-container-high)',
+        }}
+      >
         <motion.div
           initial={false}
           animate={{ x: right ? 204 : 0 }}
           transition={spatial}
-          style={{ position: 'absolute', top: 4, left: 4, width: 48, height: 48, borderRadius: 24, background: 'var(--md-sys-color-primary)' }}
+          style={{
+            position: 'absolute',
+            top: 4,
+            left: 4,
+            width: 48,
+            height: 48,
+            borderRadius: 24,
+            background: 'var(--md-sys-color-primary)',
+          }}
         />
       </div>
       <motion.div
@@ -165,7 +208,8 @@ function Playground() {
   const overrides = useMemo(() => {
     const o: Partial<Record<SpringName, SpringSpec>> = {};
     for (const n of NAMES) {
-      if (values[n].stiffness !== base[n].stiffness || values[n].dampingRatio !== base[n].dampingRatio) o[n] = values[n];
+      if (values[n].stiffness !== base[n].stiffness || values[n].dampingRatio !== base[n].dampingRatio)
+        o[n] = values[n];
     }
     return o;
   }, [values, base]);
@@ -188,14 +232,25 @@ function Playground() {
           <ConnectedButtonGroupItem id="expressive">Expressive</ConnectedButtonGroupItem>
           <ConnectedButtonGroupItem id="standard">Standard</ConnectedButtonGroupItem>
         </ConnectedButtonGroup>
-        <span className="md-typescale-body-medium" style={{ color: 'var(--md-sys-color-on-surface-variant)' }}>
+        <span
+          className="md-typescale-body-medium"
+          style={{ color: 'var(--md-sys-color-on-surface-variant)' }}
+        >
           Drag the sliders, then try the components below. Dashed curve = spec value.
         </span>
       </header>
 
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+      <section
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}
+      >
         {NAMES.map((n) => (
-          <SpringControl key={n} name={n} spec={values[n]} base={base[n]} onChange={(s) => setValues((v) => ({ ...v, [n]: s }))} />
+          <SpringControl
+            key={n}
+            name={n}
+            spec={values[n]}
+            base={base[n]}
+            onChange={(s) => setValues((v) => ({ ...v, [n]: s }))}
+          />
         ))}
       </section>
 
@@ -223,9 +278,15 @@ function Playground() {
           <div className="sb-row">
             <span className="sb-label">group · fastSpatial</span>
             <ButtonGroup>
-              <Button variant="tonal" size="m">One</Button>
-              <Button variant="tonal" size="m">Two</Button>
-              <Button variant="tonal" size="m">Three</Button>
+              <Button variant="tonal" size="m">
+                One
+              </Button>
+              <Button variant="tonal" size="m">
+                Two
+              </Button>
+              <Button variant="tonal" size="m">
+                Three
+              </Button>
             </ButtonGroup>
           </div>
           <div className="sb-row">

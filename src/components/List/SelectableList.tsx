@@ -17,9 +17,8 @@ import styles from './SelectableList.module.scss';
 type CollectionNode = ListState<unknown>['collection'] extends Iterable<infer N> ? N : never;
 type CollectionChildren = StatelyListProps<unknown>['children'];
 type Key = NonNullable<StatelyListProps<unknown>['disabledKeys']> extends Iterable<infer K> ? K : never;
-type Selection = NonNullable<StatelyListProps<unknown>['onSelectionChange']> extends (keys: infer S) => void
-  ? S
-  : never;
+type Selection =
+  NonNullable<StatelyListProps<unknown>['onSelectionChange']> extends (keys: infer S) => void ? S : never;
 
 export interface SelectableListItemProps {
   /**
@@ -210,7 +209,9 @@ function Row({
       <span className={listStyles.text}>
         {props.overline != null && <span className={listStyles.overline}>{props.overline}</span>}
         <span className={labelClass}>{item.rendered}</span>
-        {props.supportingText != null && <span className={listStyles.supporting}>{props.supportingText}</span>}
+        {props.supportingText != null && (
+          <span className={listStyles.supporting}>{props.supportingText}</span>
+        )}
       </span>
       {props.trailingText != null && <span className={listStyles.trailingText}>{props.trailingText}</span>}
       {props.trailing && <span className={listStyles.trailing}>{props.trailing}</span>}

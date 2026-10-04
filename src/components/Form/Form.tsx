@@ -1,4 +1,12 @@
-import { useCallback, useId, useMemo, useState, type CSSProperties, type FormEvent, type ReactNode } from 'react';
+import {
+  useCallback,
+  useId,
+  useMemo,
+  useState,
+  type CSSProperties,
+  type FormEvent,
+  type ReactNode,
+} from 'react';
 import { useField } from 'react-aria';
 import { FormValidationContext } from 'react-stately';
 import { resolveSlotClass, useComponentConfig, type FormSlot, type SlotOverrides } from '../../config/config';
@@ -117,7 +125,13 @@ export function Form(props: FormProps) {
   return (
     <form
       {...aria}
-      className={resolveSlotClass('grange-form', styles.form, ...(slots?.root ?? []), classNames?.root, className)}
+      className={resolveSlotClass(
+        'grange-form',
+        styles.form,
+        ...(slots?.root ?? []),
+        classNames?.root,
+        className,
+      )}
       style={style}
       // The two validations cannot both be in charge; see the note above.
       noValidate={validationBehavior === 'aria'}
@@ -158,9 +172,9 @@ export function readValues(form: HTMLFormElement): FormValues {
   for (const [name, value] of new FormData(form).entries()) {
     const existing = values[name];
     if (existing === undefined) {
-      values[name] = value as FormValue;
+      values[name] = value;
     } else if (Array.isArray(existing)) {
-      (existing as (string | File)[]).push(value as string | File);
+      (existing as (string | File)[]).push(value);
     } else {
       values[name] = [existing, value] as FormValue;
     }
@@ -204,8 +218,18 @@ export interface FormFieldRenderProps {
  */
 export function FormField(props: FormFieldProps) {
   const { slots } = useComponentConfig('FormField');
-  const { children, label, supportingText, errorText, error, required, disabled, className, classNames, style } =
-    props;
+  const {
+    children,
+    label,
+    supportingText,
+    errorText,
+    error,
+    required,
+    disabled,
+    className,
+    classNames,
+    style,
+  } = props;
 
   const message = error && errorText != null ? errorText : supportingText;
   const { labelProps, fieldProps, descriptionProps, errorMessageProps } = useField({
@@ -241,7 +265,11 @@ export function FormField(props: FormFieldProps) {
       data-disabled={disabled || undefined}
     >
       {label != null && (
-        <label {...labelProps} htmlFor={id} className={slot('label', 'grange-form-field-label', styles.label)}>
+        <label
+          {...labelProps}
+          htmlFor={id}
+          className={slot('label', 'grange-form-field-label', styles.label)}
+        >
           {label}
           {required && <span aria-hidden="true"> *</span>}
         </label>

@@ -1,6 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { Button, ButtonGroup, ConnectedButtonGroup, ConnectedButtonGroupItem, IconButton, ToggleButton } from '../src';
+import {
+  Button,
+  ButtonGroup,
+  ConnectedButtonGroup,
+  ConnectedButtonGroupItem,
+  IconButton,
+  ToggleButton,
+} from '../src';
 import { AddIcon, ArrowIcon, CheckIcon, HeartFilledIcon, HeartIcon } from './icons';
 
 const meta: Meta = { title: 'Components/Button group' };
@@ -42,7 +49,7 @@ export const Standard: StoryObj = {
  * RTL story under Foundations too; the arrows follow the row, which is mirrored there.
  */
 export const ConnectedSingle: StoryObj = {
-  render: () => {
+  render: function Render() {
     const [keys, setKeys] = useState<Set<string>>(new Set(['week']));
     return (
       <div className="sb-col">
@@ -54,7 +61,13 @@ export const ConnectedSingle: StoryObj = {
         </ConnectedButtonGroup>
         <span className="sb-label">Selected: {[...keys].join(', ')}</span>
         <div style={{ width: 420 }}>
-          <ConnectedButtonGroup aria-label="View" fullWidth size="m" variant="tonal" defaultSelectedKeys={['list']}>
+          <ConnectedButtonGroup
+            aria-label="View"
+            fullWidth
+            size="m"
+            variant="tonal"
+            defaultSelectedKeys={['list']}
+          >
             <ConnectedButtonGroupItem id="list">List</ConnectedButtonGroupItem>
             <ConnectedButtonGroupItem id="grid">Grid</ConnectedButtonGroupItem>
             <ConnectedButtonGroupItem id="map">Map</ConnectedButtonGroupItem>

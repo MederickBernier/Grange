@@ -93,8 +93,7 @@ describe('Calendar', () => {
   });
 
   it('follows the locale for the first day of the week', () => {
-    const weekdays = (root: HTMLElement) =>
-      [...root.querySelectorAll('thead th')].map((h) => h.textContent);
+    const weekdays = (root: HTMLElement) => [...root.querySelectorAll('thead th')].map((h) => h.textContent);
 
     const first = render(
       <I18nProvider locale="en-US">
@@ -117,11 +116,7 @@ describe('Calendar', () => {
 
   it('marks unavailable dates rather than hiding them', () => {
     render(
-      <Calendar
-        aria-label="Pick a date"
-        defaultValue={june}
-        minValue={new CalendarDate(2026, 6, 10)}
-      />,
+      <Calendar aria-label="Pick a date" defaultValue={june} minValue={new CalendarDate(2026, 6, 10)} />,
     );
     expect(cell(5).getAttribute('aria-disabled')).toBe('true');
     expect(cell(5).dataset.unavailable ?? cell(5).dataset.disabled).toBe('true');
@@ -221,7 +216,9 @@ describe('TimeField', () => {
   });
 
   it('goes to seconds when asked', () => {
-    render(<TimeField label="Start" defaultValue={new Time(9, 30, 15)} granularity="second" hourCycle={24} />);
+    render(
+      <TimeField label="Start" defaultValue={new Time(9, 30, 15)} granularity="second" hourCycle={24} />,
+    );
     expect(screen.getAllByRole('spinbutton')).toHaveLength(3);
   });
 

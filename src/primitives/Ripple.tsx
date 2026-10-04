@@ -43,7 +43,8 @@ export const Ripple = forwardRef<RippleHandle>(function Ripple(_props, ref) {
       const cx = x ?? width / 2;
       const cy = y ?? height / 2;
       const opacity =
-        parseFloat(getComputedStyle(root).getPropertyValue('--md-sys-state-pressed-state-layer-opacity')) || 0.1;
+        parseFloat(getComputedStyle(root).getPropertyValue('--md-sys-state-pressed-state-layer-opacity')) ||
+        0.1;
 
       const el = document.createElement('span');
       el.className = 'grange-ripple-wave';
@@ -77,7 +78,11 @@ function fade(wave: Wave | null, delay: number, fadeOutMs: number) {
   if (!wave) return;
   const { el, opacity } = wave;
   window.setTimeout(() => {
-    const anim = el.animate([{ opacity }, { opacity: 0 }], { duration: fadeOutMs, easing: 'linear', fill: 'forwards' });
+    const anim = el.animate([{ opacity }, { opacity: 0 }], {
+      duration: fadeOutMs,
+      easing: 'linear',
+      fill: 'forwards',
+    });
     anim.finished.then(() => el.remove()).catch(() => el.remove());
   }, delay);
 }

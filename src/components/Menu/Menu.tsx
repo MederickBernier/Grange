@@ -26,9 +26,8 @@ type CollectionChildren = TreeProps<unknown>['children'];
 /** React Aria's own Key, which is narrower than React's: no bigint. */
 type Key = NonNullable<TreeProps<unknown>['disabledKeys']> extends Iterable<infer K> ? K : never;
 /** Their Selection, which is a set of keys or the string "all". */
-type Selection = NonNullable<TreeProps<unknown>['onSelectionChange']> extends (keys: infer S) => void
-  ? S
-  : never;
+type Selection =
+  NonNullable<TreeProps<unknown>['onSelectionChange']> extends (keys: infer S) => void ? S : never;
 import { Popover } from '../../overlays/Popover';
 import { resolveSlotClass, useComponentConfig, type MenuSlot, type SlotOverrides } from '../../config/config';
 import styles from './Menu.module.scss';
@@ -133,7 +132,12 @@ export function Menu(props: MenuProps) {
     >
       {[...state.collection].map((item) =>
         item.type === 'section' ? (
-          <MenuSectionRows key={item.key} section={item} state={state} itemClass={slot('item', 'grange-menu-item', styles.item)} />
+          <MenuSectionRows
+            key={item.key}
+            section={item}
+            state={state}
+            itemClass={slot('item', 'grange-menu-item', styles.item)}
+          />
         ) : (
           <MenuRow
             key={item.key}

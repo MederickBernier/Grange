@@ -53,7 +53,13 @@ export function BottomSheet(props: BottomSheetProps) {
   const [offset, setOffset] = useState(0);
 
   const slot = (name: BottomSheetSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   const handle = !hideHandle && (
     <DragHandle

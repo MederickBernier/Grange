@@ -1,5 +1,10 @@
 import { forwardRef, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
-import { resolveSlotClass, useComponentConfig, type AvatarSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type AvatarSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import type { AvatarColor, AvatarShape, AvatarSize } from './specs';
 import styles from './Avatar.module.scss';
 
@@ -68,7 +73,13 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(p
   useEffect(() => setFailed(false), [src]);
 
   const slot = (name: AvatarSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   const showImage = src != null && !failed;
 

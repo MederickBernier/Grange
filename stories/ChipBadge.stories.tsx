@@ -26,10 +26,26 @@ export const Kinds: StoryObj = {
         <div>
           <p className="sb-label">Assist, which colours its icon with the primary role</p>
           <ChipGroup aria-label="Assist">
-            <Chip variant="assist" icon={<Icon><AddIcon /></Icon>} onClick={() => {}}>
+            <Chip
+              variant="assist"
+              icon={
+                <Icon>
+                  <AddIcon />
+                </Icon>
+              }
+              onClick={() => {}}
+            >
               Add to calendar
             </Chip>
-            <Chip variant="assist" icon={<Icon><ArrowIcon /></Icon>} onClick={() => {}}>
+            <Chip
+              variant="assist"
+              icon={
+                <Icon>
+                  <ArrowIcon />
+                </Icon>
+              }
+              onClick={() => {}}
+            >
               Get directions
             </Chip>
           </ChipGroup>
@@ -41,7 +57,13 @@ export const Kinds: StoryObj = {
             <Chip
               variant="filter"
               selected={selected}
-              icon={selected ? <Icon><CheckIcon /></Icon> : undefined}
+              icon={
+                selected ? (
+                  <Icon>
+                    <CheckIcon />
+                  </Icon>
+                ) : undefined
+              }
               onClick={() => setSelected(!selected)}
             >
               Unread
@@ -56,7 +78,11 @@ export const Kinds: StoryObj = {
               <Chip
                 key={tag}
                 variant="input"
-                avatar={<Icon><HeartIcon /></Icon>}
+                avatar={
+                  <Icon>
+                    <HeartIcon />
+                  </Icon>
+                }
                 onRemove={() => setTags(tags.filter((t) => t !== tag))}
                 removeLabel={`Remove ${tag}`}
               >
@@ -102,7 +128,13 @@ export const Filters: StoryObj = {
               key={f.id}
               variant="filter"
               selected={active.includes(f.id)}
-              icon={active.includes(f.id) ? <Icon><CheckIcon /></Icon> : undefined}
+              icon={
+                active.includes(f.id) ? (
+                  <Icon>
+                    <CheckIcon />
+                  </Icon>
+                ) : undefined
+              }
               onClick={() => toggle(f.id)}
             >
               {f.label}
@@ -186,13 +218,34 @@ export const Badges: StoryObj = {
       <div style={{ maxWidth: 420 }}>
         <p className="sb-label">In a navigation bar, which takes badges directly</p>
         <NavigationBar aria-label="Main">
-          <NavigationItem icon={<Icon><AddIcon /></Icon>} selected>
+          <NavigationItem
+            icon={
+              <Icon>
+                <AddIcon />
+              </Icon>
+            }
+            selected
+          >
             Home
           </NavigationItem>
-          <NavigationItem icon={<Icon><HeartIcon /></Icon>} badge="9">
+          <NavigationItem
+            icon={
+              <Icon>
+                <HeartIcon />
+              </Icon>
+            }
+            badge="9"
+          >
             Saved
           </NavigationItem>
-          <NavigationItem icon={<Icon><CheckIcon /></Icon>} badge="">
+          <NavigationItem
+            icon={
+              <Icon>
+                <CheckIcon />
+              </Icon>
+            }
+            badge=""
+          >
             Done
           </NavigationItem>
         </NavigationBar>

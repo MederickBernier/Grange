@@ -295,9 +295,7 @@ describe('Pager', () => {
   it('keeps the reader near where they were when the page size changes', async () => {
     const user = userEvent.setup();
     const onPageChange = vi.fn();
-    render(
-      <Pager total={240} defaultPage={5} defaultPageSize={10} onPageChange={onPageChange} />,
-    );
+    render(<Pager total={240} defaultPage={5} defaultPageSize={10} onPageChange={onPageChange} />);
     // Page 5 of 10 starts at row 41; at 25 a page that row is on page 2, not page 1.
     await user.click(screen.getByRole('button', { name: /Rows per page/ }));
     await user.click(screen.getByRole('option', { name: '25' }));

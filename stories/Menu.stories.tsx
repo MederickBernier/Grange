@@ -37,13 +37,28 @@ export const Basic: StoryObj = {
         <MenuTrigger>
           <OutlinedButton>Actions</OutlinedButton>
           <Menu aria-label="Actions" onAction={(key) => setLast(String(key))}>
-            <MenuItem key="edit" icon={<Icon><AddIcon /></Icon>}>
+            <MenuItem
+              key="edit"
+              icon={
+                <Icon>
+                  <AddIcon />
+                </Icon>
+              }
+            >
               Edit
             </MenuItem>
             <MenuItem key="duplicate" trailingText="⌘D">
               Duplicate
             </MenuItem>
-            <MenuItem key="share" icon={<Icon><ArrowIcon /></Icon>} trailingText="⌘⇧S">
+            <MenuItem
+              key="share"
+              icon={
+                <Icon>
+                  <ArrowIcon />
+                </Icon>
+              }
+              trailingText="⌘⇧S"
+            >
               Share
             </MenuItem>
             <MenuItem key="delete" supportingText="This cannot be undone">
@@ -130,7 +145,14 @@ export const Selection: StoryObj = {
             selectedKeys={toppings}
             onSelectionChange={(keys) => setToppings(keys as Set<string>)}
           >
-            <MenuItem key="cheese" icon={<Icon><CheckIcon /></Icon>}>
+            <MenuItem
+              key="cheese"
+              icon={
+                <Icon>
+                  <CheckIcon />
+                </Icon>
+              }
+            >
               Cheese
             </MenuItem>
             <MenuItem key="olives">Olives</MenuItem>
@@ -164,7 +186,15 @@ export const OnASplitButton: StoryObj = {
     const [open, setOpen] = useState(false);
     return (
       <SplitButton size="m" aria-label="Save options">
-        <SplitButtonLeading icon={<Icon><CheckIcon /></Icon>}>Save</SplitButtonLeading>
+        <SplitButtonLeading
+          icon={
+            <Icon>
+              <CheckIcon />
+            </Icon>
+          }
+        >
+          Save
+        </SplitButtonLeading>
         <MenuTrigger open={open} onOpenChange={setOpen}>
           <SplitButtonTrailing aria-label="More save options" expanded={open}>
             <Icon>

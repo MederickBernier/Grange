@@ -44,15 +44,7 @@ const FLOW_WAVELENGTHS = 1;
 export const LinearProgress = forwardRef<HTMLDivElement, LinearProgressProps>(
   function LinearProgress(props, ref) {
     const { slots } = useComponentConfig('LinearProgress');
-    const {
-      value,
-      wavy = false,
-      stopIndicator = true,
-      className,
-      classNames,
-      style,
-      ...aria
-    } = props;
+    const { value, wavy = false, stopIndicator = true, className, classNames, style, ...aria } = props;
 
     const isIndeterminate = value === undefined;
     const clamped = isIndeterminate ? 0 : Math.min(1, Math.max(0, value));

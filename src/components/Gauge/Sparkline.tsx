@@ -1,9 +1,5 @@
 import { type CSSProperties } from 'react';
-import {
-  resolveSlotClass,
-  useComponentConfig,
-  type SlotOverrides,
-} from '../../config/config';
+import { resolveSlotClass, useComponentConfig, type SlotOverrides } from '../../config/config';
 import { areaPath, bars, linePath, scalePoints } from './sparkline';
 import { sparkline as spec } from './specs';
 import styles from './Gauge.module.scss';
@@ -88,7 +84,14 @@ export function Sparkline(props: SparklineProps) {
     >
       {variant === 'bar' ? (
         bars(values, scale).map((bar, i) => (
-          <rect key={i} x={bar.x} y={bar.y} width={bar.width} height={bar.height} className={styles.sparkBar} />
+          <rect
+            key={i}
+            x={bar.x}
+            y={bar.y}
+            width={bar.width}
+            height={bar.height}
+            className={styles.sparkBar}
+          />
         ))
       ) : (
         <>
@@ -101,7 +104,9 @@ export function Sparkline(props: SparklineProps) {
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-          {showLast && last && <circle cx={last.x} cy={last.y} r={spec.strokeWidth * 1.5} className={styles.sparkDot} />}
+          {showLast && last && (
+            <circle cx={last.x} cy={last.y} r={spec.strokeWidth * 1.5} className={styles.sparkDot} />
+          )}
         </>
       )}
     </svg>

@@ -1,13 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { I18nProvider } from 'react-aria';
-import {
-  FilledNumberField,
-  MaskedTextField,
-  NumberField,
-  OutlinedNumberField,
-  maskCapacity,
-} from '../src';
+import { FilledNumberField, MaskedTextField, NumberField, OutlinedNumberField, maskCapacity } from '../src';
 import { HeartIcon } from './icons';
 
 /**

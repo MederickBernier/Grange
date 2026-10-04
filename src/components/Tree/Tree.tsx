@@ -1,12 +1,7 @@
 import { useMemo, useRef, type CSSProperties, type ReactElement, type ReactNode } from 'react';
 import { mergeProps, useButton, useFocusRing, useHover, useTree, useTreeItem } from 'react-aria';
 import { Item, useTreeState, type TreeProps as AriaTreeProps, type TreeState } from 'react-stately';
-import {
-  resolveSlotClass,
-  useComponentConfig,
-  type SlotOverrides,
-  type TreeSlot,
-} from '../../config/config';
+import { resolveSlotClass, useComponentConfig, type SlotOverrides, type TreeSlot } from '../../config/config';
 import styles from './Tree.module.scss';
 
 type Key = NonNullable<AriaTreeProps<unknown>['disabledKeys']> extends Iterable<infer K> ? K : never;
@@ -80,15 +75,16 @@ export function TreeView(props: TreeViewProps) {
   const { gridProps } = useTree({ ...rest, selectionMode }, state, ref);
 
   const slot = (name: TreeSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
-    <div
-      {...gridProps}
-      ref={ref}
-      className={slot('root', 'grange-tree', styles.tree)}
-      style={style}
-    >
+    <div {...gridProps} ref={ref} className={slot('root', 'grange-tree', styles.tree)} style={style}>
       {rows(state).map((node) => (
         <Row
           key={node.key}
@@ -156,14 +152,11 @@ function Row({
   labelClass: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const {
-    rowProps,
-    gridCellProps,
-    expandButtonProps,
-    isSelected,
-    isDisabled,
-    isFocused,
-  } = useTreeItem({ node }, state, ref);
+  const { rowProps, gridCellProps, expandButtonProps, isSelected, isDisabled, isFocused } = useTreeItem(
+    { node },
+    state,
+    ref,
+  );
   const { hoverProps, isHovered } = useHover({ isDisabled });
   const { focusProps, isFocusVisible } = useFocusRing();
 

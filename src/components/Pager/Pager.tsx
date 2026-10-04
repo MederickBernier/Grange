@@ -79,7 +79,13 @@ export function Pager(props: PagerProps) {
   const go = (next: number) => setAt(clampPage(next, total, size));
 
   const slot = (name: PagerSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <nav className={slot('root', 'grange-pager', styles.pager)} style={style} aria-label={ariaLabel}>

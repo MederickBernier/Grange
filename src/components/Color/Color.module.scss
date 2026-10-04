@@ -106,11 +106,8 @@
 
 .checker {
   background:
-    repeating-conic-gradient(
-        #{grange.translucent(on-surface, 14%)} 0% 25%,
-        transparent 0% 50%
-      )
-      0 0 / 12px 12px,
+    repeating-conic-gradient(#{grange.translucent(on-surface, 14%)} 0% 25%, transparent 0% 50%) 0 0 / 12px
+      12px,
     grange.color(surface);
 }
 
@@ -124,11 +121,7 @@
   border: 1px solid grange.color(outline-variant);
   border-radius: grange.corner(extra-small);
   background:
-    repeating-conic-gradient(
-        #{grange.translucent(on-surface, 14%)} 0% 25%,
-        transparent 0% 50%
-      )
-      0 0 / 8px 8px,
+    repeating-conic-gradient(#{grange.translucent(on-surface, 14%)} 0% 25%, transparent 0% 50%) 0 0 / 8px 8px,
     grange.color(surface);
 }
 
@@ -161,11 +154,7 @@
   cursor: pointer;
   // The chequerboard, so a translucent preset reads as translucent.
   background:
-    repeating-conic-gradient(
-        #{grange.translucent(on-surface, 14%)} 0% 25%,
-        transparent 0% 50%
-      )
-      0 0 / 8px 8px,
+    repeating-conic-gradient(#{grange.translucent(on-surface, 14%)} 0% 25%, transparent 0% 50%) 0 0 / 8px 8px,
     grange.color(surface);
 
   // Chosen rather than a border: a border changes a swatch's size and a ring does not, so
@@ -208,11 +197,7 @@
   border-radius: grange.corner(small);
   cursor: pointer;
   background:
-    repeating-conic-gradient(
-        #{grange.translucent(on-surface, 14%)} 0% 25%,
-        transparent 0% 50%
-      )
-      0 0 / 8px 8px,
+    repeating-conic-gradient(#{grange.translucent(on-surface, 14%)} 0% 25%, transparent 0% 50%) 0 0 / 8px 8px,
     grange.color(surface);
 
   &[data-focus-visible] {

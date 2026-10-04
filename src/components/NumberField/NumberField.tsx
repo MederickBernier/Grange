@@ -1,5 +1,13 @@
 import { forwardRef, useRef, type CSSProperties, type ReactNode } from 'react';
-import { mergeProps, useButton, useFocusRing, useHover, useLocale, useNumberField, useObjectRef } from 'react-aria';
+import {
+  mergeProps,
+  useButton,
+  useFocusRing,
+  useHover,
+  useLocale,
+  useNumberField,
+  useObjectRef,
+} from 'react-aria';
 import { useNumberFieldState } from 'react-stately';
 import {
   resolveSlotClass,

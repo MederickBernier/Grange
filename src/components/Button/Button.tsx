@@ -30,7 +30,10 @@ export type { ButtonVariant, ToggleButtonVariant, IconButtonVariant };
  * `onClick` and `onPress` both work: onClick fires on a real click, onPress also covers touch
  * and keyboard activation.
  */
-interface CommonProps extends Omit<AriaButtonProps<'button' | 'a'>, 'children' | 'elementType' | 'isDisabled'> {
+interface CommonProps extends Omit<
+  AriaButtonProps<'button' | 'a'>,
+  'children' | 'elementType' | 'isDisabled'
+> {
   /** XS 32px, S 40px (default), M 56px, L 96px, XL 136px tall. */
   size?: ButtonSize;
   /** Round (pill) is the default; square uses the size's square corner. */
@@ -91,8 +94,16 @@ export const Button = forwardRef<GrangeButtonElement, ButtonProps>(function Butt
   const spec = sizes.button[size];
   const resting = restingRadius(size, shape, sizes);
   const slot = (name: ButtonSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
-  const iconNode = icon ? <span className={slot('icon', 'grange-button-icon', styles.icon)}>{icon}</span> : null;
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
+  const iconNode = icon ? (
+    <span className={slot('icon', 'grange-button-icon', styles.icon)}>{icon}</span>
+  ) : null;
 
   return (
     <ButtonBase
@@ -108,7 +119,9 @@ export const Button = forwardRef<GrangeButtonElement, ButtonProps>(function Butt
       dataAttributes={{ 'data-variant': variant, 'data-size': size, 'data-shape': shape }}
     >
       {!trailingIcon && iconNode}
-      {children != null && <span className={slot('label', 'grange-button-label', styles.label)}>{children}</span>}
+      {children != null && (
+        <span className={slot('label', 'grange-button-label', styles.label)}>{children}</span>
+      )}
       {trailingIcon && iconNode}
     </ButtonBase>
   );
@@ -128,66 +141,76 @@ export interface ToggleButtonProps extends Omit<ButtonProps, 'variant'>, Selecti
  * M3E toggle button. Selecting it swaps the shape (round to square, square to round) on the fast spatial
  * spring, so it overshoots slightly in the expressive scheme.
  */
-export const ToggleButton = forwardRef<GrangeButtonElement, ToggleButtonProps>(function ToggleButton(props, ref) {
-  const { defaults, slots, behavior, sizes } = useComponentConfig('ToggleButton');
-  const {
-    variant = defaults?.variant ?? 'filled',
-    size = defaults?.size ?? 's',
-    shape = defaults?.shape ?? 'round',
-    icon,
-    selectedIcon,
-    trailingIcon,
-    children,
-    className,
-    classNames,
-    style,
-    disabled,
-    selected: selectedProp,
-    defaultSelected = false,
-    onChange,
-    onPress,
-    ...rest
-  } = props;
+export const ToggleButton = forwardRef<GrangeButtonElement, ToggleButtonProps>(
+  function ToggleButton(props, ref) {
+    const { defaults, slots, behavior, sizes } = useComponentConfig('ToggleButton');
+    const {
+      variant = defaults?.variant ?? 'filled',
+      size = defaults?.size ?? 's',
+      shape = defaults?.shape ?? 'round',
+      icon,
+      selectedIcon,
+      trailingIcon,
+      children,
+      className,
+      classNames,
+      style,
+      disabled,
+      selected: selectedProp,
+      defaultSelected = false,
+      onChange,
+      onPress,
+      ...rest
+    } = props;
 
-  const [selected, setSelected] = useControlledState(selectedProp, defaultSelected, onChange);
-  const spec = sizes.button[size];
-  const radius = selected ? selectedRadius(size, shape, sizes) : restingRadius(size, shape, sizes);
-  const shownIcon = selected && selectedIcon ? selectedIcon : icon;
-  const slot = (name: ButtonSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
-  const iconNode = shownIcon ? (
-    <span className={slot('icon', 'grange-button-icon', styles.icon)}>{shownIcon}</span>
-  ) : null;
+    const [selected, setSelected] = useControlledState(selectedProp, defaultSelected, onChange);
+    const spec = sizes.button[size];
+    const radius = selected ? selectedRadius(size, shape, sizes) : restingRadius(size, shape, sizes);
+    const shownIcon = selected && selectedIcon ? selectedIcon : icon;
+    const slot = (name: ButtonSlot, hook: string, builtIn?: string) =>
+      resolveSlotClass(
+        hook,
+        builtIn,
+        ...(slots?.[name] ?? []),
+        classNames?.[name],
+        name === 'root' ? className : undefined,
+      );
+    const iconNode = shownIcon ? (
+      <span className={slot('icon', 'grange-button-icon', styles.icon)}>{shownIcon}</span>
+    ) : null;
 
-  return (
-    <ButtonBase
-      ref={ref}
-      {...rest}
-      aria-pressed={selected}
-      isDisabled={disabled}
-      onPress={(e: PressEvent) => {
-        setSelected(!selected);
-        onPress?.(e);
-      }}
-      className={slot('root', 'grange-button', styles.button)}
-      style={{ ...sizeCustomProperties(spec), ...style }}
-      padding={spec.padding}
-      touchTarget={spec.height < behavior.touchTargetBelow}
-      cornerSpring={behavior.springs.selection}
-      corners={({ isPressed }) => uniform(isPressed ? spec.pressed : radius)}
-      dataAttributes={{
-        'data-variant': variant,
-        'data-size': size,
-        'data-shape': shape,
-        'data-selected': String(selected),
-      }}
-    >
-      {!trailingIcon && iconNode}
-      {children != null && <span className={slot('label', 'grange-button-label', styles.label)}>{children}</span>}
-      {trailingIcon && iconNode}
-    </ButtonBase>
-  );
-});
+    return (
+      <ButtonBase
+        ref={ref}
+        {...rest}
+        aria-pressed={selected}
+        isDisabled={disabled}
+        onPress={(e: PressEvent) => {
+          setSelected(!selected);
+          onPress?.(e);
+        }}
+        className={slot('root', 'grange-button', styles.button)}
+        style={{ ...sizeCustomProperties(spec), ...style }}
+        padding={spec.padding}
+        touchTarget={spec.height < behavior.touchTargetBelow}
+        cornerSpring={behavior.springs.selection}
+        corners={({ isPressed }) => uniform(isPressed ? spec.pressed : radius)}
+        dataAttributes={{
+          'data-variant': variant,
+          'data-size': size,
+          'data-shape': shape,
+          'data-selected': String(selected),
+        }}
+      >
+        {!trailingIcon && iconNode}
+        {children != null && (
+          <span className={slot('label', 'grange-button-label', styles.label)}>{children}</span>
+        )}
+        {trailingIcon && iconNode}
+      </ButtonBase>
+    );
+  },
+);
 
 // ---------------------------------------------------------------------------
 // IconButton
@@ -239,7 +262,13 @@ export const IconButton = forwardRef<GrangeButtonElement, IconButtonProps>(funct
   const isOn = toggle && selected;
   const radius = isOn ? selectedRadius(size, shape, sizes) : restingRadius(size, shape, sizes);
   const slot = (name: IconButtonSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <ButtonBase

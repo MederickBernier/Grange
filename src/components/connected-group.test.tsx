@@ -66,7 +66,11 @@ describe('single select is a radiogroup', () => {
     const user = userEvent.setup();
     const onSelectionChange = vi.fn();
     render(
-      <ConnectedButtonGroup aria-label="Range" defaultSelectedKeys={['day']} onSelectionChange={onSelectionChange}>
+      <ConnectedButtonGroup
+        aria-label="Range"
+        defaultSelectedKeys={['day']}
+        onSelectionChange={onSelectionChange}
+      >
         {segments}
       </ConnectedButtonGroup>,
     );

@@ -88,11 +88,22 @@ export const Errors: StoryObj = {
 export const IconsAndAffixes: StoryObj = {
   render: () => (
     <div style={column}>
-      <FilledTextField label="Search" leadingIcon={<Icon><HeartIcon /></Icon>} />
+      <FilledTextField
+        label="Search"
+        leadingIcon={
+          <Icon>
+            <HeartIcon />
+          </Icon>
+        }
+      />
       <OutlinedTextField
         label="Confirmed"
         defaultValue="Looks good"
-        trailingIcon={<Icon><CheckIcon /></Icon>}
+        trailingIcon={
+          <Icon>
+            <CheckIcon />
+          </Icon>
+        }
       />
       <OutlinedTextField label="Amount" prefix="£" suffix=".00" defaultValue="42" />
     </div>

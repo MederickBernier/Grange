@@ -1,7 +1,12 @@
 import { createContext, forwardRef, useContext, type CSSProperties, type ReactNode } from 'react';
 import { VisuallyHidden, useFocusRing, useHover, useObjectRef, useRadio, useRadioGroup } from 'react-aria';
 import { useRadioGroupState, type RadioGroupState } from 'react-stately';
-import { resolveSlotClass, useComponentConfig, type RadioSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type RadioSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import styles from './Radio.module.scss';
 
 const RadioContext = createContext<RadioGroupState | null>(null);

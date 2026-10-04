@@ -73,7 +73,9 @@ export function thin(stroke: Stroke, tolerance = 1.5): Stroke {
 }
 
 /** The box the strokes actually occupy, which is what says whether anything was drawn. */
-export function strokeBounds(strokes: Stroke[]): { x: number; y: number; width: number; height: number } | null {
+export function strokeBounds(
+  strokes: Stroke[],
+): { x: number; y: number; width: number; height: number } | null {
   let minX = Infinity;
   let minY = Infinity;
   let maxX = -Infinity;
@@ -109,9 +111,7 @@ export function strokesToSvg(strokes: Stroke[], options: SvgOptions): string | n
   const drawn = strokes.filter((stroke) => stroke.length > 0);
   if (drawn.length === 0) return null;
 
-  const paths = drawn
-    .map((stroke) => `<path d="${strokePath(stroke)}"/>`)
-    .join('');
+  const paths = drawn.map((stroke) => `<path d="${strokePath(stroke)}"/>`).join('');
 
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${options.width} ${options.height}" ` +

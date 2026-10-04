@@ -93,7 +93,13 @@ export function ColorField(props: ColorFieldProps) {
   ]);
 
   const slot = (name: TextFieldSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <FieldShell

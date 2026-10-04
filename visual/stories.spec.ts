@@ -58,9 +58,7 @@ for (const story of stories()) {
        * is what it said first and which also matched Storybook's loading spinner: the wait then
        * passed immediately and the baseline was a picture of the spinner.
        */
-      await expect(
-        page.locator('#storybook-root > *, body > [class*="grange-"]').first(),
-      ).toBeAttached();
+      await expect(page.locator('#storybook-root > *, body > [class*="grange-"]').first()).toBeAttached();
       // A story whose first paint is in a fallback font would otherwise be shot mid-swap.
       await page.evaluate(() => document.fonts.ready);
 

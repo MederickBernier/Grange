@@ -1,6 +1,10 @@
 /* A few Material Symbols paths (Apache 2.0), 960-unit viewBox. */
 const Svg = ({ d, filled = true }: { d: string; filled?: boolean }) => (
-  <svg viewBox="0 -960 960 960" aria-hidden="true" style={filled ? undefined : { fill: 'none', stroke: 'currentColor', strokeWidth: 60 }}>
+  <svg
+    viewBox="0 -960 960 960"
+    aria-hidden="true"
+    style={filled ? undefined : { fill: 'none', stroke: 'currentColor', strokeWidth: 60 }}
+  >
     <path d={d} />
   </svg>
 );

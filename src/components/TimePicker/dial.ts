@@ -79,12 +79,7 @@ export function labelsFor(mode: DialMode, hourCycle: 12 | 24): DialLabel[] {
  * the middle picks the ring, so dragging inwards moves from the afternoon to the small hours,
  * which is how the face is read.
  */
-export function valueAt(
-  x: number,
-  y: number,
-  mode: DialMode,
-  hourCycle: 12 | 24,
-): number {
+export function valueAt(x: number, y: number, mode: DialMode, hourCycle: 12 | 24): number {
   const centre = spec.dialSize / 2;
   const dx = x - centre;
   const dy = y - centre;

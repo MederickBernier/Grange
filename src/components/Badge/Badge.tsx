@@ -1,5 +1,10 @@
 import { forwardRef, type CSSProperties, type ReactNode } from 'react';
-import { resolveSlotClass, useComponentConfig, type BadgeSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type BadgeSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import styles from './Badge.module.scss';
 
 export interface BadgeProps {

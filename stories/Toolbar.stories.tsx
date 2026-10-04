@@ -1,13 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import {
-  DockedToolbar,
-  FloatingToolbar,
-  Icon,
-  IconButton,
-  ToggleButton,
-  floatingToolbar,
-} from '../src';
+import { DockedToolbar, FloatingToolbar, Icon, IconButton, ToggleButton, floatingToolbar } from '../src';
 import { AddIcon, ArrowIcon, CheckIcon, HeartIcon } from './icons';
 
 /**

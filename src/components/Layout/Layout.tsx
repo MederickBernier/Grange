@@ -90,11 +90,17 @@ export const Stack = forwardRef<HTMLElement, StackProps>(function Stack(props, r
     style,
   } = props;
 
-  const Component = As as ElementType;
+  const Component = As;
   return (
     <Component
       ref={ref}
-      className={resolveSlotClass('grange-stack', styles.stack, ...(slots?.root ?? []), classNames?.root, className)}
+      className={resolveSlotClass(
+        'grange-stack',
+        styles.stack,
+        ...(slots?.root ?? []),
+        classNames?.root,
+        className,
+      )}
       style={{
         flexDirection: reverse ? `${direction}-reverse` : direction,
         gap: spaceValue(gap),
@@ -160,11 +166,17 @@ export const Grid = forwardRef<HTMLElement, GridProps>(function Grid(props, ref)
     style,
   } = props;
 
-  const Component = As as ElementType;
+  const Component = As;
   return (
     <Component
       ref={ref}
-      className={resolveSlotClass('grange-grid', styles.grid, ...(slots?.root ?? []), classNames?.root, className)}
+      className={resolveSlotClass(
+        'grange-grid',
+        styles.grid,
+        ...(slots?.root ?? []),
+        classNames?.root,
+        className,
+      )}
       style={{
         gridTemplateColumns: tracks(columns),
         gridTemplateRows: tracks(rows),
@@ -208,7 +220,7 @@ export interface GridItemProps {
  */
 export const GridItem = forwardRef<HTMLElement, GridItemProps>(function GridItem(props, ref) {
   const { children, colSpan, rowSpan, colStart, rowStart, as: As = 'div', className, style } = props;
-  const Component = As as ElementType;
+  const Component = As;
   return (
     <Component
       ref={ref}

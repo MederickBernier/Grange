@@ -1,7 +1,17 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { AppBar, Checkbox, GrangeProvider, IconButton, List, ListItem, appBarSizes, list, rowHeight } from '../index';
+import {
+  AppBar,
+  Checkbox,
+  GrangeProvider,
+  IconButton,
+  List,
+  ListItem,
+  appBarSizes,
+  list,
+  rowHeight,
+} from '../index';
 
 describe('tokens', () => {
   it('matches ListTokens', () => {
@@ -26,7 +36,11 @@ describe('tokens', () => {
 
   it('matches the app bar heights and typescales', () => {
     expect(appBarSizes.small).toMatchObject({ height: 64, titleTypescale: 'title-large', stacked: false });
-    expect(appBarSizes.medium).toMatchObject({ height: 112, titleTypescale: 'headline-small', stacked: true });
+    expect(appBarSizes.medium).toMatchObject({
+      height: 112,
+      titleTypescale: 'headline-small',
+      stacked: true,
+    });
     expect(appBarSizes.large).toMatchObject({ height: 152, titleTypescale: 'headline-medium' });
   });
 
@@ -193,22 +207,22 @@ describe('AppBar', () => {
     unmount();
 
     render(<AppBar title="Inbox" subtitle="12 unread" size="mediumFlexible" />);
-    expect((document.querySelector('.grange-app-bar') as HTMLElement).style.getPropertyValue('--_height')).toBe(
-      '136px',
-    );
+    expect(
+      (document.querySelector('.grange-app-bar') as HTMLElement).style.getPropertyValue('--_height'),
+    ).toBe('136px');
   });
 
   it('keeps one height at the classic sizes, which publish only one', () => {
     const { unmount } = render(<AppBar title="Inbox" size="medium" />);
-    expect((document.querySelector('.grange-app-bar') as HTMLElement).style.getPropertyValue('--_height')).toBe(
-      '112px',
-    );
+    expect(
+      (document.querySelector('.grange-app-bar') as HTMLElement).style.getPropertyValue('--_height'),
+    ).toBe('112px');
     unmount();
 
     render(<AppBar title="Inbox" subtitle="12 unread" size="medium" />);
-    expect((document.querySelector('.grange-app-bar') as HTMLElement).style.getPropertyValue('--_height')).toBe(
-      '112px',
-    );
+    expect(
+      (document.querySelector('.grange-app-bar') as HTMLElement).style.getPropertyValue('--_height'),
+    ).toBe('112px');
   });
 
   it('renders the leading control and the actions', () => {

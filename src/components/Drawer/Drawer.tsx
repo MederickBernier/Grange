@@ -1,7 +1,12 @@
 import { type CSSProperties, type ReactNode } from 'react';
 import { useOverlayTriggerState } from 'react-stately';
 import { ModalPanel } from '../../overlays/ModalPanel';
-import { resolveSlotClass, useComponentConfig, type DrawerSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type DrawerSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import styles from './Drawer.module.scss';
 
 export interface NavigationDrawerProps {

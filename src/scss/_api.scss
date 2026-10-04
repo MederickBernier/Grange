@@ -64,9 +64,9 @@ $_suggestion-limit: 6;
 @function _unknown($kind, $key, $keys) {
   $near: _near($keys, $key);
   @if list.length($near) > 0 {
-    @return "grange: unknown #{$kind} `#{$key}`. Did you mean #{_list($near)}?";
+    @return 'grange: unknown #{$kind} `#{$key}`. Did you mean #{_list($near)}?';
   }
-  @return "grange: unknown #{$kind} `#{$key}`. #{list.length($keys)} available: #{_list($keys)}.";
+  @return 'grange: unknown #{$kind} `#{$key}`. #{list.length($keys)} available: #{_list($keys)}.';
 }
 
 @function _ref($map, $key, $kind, $prefix) {
@@ -127,7 +127,7 @@ $_suggestion-limit: 6;
 ///
 ///   translucent(on-surface, 10%) -> color-mix(in srgb, var(--md-sys-color-on-surface) 10%, transparent)
 @function translucent($role, $percent) {
-  @return string.unquote("color-mix(in srgb, #{color($role)} #{$percent}, transparent)");
+  @return string.unquote('color-mix(in srgb, #{color($role)} #{$percent}, transparent)');
 }
 
 /// One property of one typescale style, e.g. type-prop(label-large, size).

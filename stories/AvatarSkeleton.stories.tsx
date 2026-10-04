@@ -168,8 +168,7 @@ export const WhileLoading: StoryObj = {
             <div style={{ marginTop: 12 }}>
               {loaded ? (
                 <p style={{ margin: 0 }}>
-                  Wrote the first algorithm intended for a machine, for an engine that was never
-                  built.
+                  Wrote the first algorithm intended for a machine, for an engine that was never built.
                 </p>
               ) : (
                 <Skeleton lines={2} />

@@ -83,7 +83,13 @@ export function DropZone(props: DropZoneProps) {
   const { focusProps, isFocusVisible } = useFocusRing();
 
   const slot = (name: UploadSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <>

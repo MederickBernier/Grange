@@ -33,8 +33,22 @@ export const buttonSizes: Record<ButtonSize, ButtonSizeSpec> = {
   xs: { height: 32, square: shapeCorner.medium, pressed: shapeCorner.small, icon: 20, gap: 8, padding: 16 },
   s: { height: 40, square: shapeCorner.medium, pressed: shapeCorner.small, icon: 20, gap: 8, padding: 16 },
   m: { height: 56, square: shapeCorner.large, pressed: shapeCorner.medium, icon: 24, gap: 8, padding: 24 },
-  l: { height: 96, square: shapeCorner.extraLarge, pressed: shapeCorner.large, icon: 32, gap: 12, padding: 48 },
-  xl: { height: 136, square: shapeCorner.extraLarge, pressed: shapeCorner.large, icon: 40, gap: 16, padding: 64 },
+  l: {
+    height: 96,
+    square: shapeCorner.extraLarge,
+    pressed: shapeCorner.large,
+    icon: 32,
+    gap: 12,
+    padding: 48,
+  },
+  xl: {
+    height: 136,
+    square: shapeCorner.extraLarge,
+    pressed: shapeCorner.large,
+    icon: 40,
+    gap: 16,
+    padding: 64,
+  },
 };
 
 /** From Compose XSmall/Small/Medium/Large/XLargeIconButtonTokens. Padding is per side, per width. */
@@ -75,7 +89,10 @@ export const defaultSizes: ResolvedSizes = {
 };
 
 /** Folds overrides onto `base`, leaving anything unlisted alone. Nested providers pass their parent's resolved sizes as the base. */
-export function resolveSizes(overrides: SizeOverrides | undefined, base: ResolvedSizes = defaultSizes): ResolvedSizes {
+export function resolveSizes(
+  overrides: SizeOverrides | undefined,
+  base: ResolvedSizes = defaultSizes,
+): ResolvedSizes {
   if (!overrides) return base;
 
   const button = {} as Record<ButtonSize, ButtonSizeSpec>;
@@ -95,13 +112,21 @@ export function resolveSizes(overrides: SizeOverrides | undefined, base: Resolve
 // ---------------------------------------------------------------------------
 
 /** Resting corner radius for a shape at a size (round = pill). */
-export function restingRadius(size: ButtonSize, shape: ButtonShape, sizes: ResolvedSizes = defaultSizes): number {
+export function restingRadius(
+  size: ButtonSize,
+  shape: ButtonShape,
+  sizes: ResolvedSizes = defaultSizes,
+): number {
   const spec = sizes.button[size];
   return shape === 'round' ? spec.height / 2 : spec.square;
 }
 
 /** Toggles swap shape when selected: round goes square, square goes round. */
-export function selectedRadius(size: ButtonSize, shape: ButtonShape, sizes: ResolvedSizes = defaultSizes): number {
+export function selectedRadius(
+  size: ButtonSize,
+  shape: ButtonShape,
+  sizes: ResolvedSizes = defaultSizes,
+): number {
   return restingRadius(size, shape === 'round' ? 'square' : 'round', sizes);
 }
 

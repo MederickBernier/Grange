@@ -96,10 +96,7 @@ export function DropDownTree(props: DropDownTreeProps) {
 
   const state = useOverlayTriggerState({ isOpen: open, defaultOpen, onOpenChange });
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const { buttonProps } = useButton(
-    { isDisabled: disabled, onPress: () => state.toggle() },
-    triggerRef,
-  );
+  const { buttonProps } = useButton({ isDisabled: disabled, onPress: () => state.toggle() }, triggerRef);
   const { hoverProps, isHovered } = useHover({ isDisabled: disabled });
   const { focusProps, isFocusVisible } = useFocusRing();
 
@@ -120,7 +117,13 @@ export function DropDownTree(props: DropDownTreeProps) {
   const populated = value.length > 0 || Boolean(placeholder) || state.isOpen;
 
   const slot = (name: SelectSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <div
@@ -139,7 +142,11 @@ export function DropDownTree(props: DropDownTreeProps) {
         {...hoverProps}
         {...focusProps}
         ref={triggerRef}
-        className={slot('trigger', 'grange-dropdown-tree-trigger', `${textFieldStyles.container} ${selectStyles.trigger}`)}
+        className={slot(
+          'trigger',
+          'grange-dropdown-tree-trigger',
+          `${textFieldStyles.container} ${selectStyles.trigger}`,
+        )}
         /*
          * A dialog, not a listbox: what opens is a tree, and promising a screen reader a list
          * of options it will not find is worse than saying nothing.
@@ -193,7 +200,8 @@ export function DropDownTree(props: DropDownTreeProps) {
               selectedKeys={selectedKeys}
               defaultSelectedKeys={defaultSelectedKeys}
               onSelectionChange={(keys) => {
-                const next = keys === 'all' ? new Set<Key>(labels.keys()) : new Set<Key>(keys as Iterable<Key>);
+                const next =
+                  keys === 'all' ? new Set<Key>(labels.keys()) : new Set<Key>(keys as Iterable<Key>);
                 onSelectionChange?.(next);
                 // A single-choice field closes on the choice, as a select does. A multiple one
                 // stays open, because the next choice is the point of it.
@@ -201,7 +209,7 @@ export function DropDownTree(props: DropDownTreeProps) {
               }}
               expandedKeys={expandedKeys}
               defaultExpandedKeys={defaultExpandedKeys}
-              onExpandedChange={onExpandedChange as TreeViewProps['onExpandedChange']}
+              onExpandedChange={onExpandedChange}
               disabledKeys={disabledKeys}
             >
               {children}

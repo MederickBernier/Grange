@@ -143,7 +143,7 @@ describe('Chip', () => {
   });
 
   it('renders a leading icon or an avatar, not both', () => {
-    const { container, unmount } = render(<Chip icon={<svg data-testid="icon" />}>With icon</Chip>);
+    const { unmount } = render(<Chip icon={<svg data-testid="icon" />}>With icon</Chip>);
     expect(screen.getByTestId('icon')).toBeTruthy();
     unmount();
 

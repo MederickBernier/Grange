@@ -225,7 +225,7 @@ describe('RTL', () => {
     </I18nProvider>
   );
 
-  it('puts the first item\'s full corners on the left in LTR', () => {
+  it("puts the first item's full corners on the left in LTR", () => {
     render(group('en-US'));
     const first = screen.getAllByRole('radio')[0]!;
     const c = corners(first);

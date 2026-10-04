@@ -104,7 +104,12 @@ describe('length', () => {
 describe('every day in a span', () => {
   it('runs from one end to the other inclusively', () => {
     const days = eachDay({ start: d(2026, 7, 10), end: d(2026, 7, 13) });
-    expect(days.map((day) => day.toString())).toEqual(['2026-07-10', '2026-07-11', '2026-07-12', '2026-07-13']);
+    expect(days.map((day) => day.toString())).toEqual([
+      '2026-07-10',
+      '2026-07-11',
+      '2026-07-12',
+      '2026-07-13',
+    ]);
   });
 
   it('gives one day for a span of one', () => {
@@ -180,6 +185,8 @@ describe('writing a span out', () => {
   });
 
   it('puts a backwards span the right way round first', () => {
-    expect(formatRange({ start: d(2026, 7, 20), end: d(2026, 7, 10) }, 'en-GB')).toBe(formatRange(JULY, 'en-GB'));
+    expect(formatRange({ start: d(2026, 7, 20), end: d(2026, 7, 10) }, 'en-GB')).toBe(
+      formatRange(JULY, 'en-GB'),
+    );
   });
 });

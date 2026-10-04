@@ -90,7 +90,9 @@ class Corner {
   private actualSmoothing(allowedCut: number): number {
     if (allowedCut > this.expectedCut) return this.smoothing;
     if (allowedCut > this.expectedRoundCut) {
-      return (this.smoothing * (allowedCut - this.expectedRoundCut)) / (this.expectedCut - this.expectedRoundCut);
+      return (
+        (this.smoothing * (allowedCut - this.expectedRoundCut)) / (this.expectedCut - this.expectedRoundCut)
+      );
     }
     return 0;
   }
@@ -99,7 +101,11 @@ class Corner {
     // The radius is set by the tighter of the two sides; the looser one can spend what is left on
     // smoothing.
     const allowedCut = Math.min(allowedCut0, allowedCut1);
-    if (this.expectedRoundCut < DISTANCE_EPSILON || allowedCut < DISTANCE_EPSILON || this.radius < DISTANCE_EPSILON) {
+    if (
+      this.expectedRoundCut < DISTANCE_EPSILON ||
+      allowedCut < DISTANCE_EPSILON ||
+      this.radius < DISTANCE_EPSILON
+    ) {
       // A plain corner: a zero-length cubic at the vertex, which the edges then join up to.
       return [straightLine(this.p1, this.p1)];
     }
@@ -182,8 +188,14 @@ export function roundedPolygon(vertices: readonly Point[], options: PolygonOptio
   }
 
   const at = (i: number) => vertices[((i % n) + n) % n]!;
-  const corners = vertices.map((_, i) =>
-    new Corner(at(i - 1), at(i), at(i + 1), options.perVertexRounding?.[i] ?? options.rounding ?? UNROUNDED),
+  const corners = vertices.map(
+    (_, i) =>
+      new Corner(
+        at(i - 1),
+        at(i),
+        at(i + 1),
+        options.perVertexRounding?.[i] ?? options.rounding ?? UNROUNDED,
+      ),
   );
 
   /*
@@ -268,7 +280,10 @@ export function regularVertices(count: number, radius = 1, centre: Point = { x: 
   });
 }
 
-export function regularPolygon(count: number, options: PolygonOptions & { radius?: number } = {}): RoundedPolygon {
+export function regularPolygon(
+  count: number,
+  options: PolygonOptions & { radius?: number } = {},
+): RoundedPolygon {
   const { radius = 1, ...rest } = options;
   return roundedPolygon(regularVertices(count, radius), { centre: { x: 0, y: 0 }, ...rest });
 }

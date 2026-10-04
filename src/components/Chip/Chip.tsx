@@ -3,7 +3,13 @@ import { motion } from 'motion/react';
 import { useFocusRing, useHover, useObjectRef, usePress } from 'react-aria';
 import { Ripple, type RippleHandle } from '../../primitives/Ripple';
 import { useSpring } from '../../motion/GrangeProvider';
-import { resolveSlotClass, useComponentConfig, useGrangeConfig, type ChipSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  useGrangeConfig,
+  type ChipSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import { chip as spec, type ChipVariant } from './specs';
 import styles from './Chip.module.scss';
 

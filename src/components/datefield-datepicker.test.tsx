@@ -121,7 +121,11 @@ describe('DateField', () => {
   it('reports a value that is already outside the range, with a message of its own', () => {
     const { container } = render(
       <I18nProvider locale="en-GB">
-        <DateField label="Date" value={new CalendarDate(2026, 7, 10)} minValue={new CalendarDate(2026, 7, 15)} />
+        <DateField
+          label="Date"
+          value={new CalendarDate(2026, 7, 10)}
+          minValue={new CalendarDate(2026, 7, 15)}
+        />
       </I18nProvider>,
     );
     expect(container.querySelector('.grange-date-field')?.getAttribute('data-error')).toBe('true');
@@ -274,6 +278,8 @@ describe('DatePicker', () => {
     await user.click(calendarButton());
     await waitFor(() => expect(screen.getByRole('grid')).toBeTruthy());
     // The grid followed the segments rather than staying where it was.
-    expect(screen.getByRole('button', { name: /16 July 2026/ }).getAttribute('aria-label')).toContain('selected');
+    expect(screen.getByRole('button', { name: /16 July 2026/ }).getAttribute('aria-label')).toContain(
+      'selected',
+    );
   });
 });

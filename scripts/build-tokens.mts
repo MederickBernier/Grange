@@ -194,7 +194,9 @@ export const springs: Record<MotionSchemeName, Record<SpringName, SpringToken>> 
 
 /** Corner radii in px. "full" is handled by components as height / 2. */
 export const shapeCorner = ${JSON.stringify(
-  Object.fromEntries(Object.entries(shapePx).map(([k, v]) => [k.replace(/-(\w)/g, (_, c) => c.toUpperCase()), v])),
+  Object.fromEntries(
+    Object.entries(shapePx).map(([k, v]) => [k.replace(/-(\w)/g, (_, c) => c.toUpperCase()), v]),
+  ),
   null,
   2,
 )} as const;
@@ -203,7 +205,10 @@ export type ShapeCornerName = keyof typeof shapeCorner;
 
 export const durationMs = ${JSON.stringify(
   Object.fromEntries(
-    Object.entries<number>(spec.motion.duration).map(([k, v]) => [k.replace(/-(\w)/g, (_, c) => c.toUpperCase()), v]),
+    Object.entries<number>(spec.motion.duration).map(([k, v]) => [
+      k.replace(/-(\w)/g, (_, c) => c.toUpperCase()),
+      v,
+    ]),
   ),
   null,
   2,
@@ -211,7 +216,10 @@ export const durationMs = ${JSON.stringify(
 
 export const easing = ${JSON.stringify(
   Object.fromEntries(
-    Object.entries<number[]>(spec.motion.easing).map(([k, v]) => [k.replace(/-(\w)/g, (_, c) => c.toUpperCase()), v]),
+    Object.entries<number[]>(spec.motion.easing).map(([k, v]) => [
+      k.replace(/-(\w)/g, (_, c) => c.toUpperCase()),
+      v,
+    ]),
   ),
   null,
   2,
@@ -303,10 +311,7 @@ $colors-light: ${sassMap(Object.entries(light).sort(byKey))};
 
 $colors-dark: ${sassMap(Object.entries(dark).sort(byKey))};
 
-$shape: ${sassMap([
-  ...Object.entries(shapePx).map(([k, v]): Entry => [k, `${v}px`]),
-  ['full', '9999px'],
-])};
+$shape: ${sassMap([...Object.entries(shapePx).map(([k, v]): Entry => [k, `${v}px`]), ['full', '9999px']])};
 
 $durations: ${sassMap(
   Object.entries<number>(spec.motion.duration).map(([k, v]): Entry => [k.replace(/-(\d)$/, '$1'), `${v}ms`]),

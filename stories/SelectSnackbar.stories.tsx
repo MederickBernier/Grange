@@ -87,10 +87,26 @@ export const RichOptions: StoryObj = {
   render: () => (
     <div style={column}>
       <Select label="Plan" placeholder="Pick a plan" variant="outlined">
-        <SelectItem key="free" icon={<Icon><HeartIcon /></Icon>} supportingText="No card needed">
+        <SelectItem
+          key="free"
+          icon={
+            <Icon>
+              <HeartIcon />
+            </Icon>
+          }
+          supportingText="No card needed"
+        >
           Free
         </SelectItem>
-        <SelectItem key="pro" icon={<Icon><CheckIcon /></Icon>} supportingText="Billed yearly">
+        <SelectItem
+          key="pro"
+          icon={
+            <Icon>
+              <CheckIcon />
+            </Icon>
+          }
+          supportingText="Billed yearly"
+        >
           Pro
         </SelectItem>
         <SelectItem key="team" supportingText="Five seats or more">
@@ -111,7 +127,10 @@ export const InAForm: StoryObj = {
         onSubmit={(event) => {
           event.preventDefault();
           const data = new FormData(event.currentTarget);
-          setSubmitted([...data.entries()].map(([k, v]) => `${k}=${v}`).join(', ') || 'nothing chosen');
+          setSubmitted(
+            [...data.entries()].map(([k, v]) => `${k}=${typeof v === 'string' ? v : v.name}`).join(', ') ||
+              'nothing chosen',
+          );
         }}
       >
         <Select label="Country" name="country" placeholder="Pick one" variant="outlined">
@@ -141,7 +160,11 @@ export const Snackbars: StoryObj = {
           <OutlinedButton
             onClick={() =>
               queue.add(
-                { message: 'Conversation archived', actionLabel: 'Undo', onAction: () => queue.add({ message: 'Restored' }) },
+                {
+                  message: 'Conversation archived',
+                  actionLabel: 'Undo',
+                  onAction: () => queue.add({ message: 'Restored' }),
+                },
                 { timeout: snackbar.timeout },
               )
             }
@@ -151,7 +174,10 @@ export const Snackbars: StoryObj = {
           <TextButton
             onClick={() =>
               queue.add(
-                { message: 'Could not reach the server. Check your connection and try again.', closeable: true },
+                {
+                  message: 'Could not reach the server. Check your connection and try again.',
+                  closeable: true,
+                },
                 { timeout: snackbar.timeout },
               )
             }

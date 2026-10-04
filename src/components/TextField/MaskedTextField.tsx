@@ -4,8 +4,10 @@ import { useControlledState } from '../../utils';
 import { TextField, type TextFieldProps } from './TextField';
 import { applyMask, maskCapacity, unmask } from './mask';
 
-export interface MaskedTextFieldProps
-  extends Omit<TextFieldProps, 'value' | 'defaultValue' | 'onChange' | 'type' | 'multiline' | 'rows' | 'maxLength'> {
+export interface MaskedTextFieldProps extends Omit<
+  TextFieldProps,
+  'value' | 'defaultValue' | 'onChange' | 'type' | 'multiline' | 'rows' | 'maxLength'
+> {
   /**
    * The pattern. `0` takes a digit, `L` a letter, `A` either, `*` anything; every other
    * character is a literal that types itself. So `(000) 000-0000`, `0000 0000 0000 0000`, or
@@ -60,7 +62,7 @@ export const MaskedTextField = forwardRef<HTMLInputElement, MaskedTextFieldProps
       ...rest
     } = props;
 
-    const ref = useObjectRef(forwardedRef as React.ForwardedRef<HTMLInputElement>);
+    const ref = useObjectRef(forwardedRef);
     const [raw, setRaw] = useControlledState<string>(
       value === undefined ? undefined : unmask(value, mask, prompt),
       unmask(defaultValue ?? '', mask, prompt),

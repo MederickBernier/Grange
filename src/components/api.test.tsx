@@ -153,7 +153,10 @@ describe('icon placement', () => {
   it('puts the icon before the label by default', () => {
     render(<FilledButton icon={<Icon />}>Send</FilledButton>);
     const spans = [...button().querySelectorAll('.grange-button-icon, .grange-button-label')];
-    expect(spans.map((s) => s.className.split(' ')[0])).toEqual(['grange-button-icon', 'grange-button-label']);
+    expect(spans.map((s) => s.className.split(' ')[0])).toEqual([
+      'grange-button-icon',
+      'grange-button-label',
+    ]);
   });
 
   it('moves it after the label with trailingIcon, like md trailing-icon', () => {
@@ -163,7 +166,10 @@ describe('icon placement', () => {
       </TextButton>,
     );
     const spans = [...button().querySelectorAll('.grange-button-icon, .grange-button-label')];
-    expect(spans.map((s) => s.className.split(' ')[0])).toEqual(['grange-button-label', 'grange-button-icon']);
+    expect(spans.map((s) => s.className.split(' ')[0])).toEqual([
+      'grange-button-label',
+      'grange-button-icon',
+    ]);
   });
 
   it('renders one icon, not two, whichever side it is on', () => {
@@ -189,7 +195,12 @@ describe('icon placement', () => {
 describe('toggle icon button labelling', () => {
   it('announces ariaLabelSelected while selected', () => {
     render(
-      <IconButton toggle defaultSelected aria-label="Add to favourites" ariaLabelSelected="Remove from favourites">
+      <IconButton
+        toggle
+        defaultSelected
+        aria-label="Add to favourites"
+        ariaLabelSelected="Remove from favourites"
+      >
         <svg />
       </IconButton>,
     );

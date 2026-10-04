@@ -75,13 +75,21 @@ export function Timeline(props: TimelineProps) {
 
   // flattenChildren, not Children.toArray: toArray does not flatten fragments, so a timeline
   // written as <>{a}{b}</> would see one entry.
-  const items = flattenChildren(children).filter(isItem).map((child) => child.props);
+  const items = flattenChildren(children)
+    .filter(isItem)
+    .map((child) => child.props);
   // Alternating is a vertical idea: a horizontal rail has one side, so asking for both sides
   // there would only mean a second row.
   const sides = alternating && orientation === 'vertical';
 
   const slot = (name: TimelineSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <ol

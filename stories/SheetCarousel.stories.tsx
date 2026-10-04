@@ -9,7 +9,6 @@ import {
   ListItem,
   SideSheet,
   TextButton,
-  carousel,
   sideSheet,
 } from '../src';
 
@@ -17,7 +16,7 @@ import {
  * The last two components in the catalog, and the only two with neither a React Aria hook nor a
  * Compose token file. Their geometry comes from the spec pages instead of from androidx, which is
  * recorded in each `specs.ts`: the side sheet borrows NavigationDrawerTokens, since it is the same
- * panel on the same edge, and the carousel's one tokenised value is its {carousel.corner}px corner.
+ * panel on the same edge, and the carousel's one tokenised value is its 28px corner.
  */
 const meta: Meta = {
   title: 'Components/Side sheet and Carousel',
@@ -45,7 +44,7 @@ export const Standard: StoryObj = {
           {details}
         </SideSheet>
       </div>
-      <p className="sb-label">placement="start", and in RTL, where the rounded edge swaps sides</p>
+      <p className="sb-label">placement=“start”, and in RTL, where the rounded edge swaps sides</p>
       <div style={frame}>
         <SideSheet headline="Details" placement="start">
           {details}
@@ -159,9 +158,16 @@ export const FullScreen: StoryObj = {
     const [index, setIndex] = useState(0);
     return (
       <div className="sb-col">
-        <p className="sb-label">Item {index + 1} of {photos.length}</p>
+        <p className="sb-label">
+          Item {index + 1} of {photos.length}
+        </p>
         <div style={{ height: 320, maxWidth: 420 }}>
-          <Carousel aria-label="Photos" variant="full-screen" onIndexChange={setIndex} style={{ height: '100%' }}>
+          <Carousel
+            aria-label="Photos"
+            variant="full-screen"
+            onIndexChange={setIndex}
+            style={{ height: '100%' }}
+          >
             {photos.map((color, i) => (
               <CarouselItem key={color}>
                 <div

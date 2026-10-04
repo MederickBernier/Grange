@@ -86,7 +86,9 @@ export function Signature(props: SignatureProps) {
     (next: Stroke[]) => {
       setStrokes(next);
       // The exported document needs a real colour, since currentColor means nothing in a file.
-      onChange?.(strokesToSvg(next, { width, height, strokeWidth, color: resolveColor(surface.current, color) }));
+      onChange?.(
+        strokesToSvg(next, { width, height, strokeWidth, color: resolveColor(surface.current, color) }),
+      );
     },
     [color, height, onChange, strokeWidth, width],
   );
@@ -118,7 +120,8 @@ export function Signature(props: SignatureProps) {
       const previous = last[last.length - 1];
       // Thin as it goes rather than at the end, so a long stroke does not accumulate samples
       // nobody will ever see.
-      if (previous && Math.hypot(point.x - previous.x, point.y - previous.y) < spec.sampleTolerance) return was;
+      if (previous && Math.hypot(point.x - previous.x, point.y - previous.y) < spec.sampleTolerance)
+        return was;
       return [...was.slice(0, -1), [...last, point]];
     });
   };
@@ -128,9 +131,13 @@ export function Signature(props: SignatureProps) {
     drawing.current = null;
     surface.current?.releasePointerCapture?.(event.pointerId);
     setStrokes((was) => {
-      const next = was.map((stroke, i) => (i === was.length - 1 ? thin(stroke, spec.sampleTolerance) : stroke));
+      const next = was.map((stroke, i) =>
+        i === was.length - 1 ? thin(stroke, spec.sampleTolerance) : stroke,
+      );
       // Reported here rather than on every move: a value per pixel of movement is noise.
-      onChange?.(strokesToSvg(next, { width, height, strokeWidth, color: resolveColor(surface.current, color) }));
+      onChange?.(
+        strokesToSvg(next, { width, height, strokeWidth, color: resolveColor(surface.current, color) }),
+      );
       return next;
     });
   };
@@ -156,7 +163,9 @@ export function Signature(props: SignatureProps) {
       data-error={error || undefined}
       data-signed={signed || undefined}
     >
-      {label != null && <span className={slot('label', 'grange-signature-label', styles.label)}>{label}</span>}
+      {label != null && (
+        <span className={slot('label', 'grange-signature-label', styles.label)}>{label}</span>
+      )}
 
       <svg
         ref={surface}

@@ -2,7 +2,12 @@ import { useRef, type CSSProperties, type ReactNode } from 'react';
 import { useLocale, useTimeField } from 'react-aria';
 import { useTimeFieldState } from 'react-stately';
 import type { Time } from '@internationalized/date';
-import { resolveSlotClass, useComponentConfig, type SlotOverrides, type TimeFieldSlot } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type SlotOverrides,
+  type TimeFieldSlot,
+} from '../../config/config';
 import { Segment } from '../DateField/Segment';
 import styles from './TimeField.module.scss';
 

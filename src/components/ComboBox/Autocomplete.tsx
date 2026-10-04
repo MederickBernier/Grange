@@ -1,18 +1,17 @@
 import type { ReactNode } from 'react';
 import { ComboBox, type ComboBoxProps } from './ComboBox';
 
-export interface AutocompleteProps
-  extends Omit<
-    ComboBoxProps,
-    | 'selectedKey'
-    | 'defaultSelectedKey'
-    | 'onSelectionChange'
-    | 'inputValue'
-    | 'defaultInputValue'
-    | 'onInputChange'
-    | 'allowsCustomValue'
-    | 'showOpenButton'
-  > {
+export interface AutocompleteProps extends Omit<
+  ComboBoxProps,
+  | 'selectedKey'
+  | 'defaultSelectedKey'
+  | 'onSelectionChange'
+  | 'inputValue'
+  | 'defaultInputValue'
+  | 'onInputChange'
+  | 'allowsCustomValue'
+  | 'showOpenButton'
+> {
   /** The text, which here is the value: there is no separate notion of a chosen option. */
   value?: string;
   defaultValue?: string;

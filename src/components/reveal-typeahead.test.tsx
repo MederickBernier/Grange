@@ -67,9 +67,7 @@ describe('password reveal', () => {
   });
 
   it('takes its own labels', () => {
-    render(
-      <FilledTextField label="Password" type="password" revealLabel="Afficher" hideLabel="Masquer" />,
-    );
+    render(<FilledTextField label="Password" type="password" revealLabel="Afficher" hideLabel="Masquer" />);
     expect(screen.getByRole('button', { name: 'Afficher' })).toBeTruthy();
   });
 
@@ -245,13 +243,7 @@ describe('FabMenu keyboard', () => {
     const user = userEvent.setup();
     const onOpenChange = vi.fn();
     render(
-      <FabMenu
-        open
-        onOpenChange={onOpenChange}
-        icon={<svg />}
-        closeIcon={<svg />}
-        aria-label="Create"
-      >
+      <FabMenu open onOpenChange={onOpenChange} icon={<svg />} closeIcon={<svg />} aria-label="Create">
         <FabMenuItem>Alarm</FabMenuItem>
       </FabMenu>,
     );

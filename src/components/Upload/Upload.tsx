@@ -95,7 +95,13 @@ export function Upload(props: UploadProps) {
   };
 
   const slot = (name: UploadSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <div className={slot('root', 'grange-upload', styles.upload)} style={style}>
@@ -113,7 +119,11 @@ export function Upload(props: UploadProps) {
       {showList && rows.length > 0 && (
         <ul className={slot('list', 'grange-upload-list', styles.list)}>
           {rows.map((row) => (
-            <li key={row.id} className={slot('item', 'grange-upload-item', styles.item)} data-status={row.status}>
+            <li
+              key={row.id}
+              className={slot('item', 'grange-upload-item', styles.item)}
+              data-status={row.status}
+            >
               {/*
                 Name, size and progress in one column beside the buttons, rather than all four
                 in one grid: a progress bar spanning the row pushed the buttons onto a line of

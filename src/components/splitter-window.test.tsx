@@ -2,7 +2,16 @@ import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { GrangeProvider, Splitter, SplitterPane, Window, list, moveBoundary, splitter, windowSpec } from '../index';
+import {
+  GrangeProvider,
+  Splitter,
+  SplitterPane,
+  Window,
+  list,
+  moveBoundary,
+  splitter,
+  windowSpec,
+} from '../index';
 
 /*
  * The clamping is tested here rather than through a rendered splitter, and that is forced
@@ -105,7 +114,7 @@ describe('Splitter', () => {
     expect(bars[0]!.getAttribute('tabindex')).toBe('0');
   });
 
-  it("reports its position as a percentage, which is what the value means", () => {
+  it('reports its position as a percentage, which is what the value means', () => {
     render(<Splitter defaultSizes={[30, 70]}>{panes}</Splitter>);
     expect(bar().getAttribute('aria-valuenow')).toBe('30');
     expect(bar().getAttribute('aria-valuetext')).toBe('30%');

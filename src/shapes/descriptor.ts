@@ -52,15 +52,16 @@ export interface StarDescriptor extends WithTransforms {
 export interface CustomDescriptor extends WithTransforms {
   readonly kind: 'custom';
   /** One section of the outline, repeated and optionally mirrored around the centre. */
-  readonly points: readonly { readonly x: number; readonly y: number; readonly radius: number; readonly smoothing: number }[];
+  readonly points: readonly {
+    readonly x: number;
+    readonly y: number;
+    readonly radius: number;
+    readonly smoothing: number;
+  }[];
   readonly reps: number;
   readonly mirroring: boolean;
   readonly center: readonly [number, number];
 }
 
 export type ShapeDescriptor =
-  | CircleDescriptor
-  | RegularDescriptor
-  | RectangleDescriptor
-  | StarDescriptor
-  | CustomDescriptor;
+  CircleDescriptor | RegularDescriptor | RectangleDescriptor | StarDescriptor | CustomDescriptor;

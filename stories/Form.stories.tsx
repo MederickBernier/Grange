@@ -47,7 +47,8 @@ export const Validation: StoryObj = {
     const validate = (values: FormValues): FormErrors | void => {
       const problems: FormErrors = {};
       if (!values.email) problems.email = 'An email address is required';
-      else if (!String(values.email).includes('@')) problems.email = 'That does not look like an email';
+      else if (typeof values.email === 'string' && !values.email.includes('@'))
+        problems.email = 'That does not look like an email';
       if (!values.size) problems.size = 'Pick a size';
       if (Number(values.quantity) > 10) problems.quantity = 'Ten is the most we can send';
       if (!values.terms) problems.terms = 'The terms have to be accepted';
@@ -108,9 +109,7 @@ export const ServerErrors: StoryObj = {
           onSubmit={(values, event) => {
             event.preventDefault();
             // What a failed request would come back with.
-            setErrors(
-              String(values.username) === 'ada' ? { username: 'That username is taken' } : {},
-            );
+            setErrors(values.username === 'ada' ? { username: 'That username is taken' } : {});
           }}
           actions={<FilledButton type="submit">Create account</FilledButton>}
         >

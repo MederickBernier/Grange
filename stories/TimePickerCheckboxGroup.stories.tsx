@@ -2,21 +2,13 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { I18nProvider } from 'react-aria';
 import { Time } from '@internationalized/date';
-import {
-  Checkbox,
-  CheckboxGroup,
-  Dialog,
-  FilledButton,
-  TextButton,
-  TimePicker,
-  timePicker,
-} from '../src';
+import { Checkbox, CheckboxGroup, Dialog, FilledButton, TextButton, TimePicker } from '../src';
 
 /**
  * Two of the gaps the roadmap recorded, now closed: the clock dial the time picker was missing,
  * and the checkbox group a single `Checkbox` cannot express.
  *
- * The dial is a {timePicker.dialSize}px face with a {timePicker.handleSize}px handle, straight
+ * The dial is a 256px face with a 48px handle, straight
  * from TimePickerTokens. It is a circular slider and says so — `role="slider"` with an
  * `aria-valuetext` that reads the hour or minute out — which is what lets a keyboard set 9:07,
  * something a ring of twelve buttons cannot do.
@@ -50,7 +42,13 @@ export const TwentyFourHour: StoryObj = {
     const [value, setValue] = useState(new Time(17, 5));
     return (
       <div className="sb-col">
-        <TimePicker aria-label="Select time" headline="Select time" hourCycle={24} value={value} onChange={setValue} />
+        <TimePicker
+          aria-label="Select time"
+          headline="Select time"
+          hourCycle={24}
+          value={value}
+          onChange={setValue}
+        />
         <p className="sb-label">{value.toString()}</p>
       </div>
     );
@@ -64,7 +62,11 @@ export const PeriodLayouts: StoryObj = {
       {(['vertical', 'horizontal'] as const).map((orientation) => (
         <div key={orientation} className="sb-col">
           <p className="sb-label">{orientation}</p>
-          <TimePicker aria-label="Select time" defaultValue={new Time(9, 30)} periodOrientation={orientation} />
+          <TimePicker
+            aria-label="Select time"
+            defaultValue={new Time(9, 30)}
+            periodOrientation={orientation}
+          />
         </div>
       ))}
     </div>

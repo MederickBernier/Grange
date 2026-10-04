@@ -12,8 +12,10 @@ import styles from './Fab.module.scss';
 
 export type { FabSize, FabVariant };
 
-export interface FabProps
-  extends Omit<AriaButtonProps<'button' | 'a'>, 'children' | 'elementType' | 'isDisabled'> {
+export interface FabProps extends Omit<
+  AriaButtonProps<'button' | 'a'>,
+  'children' | 'elementType' | 'isDisabled'
+> {
   /** The icon. An aria-label is required, since a FAB carries no visible text. */
   children: ReactNode;
   'aria-label': string;

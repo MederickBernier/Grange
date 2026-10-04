@@ -62,13 +62,13 @@ describe('linearWavePath', () => {
 describe('circularWavePath', () => {
   const base = { radius: 20, amplitude: 1.6, wavelength: 15, centerX: 24, centerY: 24 };
 
-  it('starts at twelve o\'clock', () => {
+  it("starts at twelve o'clock", () => {
     const first = points(circularWavePath({ ...base, sweep: 1 }))[0]!;
     expect(first[0]).toBeCloseTo(24, 1);
     expect(first[1]).toBeCloseTo(4, 1);
   });
 
-  it('runs clockwise, so a quarter sweep ends at three o\'clock', () => {
+  it("runs clockwise, so a quarter sweep ends at three o'clock", () => {
     const last = points(circularWavePath({ ...base, sweep: 0.25 })).at(-1)!;
     expect(last[0]).toBeGreaterThan(base.centerX + 15);
     expect(last[1]).toBeCloseTo(24, 0);

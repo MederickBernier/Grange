@@ -88,10 +88,18 @@ export function Breadcrumbs(props: BreadcrumbsProps) {
   const { navProps } = useBreadcrumbs({ 'aria-label': ariaLabel });
   // flattenChildren, not Children.toArray: a trail written as a fragment would otherwise be
   // one crumb long.
-  const items = flattenChildren(children).filter(isCrumb).map((child) => child.props);
+  const items = flattenChildren(children)
+    .filter(isCrumb)
+    .map((child) => child.props);
 
   const slot = (name: BreadcrumbsSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   /*
    * Keep the first and the last two, fold everything between them. Below the limit nothing is
@@ -102,11 +110,7 @@ export function Breadcrumbs(props: BreadcrumbsProps) {
   const insertMenuAfter = folded.length > 0 ? 0 : -1;
 
   return (
-    <nav
-      {...navProps}
-      className={slot('root', 'grange-breadcrumbs', styles.breadcrumbs)}
-      style={style}
-    >
+    <nav {...navProps} className={slot('root', 'grange-breadcrumbs', styles.breadcrumbs)} style={style}>
       <ol className={styles.list}>
         {shown.map((item, i) => (
           <li key={String(item.id)} className={styles.item}>

@@ -1,17 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import {
-  AppBar,
-  Card,
-  Checkbox,
-  Divider,
-  Icon,
-  IconButton,
-  List,
-  ListItem,
-  Radio,
-  RadioGroup,
-} from '../src';
+import { AppBar, Card, Checkbox, Divider, Icon, IconButton, List, ListItem, Radio, RadioGroup } from '../src';
 import { AddIcon, ArrowIcon, CheckIcon, HeartIcon } from './icons';
 
 /**
@@ -32,14 +21,33 @@ export const Lines: StoryObj = {
   render: () => (
     <Card variant="outlined" style={{ maxWidth: 400, padding: 0 }}>
       <List contained aria-label="Line counts">
-        <ListItem leading={<Icon><HeartIcon /></Icon>}>One line</ListItem>
+        <ListItem
+          leading={
+            <Icon>
+              <HeartIcon />
+            </Icon>
+          }
+        >
+          One line
+        </ListItem>
         <Divider inset="start" />
-        <ListItem leading={<Icon><CheckIcon /></Icon>} supportingText="With a second line under it">
+        <ListItem
+          leading={
+            <Icon>
+              <CheckIcon />
+            </Icon>
+          }
+          supportingText="With a second line under it"
+        >
           Two lines
         </ListItem>
         <Divider inset="start" />
         <ListItem
-          leading={<Icon><AddIcon /></Icon>}
+          leading={
+            <Icon>
+              <AddIcon />
+            </Icon>
+          }
           overline="Overline"
           supportingText="And a second line as well"
         >
@@ -62,7 +70,11 @@ export const Slots: StoryObj = {
         ].map((mail) => (
           <ListItem
             key={mail.from}
-            leading={<Icon><HeartIcon /></Icon>}
+            leading={
+              <Icon>
+                <HeartIcon />
+              </Icon>
+            }
             trailingText={mail.at}
             trailing={
               <IconButton aria-label={`Flag ${mail.from}`}>
@@ -96,7 +108,11 @@ export const Navigation: StoryObj = {
           ].map((box) => (
             <ListItem
               key={box.id}
-              leading={<Icon><ArrowIcon /></Icon>}
+              leading={
+                <Icon>
+                  <ArrowIcon />
+                </Icon>
+              }
               trailingText={box.count || undefined}
               selected={current === box.id}
               onClick={() => setCurrent(box.id)}
@@ -223,7 +239,9 @@ export const OnScroll: StoryObj = {
   render: function Render() {
     const [scrolled, setScrolled] = useState(false);
     return (
-      <div style={{ maxWidth: 420, border: '1px solid var(--md-sys-color-outline-variant)', borderRadius: 12 }}>
+      <div
+        style={{ maxWidth: 420, border: '1px solid var(--md-sys-color-outline-variant)', borderRadius: 12 }}
+      >
         <AppBar
           title="Inbox"
           subtitle={scrolled ? 'Scrolled' : 'At the top'}

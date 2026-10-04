@@ -22,8 +22,16 @@ let scrollBy: ReturnType<typeof vi.fn>;
 
 beforeEach(() => {
   scrollBy = vi.fn();
-  Object.defineProperty(Element.prototype, 'scrollBy', { value: scrollBy, writable: true, configurable: true });
-  Object.defineProperty(Element.prototype, 'scrollTo', { value: vi.fn(), writable: true, configurable: true });
+  Object.defineProperty(Element.prototype, 'scrollBy', {
+    value: scrollBy,
+    writable: true,
+    configurable: true,
+  });
+  Object.defineProperty(Element.prototype, 'scrollTo', {
+    value: vi.fn(),
+    writable: true,
+    configurable: true,
+  });
 });
 
 afterEach(() => {
@@ -230,11 +238,7 @@ describe('Carousel', () => {
   );
 
   it('is a named, focusable scroll region that announces itself as a carousel', () => {
-    render(
-      <Carousel aria-label="Photos">
-        {strip}
-      </Carousel>,
-    );
+    render(<Carousel aria-label="Photos">{strip}</Carousel>);
     const region = screen.getByRole('group', { name: 'Photos' });
     expect(region.getAttribute('aria-roledescription')).toBe('carousel');
     // A scrollable region needs a tab stop, or the keyboard cannot reach what is in it.
@@ -374,7 +378,13 @@ describe('overrides', () => {
     const { container } = render(
       <GrangeProvider
         classNames={{
-          SideSheet: { root: 'x-root', header: 'x-header', headline: 'x-headline', content: 'x-content', handle: 'x-handle' },
+          SideSheet: {
+            root: 'x-root',
+            header: 'x-header',
+            headline: 'x-headline',
+            content: 'x-content',
+            handle: 'x-handle',
+          },
         }}
       >
         <SideSheet headline="Filters" resizable>

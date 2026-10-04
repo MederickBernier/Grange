@@ -238,7 +238,11 @@ describe('the finished QR grid', () => {
   it('puts the three finders and the dark module where they belong', () => {
     const grid = encodeQR('x', 'M');
     const size = grid.length;
-    for (const [row, col] of [[0, 0], [0, size - 7], [size - 7, 0]] as const) {
+    for (const [row, col] of [
+      [0, 0],
+      [0, size - 7],
+      [size - 7, 0],
+    ] as const) {
       // Dark 3x3 core, a light ring around it, then the dark 7x7 border.
       expect(grid[row + 3]![col + 3]).toBe(1);
       expect(grid[row + 1]![col + 3]).toBe(0);
@@ -305,7 +309,7 @@ describe('QRCode', () => {
     expect(container.querySelectorAll('rect')).toHaveLength(1);
   });
 
-  it('carries the standard\'s four-module quiet zone', () => {
+  it("carries the standard's four-module quiet zone", () => {
     const { container } = render(<QRCode value="x" level="M" />);
     const modules = encodeQR('x', 'M').length;
     expect(container.querySelector('svg')!.getAttribute('viewBox')).toBe(`0 0 ${modules + 8} ${modules + 8}`);
@@ -330,7 +334,11 @@ function functionMap(version: number): boolean[][] {
     if (r >= 0 && r < size && c >= 0 && c < size) map[r]![c] = true;
   };
 
-  for (const [row, col] of [[0, 0], [0, size - 7], [size - 7, 0]] as const) {
+  for (const [row, col] of [
+    [0, 0],
+    [0, size - 7],
+    [size - 7, 0],
+  ] as const) {
     for (let r = -1; r <= 7; r += 1) for (let c = -1; c <= 7; c += 1) mark(row + r, col + c);
   }
   for (let i = 0; i < size; i += 1) {
@@ -338,7 +346,16 @@ function functionMap(version: number): boolean[][] {
     mark(i, 6);
   }
   const centres: number[][] = [
-    [], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34], [6, 22, 38], [6, 24, 42], [6, 26, 46], [6, 28, 50],
+    [],
+    [6, 18],
+    [6, 22],
+    [6, 26],
+    [6, 30],
+    [6, 34],
+    [6, 22, 38],
+    [6, 24, 42],
+    [6, 26, 46],
+    [6, 28, 50],
   ];
   for (const row of centres[version - 1]!) {
     for (const col of centres[version - 1]!) {

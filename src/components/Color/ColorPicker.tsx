@@ -96,7 +96,13 @@ export function ColorPicker(props: ColorPickerProps) {
   const { focusProps, isFocusVisible } = useFocusRing();
 
   const slot = (name_: ColorSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name_] ?? []), classNames?.[name_], name_ === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name_] ?? []),
+      classNames?.[name_],
+      name_ === 'root' ? className : undefined,
+    );
 
   return (
     <div className={slot('root', 'grange-color-picker', styles.picker)} style={style}>
@@ -111,12 +117,20 @@ export function ColorPicker(props: ColorPickerProps) {
         data-hovered={isHovered || undefined}
         data-focus-visible={isFocusVisible || undefined}
       >
-        <span className={styles.triggerColor} style={{ background: color.toString('css') }} aria-hidden="true" />
+        <span
+          className={styles.triggerColor}
+          style={{ background: color.toString('css') }}
+          aria-hidden="true"
+        />
       </button>
 
       {overlay.isOpen && (
         <Popover state={overlay} triggerRef={triggerRef} className={menuStyles.popover}>
-          <div className={styles.panel} role="group" aria-label={typeof label === 'string' ? label : 'Colour'}>
+          <div
+            className={styles.panel}
+            role="group"
+            aria-label={typeof label === 'string' ? label : 'Colour'}
+          >
             <Panel state={state} showAlpha={showAlpha} showField={showField} presets={presets} />
           </div>
         </Popover>

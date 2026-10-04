@@ -23,7 +23,14 @@ interface Row {
 }
 
 const rows: Row[] = [
-  { name: 'Ada', city: 'London', score: 90, joined: new Date('2026-01-10'), active: true, profile: { tag: 'x' } },
+  {
+    name: 'Ada',
+    city: 'London',
+    score: 90,
+    joined: new Date('2026-01-10'),
+    active: true,
+    profile: { tag: 'x' },
+  },
   { name: 'Älva', city: 'Oslo', score: 70, joined: new Date('2026-03-02'), active: false },
   { name: 'Grace', city: 'London', score: null, joined: new Date('2025-11-30'), active: true },
   { name: 'alan', city: 'Zurich', score: 85, active: false },
@@ -43,7 +50,9 @@ describe('getField', () => {
 describe('matches', () => {
   it('ignores case by default, which is what a person filtering a table expects', () => {
     expect(matches(rows[3], { field: 'name', operator: 'contains', value: 'ALA' })).toBe(true);
-    expect(matches(rows[3], { field: 'name', operator: 'contains', value: 'ALA', ignoreCase: false })).toBe(false);
+    expect(matches(rows[3], { field: 'name', operator: 'contains', value: 'ALA', ignoreCase: false })).toBe(
+      false,
+    );
   });
 
   it('handles the text operators', () => {
@@ -84,7 +93,13 @@ describe('passes', () => {
     logic: 'and',
     filters: [
       { field: 'city', operator: 'eq', value: 'London' },
-      { logic: 'or', filters: [{ field: 'score', operator: 'gt', value: 80 }, { field: 'name', operator: 'eq', value: 'Grace' }] },
+      {
+        logic: 'or',
+        filters: [
+          { field: 'score', operator: 'gt', value: 80 },
+          { field: 'name', operator: 'eq', value: 'Grace' },
+        ],
+      },
     ],
   };
 

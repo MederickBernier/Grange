@@ -40,7 +40,8 @@
     background: linear-gradient(
       90deg,
       transparent,
-      grange.translucent(on-surface, 8), // the hover state-layer opacity, as a literal percent
+      grange.translucent(on-surface, 8),
+      // the hover state-layer opacity, as a literal percent
       transparent
     );
   }

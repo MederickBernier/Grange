@@ -112,13 +112,19 @@ export const Factories: StoryObj = {
       ['circle, 8 vertices', normalized(circle(8))],
       ['rectangle 3:2', normalized(rectangle(3, 2, { rounding: { radius: 0.3 } }))],
       ['star, 8 points', normalized(star(8, { innerRadius: 0.6, rounding: { radius: 0.1 } }))],
-      ['star, soft inner', normalized(star(8, { innerRadius: 0.6, rounding: { radius: 0.1 }, innerRounding: { radius: 0.5 } }))],
+      [
+        'star, soft inner',
+        normalized(star(8, { innerRadius: 0.6, rounding: { radius: 0.1 }, innerRounding: { radius: 0.5 } })),
+      ],
     ] as const;
 
     return (
       <div className="sb-row" style={{ gap: 24, flexWrap: 'wrap', alignItems: 'flex-start' }}>
         {examples.map(([label, polygon]) => (
-          <figure key={label} style={{ margin: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+          <figure
+            key={label}
+            style={{ margin: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}
+          >
             <svg width={120} height={120} viewBox="0 0 120 120" role="img" aria-label={label}>
               <path d={shapePath(polygon, { size: 120 })} fill="var(--md-sys-color-tertiary)" />
             </svg>
@@ -158,7 +164,13 @@ export const Morphing: StoryObj = {
 
     return (
       <div className="sb-col" style={{ maxWidth: 420 }}>
-        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} role="img" aria-label="Morphing shape">
+        <svg
+          width={size}
+          height={size}
+          viewBox={`0 0 ${size} ${size}`}
+          role="img"
+          aria-label="Morphing shape"
+        >
           <path d={polylinePath(points)} fill="var(--md-sys-color-primary)" />
         </svg>
         <Slider
@@ -216,14 +228,17 @@ export const Normalisation: StoryObj = {
   render: () => (
     <div className="sb-col">
       <p className="sb-label">
-        Each outline is scaled so its longer axis fills the box, and centred on the other. The
-        dashed square is the box.
+        Each outline is scaled so its longer axis fills the box, and centred on the other. The dashed square
+        is the box.
       </p>
       <div className="sb-row" style={{ gap: 20, flexWrap: 'wrap' }}>
         {(['Circle', 'SemiCircle', 'Arrow', 'PixelTriangle', 'Heart'] as const).map((name) => {
           const box = bounds(shape(name).cubics);
           return (
-            <figure key={name} style={{ margin: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+            <figure
+              key={name}
+              style={{ margin: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}
+            >
               <svg width={120} height={120} viewBox="0 0 120 120" role="img" aria-label={name}>
                 <rect
                   x={0.5}

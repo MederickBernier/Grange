@@ -89,7 +89,9 @@ describe('formatBytes', () => {
 
 describe('toUploadFiles', () => {
   it('marks what cannot be accepted as it arrives, not on submit', () => {
-    const rows = toUploadFiles([file('a.png', 10, 'image/png'), file('b.exe', 10, '')], { accept: 'image/*' });
+    const rows = toUploadFiles([file('a.png', 10, 'image/png'), file('b.exe', 10, '')], {
+      accept: 'image/*',
+    });
     expect(rows[0]!.status).toBe('pending');
     expect(rows[1]!.status).toBe('error');
     expect(rows[1]!.error).toContain('Not an accepted type');
@@ -258,7 +260,9 @@ describe('Upload', () => {
   it('draws a progress bar for a row that is uploading', () => {
     const rows: UploadFile[] = [{ id: '1', name: 'a.png', size: 10, status: 'uploading', progress: 0.4 }];
     render(<Upload files={rows} />);
-    expect(screen.getByRole('progressbar', { name: 'Uploading a.png' }).getAttribute('aria-valuenow')).toBe('0.4');
+    expect(screen.getByRole('progressbar', { name: 'Uploading a.png' }).getAttribute('aria-valuenow')).toBe(
+      '0.4',
+    );
   });
 
   it('replaces rather than appends when it is not multiple', async () => {

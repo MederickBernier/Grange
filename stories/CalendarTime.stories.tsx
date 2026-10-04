@@ -2,15 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { I18nProvider } from 'react-aria';
 import { CalendarDate, Time } from '@internationalized/date';
-import {
-  Calendar,
-  Dialog,
-  FilledButton,
-  RangeCalendar,
-  TextButton,
-  TimeField,
-  timePicker,
-} from '../src';
+import { Calendar, Dialog, FilledButton, RangeCalendar, TextButton, TimeField } from '../src';
 
 /**
  * The date and time pickers.
@@ -27,7 +19,7 @@ import {
  * without the component knowing anything about it.
  *
  * The clock dial, the other mode the spec draws for a time picker, is `TimePicker`: a
- * {timePicker.dialSize}px face with a {timePicker.handleSize}px handle. It has its own stories.
+ * 256px face with a 48px handle. It has its own stories.
  */
 const meta: Meta = {
   title: 'Components/Calendar and Time',

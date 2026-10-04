@@ -79,7 +79,7 @@ export function OptionList({
       {...listBoxProps}
       ref={ref}
       className={columns ? `${menuStyles.menu} ${menuStyles.columned}` : menuStyles.menu}
-      style={tracks ? ({ ['--grange-option-columns' as string]: tracks } as React.CSSProperties) : undefined}
+      style={tracks ? { ['--grange-option-columns' as string]: tracks } : undefined}
     >
       {columns && (
         // Presentation: a header is not something you can choose, so it is not an option.
@@ -98,7 +98,13 @@ export function OptionList({
         </li>
       ) : (
         items.map((item) => (
-          <Option key={item.key} item={item} state={state} className={itemClass} columned={Boolean(columns)} />
+          <Option
+            key={item.key}
+            item={item}
+            state={state}
+            className={itemClass}
+            columned={Boolean(columns)}
+          />
         ))
       )}
     </ul>

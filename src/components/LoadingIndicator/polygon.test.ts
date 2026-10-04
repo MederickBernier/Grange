@@ -15,7 +15,7 @@ describe('regularPolygon', () => {
     expect(regularPolygon(12, 10)).toHaveLength(12);
   });
 
-  it('starts at twelve o\'clock, so a triangle points up', () => {
+  it("starts at twelve o'clock, so a triangle points up", () => {
     const [first] = regularPolygon(3, 10);
     expect(first!.x).toBeCloseTo(0, 5);
     expect(first!.y).toBeCloseTo(-10, 5);
@@ -122,6 +122,15 @@ describe('roundedPath', () => {
   });
 
   it('gives nothing for fewer than three points', () => {
-    expect(roundedPath([{ x: 0, y: 0 }, { x: 1, y: 1 }], 0.3, centre)).toBe('');
+    expect(
+      roundedPath(
+        [
+          { x: 0, y: 0 },
+          { x: 1, y: 1 },
+        ],
+        0.3,
+        centre,
+      ),
+    ).toBe('');
   });
 });

@@ -85,11 +85,7 @@ export const Signatures: StoryObj = {
     const [svg, setSvg] = useState<string | null>(null);
     return (
       <div style={column}>
-        <Signature
-          label="Sign here"
-          onChange={setSvg}
-          supportingText="Or type your name below instead"
-        />
+        <Signature label="Sign here" onChange={setSvg} supportingText="Or type your name below instead" />
         <FilledTextField label="Full name" supportingText="The alternative to signing" />
         <p className="sb-label">{svg ? `${svg.length} characters of SVG` : 'nothing signed'}</p>
         {svg && (

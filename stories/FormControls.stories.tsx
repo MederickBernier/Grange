@@ -51,11 +51,7 @@ export const Indeterminate: StoryObj = {
 
     return (
       <div className="sb-col">
-        <Checkbox
-          checked={all}
-          indeterminate={some}
-          onChange={(next) => setItems(items.map(() => next))}
-        >
+        <Checkbox checked={all} indeterminate={some} onChange={(next) => setItems(items.map(() => next))}>
           Select all
         </Checkbox>
         <div className="sb-col" style={{ paddingInlineStart: 36, gap: 8 }}>
@@ -87,9 +83,7 @@ export const Switches: StoryObj = {
       <Switch selectedIcon={<CheckIcon />} defaultSelected>
         With an icon on
       </Switch>
-      <Switch selectedIcon={<CheckIcon />}>
-        Icon given, so the off handle is the larger size
-      </Switch>
+      <Switch selectedIcon={<CheckIcon />}>Icon given, so the off handle is the larger size</Switch>
       <Divider />
       <Switch disabled>Disabled, off</Switch>
       <Switch disabled defaultSelected>
@@ -109,7 +103,10 @@ export const InAForm: StoryObj = {
         onSubmit={(event) => {
           event.preventDefault();
           const data = new FormData(event.currentTarget);
-          setSubmitted([...data.entries()].map(([k, v]) => `${k}=${v}`).join(', ') || 'nothing checked');
+          setSubmitted(
+            [...data.entries()].map(([k, v]) => `${k}=${typeof v === 'string' ? v : v.name}`).join(', ') ||
+              'nothing checked',
+          );
         }}
       >
         <Checkbox name="terms" value="accepted">

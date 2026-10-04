@@ -1,6 +1,12 @@
 import { useMemo, useRef, type CSSProperties } from 'react';
 import { useColorSwatch, useFocusRing, useListBox, useLocale, useOption } from 'react-aria';
-import { Item, parseColor as parseColorImpl, useListState, type Color as AriaColor, type ListState } from 'react-stately';
+import {
+  Item,
+  parseColor as parseColorImpl,
+  useListState,
+  type Color as AriaColor,
+  type ListState,
+} from 'react-stately';
 import {
   resolveSlotClass,
   useComponentConfig,
@@ -63,10 +69,7 @@ export function ColorSwatchPicker(props: ColorSwatchPickerProps) {
    * `rgb(255, 0, 0)` do not count as different options. Everything is normalised through the
    * same formatter.
    */
-  const keyed = useMemo(
-    () => colors.map((entry) => ({ id: normalise(entry), color: entry })),
-    [colors],
-  );
+  const keyed = useMemo(() => colors.map((entry) => ({ id: normalise(entry), color: entry })), [colors]);
   const selected = value ?? defaultValue;
   const selectedKey = selected == null ? undefined : normalise(selected);
 
@@ -98,7 +101,13 @@ export function ColorSwatchPicker(props: ColorSwatchPickerProps) {
   );
 
   const slot = (name: ColorSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <ul
@@ -139,11 +148,7 @@ function Swatch({ node, state, size }: { node: Node; state: ListState<unknown>; 
       data-focus-visible={isFocusVisible || undefined}
     >
       {/* The colour itself is decoration: the option is already named after it. */}
-      <span
-        className={styles.swatchColor}
-        style={{ background: color.toString('css') }}
-        aria-hidden="true"
-      />
+      <span className={styles.swatchColor} style={{ background: color.toString('css') }} aria-hidden="true" />
     </li>
   );
 }

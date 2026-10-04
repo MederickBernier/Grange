@@ -157,8 +157,17 @@ describe('Signature', () => {
   const surface = () => screen.getByRole('img');
   /** jsdom gives every element a zero box, so the pad is given one to map pointers into. */
   const withBox = (el: Element, width = 320, height = 140) => {
-    el.getBoundingClientRect = () =>
-      ({ left: 0, top: 0, width, height, right: width, bottom: height, x: 0, y: 0, toJSON: () => ({}) }) as DOMRect;
+    el.getBoundingClientRect = () => ({
+      left: 0,
+      top: 0,
+      width,
+      height,
+      right: width,
+      bottom: height,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    });
   };
 
   const draw = (el: Element, points: Array<[number, number]>) => {
@@ -220,8 +229,14 @@ describe('Signature', () => {
     const svg = container.querySelector('svg')!;
     withBox(svg);
 
-    draw(svg, [[10, 10], [40, 30]]);
-    draw(svg, [[60, 10], [90, 30]]);
+    draw(svg, [
+      [10, 10],
+      [40, 30],
+    ]);
+    draw(svg, [
+      [60, 10],
+      [90, 30],
+    ]);
     expect(container.querySelectorAll('path')).toHaveLength(2);
 
     await user.click(screen.getByRole('button', { name: 'Undo' }));
@@ -243,10 +258,15 @@ describe('Signature', () => {
   it('does not draw when it is disabled or read only', () => {
     for (const prop of ['disabled', 'readOnly'] as const) {
       const onChange = vi.fn();
-      const { container, unmount } = render(<Signature label="Sign here" onChange={onChange} {...{ [prop]: true }} />);
+      const { container, unmount } = render(
+        <Signature label="Sign here" onChange={onChange} {...{ [prop]: true }} />,
+      );
       const svg = container.querySelector('svg')!;
       withBox(svg);
-      draw(svg, [[10, 10], [40, 30]]);
+      draw(svg, [
+        [10, 10],
+        [40, 30],
+      ]);
       expect(onChange, prop).not.toHaveBeenCalled();
       expect(container.querySelectorAll('path'), prop).toHaveLength(0);
       // No controls either: there is nothing they could do.
@@ -291,7 +311,9 @@ describe('Signature', () => {
     const { container } = render(
       <GrangeProvider
         defaultProps={{ Signature: { width: 240, height: 100 } }}
-        classNames={{ Signature: { root: 'x-root', label: 'x-label', surface: 'x-surface', actions: 'x-actions' } }}
+        classNames={{
+          Signature: { root: 'x-root', label: 'x-label', surface: 'x-surface', actions: 'x-actions' },
+        }}
       >
         <Signature label="Sign here" supportingText="Hint" />
       </GrangeProvider>,
@@ -315,7 +337,10 @@ describe('Signature', () => {
     const { container } = render(<Host />);
     const svg = container.querySelector('svg')!;
     withBox(svg);
-    draw(svg, [[10, 10], [40, 30]]);
+    draw(svg, [
+      [10, 10],
+      [40, 30],
+    ]);
     expect(screen.getByText('signed')).toBeTruthy();
     expect(container.querySelectorAll('path')).toHaveLength(1);
   });

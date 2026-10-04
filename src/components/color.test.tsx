@@ -146,7 +146,9 @@ describe('ColorWheel', () => {
   });
 
   it('is as wide as twice its outer radius', () => {
-    const { container } = render(<ColorWheel defaultValue="hsl(0, 100%, 50%)" outerRadius={60} innerRadius={40} />);
+    const { container } = render(
+      <ColorWheel defaultValue="hsl(0, 100%, 50%)" outerRadius={60} innerRadius={40} />,
+    );
     expect((container.querySelector('.grange-color-wheel') as HTMLElement).style.width).toBe('120px');
   });
 });

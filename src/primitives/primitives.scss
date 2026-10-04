@@ -62,7 +62,7 @@
   pointer-events: none;
   // `calc()` is quoted so Sass emits it verbatim; it would otherwise unwrap it into
   // max(100% - 70px, 65%), which is equivalent but no longer matches the ported recipe.
-  background: radial-gradient(closest-side, currentColor max(#{"calc(100% - 70px)"}, 65%), transparent 100%);
+  background: radial-gradient(closest-side, currentColor max(#{'calc(100% - 70px)'}, 65%), transparent 100%);
   transform-origin: center center;
 }
 
@@ -119,15 +119,24 @@
   // Two stacked shadows, the key light and the ambient light, as Material Web composes them.
   &::before {
     box-shadow: 0px
-      calc(1px * (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 3, 1) + 2 * clamp(0, var(--_level) - 4, 1)))
-      calc(1px * (2 * clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 2, 1) + clamp(0, var(--_level) - 4, 1)))
+      calc(
+        1px *
+          (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 3, 1) + 2 * clamp(0, var(--_level) - 4, 1))
+      )
+      calc(
+        1px *
+          (2 * clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 2, 1) + clamp(0, var(--_level) - 4, 1))
+      )
       0px var(--_shadow-color);
     opacity: 0.3;
   }
 
   &::after {
     box-shadow: 0px
-      calc(1px * (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 1, 1) + 2 * clamp(0, var(--_level) - 2, 3)))
+      calc(
+        1px *
+          (clamp(0, var(--_level), 1) + clamp(0, var(--_level) - 1, 1) + 2 * clamp(0, var(--_level) - 2, 3))
+      )
       calc(1px * (3 * clamp(0, var(--_level), 2) + 2 * clamp(0, var(--_level) - 2, 3)))
       calc(1px * (clamp(0, var(--_level), 4) + 2 * clamp(0, var(--_level) - 4, 1))) var(--_shadow-color);
     opacity: 0.15;

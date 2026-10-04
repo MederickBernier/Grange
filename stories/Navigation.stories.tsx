@@ -61,11 +61,13 @@ export const BarArrangements: StoryObj = {
     const [current, setCurrent] = useState('home');
     return (
       <div className="sb-col" style={{ maxWidth: 480, gap: 32 }}>
-        {([
-          { arrangement: 'vertical', tall: false, label: 'Stacked, 64px' },
-          { arrangement: 'vertical', tall: true, label: 'Stacked, tall 80px' },
-          { arrangement: 'horizontal', tall: true, label: 'Inline, tall 80px' },
-        ] as const).map((variant) => (
+        {(
+          [
+            { arrangement: 'vertical', tall: false, label: 'Stacked, 64px' },
+            { arrangement: 'vertical', tall: true, label: 'Stacked, tall 80px' },
+            { arrangement: 'horizontal', tall: true, label: 'Inline, tall 80px' },
+          ] as const
+        ).map((variant) => (
           <div key={variant.label}>
             <p className="sb-label">{variant.label}</p>
             <NavigationBar aria-label={variant.label} arrangement={variant.arrangement} tall={variant.tall}>
@@ -153,10 +155,12 @@ export const Rail: StoryObj = {
 export const RailWidths: StoryObj = {
   render: () => (
     <div className="sb-row" style={{ alignItems: 'stretch', minHeight: 280, gap: 24 }}>
-      {([
-        { narrow: false, label: '96px' },
-        { narrow: true, label: 'narrow, 80px' },
-      ] as const).map((variant) => (
+      {(
+        [
+          { narrow: false, label: '96px' },
+          { narrow: true, label: 'narrow, 80px' },
+        ] as const
+      ).map((variant) => (
         <div key={variant.label} className="sb-col">
           <p className="sb-label">{variant.label}</p>
           <NavigationRail
@@ -181,13 +185,36 @@ export const AsLinks: StoryObj = {
   render: () => (
     <div style={{ maxWidth: 420 }}>
       <NavigationBar aria-label="Main">
-        <NavigationItem icon={<Icon><AddIcon /></Icon>} href="#home" selected>
+        <NavigationItem
+          icon={
+            <Icon>
+              <AddIcon />
+            </Icon>
+          }
+          href="#home"
+          selected
+        >
           Home
         </NavigationItem>
-        <NavigationItem icon={<Icon><CheckIcon /></Icon>} href="#search">
+        <NavigationItem
+          icon={
+            <Icon>
+              <CheckIcon />
+            </Icon>
+          }
+          href="#search"
+        >
           Search
         </NavigationItem>
-        <NavigationItem icon={<Icon><HeartIcon /></Icon>} href="#saved" disabled>
+        <NavigationItem
+          icon={
+            <Icon>
+              <HeartIcon />
+            </Icon>
+          }
+          href="#saved"
+          disabled
+        >
           Saved
         </NavigationItem>
       </NavigationBar>

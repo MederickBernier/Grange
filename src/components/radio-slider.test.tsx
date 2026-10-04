@@ -22,7 +22,12 @@ describe('token geometry', () => {
   });
 });
 
-function Group(props: { value?: string; onChange?: (v: string) => void; disabled?: boolean; error?: boolean }) {
+function Group(props: {
+  value?: string;
+  onChange?: (v: string) => void;
+  disabled?: boolean;
+  error?: boolean;
+}) {
   return (
     <RadioGroup label="Delivery" name="delivery" {...props}>
       <Radio value="standard">Standard</Radio>
@@ -117,9 +122,9 @@ describe('RadioGroup', () => {
         <Group />
       </GrangeProvider>,
     );
-    expect(
-      (document.querySelector('.grange-radio-group') as HTMLElement).dataset.orientation,
-    ).toBe('horizontal');
+    expect((document.querySelector('.grange-radio-group') as HTMLElement).dataset.orientation).toBe(
+      'horizontal',
+    );
   });
 
   it('refuses to render a Radio outside a group, since the group owns the value', () => {

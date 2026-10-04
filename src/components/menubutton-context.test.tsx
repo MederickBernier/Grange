@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -124,8 +123,17 @@ describe('ContextMenu', () => {
 
   /** jsdom gives every element a zero box, so the target is given one to place the menu against. */
   const withBox = (el: Element) => {
-    el.getBoundingClientRect = () =>
-      ({ left: 10, top: 20, width: 200, height: 100, right: 210, bottom: 120, x: 10, y: 20, toJSON: () => ({}) }) as DOMRect;
+    el.getBoundingClientRect = () => ({
+      left: 10,
+      top: 20,
+      width: 200,
+      height: 100,
+      right: 210,
+      bottom: 120,
+      x: 10,
+      y: 20,
+      toJSON: () => ({}),
+    });
   };
 
   it('opens on a right-click, at the pointer', async () => {

@@ -107,7 +107,9 @@ describe('FilterBuilder', () => {
     rendered({ defaultValue: { logic: 'and', filters: [{ field: 'score', operator: 'gt', value: 1 }] } });
 
     await user.click(screen.getByRole('button', { name: /Operator/ }));
-    const options = within(screen.getByRole('listbox')).getAllByRole('option').map((el) => el.textContent);
+    const options = within(screen.getByRole('listbox'))
+      .getAllByRole('option')
+      .map((el) => el.textContent);
     expect(options).toContain('Is greater than');
     // "Contains" on a number is a row that cannot run.
     expect(options).not.toContain('Contains');

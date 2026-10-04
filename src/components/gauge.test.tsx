@@ -30,7 +30,7 @@ describe('tokens', () => {
 describe('the arc geometry', () => {
   const centre = { x: 50, y: 50 };
 
-  it('measures angles from twelve o\'clock, not from three', () => {
+  it("measures angles from twelve o'clock, not from three", () => {
     // SVG's own zero is three o'clock; a gauge is read from the top, so this is converted once.
     expect(pointOn(centre, 10, 0)).toEqual({ x: 50, y: 40 });
     expect(pointOn(centre, 10, 90)).toEqual({ x: 60, y: 50 });

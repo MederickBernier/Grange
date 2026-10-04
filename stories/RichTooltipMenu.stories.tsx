@@ -41,8 +41,8 @@ export const Hover: StoryObj = {
         actions={<TextButton>Learn more</TextButton>}
         trigger={<OutlinedButton>Hover or focus me</OutlinedButton>}
       >
-        Rich tooltips bring attention to a particular element or feature that warrants the
-        user&apos;s attention.
+        Rich tooltips bring attention to a particular element or feature that warrants the user&apos;s
+        attention.
       </RichTooltip>
 
       <RichTooltip trigger={<OutlinedButton>No subhead</OutlinedButton>} aria-label="About this">
@@ -82,8 +82,8 @@ export const Persistent: StoryObj = {
           }
           trigger={<FilledButton>Show me how</FilledButton>}
         >
-          It stays until you dismiss it, so there is time to read it and press something. Escape
-          and a click outside both close it.
+          It stays until you dismiss it, so there is time to read it and press something. Escape and a click
+          outside both close it.
         </RichTooltip>
         <p className="sb-label">{open ? 'open' : 'closed'}</p>
       </div>
@@ -146,7 +146,12 @@ export const InATrigger: StoryObj = {
       {(['standard', 'vibrant'] as const).map((variant) => (
         <MenuTrigger key={variant}>
           <FilledButton>{variant}</FilledButton>
-          <Menu aria-label={`Edit, ${variant}`} variant={variant} selectionMode="single" defaultSelectedKeys={['copy']}>
+          <Menu
+            aria-label={`Edit, ${variant}`}
+            variant={variant}
+            selectionMode="single"
+            defaultSelectedKeys={['copy']}
+          >
             {items}
           </Menu>
         </MenuTrigger>

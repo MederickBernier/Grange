@@ -158,7 +158,9 @@ describe('DropDownTree', () => {
         <DropDownTree label="Folder">{nodes}</DropDownTree>
       </GrangeProvider>,
     );
-    expect((container.querySelector('.grange-dropdown-tree') as HTMLElement).dataset.variant).toBe('outlined');
+    expect((container.querySelector('.grange-dropdown-tree') as HTMLElement).dataset.variant).toBe(
+      'outlined',
+    );
   });
 });
 
@@ -257,12 +259,10 @@ describe('TransferList', () => {
 
   it('disables a button that would do nothing', () => {
     render(<TransferList items={items} />);
-    expect(
-      screen.getByRole('button', { name: 'Move selected to chosen' }).hasAttribute('disabled'),
-    ).toBe(true);
-    expect(
-      screen.getByRole('button', { name: 'Move all to available' }).hasAttribute('disabled'),
-    ).toBe(true);
+    expect(screen.getByRole('button', { name: 'Move selected to chosen' }).hasAttribute('disabled')).toBe(
+      true,
+    );
+    expect(screen.getByRole('button', { name: 'Move all to available' }).hasAttribute('disabled')).toBe(true);
   });
 
   it('drops the move-all buttons when told to', () => {
@@ -276,10 +276,11 @@ describe('TransferList', () => {
 
     await user.click(within(list('Available')).getByRole('option', { name: 'Monday' }));
     await user.click(screen.getByRole('button', { name: 'Move selected to chosen' }));
-    expect(within(list('Chosen')).getAllByRole('option').map((el) => el.textContent)).toEqual([
-      'Monday',
-      'Wednesday',
-    ]);
+    expect(
+      within(list('Chosen'))
+        .getAllByRole('option')
+        .map((el) => el.textContent),
+    ).toEqual(['Monday', 'Wednesday']);
   });
 
   it('works controlled', async () => {

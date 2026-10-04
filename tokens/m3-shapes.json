@@ -2,7 +2,7 @@
   "$meta": {
     "source": "https://raw.githubusercontent.com/androidx/androidx/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/MaterialShapes.kt",
     "license": "Apache-2.0, see NOTICE",
-    "captured": "2026-10-02",
+    "captured": "2026-10-04",
     "note": "Every public shape is normalized() in the source, so each one is scaled and centred into the unit square. src/shapes does the same."
   },
   "shapes": {
@@ -36,10 +36,7 @@
       ],
       "reps": 2,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Arch": {
       "kind": "regular",
@@ -94,10 +91,7 @@
       ],
       "reps": 1,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Arrow": {
       "kind": "custom",
@@ -129,10 +123,7 @@
       ],
       "reps": 1,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "SemiCircle": {
       "kind": "rectangle",
@@ -158,10 +149,7 @@
       "numVertices": 8,
       "transforms": [
         {
-          "scale": [
-            1,
-            0.64
-          ]
+          "scale": [1, 0.64]
         },
         {
           "rotate": -45
@@ -192,10 +180,7 @@
       ],
       "reps": 2,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Triangle": {
       "kind": "regular",
@@ -227,10 +212,7 @@
       ],
       "reps": 2,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "ClamShell": {
       "kind": "custom",
@@ -256,10 +238,7 @@
       ],
       "reps": 2,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Pentagon": {
       "kind": "custom",
@@ -285,10 +264,7 @@
       ],
       "reps": 1,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Gem": {
       "kind": "custom",
@@ -320,10 +296,7 @@
       ],
       "reps": 1,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Sunny": {
       "kind": "star",
@@ -351,10 +324,7 @@
       ],
       "reps": 8,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Cookie4Sided": {
       "kind": "custom",
@@ -374,10 +344,7 @@
       ],
       "reps": 4,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Cookie6Sided": {
       "kind": "custom",
@@ -397,10 +364,7 @@
       ],
       "reps": 6,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Cookie7Sided": {
       "kind": "star",
@@ -471,10 +435,7 @@
       ],
       "reps": 1,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Clover4Leaf": {
       "kind": "custom",
@@ -494,10 +455,7 @@
       ],
       "reps": 4,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Clover8Leaf": {
       "kind": "custom",
@@ -517,10 +475,7 @@
       ],
       "reps": 8,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Burst": {
       "kind": "custom",
@@ -540,10 +495,7 @@
       ],
       "reps": 12,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "SoftBurst": {
       "kind": "custom",
@@ -563,10 +515,7 @@
       ],
       "reps": 10,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Boom": {
       "kind": "custom",
@@ -586,10 +535,7 @@
       ],
       "reps": 15,
       "mirroring": false,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "SoftBoom": {
       "kind": "custom",
@@ -621,10 +567,7 @@
       ],
       "reps": 16,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Flower": {
       "kind": "custom",
@@ -650,10 +593,7 @@
       ],
       "reps": 8,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Puffy": {
       "kind": "custom",
@@ -727,16 +667,10 @@
       ],
       "reps": 2,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ],
+      "center": [0.5, 0.5],
       "transforms": [
         {
-          "scale": [
-            1,
-            0.742
-          ]
+          "scale": [1, 0.742]
         }
       ]
     },
@@ -764,10 +698,7 @@
       ],
       "reps": 4,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "PixelCircle": {
       "kind": "custom",
@@ -823,10 +754,7 @@
       ],
       "reps": 2,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "PixelTriangle": {
       "kind": "custom",
@@ -912,10 +840,7 @@
       ],
       "reps": 1,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Bun": {
       "kind": "custom",
@@ -947,10 +872,7 @@
       ],
       "reps": 2,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     },
     "Heart": {
       "kind": "custom",
@@ -982,10 +904,7 @@
       ],
       "reps": 1,
       "mirroring": true,
-      "center": [
-        0.5,
-        0.5
-      ]
+      "center": [0.5, 0.5]
     }
   }
 }

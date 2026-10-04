@@ -152,7 +152,12 @@ describe('Snackbar', () => {
         <FilledButton
           onClick={() =>
             queue.add(
-              { message: 'Message sent', actionLabel: props.actionLabel, onAction: props.onAction, closeable: props.closeable },
+              {
+                message: 'Message sent',
+                actionLabel: props.actionLabel,
+                onAction: props.onAction,
+                closeable: props.closeable,
+              },
               { timeout: snackbar.timeout },
             )
           }

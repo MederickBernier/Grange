@@ -1,5 +1,10 @@
 import { forwardRef, type CSSProperties, type ReactNode } from 'react';
-import { resolveSlotClass, useComponentConfig, type AppBarSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type AppBarSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import { appBarSizes, type AppBarSize } from './specs';
 import styles from './AppBar.module.scss';
 
@@ -64,9 +69,7 @@ export const AppBar = forwardRef<HTMLElement, AppBarProps>(function AppBar(props
 
   const titleBlock = (
     <span className={styles.titles}>
-      {title != null && (
-        <span className={slot('title', 'grange-app-bar-title', styles.title)}>{title}</span>
-      )}
+      {title != null && <span className={slot('title', 'grange-app-bar-title', styles.title)}>{title}</span>}
       {subtitle != null && (
         <span className={slot('subtitle', 'grange-app-bar-subtitle', styles.subtitle)}>{subtitle}</span>
       )}

@@ -128,8 +128,7 @@ export const Live: StoryObj = {
         <Pager total={result.total} page={page} onPageChange={setPage} pageSize={size} pageSizes={[]} />
 
         <span className="sb-label">
-          Average score of everything that matched:{' '}
-          {Math.round(result.aggregates?.['score:average'] ?? 0)}
+          Average score of everything that matched: {Math.round(result.aggregates?.['score:average'] ?? 0)}
         </span>
       </Stack>
     );
@@ -139,10 +138,10 @@ export const Live: StoryObj = {
 /** Sorting, where the collation and the null ordering show. */
 export const Sorted: StoryObj = {
   render: () => {
-    const sorted = query(
-      [...people, { name: 'Zoë', city: 'Vienna', score: 0 }],
-      { sort: [{ field: 'name' }], locale: 'en' },
-    );
+    const sorted = query([...people, { name: 'Zoë', city: 'Vienna', score: 0 }], {
+      sort: [{ field: 'name' }],
+      locale: 'en',
+    });
     return (
       <List aria-label="Sorted by name">
         {sorted.items.map((person) => (

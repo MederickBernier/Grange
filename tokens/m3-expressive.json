@@ -102,66 +102,16 @@
       "short-4": 200
     },
     "easing": {
-      "emphasized": [
-        0.2,
-        0,
-        0,
-        1
-      ],
-      "emphasized-accelerate": [
-        0.3,
-        0,
-        0.8,
-        0.15
-      ],
-      "emphasized-decelerate": [
-        0.05,
-        0.7,
-        0.1,
-        1
-      ],
-      "legacy": [
-        0.4,
-        0,
-        0.2,
-        1
-      ],
-      "legacy-accelerate": [
-        0.4,
-        0,
-        1,
-        1
-      ],
-      "legacy-decelerate": [
-        0,
-        0,
-        0.2,
-        1
-      ],
-      "linear": [
-        0,
-        0,
-        1,
-        1
-      ],
-      "standard": [
-        0.2,
-        0,
-        0,
-        1
-      ],
-      "standard-accelerate": [
-        0.3,
-        0,
-        1,
-        1
-      ],
-      "standard-decelerate": [
-        0,
-        0,
-        0,
-        1
-      ]
+      "emphasized": [0.2, 0, 0, 1],
+      "emphasized-accelerate": [0.3, 0, 0.8, 0.15],
+      "emphasized-decelerate": [0.05, 0.7, 0.1, 1],
+      "legacy": [0.4, 0, 0.2, 1],
+      "legacy-accelerate": [0.4, 0, 1, 1],
+      "legacy-decelerate": [0, 0, 0.2, 1],
+      "linear": [0, 0, 1, 1],
+      "standard": [0.2, 0, 0, 1],
+      "standard-accelerate": [0.3, 0, 1, 1],
+      "standard-decelerate": [0, 0, 0, 1]
     }
   },
   "shape": {

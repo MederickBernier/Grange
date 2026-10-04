@@ -2,15 +2,7 @@ import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {
-  Checkbox,
-  GrangeProvider,
-  Switch,
-  checkbox,
-  handlePosition,
-  handleSize,
-  switchSpec,
-} from '../index';
+import { Checkbox, GrangeProvider, Switch, checkbox, handlePosition, handleSize, switchSpec } from '../index';
 
 describe('token geometry', () => {
   it('matches CheckboxTokens', () => {
@@ -33,7 +25,11 @@ describe('token geometry', () => {
 
 describe('Checkbox', () => {
   it('is a real checkbox input, so it works in a form', () => {
-    render(<Checkbox name="terms" value="yes" defaultChecked>Accept</Checkbox>);
+    render(
+      <Checkbox name="terms" value="yes" defaultChecked>
+        Accept
+      </Checkbox>,
+    );
     const input = screen.getByRole('checkbox') as HTMLInputElement;
     expect(input.tagName).toBe('INPUT');
     expect(input.type).toBe('checkbox');
@@ -217,7 +213,7 @@ describe('Switch', () => {
   });
 
   it('shows the icon for the current side only', () => {
-    const { container, unmount } = render(
+    const { unmount } = render(
       <Switch icon={<svg data-testid="off" />} selectedIcon={<svg data-testid="on" />}>
         Wi-Fi
       </Switch>,

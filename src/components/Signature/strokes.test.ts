@@ -41,7 +41,12 @@ describe('one stroke as a path', () => {
   });
 
   it('draws two samples as a straight run', () => {
-    expect(strokePath([{ x: 0, y: 0 }, { x: 4, y: 4 }])).toBe('M 0 0 L 4 4');
+    expect(
+      strokePath([
+        { x: 0, y: 0 },
+        { x: 4, y: 4 },
+      ]),
+    ).toBe('M 0 0 L 4 4');
   });
 });
 

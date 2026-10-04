@@ -1,5 +1,10 @@
 import { forwardRef, type CSSProperties, type ReactNode } from 'react';
-import { resolveSlotClass, useComponentConfig, type NavigationSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type NavigationSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import type { NavigationArrangement } from './specs';
 import styles from './Navigation.module.scss';
 
@@ -23,39 +28,37 @@ export interface NavigationBarProps {
  * It is deliberately not a tablist: these lead somewhere rather than swapping a panel in place,
  * and a screen reader should say so.
  */
-export const NavigationBar = forwardRef<HTMLElement, NavigationBarProps>(
-  function NavigationBar(props, ref) {
-    const { defaults, slots } = useComponentConfig('NavigationBar');
-    const {
-      children,
-      arrangement = defaults?.arrangement ?? 'vertical',
-      tall = defaults?.tall ?? false,
-      className,
-      classNames,
-      style,
-      ...aria
-    } = props;
+export const NavigationBar = forwardRef<HTMLElement, NavigationBarProps>(function NavigationBar(props, ref) {
+  const { defaults, slots } = useComponentConfig('NavigationBar');
+  const {
+    children,
+    arrangement = defaults?.arrangement ?? 'vertical',
+    tall = defaults?.tall ?? false,
+    className,
+    classNames,
+    style,
+    ...aria
+  } = props;
 
-    return (
-      <nav
-        {...aria}
-        ref={ref}
-        className={resolveSlotClass(
-          'grange-navigation-bar',
-          styles.bar,
-          ...(slots?.root ?? []),
-          classNames?.root,
-          className,
-        )}
-        style={style}
-        data-arrangement={arrangement}
-        data-tall={tall || undefined}
-      >
-        {children}
-      </nav>
-    );
-  },
-);
+  return (
+    <nav
+      {...aria}
+      ref={ref}
+      className={resolveSlotClass(
+        'grange-navigation-bar',
+        styles.bar,
+        ...(slots?.root ?? []),
+        classNames?.root,
+        className,
+      )}
+      style={style}
+      data-arrangement={arrangement}
+      data-tall={tall || undefined}
+    >
+      {children}
+    </nav>
+  );
+});
 
 export interface NavigationRailProps {
   /** NavigationItem children. */

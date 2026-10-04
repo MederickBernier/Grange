@@ -1,5 +1,10 @@
 import { forwardRef, type CSSProperties } from 'react';
-import { resolveSlotClass, useComponentConfig, type SkeletonSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type SkeletonSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import { skeleton as spec, type SkeletonAnimation, type SkeletonShape } from './specs';
 import styles from './Skeleton.module.scss';
 
@@ -61,7 +66,13 @@ export const Skeleton = forwardRef<HTMLSpanElement, SkeletonProps>(function Skel
   } = props;
 
   const slot = (name: SkeletonSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   const bar = (key: number, barWidth: string | undefined) => (
     <span

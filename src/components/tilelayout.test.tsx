@@ -204,9 +204,7 @@ describe('TileLayout', () => {
   });
 
   it('survives its children changing under a saved layout', () => {
-    const { rerender } = render(
-      <TileLayout layout={[spec('c'), spec('a'), spec('b')]}>{tiles}</TileLayout>,
-    );
+    const { rerender } = render(<TileLayout layout={[spec('c'), spec('a'), spec('b')]}>{tiles}</TileLayout>);
     expect(order()).toEqual(['Revenue', 'Visits', 'Signups']);
 
     rerender(

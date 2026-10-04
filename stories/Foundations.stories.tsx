@@ -52,8 +52,23 @@ export const Icons: StoryObj = {
       </div>
       <div className="sb-row">
         <span className="sb-label">Colour</span>
-        <FilledButton icon={<Icon><HeartFilledIcon /></Icon>}>Inherits currentColor</FilledButton>
-        <OutlinedButton disabled icon={<Icon><HeartIcon /></Icon>}>
+        <FilledButton
+          icon={
+            <Icon>
+              <HeartFilledIcon />
+            </Icon>
+          }
+        >
+          Inherits currentColor
+        </FilledButton>
+        <OutlinedButton
+          disabled
+          icon={
+            <Icon>
+              <HeartIcon />
+            </Icon>
+          }
+        >
           And the disabled state
         </OutlinedButton>
       </div>
@@ -96,7 +111,17 @@ export const Dividers: StoryObj = {
 export const AsLinks: StoryObj = {
   render: () => (
     <div className="sb-row">
-      <FilledButton href="https://m3.material.io" target="_blank" rel="noreferrer" icon={<Icon><ArrowIcon /></Icon>} trailingIcon>
+      <FilledButton
+        href="https://m3.material.io"
+        target="_blank"
+        rel="noreferrer"
+        icon={
+          <Icon>
+            <ArrowIcon />
+          </Icon>
+        }
+        trailingIcon
+      >
         Open the spec
       </FilledButton>
       <OutlinedButton href="#somewhere">Same tab</OutlinedButton>
@@ -120,7 +145,15 @@ export const RightToLeft: StoryObj = {
           <div dir={locale === 'ar-EG' ? 'rtl' : 'ltr'} className="sb-col">
             <span className="sb-label">{locale}</span>
             <div className="sb-row">
-              <FilledButton icon={<Icon flipInRtl><ArrowIcon /></Icon>}>Leading icon, flipped</FilledButton>
+              <FilledButton
+                icon={
+                  <Icon flipInRtl>
+                    <ArrowIcon />
+                  </Icon>
+                }
+              >
+                Leading icon, flipped
+              </FilledButton>
               <ConnectedButtonGroup aria-label="View" defaultSelectedKeys={['a']}>
                 <ConnectedButtonGroupItem id="a">First</ConnectedButtonGroupItem>
                 <ConnectedButtonGroupItem id="b">Middle</ConnectedButtonGroupItem>

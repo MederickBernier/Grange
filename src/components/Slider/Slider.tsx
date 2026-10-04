@@ -1,7 +1,12 @@
 import { forwardRef, useRef, type CSSProperties, type ReactNode } from 'react';
 import { VisuallyHidden, useFocusRing, useNumberFormatter, useSlider, useSliderThumb } from 'react-aria';
 import { useSliderState, type SliderState } from 'react-stately';
-import { resolveSlotClass, useComponentConfig, type SliderSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type SliderSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import { pieceInsets, slider as spec, stopPositions, trackPieces } from './specs';
 import styles from './Slider.module.scss';
 

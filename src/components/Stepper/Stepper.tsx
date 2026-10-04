@@ -98,11 +98,19 @@ export function Stepper(props: StepperProps) {
   const [current, setCurrent] = useControlledState(value, defaultValue, onChange);
   // flattenChildren, not Children.toArray: toArray leaves a fragment as one child, and a
   // stepper that counts its steps would then see one.
-  const steps = flattenChildren(children).filter(isStep).map((child) => child.props);
+  const steps = flattenChildren(children)
+    .filter(isStep)
+    .map((child) => child.props);
   const done = new Set(completedSteps ?? []);
 
   const slot = (name: StepperSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <ol

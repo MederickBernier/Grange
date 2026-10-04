@@ -68,12 +68,12 @@ export const SingleOpen: StoryObj = {
           A disclosure, a group of them, and a trail.
         </AccordionItem>
         <AccordionItem id="how" title="How the group works">
-          `useDisclosureGroupState` holds the open keys, so opening one closes the other without
-          either panel knowing the other exists.
+          `useDisclosureGroupState` holds the open keys, so opening one closes the other without either panel
+          knowing the other exists.
         </AccordionItem>
         <AccordionItem id="keys" title="Why the arrows do nothing">
-          A header is an ordinary button and Tab already reaches it. The ARIA pattern makes arrow
-          keys optional, and wiring them would take a Tab stop away to buy nothing.
+          A header is an ordinary button and Tab already reaches it. The ARIA pattern makes arrow keys
+          optional, and wiring them would take a Tab stop away to buy nothing.
         </AccordionItem>
       </Accordion>
     </div>

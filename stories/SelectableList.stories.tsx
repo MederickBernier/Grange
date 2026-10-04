@@ -78,7 +78,14 @@ export const Multiple: StoryObj = {
           onSelectionChange={(next) => setKeys(new Set(next as Set<string>))}
         >
           {people.map((person) => (
-            <SelectableListItem key={person.key} leading={<Icon><HeartIcon /></Icon>}>
+            <SelectableListItem
+              key={person.key}
+              leading={
+                <Icon>
+                  <HeartIcon />
+                </Icon>
+              }
+            >
               {person.name}
             </SelectableListItem>
           ))}
@@ -98,7 +105,12 @@ export const Navigating: StoryObj = {
     const [went, setWent] = useState<string | null>(null);
     return (
       <div className="sb-col" style={{ maxWidth: 420 }}>
-        <SelectableList aria-label="Sections" contained selectionMode="single" onAction={(key) => setWent(String(key))}>
+        <SelectableList
+          aria-label="Sections"
+          contained
+          selectionMode="single"
+          onAction={(key) => setWent(String(key))}
+        >
           <SelectableListItem key="inbox" trailingText="24">
             Inbox
           </SelectableListItem>

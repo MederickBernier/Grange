@@ -105,7 +105,13 @@ function RoundGauge({
   const atValue = startAngle + sweep * fraction(value, min, max);
 
   const slot = (name: GaugeSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   const formatted = new Intl.NumberFormat(undefined, formatOptions).format(value);
 
@@ -123,7 +129,13 @@ function RoundGauge({
       )}
 
       {/* The drawing is a picture of the value the meter already carries, so it says nothing. */}
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true" className={styles.svg}>
+      <svg
+        width={size}
+        height={size}
+        viewBox={`0 0 ${size} ${size}`}
+        aria-hidden="true"
+        className={styles.svg}
+      >
         <path
           d={arcPath(centre, radius, startAngle, end)}
           className={styles.track}
@@ -165,7 +177,15 @@ function RoundGauge({
   );
 }
 
-function Needle({ centre, radius, angle }: { centre: { x: number; y: number }; radius: number; angle: number }) {
+function Needle({
+  centre,
+  radius,
+  angle,
+}: {
+  centre: { x: number; y: number };
+  radius: number;
+  angle: number;
+}) {
   const tip = pointOn(centre, radius, angle);
   return (
     <>
@@ -185,7 +205,9 @@ function Needle({ centre, radius, angle }: { centre: { x: number; y: number }; r
 
 /** A gauge that sweeps most of a circle, read like a speedometer. */
 export function ArcGauge(props: GaugeProps) {
-  return <RoundGauge sweep={spec.arcSweep} startAngle={-spec.arcSweep / 2} props={props} configKey="ArcGauge" />;
+  return (
+    <RoundGauge sweep={spec.arcSweep} startAngle={-spec.arcSweep / 2} props={props} configKey="ArcGauge" />
+  );
 }
 
 /** A full ring, for a value that has no natural start and end — a disk, a quota. */
@@ -198,7 +220,13 @@ export function RadialGauge(props: GaugeProps & { ticks?: number }) {
   const { ticks = spec.ticks, ...rest } = props;
   return (
     <div className={styles.radial}>
-      <RoundGauge sweep={spec.arcSweep} startAngle={-spec.arcSweep / 2} needle props={rest} configKey="RadialGauge" />
+      <RoundGauge
+        sweep={spec.arcSweep}
+        startAngle={-spec.arcSweep / 2}
+        needle
+        props={rest}
+        configKey="RadialGauge"
+      />
       <Ticks {...rest} ticks={ticks} />
     </div>
   );
@@ -216,7 +244,13 @@ function Ticks({ min = 0, max = 100, size = spec.size, ticks }: GaugeProps & { t
   const values = tickValues(min, max, ticks);
 
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true" className={styles.ticks}>
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      aria-hidden="true"
+      className={styles.ticks}
+    >
       {angles.map((angle, i) => {
         const outer = pointOn(centre, size / 2 - spec.thickness - 6, angle);
         const inner = pointOn(centre, size / 2 - spec.thickness - 12, angle);
@@ -224,7 +258,13 @@ function Ticks({ min = 0, max = 100, size = spec.size, ticks }: GaugeProps & { t
         return (
           <g key={angle}>
             <line x1={inner.x} y1={inner.y} x2={outer.x} y2={outer.y} className={styles.tick} />
-            <text x={label.x} y={label.y} className={styles.tickLabel} textAnchor="middle" dominantBaseline="middle">
+            <text
+              x={label.x}
+              y={label.y}
+              className={styles.tickLabel}
+              textAnchor="middle"
+              dominantBaseline="middle"
+            >
               {values[i]}
             </text>
           </g>
@@ -282,7 +322,13 @@ export function LinearGauge(props: LinearGaugeProps) {
   const vertical = orientation === 'vertical';
 
   const slot = (name: GaugeSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <div

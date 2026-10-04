@@ -28,7 +28,12 @@ function Panel({ title, note, className }: { title: string; note: string; classN
         <Button variant="tonal">Tonal</Button>
         <Button variant="outlined">Outlined</Button>
         <Button variant="elevated">Elevated</Button>
-        <ToggleButton variant="filled" icon={<HeartIcon />} selectedIcon={<HeartFilledIcon />} defaultSelected>
+        <ToggleButton
+          variant="filled"
+          icon={<HeartIcon />}
+          selectedIcon={<HeartFilledIcon />}
+          defaultSelected
+        >
           Toggle
         </ToggleButton>
       </div>
@@ -59,7 +64,11 @@ export const ScopedDark: StoryObj = {
     <div className="sb-col">
       <Panel title="Brand, inherited theme" note="Follows the Theme toolbar." className={styles.brand} />
       <div data-theme="dark">
-        <Panel title="Brand, forced dark" note='Same override inside data-theme="dark".' className={styles.brand} />
+        <Panel
+          title="Brand, forced dark"
+          note='Same override inside data-theme="dark".'
+          className={styles.brand}
+        />
       </div>
     </div>
   ),

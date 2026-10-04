@@ -250,12 +250,11 @@ export const FilledTextField = forwardRef<HTMLInputElement | HTMLTextAreaElement
 );
 
 /** `md-outlined-text-field`. */
-export const OutlinedTextField = forwardRef<
-  HTMLInputElement | HTMLTextAreaElement,
-  VariantTextFieldProps
->(function OutlinedTextField(props, ref) {
-  return <TextField {...props} ref={ref} variant="outlined" />;
-});
+export const OutlinedTextField = forwardRef<HTMLInputElement | HTMLTextAreaElement, VariantTextFieldProps>(
+  function OutlinedTextField(props, ref) {
+    return <TextField {...props} ref={ref} variant="outlined" />;
+  },
+);
 
 /**
  * The reveal toggle.

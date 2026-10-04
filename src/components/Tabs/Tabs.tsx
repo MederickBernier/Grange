@@ -108,7 +108,11 @@ export function Tabs(props: TabsProps) {
           />
         ))}
       </div>
-      <TabPanel key={state.selectedItem?.key} state={state} className={slot('panel', 'grange-tab-panel', styles.panel)} />
+      <TabPanel
+        key={state.selectedItem?.key}
+        state={state}
+        className={slot('panel', 'grange-tab-panel', styles.panel)}
+      />
     </div>
   );
 }

@@ -67,7 +67,13 @@ export const ChunkProgress = forwardRef<HTMLDivElement, ChunkProgressProps>(
     });
 
     const slot = (name: ProgressSlot, hook: string, builtIn?: string) =>
-      resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+      resolveSlotClass(
+        hook,
+        builtIn,
+        ...(slots?.[name] ?? []),
+        classNames?.[name],
+        name === 'root' ? className : undefined,
+      );
 
     /*
      * How much of each segment is lit. With whole chunks the one in progress is dark until it

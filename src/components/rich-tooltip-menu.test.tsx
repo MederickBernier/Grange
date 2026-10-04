@@ -265,7 +265,13 @@ describe('Menu variants', () => {
     const user = userEvent.setup();
     const onAction = vi.fn();
     render(
-      <Menu aria-label="Edit" variant="vibrant" onAction={onAction} selectionMode="single" defaultSelectedKeys={['cut']}>
+      <Menu
+        aria-label="Edit"
+        variant="vibrant"
+        onAction={onAction}
+        selectionMode="single"
+        defaultSelectedKeys={['cut']}
+      >
         {items}
       </Menu>,
     );

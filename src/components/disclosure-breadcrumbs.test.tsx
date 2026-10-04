@@ -116,7 +116,9 @@ describe('ExpansionPanel', () => {
         <ExpansionPanel title="Details">Inside</ExpansionPanel>
       </GrangeProvider>,
     );
-    expect((container.querySelector('.grange-expansion-panel') as HTMLElement).dataset.variant).toBe('outlined');
+    expect((container.querySelector('.grange-expansion-panel') as HTMLElement).dataset.variant).toBe(
+      'outlined',
+    );
   });
 });
 

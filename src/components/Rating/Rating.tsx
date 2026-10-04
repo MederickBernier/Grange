@@ -1,7 +1,12 @@
 import { useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { VisuallyHidden, mergeProps, useFocusRing, useHover, useRadio, useRadioGroup } from 'react-aria';
 import { useRadioGroupState, type RadioGroupState } from 'react-stately';
-import { resolveSlotClass, useComponentConfig, type RatingSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type RatingSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import styles from './Rating.module.scss';
 
 export interface RatingProps {

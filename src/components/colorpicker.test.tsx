@@ -110,9 +110,9 @@ describe('ColorSwatchPicker', () => {
 
   it('lays out the columns it was told to', () => {
     const { container } = render(<ColorSwatchPicker colors={palette} columns={3} aria-label="Palette" />);
-    expect((container.querySelector('.grange-color-swatches') as HTMLElement).style.gridTemplateColumns).toContain(
-      'repeat(3,',
-    );
+    expect(
+      (container.querySelector('.grange-color-swatches') as HTMLElement).style.gridTemplateColumns,
+    ).toContain('repeat(3,');
   });
 
   it('shows an unreadable colour as transparent rather than taking the palette down', () => {

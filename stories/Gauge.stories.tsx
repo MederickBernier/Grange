@@ -100,8 +100,8 @@ export const Sparklines: StoryObj = {
         </Stack>
 
         <span className="sb-label">
-          A flat series runs down the middle and a single point is a dot — neither is a special
-          case in the component, only in the arithmetic.
+          A flat series runs down the middle and a single point is a dot — neither is a special case in the
+          component, only in the arithmetic.
         </span>
       </Stack>
     );

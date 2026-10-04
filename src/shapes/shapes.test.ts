@@ -6,7 +6,8 @@ import type { ShapeDescriptor } from './descriptor';
 import { flatten, pointOn, polylinePath, shapePath } from './path';
 
 const centre: Point = { x: 0.5, y: 0.5 };
-const radiiFrom = (points: readonly Point[], from: Point) => points.map((p) => Math.hypot(p.x - from.x, p.y - from.y));
+const radiiFrom = (points: readonly Point[], from: Point) =>
+  points.map((p) => Math.hypot(p.x - from.x, p.y - from.y));
 
 /** A point reflected in the line through `about` at `angle` radians. */
 function reflect(point: Point, about: Point, angle: number): Point {
@@ -21,7 +22,9 @@ function reflect(point: Point, about: Point, angle: number): Point {
 function isContiguous(cubics: ReturnType<typeof shape>['cubics'], tolerance = 1e-6) {
   return cubics.every((c, i) => {
     const next = cubics[(i + 1) % cubics.length]!;
-    return Math.abs(c.anchor1.x - next.anchor0.x) < tolerance && Math.abs(c.anchor1.y - next.anchor0.y) < tolerance;
+    return (
+      Math.abs(c.anchor1.x - next.anchor0.x) < tolerance && Math.abs(c.anchor1.y - next.anchor0.y) < tolerance
+    );
   });
 }
 
@@ -38,7 +41,12 @@ describe('the captured library', () => {
   it('keeps the descriptors the source gives, rather than numbers typed in here', () => {
     // Straight out of MaterialShapes.kt: a 10-vertex circle and a 0.3-rounded unit square.
     expect(shapeDescriptors.Circle).toEqual({ kind: 'circle', numVertices: 10 });
-    expect(shapeDescriptors.Square).toEqual({ kind: 'rectangle', width: 1, height: 1, rounding: { radius: 0.3 } });
+    expect(shapeDescriptors.Square).toEqual({
+      kind: 'rectangle',
+      width: 1,
+      height: 1,
+      rounding: { radius: 0.3 },
+    });
     // The arch is a square with two corners fully rounded, turned to stand on its flat side.
     expect(shapeDescriptors.Arch).toEqual({
       kind: 'regular',
@@ -143,7 +151,9 @@ describe('shapes that can be checked against what they are meant to be', () => {
 
       for (const point of sampled) {
         const reflected = reflect(point, built.centre, axis);
-        const matched = sampled.some((other) => Math.hypot(other.x - reflected.x, other.y - reflected.y) < 0.02);
+        const matched = sampled.some(
+          (other) => Math.hypot(other.x - reflected.x, other.y - reflected.y) < 0.02,
+        );
         expect(matched, `${name} at ${point.x.toFixed(3)},${point.y.toFixed(3)}`).toBe(true);
       }
     }
@@ -200,7 +210,12 @@ describe('the polygon port', () => {
   });
 
   it('refuses a polygon that is not one', () => {
-    expect(() => roundedPolygon([{ x: 0, y: 0 }, { x: 1, y: 1 }])).toThrow(/three vertices/);
+    expect(() =>
+      roundedPolygon([
+        { x: 0, y: 0 },
+        { x: 1, y: 1 },
+      ]),
+    ).toThrow(/three vertices/);
     expect(() =>
       roundedPolygon(
         [
@@ -233,7 +248,10 @@ describe('the polygon port', () => {
   it('builds a circle larger than the polygon under it, so the arc passes through the radius', () => {
     // The vertices sit outside the circle; the arcs through the middle of each side are on it.
     const c = circle(8, 1);
-    const vertexRadii = radiiFrom(c.cubics.map((k) => k.anchor0), { x: 0, y: 0 });
+    const vertexRadii = radiiFrom(
+      c.cubics.map((k) => k.anchor0),
+      { x: 0, y: 0 },
+    );
     expect(Math.max(...vertexRadii)).toBeGreaterThan(0.99);
     expect(Math.max(...vertexRadii)).toBeLessThan(1 / Math.cos(Math.PI / 8) + 1e-6);
   });
@@ -276,7 +294,12 @@ describe('paths', () => {
 
   it('has nothing to draw for an empty outline', () => {
     expect(shapePath({ cubics: [], centre: { x: 0, y: 0 } })).toBe('');
-    expect(polylinePath([{ x: 0, y: 0 }, { x: 1, y: 1 }])).toBe('');
+    expect(
+      polylinePath([
+        { x: 0, y: 0 },
+        { x: 1, y: 1 },
+      ]),
+    ).toBe('');
   });
 
   it('walks a cubic from one anchor to the other', () => {

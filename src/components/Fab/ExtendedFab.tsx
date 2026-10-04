@@ -12,8 +12,10 @@ import styles from './Fab.module.scss';
 
 export type { ExtendedFabSize };
 
-export interface ExtendedFabProps
-  extends Omit<AriaButtonProps<'button' | 'a'>, 'children' | 'elementType' | 'isDisabled'> {
+export interface ExtendedFabProps extends Omit<
+  AriaButtonProps<'button' | 'a'>,
+  'children' | 'elementType' | 'isDisabled'
+> {
   /** The label. Hidden while collapsed, which is why aria-label is still worth setting. */
   children: ReactNode;
   icon?: ReactNode;
@@ -92,9 +94,7 @@ export const ExtendedFab = forwardRef<GrangeButtonElement, ExtendedFabProps>(
         }}
       >
         {icon && <span className={slot('icon', 'grange-button-icon', styles.icon)}>{icon}</span>}
-        {!collapsed && (
-          <span className={slot('label', 'grange-button-label', styles.label)}>{children}</span>
-        )}
+        {!collapsed && <span className={slot('label', 'grange-button-label', styles.label)}>{children}</span>}
       </ButtonBase>
     );
   },

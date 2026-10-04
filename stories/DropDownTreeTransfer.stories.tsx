@@ -45,7 +45,11 @@ const folders = (
 export const SingleChoice: StoryObj = {
   render: () => (
     <div style={{ maxWidth: 320 }}>
-      <DropDownTree label="Folder" defaultSelectedKeys={['bank']} defaultExpandedKeys={['documents', 'letters']}>
+      <DropDownTree
+        label="Folder"
+        defaultSelectedKeys={['bank']}
+        defaultExpandedKeys={['documents', 'letters']}
+      >
         {folders}
       </DropDownTree>
     </div>

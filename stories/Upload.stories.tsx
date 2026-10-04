@@ -43,7 +43,13 @@ export const WithList: StoryObj = {
         defaultFiles={[
           { id: '1', name: 'brief.pdf', size: 184_320, status: 'done' },
           { id: '2', name: 'photo.jpg', size: 1_204_000, status: 'uploading', progress: 0.42 },
-          { id: '3', name: 'scan.tiff', size: 4_200_000, status: 'error', error: 'Too large (4.2 MB of 2 MB)' },
+          {
+            id: '3',
+            name: 'scan.tiff',
+            size: 4_200_000,
+            status: 'error',
+            error: 'Too large (4.2 MB of 2 MB)',
+          },
         ]}
         onRetry={() => {}}
       />
@@ -64,7 +70,11 @@ export const Live: StoryObj = {
           setFiles((current) =>
             current.map((candidate) =>
               candidate.id === row.id
-                ? { ...candidate, status: progress >= 1 ? 'done' : 'uploading', progress: Math.min(progress, 1) }
+                ? {
+                    ...candidate,
+                    status: progress >= 1 ? 'done' : 'uploading',
+                    progress: Math.min(progress, 1),
+                  }
                 : candidate,
             ),
           );
@@ -75,7 +85,12 @@ export const Live: StoryObj = {
 
     return (
       <Stack gap="md" style={{ maxWidth: 480 }}>
-        <Upload files={files} onFilesChange={setFiles} onAdd={fakeUpload} onRetry={(row) => fakeUpload([row])} />
+        <Upload
+          files={files}
+          onFilesChange={setFiles}
+          onAdd={fakeUpload}
+          onRetry={(row) => fakeUpload([row])}
+        />
         <span className="sb-label">
           The component collected the files; this story is the part an app would write.
         </span>

@@ -39,9 +39,7 @@ export function counterText(length: number, maxLength: number): string {
  * input described by an element that was never rendered — a dangling reference that announces
  * nothing and looks fine. So the ids are assembled from what is actually on screen.
  */
-export function describedBy(
-  parts: Array<{ id?: string; shown: boolean }>,
-): string | undefined {
+export function describedBy(parts: Array<{ id?: string; shown: boolean }>): string | undefined {
   const ids = parts.filter((part) => part.shown && part.id).map((part) => part.id!);
   return ids.length > 0 ? ids.join(' ') : undefined;
 }

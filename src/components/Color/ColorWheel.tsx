@@ -56,7 +56,13 @@ export function ColorWheel(props: ColorWheelProps) {
   const { focusProps, isFocusVisible } = useFocusRing();
 
   const slot = (name: ColorSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   const size = outerRadius * 2;
 

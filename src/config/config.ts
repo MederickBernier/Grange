@@ -58,46 +58,18 @@ export type SignatureSlot = 'root' | 'label' | 'surface' | 'actions';
 export type FormSlot = 'root' | 'actions';
 export type SliderSlot = 'root' | 'track' | 'handle' | 'label';
 export type TextFieldSlot =
-  | 'root'
-  | 'container'
-  | 'label'
-  | 'input'
-  | 'supporting'
-  | 'leadingIcon'
-  | 'trailingIcon'
-  | 'reveal';
+  'root' | 'container' | 'label' | 'input' | 'supporting' | 'leadingIcon' | 'trailingIcon' | 'reveal';
 export type NumberFieldSlot =
-  | 'root'
-  | 'container'
-  | 'label'
-  | 'input'
-  | 'supporting'
-  | 'leadingIcon'
-  | 'trailingIcon'
-  | 'stepper';
+  'root' | 'container' | 'label' | 'input' | 'supporting' | 'leadingIcon' | 'trailingIcon' | 'stepper';
 export type DividerSlot = 'root';
 export type DialogSlot = 'root' | 'scrim' | 'headline' | 'content' | 'actions' | 'icon';
 export type TooltipSlot = 'root';
 export type RichTooltipSlot = 'root' | 'subhead' | 'content' | 'actions';
 export type MenuSlot = 'root' | 'item';
 export type SelectSlot = 'root' | 'trigger' | 'label' | 'item';
-export type ComboBoxSlot =
-  | 'root'
-  | 'container'
-  | 'label'
-  | 'input'
-  | 'supporting'
-  | 'leadingIcon'
-  | 'item';
+export type ComboBoxSlot = 'root' | 'container' | 'label' | 'input' | 'supporting' | 'leadingIcon' | 'item';
 export type PopoverSlot = 'root';
-export type MultiSelectSlot =
-  | 'root'
-  | 'container'
-  | 'label'
-  | 'supporting'
-  | 'leadingIcon'
-  | 'tag'
-  | 'item';
+export type MultiSelectSlot = 'root' | 'container' | 'label' | 'supporting' | 'leadingIcon' | 'tag' | 'item';
 export type TabsSlot = 'root' | 'list' | 'tab' | 'panel';
 export type CardSlot = 'root';
 export type ListSlot = 'root' | 'item' | 'label';
@@ -132,14 +104,7 @@ export type SearchSlot = 'root' | 'bar' | 'input' | 'view';
 export type CalendarSlot = 'root' | 'header' | 'cell';
 export type TimeFieldSlot = 'root' | 'input' | 'label';
 export type DateFieldSlot =
-  | 'root'
-  | 'container'
-  | 'label'
-  | 'input'
-  | 'supporting'
-  | 'leadingIcon'
-  | 'trailingIcon'
-  | 'calendarButton';
+  'root' | 'container' | 'label' | 'input' | 'supporting' | 'leadingIcon' | 'trailingIcon' | 'calendarButton';
 export type TimePickerSlot = 'root' | 'headline' | 'hour' | 'minute' | 'period' | 'dial';
 export type SnackbarSlot = 'root' | 'region' | 'action';
 
@@ -603,7 +568,10 @@ export function mergeConfig(parent: ResolvedConfig, input: GrangeConfigInput): R
   for (const name of COMPONENTS) {
     const incoming = input.defaultProps?.[name as keyof DefaultPropsConfig];
     if (incoming) {
-      (defaultProps as Record<string, unknown>)[name] = { ...(parent.defaultProps as Record<string, object>)[name], ...incoming };
+      (defaultProps as Record<string, unknown>)[name] = {
+        ...(parent.defaultProps as Record<string, object>)[name],
+        ...incoming,
+      };
     }
   }
 

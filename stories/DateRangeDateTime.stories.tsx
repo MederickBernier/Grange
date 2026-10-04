@@ -46,9 +46,7 @@ export const Ranges: StoryObj = {
       <div style={column}>
         <DateRangePicker label="Stay" value={value} onChange={setValue} supportingText="Type it or pick it" />
         <p className="sb-label">
-          {value
-            ? `${formatRange(value, 'en-GB')} — ${rangeLength(value)} nights`
-            : 'nothing chosen'}
+          {value ? `${formatRange(value, 'en-GB')} — ${rangeLength(value)} nights` : 'nothing chosen'}
         </p>
         <DateRangePicker label="One month at a time" defaultValue={RANGE} visibleMonths={1} />
         <DateRangePicker
@@ -70,7 +68,11 @@ export const DateTimes: StoryObj = {
       <div style={column}>
         <DateTimePicker label="When" value={value} onChange={setValue} />
         <p className="sb-label">{value ? value.toString() : 'nothing'}</p>
-        <DateTimePicker label="24 hour" defaultValue={new CalendarDateTime(2026, 7, 15, 17, 5)} hourCycle={24} />
+        <DateTimePicker
+          label="24 hour"
+          defaultValue={new CalendarDateTime(2026, 7, 15, 17, 5)}
+          hourCycle={24}
+        />
         <div className="sb-row" style={{ gap: 24, flexWrap: 'wrap' }}>
           {['en-US', 'en-GB'].map((locale) => (
             <div key={locale} className="sb-col" style={{ maxWidth: 200 }}>
@@ -98,7 +100,7 @@ export const MultiView: StoryObj = {
   render: () => (
     <div className="sb-col" style={{ gap: 32 }}>
       <div className="sb-col">
-        <p className="sb-label">Two months, paging two at a time (React Aria's default)</p>
+        <p className="sb-label">Two months, paging two at a time (React Aria’s default)</p>
         <Calendar aria-label="Two months" defaultValue={PINNED} visibleMonths={2} />
       </div>
       <div className="sb-col">
@@ -131,15 +133,19 @@ export const DateMath: StoryObj = {
           `Intl.DateTimeFormat.formatRange` knows what the two ends share.
         </p>
         <p className="sb-label">
-          Across a year end: {formatRange({ start: new CalendarDate(2026, 12, 30), end: new CalendarDate(2027, 1, 2) }, 'en-GB')}
+          Across a year end:{' '}
+          {formatRange({ start: new CalendarDate(2026, 12, 30), end: new CalendarDate(2027, 1, 2) }, 'en-GB')}
         </p>
         <p className="sb-label">{rangeLength(RANGE)} days, counting both ends</p>
         <p className="sb-label">
-          The week 15 July falls in, in Britain: {week.start.toString()} to {week.end.toString()}
-          {' '}— a Monday. In the United States it starts the day before.
+          The week 15 July falls in, in Britain: {week.start.toString()} to {week.end.toString()} — a Monday.
+          In the United States it starts the day before.
         </p>
         <p className="sb-label">
-          Every day in a short span: {eachDay({ start: PINNED, end: PINNED.add({ days: 3 }) }).map((d) => d.day).join(', ')}
+          Every day in a short span:{' '}
+          {eachDay({ start: PINNED, end: PINNED.add({ days: 3 }) })
+            .map((d) => d.day)
+            .join(', ')}
         </p>
       </div>
     );

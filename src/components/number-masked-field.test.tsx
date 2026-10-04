@@ -94,7 +94,11 @@ describe('NumberField', () => {
   it('takes a currency or a percent format', async () => {
     const user = userEvent.setup();
     const { unmount } = render(
-      <NumberField label="Amount" defaultValue={12.5} formatOptions={{ style: 'currency', currency: 'EUR' }} />,
+      <NumberField
+        label="Amount"
+        defaultValue={12.5}
+        formatOptions={{ style: 'currency', currency: 'EUR' }}
+      />,
     );
     expect(input().value).toContain('12.50');
     expect(input().value).toMatch(/€/);
@@ -134,7 +138,9 @@ describe('NumberField', () => {
     );
     expect(container.querySelector('.grange-number-field-supporting')?.textContent).toBe('In euros');
 
-    rerender(<NumberField label="Amount" supportingText="In euros" errorText="Too small" error defaultValue={1} />);
+    rerender(
+      <NumberField label="Amount" supportingText="In euros" errorText="Too small" error defaultValue={1} />,
+    );
     expect(container.querySelector('.grange-number-field-supporting')?.textContent).toBe('Too small');
     expect(container.querySelector('.grange-number-field')?.getAttribute('data-error')).toBe('true');
     expect(input().getAttribute('aria-invalid')).toBe('true');
@@ -146,7 +152,9 @@ describe('NumberField', () => {
     unmount();
 
     const filled = render(<FilledNumberField label="Amount" />);
-    expect(filled.container.querySelector('.grange-number-field')?.getAttribute('data-variant')).toBe('filled');
+    expect(filled.container.querySelector('.grange-number-field')?.getAttribute('data-variant')).toBe(
+      'filled',
+    );
     filled.unmount();
 
     const provided = render(
@@ -154,7 +162,9 @@ describe('NumberField', () => {
         <NumberField label="Amount" />
       </GrangeProvider>,
     );
-    expect(provided.container.querySelector('.grange-number-field')?.getAttribute('data-variant')).toBe('outlined');
+    expect(provided.container.querySelector('.grange-number-field')?.getAttribute('data-variant')).toBe(
+      'outlined',
+    );
     expect(screen.queryByRole('button')).toBeNull();
   });
 
@@ -324,7 +334,9 @@ describe('MaskedTextField', () => {
       />,
     );
     expect(container.querySelector('.grange-text-field')?.getAttribute('data-variant')).toBe('outlined');
-    expect(container.querySelector('.grange-text-field-supporting')?.textContent).toBe('Not a number we recognise');
+    expect(container.querySelector('.grange-text-field-supporting')?.textContent).toBe(
+      'Not a number we recognise',
+    );
     // No counter, because a mask's literals are not characters anybody typed.
     expect(container.textContent).not.toMatch(/\/14/);
   });

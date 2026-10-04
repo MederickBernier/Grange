@@ -1,6 +1,11 @@
 import { useRef, type CSSProperties, type ReactNode } from 'react';
 import { useColorSlider, useFocusRing, useLocale, VisuallyHidden } from 'react-aria';
-import { useColorSliderState, type Color as AriaColor, type ColorChannel, type ColorSpace } from 'react-stately';
+import {
+  useColorSliderState,
+  type Color as AriaColor,
+  type ColorChannel,
+  type ColorSpace,
+} from 'react-stately';
 import {
   resolveSlotClass,
   useComponentConfig,
@@ -60,13 +65,27 @@ export function ColorSlider(props: ColorSliderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { trackProps, thumbProps, inputProps, labelProps, outputProps } = useColorSlider(
-    { ...rest, channel, orientation, isDisabled: disabled, label: typeof label === 'string' ? label : undefined, trackRef, inputRef },
+    {
+      ...rest,
+      channel,
+      orientation,
+      isDisabled: disabled,
+      label: typeof label === 'string' ? label : undefined,
+      trackRef,
+      inputRef,
+    },
     state,
   );
   const { focusProps, isFocusVisible } = useFocusRing();
 
   const slot = (name: ColorSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <div
@@ -96,7 +115,11 @@ export function ColorSlider(props: ColorSliderProps) {
         data-orientation={orientation}
       >
         <span className={styles.checker} aria-hidden="true" />
-        <span className={styles.gradient} style={{ background: trackProps.style?.background }} aria-hidden="true" />
+        <span
+          className={styles.gradient}
+          style={{ background: trackProps.style?.background }}
+          aria-hidden="true"
+        />
         <div
           {...thumbProps}
           className={slot('thumb', 'grange-color-slider-thumb', styles.thumb)}

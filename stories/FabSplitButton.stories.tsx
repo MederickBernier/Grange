@@ -83,7 +83,15 @@ export const SplitButtons: StoryObj = {
           <div key={size} className="sb-row">
             <span className="sb-label">{size}</span>
             <SplitButton size={size} aria-label="Save options">
-              <SplitButtonLeading icon={<Icon><CheckIcon /></Icon>}>Save</SplitButtonLeading>
+              <SplitButtonLeading
+                icon={
+                  <Icon>
+                    <CheckIcon />
+                  </Icon>
+                }
+              >
+                Save
+              </SplitButtonLeading>
               <SplitButtonTrailing
                 aria-label="More save options"
                 expanded={open === size}

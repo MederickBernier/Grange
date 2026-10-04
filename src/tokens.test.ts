@@ -33,7 +33,12 @@ describe('button shapes', () => {
 
 describe('button group width redistribution', () => {
   const ctx = (pressedIndex: number | null, growth: number, count = 3) =>
-    ({ state: { pressedIndex, growth }, count, expandedRatio: 0.15, setPressed: () => {} }) as ButtonGroupContextValue;
+    ({
+      state: { pressedIndex, growth },
+      count,
+      expandedRatio: 0.15,
+      setPressed: () => {},
+    }) as ButtonGroupContextValue;
 
   it('middle item takes from both neighbours and the row keeps its width', () => {
     const c = ctx(1, 5);

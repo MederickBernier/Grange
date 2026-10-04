@@ -219,7 +219,12 @@ describe('extras', () => {
     const { container } = render(
       <GrangeProvider
         classNames={{
-          TextField: { container: 'my-container', label: 'my-label', input: 'my-input', supporting: 'my-supporting' },
+          TextField: {
+            container: 'my-container',
+            label: 'my-label',
+            input: 'my-input',
+            supporting: 'my-supporting',
+          },
         }}
       >
         <TextField label="Email" supportingText="Hint" />

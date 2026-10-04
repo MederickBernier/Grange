@@ -66,8 +66,24 @@ export const StandardDrawer: StoryObj = {
           ))}
           <Divider inset />
           <DrawerHeadline>Labels</DrawerHeadline>
-          <NavigationItem icon={<Icon><HeartIcon /></Icon>}>Personal</NavigationItem>
-          <NavigationItem icon={<Icon><HeartIcon /></Icon>}>Work</NavigationItem>
+          <NavigationItem
+            icon={
+              <Icon>
+                <HeartIcon />
+              </Icon>
+            }
+          >
+            Personal
+          </NavigationItem>
+          <NavigationItem
+            icon={
+              <Icon>
+                <HeartIcon />
+              </Icon>
+            }
+          >
+            Work
+          </NavigationItem>
         </NavigationDrawer>
         <div style={{ flex: 1, padding: 16 }}>
           <p className="sb-label">Showing: {current}</p>
@@ -125,7 +141,13 @@ export const DrawerPlacement: StoryObj = {
           ))}
           <FilledButton onClick={() => setOpen(true)}>Open from {placement}</FilledButton>
         </div>
-        <NavigationDrawer modal open={open} onOpenChange={setOpen} placement={placement} aria-label="Sections">
+        <NavigationDrawer
+          modal
+          open={open}
+          onOpenChange={setOpen}
+          placement={placement}
+          aria-label="Sections"
+        >
           {destinations.map((d) => (
             <NavigationItem key={d.id} icon={<Icon>{d.icon}</Icon>} onClick={() => setOpen(false)}>
               {d.label}
@@ -156,7 +178,15 @@ export const ModalSheet: StoryObj = {
         <BottomSheet open={open} onOpenChange={setOpen} aria-label="Share">
           <List aria-label="Share with">
             {['Copy link', 'Send by email', 'Share to chat', 'Save to files'].map((label) => (
-              <ListItem key={label} leading={<Icon><ArrowIcon /></Icon>} onClick={() => setOpen(false)}>
+              <ListItem
+                key={label}
+                leading={
+                  <Icon>
+                    <ArrowIcon />
+                  </Icon>
+                }
+                onClick={() => setOpen(false)}
+              >
                 {label}
               </ListItem>
             ))}

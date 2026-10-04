@@ -80,7 +80,9 @@ describe('Timeline', () => {
         <Timeline>{entries}</Timeline>
       </GrangeProvider>,
     );
-    expect((container.querySelector('.grange-timeline') as HTMLElement).dataset.orientation).toBe('horizontal');
+    expect((container.querySelector('.grange-timeline') as HTMLElement).dataset.orientation).toBe(
+      'horizontal',
+    );
   });
 });
 
@@ -160,7 +162,9 @@ describe('Stepper', () => {
       </Stepper>,
     );
     const done = () =>
-      [...container.querySelectorAll('.grange-step')].map((el) => Boolean((el as HTMLElement).dataset.completed));
+      [...container.querySelectorAll('.grange-step')].map((el) =>
+        Boolean((el as HTMLElement).dataset.completed),
+      );
     // Nothing is implied by position when the steps are independent.
     expect(done()).toEqual([false, false, false, false]);
 

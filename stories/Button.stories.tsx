@@ -29,7 +29,9 @@ export const VariantsBySize: Story = {
     <div className="sb-grid">
       <span />
       {sizes.map((s) => (
-        <span key={s} className="sb-label">{s}</span>
+        <span key={s} className="sb-label">
+          {s}
+        </span>
       ))}
       {variants.map((v) => (
         <Row key={v} label={v}>
@@ -112,7 +114,13 @@ export const IconButtons: StoryObj<typeof IconButton> = {
           <IconButton variant={v} toggle aria-label="Favorite" selectedIcon={<HeartFilledIcon />}>
             <HeartIcon />
           </IconButton>
-          <IconButton variant={v} toggle defaultSelected aria-label="Favorite" selectedIcon={<HeartFilledIcon />}>
+          <IconButton
+            variant={v}
+            toggle
+            defaultSelected
+            aria-label="Favorite"
+            selectedIcon={<HeartFilledIcon />}
+          >
             <HeartIcon />
           </IconButton>
         </div>

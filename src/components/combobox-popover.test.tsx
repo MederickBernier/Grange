@@ -206,7 +206,11 @@ describe('ComboBox', () => {
       const [key, setKey] = useState<string | null>('par');
       return (
         <>
-          <ComboBox label="City" selectedKey={key} onSelectionChange={(next) => setKey(next as string | null)}>
+          <ComboBox
+            label="City"
+            selectedKey={key}
+            onSelectionChange={(next) => setKey(next as string | null)}
+          >
             {cities}
           </ComboBox>
           <p>chosen: {key ?? 'none'}</p>

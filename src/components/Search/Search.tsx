@@ -1,7 +1,12 @@
 import { useRef, type CSSProperties, type ReactNode } from 'react';
 import { useButton, useFilter, useSearchField } from 'react-aria';
 import { useSearchFieldState } from 'react-stately';
-import { resolveSlotClass, useComponentConfig, type SearchSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type SearchSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import styles from './Search.module.scss';
 
 export interface SearchProps {

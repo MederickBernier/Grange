@@ -1,11 +1,5 @@
 import { useRef, type CSSProperties, type ReactNode } from 'react';
-import {
-  useCalendar,
-  useCalendarCell,
-  useCalendarGrid,
-  useLocale,
-  useRangeCalendar,
-} from 'react-aria';
+import { useCalendar, useCalendarCell, useCalendarGrid, useLocale, useRangeCalendar } from 'react-aria';
 import {
   useCalendarState,
   useRangeCalendarState,
@@ -22,7 +16,12 @@ import {
   type DateValue,
 } from '@internationalized/date';
 import { IconButton } from '../Button/Button';
-import { resolveSlotClass, useComponentConfig, type CalendarSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type CalendarSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import styles from './Calendar.module.scss';
 
 interface CommonProps {
@@ -167,7 +166,7 @@ export function RangeCalendar(props: RangeCalendarProps) {
 
   return (
     <Shell
-      aria={aria as CalendarAria}
+      aria={aria}
       state={state}
       slots={slots}
       classNames={classNames}
@@ -256,15 +255,7 @@ function Shell({
   );
 }
 
-function Grid({
-  state,
-  cellClass,
-  offset,
-}: {
-  state: AnyCalendarState;
-  cellClass: string;
-  offset: number;
-}) {
+function Grid({ state, cellClass, offset }: { state: AnyCalendarState; cellClass: string; offset: number }) {
   /*
    * One grid per month. The hook is told which month by its first and last day — there is no
    * offset option — and hands back that month's weekday names and its number of weeks, so

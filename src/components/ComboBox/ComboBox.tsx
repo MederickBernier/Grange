@@ -165,10 +165,7 @@ export function ComboBox(props: ComboBoxProps) {
     errorMessageProps,
     isInvalid,
     validationErrors,
-  } = useComboBox(
-    { ...ariaProps, inputRef, listBoxRef, popoverRef, buttonRef },
-    state,
-  );
+  } = useComboBox({ ...ariaProps, inputRef, listBoxRef, popoverRef, buttonRef }, state);
 
   // buttonProps are button options and not DOM props, which is the fourth component here where
   // spreading them straight onto a <button> would have looked right and done nothing.

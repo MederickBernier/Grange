@@ -136,9 +136,9 @@ describe('Menu', () => {
   it('renders its items as menu items', async () => {
     render(<Basic />);
     await openMenu();
-    expect(screen.getAllByRole('menuitem').map((i) => i.textContent?.replace(/⌘D|This cannot be undone/, ''))).toEqual(
-      ['Edit', 'Duplicate', 'Delete'],
-    );
+    expect(
+      screen.getAllByRole('menuitem').map((i) => i.textContent?.replace(/⌘D|This cannot be undone/, '')),
+    ).toEqual(['Edit', 'Duplicate', 'Delete']);
   });
 
   it('reports the chosen item and closes', async () => {

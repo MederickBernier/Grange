@@ -1,10 +1,5 @@
 import { useMemo, type CSSProperties } from 'react';
-import {
-  resolveSlotClass,
-  useComponentConfig,
-  type CodeSlot,
-  type SlotOverrides,
-} from '../../config/config';
+import { resolveSlotClass, useComponentConfig, type CodeSlot, type SlotOverrides } from '../../config/config';
 import { encode, type EcLevel } from './qr';
 import { code as spec } from '../Barcode/specs';
 import styles from '../Barcode/Code.module.scss';
@@ -67,7 +62,13 @@ export function QRCode(props: QRCodeProps) {
   const size = grid.length + quietZone * 2;
 
   const slot = (name: CodeSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   /*
    * One path for every dark module rather than one rect each. A version 10 symbol is 3249

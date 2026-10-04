@@ -54,7 +54,10 @@ export function straightLine(from: Point, to: Point): Cubic {
 }
 
 export function isZeroLength(c: Cubic): boolean {
-  return Math.abs(c.anchor0.x - c.anchor1.x) < DISTANCE_EPSILON && Math.abs(c.anchor0.y - c.anchor1.y) < DISTANCE_EPSILON;
+  return (
+    Math.abs(c.anchor0.x - c.anchor1.x) < DISTANCE_EPSILON &&
+    Math.abs(c.anchor0.y - c.anchor1.y) < DISTANCE_EPSILON
+  );
 }
 
 /**
@@ -78,12 +81,7 @@ export function circularArc(centre: Point, from: Point, to: Point): Cubic {
     ((Math.sqrt(2 * (1 - cosine)) - Math.sqrt(1 - cosine * cosine)) / (1 - cosine)) *
     (clockwise ? 1 : -1);
 
-  return cubic(
-    from,
-    add(from, scale(fromTangent, k)),
-    subtract(to, scale(toTangent, k)),
-    to,
-  );
+  return cubic(from, add(from, scale(fromTangent, k)), subtract(to, scale(toTangent, k)), to);
 }
 
 export function transformCubic(c: Cubic, f: (p: Point) => Point): Cubic {
@@ -97,7 +95,12 @@ export function transformCubic(c: Cubic, f: (p: Point) => Point): Cubic {
  * can sit outside the curve it shapes, so the box can be a little large. Using it keeps the
  * normalisation here identical to the normalisation there, which matters more than tightness.
  */
-export function bounds(cubics: readonly Cubic[]): { left: number; top: number; right: number; bottom: number } {
+export function bounds(cubics: readonly Cubic[]): {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+} {
   let left = Infinity;
   let top = Infinity;
   let right = -Infinity;

@@ -20,4 +20,11 @@ export const loadingIndicator = {
  * The spec does not name a sequence, so this is a run that reads as one thing becoming another:
  * a soft shape, a sharp one, a round one, and back.
  */
-export const defaultShapes = ['SoftBurst', 'Cookie9Sided', 'Pentagon', 'Pill', 'Sunny', 'Cookie4Sided'] as const;
+export const defaultShapes = [
+  'SoftBurst',
+  'Cookie9Sided',
+  'Pentagon',
+  'Pill',
+  'Sunny',
+  'Cookie4Sided',
+] as const;

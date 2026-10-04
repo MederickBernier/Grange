@@ -64,7 +64,8 @@ async function capture(name: string) {
   const source = await res.text();
 
   const tokens = parse(source);
-  if (Object.keys(tokens).length === 0) throw new Error(`${name}: parsed no tokens, the upstream format may have changed`);
+  if (Object.keys(tokens).length === 0)
+    throw new Error(`${name}: parsed no tokens, the upstream format may have changed`);
 
   const version = /\/\/ VERSION: ([\w_]+)/.exec(source)?.[1];
   return { tokens, version };
@@ -93,10 +94,14 @@ for (const name of targets) {
   if (version) versions.add(version);
 
   const note = kept.length > 0 ? `  (kept local: ${kept.join(', ')})` : '';
-  console.log(`${changed ? 'updated' : '   same'}  ${name.padEnd(28)} ${Object.keys(tokens).length} upstream${note}`);
+  console.log(
+    `${changed ? 'updated' : '   same'}  ${name.padEnd(28)} ${Object.keys(tokens).length} upstream${note}`,
+  );
 }
 
 json.$meta.componentTokensVersion = [...versions].sort().join(', ');
 json.$meta.componentTokensSource = 'androidx-main compose/material3 tokens';
 writeFileSync(tokensPath, `${JSON.stringify(json, null, 2)}\n`);
-console.log(`\n${targets.length} objects -> tokens/m3-expressive.json (upstream VERSION ${json.$meta.componentTokensVersion})`);
+console.log(
+  `\n${targets.length} objects -> tokens/m3-expressive.json (upstream VERSION ${json.$meta.componentTokensVersion})`,
+);

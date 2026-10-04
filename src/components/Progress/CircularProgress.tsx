@@ -38,15 +38,7 @@ const INDETERMINATE_SWEEP = 0.75;
 export const CircularProgress = forwardRef<HTMLDivElement, CircularProgressProps>(
   function CircularProgress(props, ref) {
     const { defaults, slots } = useComponentConfig('CircularProgress');
-    const {
-      value,
-      wavy = defaults?.wavy ?? false,
-      size,
-      className,
-      classNames,
-      style,
-      ...aria
-    } = props;
+    const { value, wavy = defaults?.wavy ?? false, size, className, classNames, style, ...aria } = props;
 
     const isIndeterminate = value === undefined;
     const clamped = isIndeterminate ? INDETERMINATE_SWEEP : Math.min(1, Math.max(0, value));

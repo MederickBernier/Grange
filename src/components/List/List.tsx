@@ -45,8 +45,10 @@ export const List = forwardRef<HTMLUListElement, ListProps>(function List(props,
   );
 });
 
-export interface ListItemProps
-  extends Omit<AriaButtonProps<'button' | 'a'>, 'children' | 'elementType' | 'isDisabled'> {
+export interface ListItemProps extends Omit<
+  AriaButtonProps<'button' | 'a'>,
+  'children' | 'elementType' | 'isDisabled'
+> {
   /** The row's main line. */
   children: ReactNode;
   /** A second line under it. */

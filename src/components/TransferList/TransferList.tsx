@@ -66,14 +66,8 @@ export function TransferList(props: TransferListProps) {
     onChange?.([...next]),
   );
 
-  const target = useMemo(
-    () => items.filter((item) => chosen.includes(item.id)),
-    [items, chosen],
-  );
-  const source = useMemo(
-    () => items.filter((item) => !chosen.includes(item.id)),
-    [items, chosen],
-  );
+  const target = useMemo(() => items.filter((item) => chosen.includes(item.id)), [items, chosen]);
+  const source = useMemo(() => items.filter((item) => !chosen.includes(item.id)), [items, chosen]);
 
   const [sourceSelected, setSourceSelected] = useState<Set<string>>(new Set());
   const [targetSelected, setTargetSelected] = useState<Set<string>>(new Set());
@@ -88,7 +82,9 @@ export function TransferList(props: TransferListProps) {
 
     setChosen(toTarget ? moved.to.map((i) => i.id) : moved.from.map((i) => i.id));
     // Said, not only drawn: the press changes two lists and moves focus nowhere.
-    setAnnouncement(`${count} ${count === 1 ? 'item' : 'items'} moved to ${toTarget ? 'chosen' : 'available'}`);
+    setAnnouncement(
+      `${count} ${count === 1 ? 'item' : 'items'} moved to ${toTarget ? 'chosen' : 'available'}`,
+    );
     // The keys that moved are no longer on this side, so a listbox would be holding keys it
     // does not have.
     setSourceSelected((keys) => keepSelected(keys, toTarget ? moved.from : moved.to));
@@ -96,7 +92,13 @@ export function TransferList(props: TransferListProps) {
   };
 
   const slot = (name: TransferListSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   const side = (
     which: 'source' | 'target',

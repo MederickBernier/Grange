@@ -42,8 +42,8 @@ export function generator(degree: number): Uint8Array {
     for (let j = 0; j < poly.length; j += 1) {
       // Shifting up multiplies by x; the other term multiplies by α^i. Highest power first,
       // which is the order the long division below walks in.
-      next[j] = (next[j]! ^ poly[j]!) as number;
-      next[j + 1] = (next[j + 1]! ^ gfMul(poly[j]!, EXP[i]!)) as number;
+      next[j] = next[j]! ^ poly[j]!;
+      next[j + 1] = next[j + 1]! ^ gfMul(poly[j]!, EXP[i]!);
     }
     poly = next;
   }
@@ -67,7 +67,7 @@ export function remainder(data: Uint8Array, degree: number): Uint8Array {
     const factor = out[i]!;
     if (factor === 0) continue;
     for (let j = 0; j < gen.length; j += 1) {
-      out[i + j] = (out[i + j]! ^ gfMul(gen[j]!, factor)) as number;
+      out[i + j] = out[i + j]! ^ gfMul(gen[j]!, factor);
     }
   }
 

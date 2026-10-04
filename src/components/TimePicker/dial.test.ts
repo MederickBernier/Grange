@@ -101,7 +101,20 @@ describe('labels', () => {
 
   it('runs a twelve hour face from twelve clockwise to eleven', () => {
     const labels = labelsFor('hour', 12);
-    expect(labels.map((l) => l.text)).toEqual(['12', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']);
+    expect(labels.map((l) => l.text)).toEqual([
+      '12',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      '11',
+    ]);
   });
 
   it('gives a 24 hour face two rings, with midnight on the inner one', () => {

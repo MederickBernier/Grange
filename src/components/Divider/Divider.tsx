@@ -1,6 +1,11 @@
 import { forwardRef, type CSSProperties } from 'react';
 import { useSeparator } from 'react-aria';
-import { resolveSlotClass, useComponentConfig, type DividerSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type DividerSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import styles from './Divider.module.scss';
 
 export interface DividerProps {

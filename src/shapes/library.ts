@@ -59,7 +59,10 @@ export function buildShape(descriptor: ShapeDescriptor): RoundedPolygon {
   }
 
   for (const transform of descriptor.transforms ?? []) {
-    polygon = 'rotate' in transform ? rotated(polygon, transform.rotate) : scaled(polygon, transform.scale[0], transform.scale[1]);
+    polygon =
+      'rotate' in transform
+        ? rotated(polygon, transform.rotate)
+        : scaled(polygon, transform.scale[0], transform.scale[1]);
   }
 
   return normalized(polygon);

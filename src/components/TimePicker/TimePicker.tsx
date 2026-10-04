@@ -1,7 +1,12 @@
 import { useMemo, useRef, useState, type CSSProperties, type PointerEvent, type ReactNode } from 'react';
 import { useLocale } from 'react-aria';
 import { Time } from '@internationalized/date';
-import { resolveSlotClass, useComponentConfig, type SlotOverrides, type TimePickerSlot } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  type SlotOverrides,
+  type TimePickerSlot,
+} from '../../config/config';
 import { useControlledState } from '../../utils';
 import { TimeField } from '../TimeField/TimeField';
 import {

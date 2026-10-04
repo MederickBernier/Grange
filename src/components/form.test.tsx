@@ -46,7 +46,11 @@ describe('Form', () => {
     const user = userEvent.setup();
     const onSubmit = vi.fn((_values, event: React.FormEvent) => event.preventDefault());
     render(
-      <Form aria-label="Details" onSubmit={onSubmit} actions={<FilledButton type="submit">Save</FilledButton>}>
+      <Form
+        aria-label="Details"
+        onSubmit={onSubmit}
+        actions={<FilledButton type="submit">Save</FilledButton>}
+      >
         <FilledTextField label="Name" name="name" defaultValue="Ada" />
         <NumberField label="Count" name="count" defaultValue={3} />
         <Checkbox name="terms" value="yes">
@@ -382,7 +386,11 @@ describe('FieldArray', () => {
     const user = userEvent.setup();
     const onSubmit = vi.fn((_v, event: React.FormEvent) => event.preventDefault());
     render(
-      <Form aria-label="Addresses" onSubmit={onSubmit} actions={<FilledButton type="submit">Save</FilledButton>}>
+      <Form
+        aria-label="Addresses"
+        onSubmit={onSubmit}
+        actions={<FilledButton type="submit">Save</FilledButton>}
+      >
         <Rows defaultCount={2} />
       </Form>,
     );
@@ -422,7 +430,9 @@ describe('what the field is described by', () => {
   it('keeps the counter alongside whichever message is showing', () => {
     const { rerender } = render(<FilledTextField label="Email" supportingText="Hint" maxLength={10} />);
     expect(describedText(field('Email'))).toEqual(['Hint', '0/10']);
-    rerender(<FilledTextField label="Email" supportingText="Hint" maxLength={10} error errorText="Too long" />);
+    rerender(
+      <FilledTextField label="Email" supportingText="Hint" maxLength={10} error errorText="Too long" />,
+    );
     expect(describedText(field('Email'))).toEqual(['Too long', '0/10']);
   });
 

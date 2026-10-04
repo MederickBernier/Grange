@@ -51,7 +51,10 @@ export interface ExpansionPanelProps {
   classNames?: SlotOverrides<DisclosureSlot>;
 }
 
-export interface AccordionItemProps extends Omit<ExpansionPanelProps, 'expanded' | 'defaultExpanded' | 'onExpandedChange' | 'variant'> {
+export interface AccordionItemProps extends Omit<
+  ExpansionPanelProps,
+  'expanded' | 'defaultExpanded' | 'onExpandedChange' | 'variant'
+> {
   /**
    * Identifies the item to its group. A real prop rather than a React `key`, because nothing
    * here builds a collection: these children are rendered as they are written, so a `key` would
@@ -167,7 +170,14 @@ export function AccordionItem({ id, ...rest }: AccordionItemProps) {
     onExpandedChange: () => group.state.toggleKey(id),
   });
 
-  return <Section {...rest} state={state} variant={group.variant} disabled={rest.disabled || group.state.isDisabled} />;
+  return (
+    <Section
+      {...rest}
+      state={state}
+      variant={group.variant}
+      disabled={rest.disabled || group.state.isDisabled}
+    />
+  );
 }
 
 type SectionProps = Omit<ExpansionPanelProps, 'expanded' | 'defaultExpanded' | 'onExpandedChange'> & {
@@ -191,7 +201,11 @@ function Section(props: SectionProps) {
 
   const panelRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const { buttonProps: triggerOptions, panelProps } = useDisclosure({ isDisabled: disabled }, state, panelRef);
+  const { buttonProps: triggerOptions, panelProps } = useDisclosure(
+    { isDisabled: disabled },
+    state,
+    panelRef,
+  );
   // Button options, not DOM props — the same trap as the select's trigger and the combo box's
   // chevron. Spreading these straight onto a <button> would look right and do nothing.
   const { buttonProps } = useButton(triggerOptions, triggerRef);
@@ -199,7 +213,13 @@ function Section(props: SectionProps) {
   const { focusProps, isFocusVisible } = useFocusRing();
 
   const slot = (name: DisclosureSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <div
@@ -232,7 +252,11 @@ function Section(props: SectionProps) {
         Always rendered. The hook hides it with hidden="until-found" rather than unmounting it,
         which is what lets find-in-page reach the text and open the section.
       */}
-      <div {...panelProps} ref={panelRef} className={slot('panel', 'grange-expansion-panel-content', styles.content)}>
+      <div
+        {...panelProps}
+        ref={panelRef}
+        className={slot('panel', 'grange-expansion-panel-content', styles.content)}
+      >
         <div className={styles.inner}>{children}</div>
       </div>
     </div>

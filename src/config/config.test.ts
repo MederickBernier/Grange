@@ -53,7 +53,9 @@ describe('nested providers', () => {
     const outer = mergeConfig(defaultConfig, { classNames: { Button: { root: 'a' } } });
     const inner = mergeConfig(outer, { classNames: { Button: { root: 'b' } } });
     expect(inner.classNames.Button?.root).toEqual(['a', 'b']);
-    expect(resolveSlotClass('hook', 'built', ...(inner.classNames.Button?.root ?? []))).toBe('hook built a b');
+    expect(resolveSlotClass('hook', 'built', ...(inner.classNames.Button?.root ?? []))).toBe(
+      'hook built a b',
+    );
   });
 
   it('override default props per component, keeping the outer ones', () => {

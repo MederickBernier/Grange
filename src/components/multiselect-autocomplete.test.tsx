@@ -78,7 +78,11 @@ describe('MultiSelect', () => {
 
   it('makes the chips a real tag group, not a row of buttons', async () => {
     const user = userEvent.setup();
-    render(<MultiSelect label="Colours" defaultSelectedKeys={['red', 'green']}>{colours}</MultiSelect>);
+    render(
+      <MultiSelect label="Colours" defaultSelectedKeys={['red', 'green']}>
+        {colours}
+      </MultiSelect>,
+    );
     const grid = screen.getByRole('grid', { name: 'Colours' });
     expect(grid).toBeTruthy();
     // A live region, so removing one is announced rather than happening silently.
@@ -96,7 +100,11 @@ describe('MultiSelect', () => {
     const user = userEvent.setup();
     const onSelectionChange = vi.fn();
     render(
-      <MultiSelect label="Colours" defaultSelectedKeys={['red', 'green']} onSelectionChange={onSelectionChange}>
+      <MultiSelect
+        label="Colours"
+        defaultSelectedKeys={['red', 'green']}
+        onSelectionChange={onSelectionChange}
+      >
         {colours}
       </MultiSelect>,
     );
@@ -159,7 +167,9 @@ describe('MultiSelect', () => {
     const root = container.querySelector('.grange-multi-select')!;
     expect(root.getAttribute('data-variant')).toBe('outlined');
     expect(root.querySelector('fieldset legend')).toBeTruthy();
-    expect(container.querySelector('.grange-multi-select-supporting')?.textContent).toBe('As many as you like');
+    expect(container.querySelector('.grange-multi-select-supporting')?.textContent).toBe(
+      'As many as you like',
+    );
   });
 
   it('is controlled when it is given keys', async () => {

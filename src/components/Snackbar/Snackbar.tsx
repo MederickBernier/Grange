@@ -1,7 +1,13 @@
 import { useRef, type CSSProperties, type ReactNode } from 'react';
 import { Overlay, useButton, useToast, useToastRegion } from 'react-aria';
 import { ToastQueue, useToastQueue, type QueuedToast, type ToastState } from 'react-stately';
-import { resolveSlotClass, useComponentConfig, useGrangeConfig, type SnackbarSlot, type SlotOverrides } from '../../config/config';
+import {
+  resolveSlotClass,
+  useComponentConfig,
+  useGrangeConfig,
+  type SnackbarSlot,
+  type SlotOverrides,
+} from '../../config/config';
 import { snackbar as spec } from './specs';
 import styles from './Snackbar.module.scss';
 

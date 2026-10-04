@@ -254,9 +254,7 @@ export function DatePicker(props: DatePickerProps) {
  * a `CalendarDate` has nowhere to put the time.
  */
 export function DateTimePicker(props: DateTimePickerProps) {
-  return (
-    <PickerBase granularity="minute" {...(props as PickerBaseProps)} />
-  );
+  return <PickerBase granularity="minute" {...(props as PickerBaseProps)} />;
 }
 
 export type VariantDatePickerProps = Omit<DatePickerProps, 'variant'>;

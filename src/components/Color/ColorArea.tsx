@@ -1,6 +1,11 @@
 import { useRef, type CSSProperties } from 'react';
 import { useColorArea, useFocusRing, VisuallyHidden } from 'react-aria';
-import { useColorAreaState, type Color as AriaColor, type ColorChannel, type ColorSpace } from 'react-stately';
+import {
+  useColorAreaState,
+  type Color as AriaColor,
+  type ColorChannel,
+  type ColorSpace,
+} from 'react-stately';
 import {
   resolveSlotClass,
   useComponentConfig,
@@ -79,7 +84,13 @@ export function ColorArea(props: ColorAreaProps) {
   const { focusProps, isFocusVisible } = useFocusRing({ within: true });
 
   const slot = (name: ColorSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   return (
     <div

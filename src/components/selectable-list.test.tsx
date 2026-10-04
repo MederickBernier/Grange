@@ -23,9 +23,7 @@ const option = (name: string) => screen.getByRole('option', { name: new RegExp(n
 
 describe('SelectableList', () => {
   it('is a listbox of options, which is what says how many rows there are', () => {
-    render(
-      <SelectableList aria-label="People">{rows}</SelectableList>,
-    );
+    render(<SelectableList aria-label="People">{rows}</SelectableList>);
     expect(screen.getByRole('listbox', { name: 'People' })).toBeTruthy();
     expect(options()).toHaveLength(4);
     // The markup List is still a plain list, which is the other kind and the default.
@@ -251,7 +249,9 @@ describe('SelectableList', () => {
         <SelectableList aria-label="People">{rows}</SelectableList>
       </GrangeProvider>,
     );
-    expect(container.querySelector('.grange-selectable-list')?.getAttribute('data-orientation')).toBe('horizontal');
+    expect(container.querySelector('.grange-selectable-list')?.getAttribute('data-orientation')).toBe(
+      'horizontal',
+    );
     expect(screen.getByRole('listbox').getAttribute('aria-multiselectable')).toBe('true');
     for (const name of ['x-root', 'x-item', 'x-label']) {
       expect(container.querySelector(`.${name}`)).toBeTruthy();

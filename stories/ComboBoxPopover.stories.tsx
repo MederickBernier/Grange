@@ -192,7 +192,7 @@ export const Popovers: StoryObj = {
         <PopoverTrigger aria-label="About" placement="end">
           <TextButton>Beside it</TextButton>
           <p style={{ margin: 0, maxWidth: 240 }}>
-            Placement flips on its own when there is no room, as the tooltip's does.
+            Placement flips on its own when there is no room, as the tooltip’s does.
           </p>
         </PopoverTrigger>
 

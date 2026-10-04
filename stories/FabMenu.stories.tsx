@@ -20,7 +20,14 @@ export const Sizes: StoryObj = {
       {(['small', 'medium', 'large'] as const).map((size) => (
         <div key={size} className="sb-row">
           <span className="sb-label">{size}</span>
-          <ExtendedFab size={size} icon={<Icon><AddIcon /></Icon>}>
+          <ExtendedFab
+            size={size}
+            icon={
+              <Icon>
+                <AddIcon />
+              </Icon>
+            }
+          >
             Compose
           </ExtendedFab>
         </div>
@@ -33,7 +40,15 @@ export const Colours: StoryObj = {
   render: () => (
     <div className="sb-row">
       {(['primary', 'secondary', 'tertiary', 'surface'] as const).map((variant) => (
-        <ExtendedFab key={variant} variant={variant} icon={<Icon><HeartIcon /></Icon>}>
+        <ExtendedFab
+          key={variant}
+          variant={variant}
+          icon={
+            <Icon>
+              <HeartIcon />
+            </Icon>
+          }
+        >
           {variant}
         </ExtendedFab>
       ))}
@@ -48,8 +63,23 @@ export const Colours: StoryObj = {
 export const Lowered: StoryObj = {
   render: () => (
     <div className="sb-row">
-      <ExtendedFab icon={<Icon><AddIcon /></Icon>}>Default, level 3</ExtendedFab>
-      <ExtendedFab lowered icon={<Icon><AddIcon /></Icon>}>
+      <ExtendedFab
+        icon={
+          <Icon>
+            <AddIcon />
+          </Icon>
+        }
+      >
+        Default, level 3
+      </ExtendedFab>
+      <ExtendedFab
+        lowered
+        icon={
+          <Icon>
+            <AddIcon />
+          </Icon>
+        }
+      >
         Lowered, level 1
       </ExtendedFab>
     </div>
@@ -72,7 +102,11 @@ export const Collapsing: StoryObj = {
               key={size}
               size={size}
               collapsed={collapsed}
-              icon={<Icon><AddIcon /></Icon>}
+              icon={
+                <Icon>
+                  <AddIcon />
+                </Icon>
+              }
               aria-label="Compose"
               onClick={() => setCollapsed(!collapsed)}
             >
@@ -105,21 +139,57 @@ export const Menu: StoryObj = {
         <FabMenu
           open={open}
           onOpenChange={setOpen}
-          icon={<Icon><AddIcon /></Icon>}
-          closeIcon={<Icon><AddIcon /></Icon>}
+          icon={
+            <Icon>
+              <AddIcon />
+            </Icon>
+          }
+          closeIcon={
+            <Icon>
+              <AddIcon />
+            </Icon>
+          }
           aria-label="Create"
           closeAriaLabel="Close the create menu"
         >
-          <FabMenuItem icon={<Icon><CheckIcon /></Icon>} onPress={() => setPicked('Document')}>
+          <FabMenuItem
+            icon={
+              <Icon>
+                <CheckIcon />
+              </Icon>
+            }
+            onPress={() => setPicked('Document')}
+          >
             Document
           </FabMenuItem>
-          <FabMenuItem icon={<Icon><ArrowIcon /></Icon>} onPress={() => setPicked('Spreadsheet')}>
+          <FabMenuItem
+            icon={
+              <Icon>
+                <ArrowIcon />
+              </Icon>
+            }
+            onPress={() => setPicked('Spreadsheet')}
+          >
             Spreadsheet
           </FabMenuItem>
-          <FabMenuItem icon={<Icon><HeartIcon /></Icon>} onPress={() => setPicked('Presentation')}>
+          <FabMenuItem
+            icon={
+              <Icon>
+                <HeartIcon />
+              </Icon>
+            }
+            onPress={() => setPicked('Presentation')}
+          >
             Presentation
           </FabMenuItem>
-          <FabMenuItem icon={<Icon><HeartIcon /></Icon>} disabled>
+          <FabMenuItem
+            icon={
+              <Icon>
+                <HeartIcon />
+              </Icon>
+            }
+            disabled
+          >
             Shared album
           </FabMenuItem>
         </FabMenu>

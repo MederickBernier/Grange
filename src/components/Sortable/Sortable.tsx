@@ -108,7 +108,11 @@ export function Sortable(props: SortableProps) {
 
   const state = useListState({
     items: ordered,
-    children: (item: SortableItem) => <Item key={item.id} textValue={item.textValue}>{item.label}</Item>,
+    children: (item: SortableItem) => (
+      <Item key={item.id} textValue={item.textValue}>
+        {item.label}
+      </Item>
+    ),
     selectionMode: 'none',
   });
 
@@ -143,8 +147,16 @@ export function Sortable(props: SortableProps) {
       const target = String(event.target.key);
       setOrder(
         event.target.dropPosition === 'after' && target === ordered[ordered.length - 1]?.id
-          ? moveToEnd(ordered.map((i) => i.id), keys)
-          : reorder(ordered.map((i) => i.id), keys, target, event.target.dropPosition === 'before' ? 'before' : 'after'),
+          ? moveToEnd(
+              ordered.map((i) => i.id),
+              keys,
+            )
+          : reorder(
+              ordered.map((i) => i.id),
+              keys,
+              target,
+              event.target.dropPosition === 'before' ? 'before' : 'after',
+            ),
       );
     },
   });
@@ -163,7 +175,13 @@ export function Sortable(props: SortableProps) {
   );
 
   const slot = (name: SortableSlot, hook: string, builtIn?: string) =>
-    resolveSlotClass(hook, builtIn, ...(slots?.[name] ?? []), classNames?.[name], name === 'root' ? className : undefined);
+    resolveSlotClass(
+      hook,
+      builtIn,
+      ...(slots?.[name] ?? []),
+      classNames?.[name],
+      name === 'root' ? className : undefined,
+    );
 
   const rows = [...state.collection];
 
@@ -262,12 +280,7 @@ function DropGap({
   if (isHidden) return null;
 
   return (
-    <li
-      {...dropIndicatorProps}
-      ref={ref}
-      className={styles.gap}
-      data-active={isDropTarget || undefined}
-    />
+    <li {...dropIndicatorProps} ref={ref} className={styles.gap} data-active={isDropTarget || undefined} />
   );
 }
 
