@@ -50,10 +50,7 @@ At the project's established pace — two components a round, each round ending 
 verification — the remainder is roughly 12 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phases 1 to 4 are done**, and **phase 5 is under way**: `TreeView`, `Pager`,
-`DropDownTree`, `MultiSelectTree`, `TransferList` and `Sortable` are in, with the
-drag-and-drop utilities published — 6 of its 8 rows. `FilterBuilder` and the data query
-are what is left.
+**Phases 1 to 5 are done.** Phase 6 — colour — is next, then phase 7.
 
 ## Already covered
 
@@ -309,8 +306,8 @@ Three things the first round of this phase established, all of them about the se
 | ~~`Sortable`~~ ✅ | `useDraggableCollection`, `useDroppableCollection` | Done, and this is the one component where these hooks are the right answer rather than a near miss. It is a **grid**, not a listbox, for the same reason the tree is a treegrid: a listbox option cannot hold a focusable control, so a drag handle inside one is unreachable. Tab to a row, ArrowRight into the handle, Enter to pick it up — the arrows then move between drop positions and every step is announced |
 | ~~`TransferList`~~ ✅ (ListBox) | `useListBox` | Done, as the transfer part only: the two sides are `SelectableList`s. Both keep the order of `items` rather than appending, because a transfer list is usually options in a meaningful order and moving one back should return it to its place. Every move is announced — the press changes two lists at once and leaves focus where it was, so without a live region it is silent |
 | ~~`Pager`~~ ✅ | `useButton`, `Select` | Done. The summary is a live region, which most pagers miss: pressing "next" changes a table elsewhere on the page and a silent press tells a screen reader user nothing. The arithmetic is a pure module, because paging is almost entirely off-by-one cases |
-| `FilterBuilder` (Filter) | ours | Nested and/or groups over field, operator and value. Pairs with the Data Query utility |
-| Data Query | utility | Typed sort, filter, group and aggregate over arrays, plus the operator set `FilterBuilder` edits |
+| ~~`FilterBuilder`~~ ✅ (Filter) | ours | Done, and built against the query rather than beside it: the same `CompositeFilter` shape and the same operator list from one file, because a builder that offers an operator the engine cannot run is worse than no builder. Each group is a labelled `group` saying how deep it is, since a filter builder drawn as a flat pile of selects is unusable without sight. The tree edits are pure — every change is "replace the node at this path", copying the groups on the way down, because a nested mutation gives back the same object and React re-renders nothing |
+| ~~Data Query~~ ✅ | utility | Done, as pure functions. Three things it insists on: comparison is locale-aware through `Intl.Collator`, absent values sort **last in both directions** because they are missing rather than small, and nothing is mutated. An empty filter group matches everything, so an unfinished filter does not hide the data, and `total` is counted after filtering and before paging because that is what a pager reads |
 | ~~Drag & drop utilities~~ ✅ | re-export | Done, unwrapped. `Sortable` uses exactly these, so an app building its own draggable collection gets the versions this library was built and tested against without adding react-aria as a second direct dependency. A wrapper around a hook this large would only be a worse copy of its documentation |
 
 ### Phase 6 — Colour
