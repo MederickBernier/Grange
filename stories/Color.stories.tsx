@@ -1,6 +1,17 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ColorArea, ColorField, ColorSlider, ColorWheel, Stack, parseColor, type Color } from '../src';
+import {
+  ColorArea,
+  ColorField,
+  ColorPicker,
+  ColorSlider,
+  ColorSwatchPicker,
+  ColorWheel,
+  FlatColorPicker,
+  Stack,
+  parseColor,
+  type Color,
+} from '../src';
 
 /**
  * The colour controls: a saturation/brightness square, a channel slider, a hue ring and a text
@@ -99,4 +110,54 @@ export const Together: StoryObj = {
       </Stack>
     );
   },
+};
+
+const palette = [
+  '#f44336',
+  '#e91e63',
+  '#9c27b0',
+  '#673ab7',
+  '#3f51b5',
+  '#2196f3',
+  '#009688',
+  '#4caf50',
+  '#ffeb3b',
+  '#ff9800',
+  '#795548',
+  '#607d8b',
+];
+
+/**
+ * A palette. Each swatch is **named** — "vivid red", not "#f44336" — because a grid that reads
+ * out hex codes is a grid nobody can use by ear. The arrow keys move across the rows rather
+ * than along a list, which needs a keyboard delegate of its own.
+ */
+export const Swatches: StoryObj = {
+  render: function Render() {
+    const [value, setValue] = useState<Color>(parseColor('#9c27b0'));
+    return (
+      <Stack gap="md" align="start">
+        <ColorSwatchPicker colors={palette} value={value} onChange={setValue} columns={6} aria-label="Palette" />
+        <code className="sb-label">{value.toString('hex')}</code>
+      </Stack>
+    );
+  },
+};
+
+/** The whole thing behind a swatch: the catalog's ColorPicker. */
+export const Picker: StoryObj = {
+  render: function Render() {
+    const [value, setValue] = useState<Color>(parseColor('#6750A4'));
+    return (
+      <Stack direction="row" gap="lg" align="center">
+        <ColorPicker label="Brand" value={value} onChange={setValue} showAlpha presets={palette.slice(0, 6)} />
+        <code className="sb-label">{value.toString('hex')}</code>
+      </Stack>
+    );
+  },
+};
+
+/** The same panel on the page rather than in a popover — the catalog's FlatColorPicker. */
+export const Flat: StoryObj = {
+  render: () => <FlatColorPicker label="Brand" defaultValue="#386A20" presets={palette.slice(0, 6)} />,
 };
