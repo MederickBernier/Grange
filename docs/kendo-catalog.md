@@ -42,15 +42,16 @@ track and stop-indicator values.
 | | Count |
 | --- | --- |
 | Distinct components in the list | 144 |
-| Already covered by Grange | 78 |
-| In scope, to build | 23 (across 7 phases) |
+| Already covered by Grange | 80 |
+| In scope, to build | 21 (across 7 phases) |
 | Out of scope, recorded with a reason | 43 |
 
 At the project's established pace — two components a round, each round ending in a fresh-clone
 verification — the remainder is roughly 12 rounds. The three buckets are exhaustive and do not overlap
 and always add to 144.
 
-**Phases 1 to 4 are done.** Phase 5 — collections and data tools — is next.
+**Phases 1 to 4 are done**, and **phase 5 is under way**: `TreeView` and `Pager` are in,
+2 of its 8.
 
 ## Already covered
 
@@ -276,13 +277,28 @@ Three things the first round of this phase established:
 
 ### Phase 5 — Collections and data tools
 
+Three things the first round of this phase established, all of them about the seam between
+`react-stately`'s collections and the hooks that read them:
+
+- **A `TreeCollection`'s iterator yields only its root nodes.** The flattened, visible rows are
+  what it keyed, so they come from `getKeys`. Iterating the collection renders a tree that
+  never opens, with nothing anywhere to say why.
+- **`useTreeItem` needs `collection.getChildren`, which `useTreeState`'s collection does not
+  have.** The hook was written against react-aria-components' collection. Without it a row's
+  siblings come back empty and the hook throws on `siblings[0].type` the moment anything below
+  the first level renders — so a tree works until it is expanded.
+- **`aria-posinset` comes out global rather than per parent.** The hook derives it from
+  `node.index`, which `TreeCollection` numbers across every visible row, so the second branch's
+  first child announces itself as "item 4 of 1". Computed from the siblings here instead.
+
+
 | Component | Behaviour | Notes |
 | --- | --- | --- |
-| `TreeView` | `useTree`, `useTreeState` | Expand and collapse, selection, typeahead. `useTreeData` handles the mutable case |
+| ~~`TreeView`~~ ✅ | `useTree`, `useTreeState` | Done, and it is a **treegrid** rather than a tree — React Aria's choice, because a `treeitem`'s children must be treeitems, so nothing interactive can live in a tree row. Two of `useTreeItem`'s assumptions do not hold against `useTreeState`'s collection and had to be repaired here; both are written up below |
 | `DropDownTree` / `MultiSelectTree` | `useComboBox` + `useTree` | A tree in a popover, single or multiple |
 | `Sortable` | `useDraggableCollection`, `useDroppableCollection` | Reordering with a keyboard path, which drag-and-drop usually lacks |
 | `TransferList` (ListBox) | `useListBox` | Kendo's ListBox is two lists and the buttons that move items between them. `SelectableList` already covers a plain one, so this is the transfer part |
-| `Pager` | `useButton`, `Select` | Page size, jump to page, and the "1–10 of 240" summary |
+| ~~`Pager`~~ ✅ | `useButton`, `Select` | Done. The summary is a live region, which most pagers miss: pressing "next" changes a table elsewhere on the page and a silent press tells a screen reader user nothing. The arithmetic is a pure module, because paging is almost entirely off-by-one cases |
 | `FilterBuilder` (Filter) | ours | Nested and/or groups over field, operator and value. Pairs with the Data Query utility |
 | Data Query | utility | Typed sort, filter, group and aggregate over arrays, plus the operator set `FilterBuilder` edits |
 | Drag & drop utilities | re-export | `useDrag`, `useDrop`, the collection hooks and the drop-item helpers, documented rather than reinvented |
