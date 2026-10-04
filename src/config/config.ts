@@ -121,6 +121,7 @@ export type TransferListSlot = 'root' | 'list';
 export type SortableSlot = 'root' | 'row';
 export type FilterBuilderSlot = 'root' | 'group' | 'row';
 export type ColorSlot = 'root' | 'track' | 'thumb';
+export type GaugeSlot = 'root' | 'label' | 'value';
 export type StepperSlot = 'root' | 'step' | 'button';
 export type SkeletonSlot = 'root' | 'bar';
 export type BadgeSlot = 'root';
@@ -214,6 +215,11 @@ export interface ClassNamesConfig {
   ColorField?: SlotOverrides<TextFieldSlot>;
   ColorSwatchPicker?: SlotOverrides<ColorSlot>;
   ColorPicker?: SlotOverrides<ColorSlot>;
+  ArcGauge?: SlotOverrides<GaugeSlot>;
+  CircularGauge?: SlotOverrides<GaugeSlot>;
+  RadialGauge?: SlotOverrides<GaugeSlot>;
+  LinearGauge?: SlotOverrides<GaugeSlot>;
+  Sparkline?: SlotOverrides<'root'>;
   Stepper?: SlotOverrides<StepperSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
@@ -317,6 +323,16 @@ export interface DefaultPropsConfig {
   ColorField?: { variant?: 'filled' | 'outlined'; showSwatch?: boolean };
   ColorSwatchPicker?: { columns?: number; size?: number };
   ColorPicker?: { showAlpha?: boolean; showField?: boolean };
+  ArcGauge?: { size?: number; thickness?: number; showValue?: boolean };
+  CircularGauge?: { size?: number; thickness?: number; showValue?: boolean };
+  RadialGauge?: { size?: number; thickness?: number; showValue?: boolean };
+  LinearGauge?: {
+    orientation?: 'horizontal' | 'vertical';
+    length?: number;
+    thickness?: number;
+    showValue?: boolean;
+  };
+  Sparkline?: { variant?: 'line' | 'area' | 'bar'; width?: number; height?: number; showLast?: boolean };
   TileLayout?: {
     columns?: number;
     gap?: string | number;
@@ -541,6 +557,11 @@ const COMPONENTS: ComponentName[] = [
   'ColorField',
   'ColorSwatchPicker',
   'ColorPicker',
+  'ArcGauge',
+  'CircularGauge',
+  'RadialGauge',
+  'LinearGauge',
+  'Sparkline',
   'Stepper',
   'Skeleton',
   'Badge',

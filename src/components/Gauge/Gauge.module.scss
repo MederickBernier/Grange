@@ -1,0 +1,153 @@
+/*
+ * Gauges and sparklines. Material has neither, so the values are chosen — and chosen to agree
+ * with the progress indicators, which are the nearest thing the spec does publish: the 4px
+ * track from CircularProgressIndicatorTokens, and the same primary-on-secondary-container pair.
+ */
+
+@use '../../scss/api' as grange;
+
+.gauge {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  color: grange.color(on-surface);
+}
+
+.svg {
+  display: block;
+}
+
+.track {
+  stroke: grange.color(secondary-container); // the progress indicators' TrackColor
+}
+
+.value {
+  stroke: grange.color(primary); // ActiveIndicatorColor
+}
+
+.needle {
+  stroke: grange.color(primary);
+}
+
+.hub {
+  fill: grange.color(primary);
+}
+
+.label {
+  @include grange.typescale(label-large);
+}
+
+/* The number in the middle of a round gauge, over the drawing rather than under it. */
+.number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @include grange.typescale(headline-small);
+
+  // A dial has a needle through the middle, so its number sits below the hub rather than
+  // under the needle.
+  .gauge[data-needle] & {
+    top: 72%;
+  }
+}
+
+/*
+ * A linear gauge's number is in the flow beside the bar. It needs its own rule rather than the
+ * round one: `position: absolute` in a container that is not positioned escapes to the page,
+ * and the number ended up floating in the middle of the viewport.
+ */
+.linearNumber {
+  @include grange.typescale(label-large);
+  font-variant-numeric: tabular-nums;
+}
+
+.radial {
+  position: relative;
+  display: inline-flex;
+}
+
+.ticks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.tick {
+  stroke: grange.color(outline);
+  stroke-width: 1;
+}
+
+.tickLabel {
+  fill: grange.color(on-surface-variant);
+  font-size: 10px;
+}
+
+.linear {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--grange-space-sm);
+  color: grange.color(on-surface);
+
+  &[data-orientation='vertical'] {
+    flex-direction: column;
+  }
+}
+
+.bar {
+  position: relative;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: grange.color(secondary-container);
+}
+
+.band {
+  position: absolute;
+}
+
+/*
+ * The marker, rather than a filled bar: a gauge reports where a value sits on a scale, and a
+ * fill would read as "this much is done", which is a progress bar's claim and not a meter's.
+ */
+.marker {
+  position: absolute;
+  width: 4px;
+  top: -2px;
+  bottom: -2px;
+  border-radius: 2px;
+  background: grange.color(on-surface);
+  transform: translateX(-50%);
+
+  .linear[data-orientation='vertical'] & {
+    width: auto;
+    height: 4px;
+    top: auto;
+    left: -2px;
+    right: -2px;
+    transform: translateY(50%);
+  }
+}
+
+.sparkline {
+  display: inline-block;
+  vertical-align: middle;
+  overflow: visible;
+}
+
+.sparkLine {
+  stroke: grange.color(primary);
+}
+
+.sparkArea {
+  fill: grange.translucent(primary, 16%);
+  stroke: none;
+}
+
+.sparkBar {
+  fill: grange.color(primary);
+}
+
+.sparkDot {
+  fill: grange.color(primary);
+}

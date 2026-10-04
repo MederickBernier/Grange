@@ -87,6 +87,7 @@ export type {
   SortableSlot,
   FilterBuilderSlot,
   ColorSlot,
+  GaugeSlot,
   StepperSlot,
   SkeletonSlot,
   BadgeSlot,
@@ -230,6 +231,15 @@ export type {
   Operator,
   OperatorSpec,
 } from './data/query';
+
+export { ArcGauge, CircularGauge, RadialGauge, LinearGauge } from './components/Gauge/Gauge';
+export type { GaugeProps, LinearGaugeProps, GaugeBand } from './components/Gauge/Gauge';
+export { Sparkline } from './components/Gauge/Sparkline';
+export type { SparklineProps } from './components/Gauge/Sparkline';
+export { gauge, sparkline as sparklineSpec } from './components/Gauge/specs';
+export { pointOn, fraction, arcPath, tickAngles, tickValues } from './components/Gauge/arc';
+export { scalePoints, linePath, areaPath, bars } from './components/Gauge/sparkline';
+export type { SparkPoint, SparkScale } from './components/Gauge/sparkline';
 
 export { ColorArea } from './components/Color/ColorArea';
 export type { ColorAreaProps } from './components/Color/ColorArea';
