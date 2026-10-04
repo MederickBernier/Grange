@@ -136,3 +136,100 @@
   position: absolute;
   inset: 0;
 }
+
+/*
+ * The palette. A CSS grid of swatches, which is why the arrow keys need a delegate of their
+ * own: a listbox's default moves by one item in every direction.
+ */
+.swatches {
+  display: grid;
+  gap: var(--grange-space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &[data-disabled] {
+    opacity: 0.38;
+  }
+}
+
+.swatch {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: grange.corner(small);
+  cursor: pointer;
+  // The chequerboard, so a translucent preset reads as translucent.
+  background:
+    repeating-conic-gradient(
+        #{grange.translucent(on-surface, 14%)} 0% 25%,
+        transparent 0% 50%
+      )
+      0 0 / 8px 8px,
+    grange.color(surface);
+
+  // Chosen rather than a border: a border changes a swatch's size and a ring does not, so
+  // selecting one does not nudge the row.
+  &[data-selected] {
+    outline: 3px solid grange.color(primary);
+    outline-offset: 2px;
+  }
+
+  &[data-focus-visible] {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: 2px;
+  }
+}
+
+.swatchColor {
+  position: absolute;
+  inset: 0;
+}
+
+.picker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--grange-space-sm);
+  color: grange.color(on-surface);
+}
+
+.pickerLabel {
+  @include grange.typescale(label-large);
+}
+
+.trigger {
+  box-sizing: border-box;
+  position: relative;
+  width: 40px; // ListTokens: ItemLeadingAvatarSize is 40
+  height: 40px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid grange.color(outline-variant);
+  border-radius: grange.corner(small);
+  cursor: pointer;
+  background:
+    repeating-conic-gradient(
+        #{grange.translucent(on-surface, 14%)} 0% 25%,
+        transparent 0% 50%
+      )
+      0 0 / 8px 8px,
+    grange.color(surface);
+
+  &[data-focus-visible] {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: 2px;
+  }
+}
+
+.triggerColor {
+  position: absolute;
+  inset: 0;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grange-space-md);
+  padding: var(--grange-space-md);
+  width: 224px;
+}

@@ -239,6 +239,11 @@ export { ColorWheel } from './components/Color/ColorWheel';
 export type { ColorWheelProps } from './components/Color/ColorWheel';
 export { ColorField } from './components/Color/ColorField';
 export type { ColorFieldProps } from './components/Color/ColorField';
+export { ColorSwatchPicker } from './components/Color/ColorSwatchPicker';
+export type { ColorSwatchPickerProps } from './components/Color/ColorSwatchPicker';
+export { SwatchGridDelegate } from './components/Color/gridDelegate';
+export { ColorPicker, FlatColorPicker } from './components/Color/ColorPicker';
+export type { ColorPickerProps } from './components/Color/ColorPicker';
 export { color as colorSpec } from './components/Color/specs';
 /* parseColor is how a caller turns a string into the Color these take, so it travels with them. */
 export { parseColor } from 'react-stately';

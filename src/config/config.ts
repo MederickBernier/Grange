@@ -212,6 +212,8 @@ export interface ClassNamesConfig {
   ColorSlider?: SlotOverrides<ColorSlot>;
   ColorWheel?: SlotOverrides<ColorSlot>;
   ColorField?: SlotOverrides<TextFieldSlot>;
+  ColorSwatchPicker?: SlotOverrides<ColorSlot>;
+  ColorPicker?: SlotOverrides<ColorSlot>;
   Stepper?: SlotOverrides<StepperSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
@@ -313,6 +315,8 @@ export interface DefaultPropsConfig {
   ColorArea?: { size?: number };
   ColorWheel?: { outerRadius?: number; innerRadius?: number };
   ColorField?: { variant?: 'filled' | 'outlined'; showSwatch?: boolean };
+  ColorSwatchPicker?: { columns?: number; size?: number };
+  ColorPicker?: { showAlpha?: boolean; showField?: boolean };
   TileLayout?: {
     columns?: number;
     gap?: string | number;
@@ -535,6 +539,8 @@ const COMPONENTS: ComponentName[] = [
   'ColorSlider',
   'ColorWheel',
   'ColorField',
+  'ColorSwatchPicker',
+  'ColorPicker',
   'Stepper',
   'Skeleton',
   'Badge',
