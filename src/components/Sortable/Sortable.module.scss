@@ -1,0 +1,108 @@
+/*
+ * Sortable. The rows are list rows — ListTokens' 56px height, 16px gutters, 12px between-space
+ * and body-large label — and the drop gap is the divider's two pixels in the primary colour,
+ * which is the only part the spec has nothing to say about.
+ */
+
+@use '../../scss/api' as grange;
+
+.sortable {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: grange.color(on-surface);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px; // ItemBetweenSpace
+  box-sizing: border-box;
+  min-height: 56px; // a one-line row
+  padding-inline: 8px 16px;
+  border-radius: grange.corner(extra-small); // ItemContainerExpressiveShape
+  background: grange.color(surface);
+
+  &:hover {
+    background: grange.translucent(on-surface, 8); // the hover state-layer opacity
+  }
+
+  &[data-focus-visible] {
+    outline: 3px solid grange.color(secondary); // FocusIndicatorColor
+    outline-offset: -3px;
+  }
+
+  // The row being carried. Dimmed rather than removed, so the list does not jump while the
+  // drop target is still being chosen.
+  &[data-dragging] {
+    opacity: 0.4;
+  }
+}
+
+.handle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 9999px;
+  background: none;
+  color: grange.color(on-surface-variant);
+  cursor: grab;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: currentcolor;
+  }
+
+  &:hover {
+    background: grange.translucent(on-surface, 8);
+  }
+
+  &:focus-visible {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: -3px;
+  }
+}
+
+.cell {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 12px; // ItemBetweenSpace
+  min-width: 0;
+}
+
+.label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  @include grange.typescale(body-large); // ItemLabelTextFont
+}
+
+/*
+ * Where a drop lands. It occupies no room until it is the live target, so the rows do not
+ * shuffle as the pointer passes between them.
+ */
+.gap {
+  height: 2px;
+  margin-block: -1px;
+  border-radius: 1px;
+  background: transparent;
+
+  &[data-active] {
+    background: grange.color(primary);
+  }
+
+  &:focus-visible {
+    outline: 3px solid grange.color(secondary);
+    outline-offset: 2px;
+  }
+}

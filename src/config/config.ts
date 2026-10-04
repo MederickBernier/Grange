@@ -118,6 +118,7 @@ export type TileLayoutSlot = 'root' | 'tile' | 'header' | 'body';
 export type TreeSlot = 'root' | 'row' | 'label';
 export type PagerSlot = 'root' | 'summary' | 'page';
 export type TransferListSlot = 'root' | 'list';
+export type SortableSlot = 'root' | 'row';
 export type StepperSlot = 'root' | 'step' | 'button';
 export type SkeletonSlot = 'root' | 'bar';
 export type BadgeSlot = 'root';
@@ -203,6 +204,7 @@ export interface ClassNamesConfig {
   DropDownTree?: SlotOverrides<SelectSlot>;
   Pager?: SlotOverrides<PagerSlot>;
   TransferList?: SlotOverrides<TransferListSlot>;
+  Sortable?: SlotOverrides<SortableSlot>;
   Stepper?: SlotOverrides<StepperSlot>;
   Skeleton?: SlotOverrides<SkeletonSlot>;
   Badge?: SlotOverrides<BadgeSlot>;
@@ -516,6 +518,7 @@ const COMPONENTS: ComponentName[] = [
   'DropDownTree',
   'Pager',
   'TransferList',
+  'Sortable',
   'Stepper',
   'Skeleton',
   'Badge',

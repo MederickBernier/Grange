@@ -84,6 +84,7 @@ export type {
   TreeSlot,
   PagerSlot,
   TransferListSlot,
+  SortableSlot,
   StepperSlot,
   SkeletonSlot,
   BadgeSlot,
@@ -171,6 +172,35 @@ export { DropDownTree, MultiSelectTree } from './components/DropDownTree/DropDow
 export type { DropDownTreeProps } from './components/DropDownTree/DropDownTree';
 export type { TreeViewProps, TreeItemProps } from './components/Tree/Tree';
 export { tree } from './components/Tree/specs';
+/*
+ * Drag and drop, re-exported rather than reinvented.
+ *
+ * `Sortable` is the one component here that needs these, and it uses exactly these. They are
+ * published so an app building its own draggable collection does not have to add react-aria as
+ * a direct dependency alongside this library, and so the version it gets is the one this
+ * library was built and tested against. Nothing is wrapped: a wrapper around a hook this large
+ * would only be a worse version of its documentation.
+ */
+export {
+  useDrag,
+  useDrop,
+  useDraggableCollection,
+  useDraggableItem,
+  useDroppableCollection,
+  useDroppableItem,
+  useDropIndicator,
+  useClipboard,
+  DragPreview,
+  ListDropTargetDelegate,
+  ListKeyboardDelegate,
+} from 'react-aria';
+export { useDraggableCollectionState, useDroppableCollectionState } from 'react-stately';
+export type { DraggableCollectionState, DroppableCollectionState } from 'react-stately';
+
+export { Sortable } from './components/Sortable/Sortable';
+export type { SortableProps, SortableItem } from './components/Sortable/Sortable';
+export { reorder, moveToEnd } from './components/Sortable/reorder';
+export type { DropPosition } from './components/Sortable/reorder';
 export { TransferList } from './components/TransferList/TransferList';
 export type { TransferListProps } from './components/TransferList/TransferList';
 export { transfer, movable, keepSelected } from './components/TransferList/transfer';
